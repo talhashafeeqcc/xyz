@@ -206,6 +206,8 @@ export default _xyz => {
 
       xhr_save.onload = _e => {
 
+        console.log(_e.target.response);
+
         if (_e.target.status !== 200) {
           entry.location.view && entry.location.view.classList.remove('disabled');
           console.log(_e.target.response);
@@ -236,5 +238,4 @@ export default _xyz => {
     entry.location.view && entry.location.view.classList.add('disabled');
 
   }
-
 };
