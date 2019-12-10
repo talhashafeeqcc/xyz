@@ -13,8 +13,6 @@ export default _xyz => (table, callback) => {
 
   }
 
-  table.columns.unshift({ field: 'rows', title: table.title, headerSort: false, align: 'left'});
-
   Object.keys(table.agg || {}).forEach(key => {
     table.columns.push(Object.assign({}, {field: key}, table.agg[key]));
   });
@@ -86,6 +84,8 @@ export default _xyz => (table, callback) => {
     let columns = _xyz.dataview.groupColumns(table);
     // filtered out helper columns
     columns = columns.filter(col => { return !col.aspatial; });
+
+    columns.unshift({ field: 'rows', title: table.title, headerSort: false, align: 'left'});
 
     table.Tabulator = new _xyz.utils.Tabulator(
       table.target,
