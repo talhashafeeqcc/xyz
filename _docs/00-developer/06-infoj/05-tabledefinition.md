@@ -1,7 +1,5 @@
 ---
 title: Table Definition
-subtitle: Filter
-tag: developer
 tags: [developer]
 layout: root.html
 ---

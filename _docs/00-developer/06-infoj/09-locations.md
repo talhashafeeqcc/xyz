@@ -1,7 +1,5 @@
 ---
 title: Locations
-subtitle: Locations
-tag: developer
 tags: [developer]
 layout: root.html
 ---

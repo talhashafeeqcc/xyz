@@ -1,9 +1,5 @@
 ---
 title: Charts
-subtitle: Charts
-author: agata
-class: second
-tag: developer
 tags: [developer]
 layout: root.html
 ---

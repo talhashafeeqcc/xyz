@@ -1,7 +1,5 @@
 ---
 title: Now Deployments
-subtitle: Zeit
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

@@ -1,7 +1,5 @@
 ---
 title: Geometry
-subtitle: Geometry
-tag: developer
 tags: [developer]
 layout: root.html
 ---

@@ -1,8 +1,5 @@
 ---
 title: AWS Deployments
-subtitle: Elastic Beanstalk
-author: rob
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

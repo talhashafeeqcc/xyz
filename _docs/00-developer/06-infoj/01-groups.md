@@ -1,7 +1,5 @@
 ---
 title: Groups
-subtitle: Groups
-tag: developer
 tags: [developer]
 layout: root.html
 ---

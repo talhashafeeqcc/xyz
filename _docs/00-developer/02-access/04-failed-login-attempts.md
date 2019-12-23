@@ -1,7 +1,5 @@
 ---
 title: Failed Login attempts
-subtitle: Failed Login attempts
-tag: developer
 tags: [developer]
 layout: root.html
 ---

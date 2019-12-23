@@ -1,8 +1,5 @@
 ---
 title: Environment Settings
-subtitle: Intro to Environment Settings
-class: first
-tag: developer
 tags: [developer]
 layout: root.html
 ---

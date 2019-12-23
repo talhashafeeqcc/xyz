@@ -14,6 +14,8 @@
       display:grid;
       grid-column-gap: 15px;
       grid-template-columns: 1fr 5fr;
+      max-width: 1100px;
+      margin: auto;
     }
 
     .grid > .toggle {
@@ -67,6 +69,8 @@
 
     .grid > .content {
       grid-column: 2/4;
+      padding-left: 20px;
+      border-left: 1px solid #ddd;
     }
 
     .active {
@@ -103,16 +107,15 @@
       padding-left: 20px;
     }
 
+    li.__5 {
+      padding-left: 0px;
+    }
+
     li._6 {
       padding-left: 40px;
     }
 
-    li.first {
-      padding-left: 0px;
-      margin-top: 10px;
-    }
-
-    li.second {
+    li.__6 {
       padding-left: 20px;
     }
 
@@ -123,7 +126,6 @@
       margin: 1em 0px;
       padding: 20px;
       box-shadow: 0px 0px 2px #555;
-      border-radius: 5px;
       overflow-x: scroll;
     }
 
@@ -137,6 +139,8 @@
 
     .content img {
       max-width: 100%;
+      display: block;
+      margin: 0 auto;
     }
   </style>
 
@@ -152,13 +156,13 @@
 
       
       <li>
-        <a style="font-weight: bold; font-size: 30px;" href="/xyz/docs"><---</a>
+        <a style="font-weight: bold; font-size: 30px;" href="/xyz/docs">XYZ</a>
       </li>
       
       
       
       
-      <li class="_4  ">
+      <li class="_4 __4 ">
         <a href="/xyz/docs/00-developer/00-introduction/">Developer</a>
       </li>
       
@@ -170,7 +174,7 @@
       
       
       
-      <li class="_5 first ">
+      <li class="_5 __5 ">
         <a href="/xyz/docs/00-developer/02-access/00-access/">Access</a>
       </li>
       
@@ -200,7 +204,7 @@
       
       
       
-      <li class="_5 first ">
+      <li class="_5 __5 ">
         <a href="/xyz/docs/00-developer/03-environment_settings/00-environment-settings/">Environment Settings</a>
       </li>
       
@@ -230,7 +234,7 @@
       
       
       
-      <li class="_5 first ">
+      <li class="_5 __5 ">
         <a href="/xyz/docs/00-developer/04-workspaces/00-workspaces/">Workspaces</a>
       </li>
       
@@ -266,7 +270,7 @@
       
       
       
-      <li class="_5 first ">
+      <li class="_5 __5 ">
         <a href="/xyz/docs/00-developer/05-layers/00-layers/">Layers</a>
       </li>
       
@@ -326,7 +330,7 @@
       
       
       
-      <li class="_5 first ">
+      <li class="_5 __5 ">
         <a href="/xyz/docs/00-developer/06-infoj/00-infoj/">InfoJ</a>
       </li>
       
@@ -392,7 +396,7 @@
       
       
       
-      <li class="_6 second ">
+      <li class="_6 __6 ">
         <a href="/xyz/docs/00-developer/06-infoj/11-charts/00-charts/">Charts</a>
       </li>
       
@@ -428,7 +432,7 @@
       
       
       
-      <li class="_5 first ">
+      <li class="_5 __5 ">
         <a href="/xyz/docs/00-developer/07-locales/00-locales/">Locales</a>
       </li>
       
@@ -477,13 +481,10 @@
       
       
       
-      
-      
 
     </ul>
 
     <div class="content">
-      <h2>Tables for layers</h2>
       <p>Layer data can be displayed in tables. Tables are defined inside <code>layer.tableview: {}</code> object:</p>
 <pre><code class="language-text">&quot;tableview&quot;: {
 	&quot;tables&quot;: {

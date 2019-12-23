@@ -1,8 +1,5 @@
 ---
 title: Radar charts
-subtitle: Radar
-author: agata
-tag: developer
 tags: [developer]
 layout: root.html
 ---

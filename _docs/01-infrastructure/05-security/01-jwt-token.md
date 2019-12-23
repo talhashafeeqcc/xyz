@@ -1,7 +1,5 @@
 ---
 title: JWT Token
-subtitle: Security
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

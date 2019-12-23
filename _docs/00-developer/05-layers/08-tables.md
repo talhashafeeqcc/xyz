@@ -1,7 +1,5 @@
 ---
 title: Tables
-subtitle: Tables for layers
-tag: developer
 tags: [developer]
 layout: root.html
 ---

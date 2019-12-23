@@ -14,6 +14,8 @@
       display:grid;
       grid-column-gap: 15px;
       grid-template-columns: 1fr 5fr;
+      max-width: 1100px;
+      margin: auto;
     }
 
     .grid > .toggle {
@@ -67,6 +69,8 @@
 
     .grid > .content {
       grid-column: 2/4;
+      padding-left: 20px;
+      border-left: 1px solid #ddd;
     }
 
     .active {
@@ -103,16 +107,15 @@
       padding-left: 20px;
     }
 
+    li.__5 {
+      padding-left: 0px;
+    }
+
     li._6 {
       padding-left: 40px;
     }
 
-    li.first {
-      padding-left: 0px;
-      margin-top: 10px;
-    }
-
-    li.second {
+    li.__6 {
       padding-left: 20px;
     }
 
@@ -123,7 +126,6 @@
       margin: 1em 0px;
       padding: 20px;
       box-shadow: 0px 0px 2px #555;
-      border-radius: 5px;
       overflow-x: scroll;
     }
 
@@ -137,6 +139,8 @@
 
     .content img {
       max-width: 100%;
+      display: block;
+      margin: 0 auto;
     }
   </style>
 
@@ -154,7 +158,7 @@
       
       
       
-      <li class="_4  ">
+      <li class="_4 __4 ">
         <a href="/xyz/docs/00-developer/00-introduction/">Developer</a>
       </li>
       
@@ -252,7 +256,7 @@
       
       
       
-      <li class="_4  ">
+      <li class="_4 __4 ">
         <a href="/xyz/docs/01-infrastructure/00-infrastructure/">Infrastructure</a>
       </li>
       
@@ -286,7 +290,7 @@
       
       
       
-      <li class="_4  ">
+      <li class="_4 __4 ">
         <a href="/xyz/docs/02-design/00-design/">Design</a>
       </li>
       
@@ -296,14 +300,8 @@
       
       
       
-      <li class="_3  ">
-        <a href="/xyz/docs/04-how_to_doc/">How to Document</a>
-      </li>
-      
-      
-      
-      <li class="_3  ">
-        <a href="/xyz/docs/05-release-notes/">Release Notes</a>
+      <li class="_3 __3 ">
+        <a href="/xyz/docs/03-how_to_doc/">How to Document</a>
       </li>
       
       
@@ -311,7 +309,6 @@
     </ul>
 
     <div class="content">
-      <h2>XYZ</h2>
       
 <p>
     The project documentation aims to give an overview of the project structure. Provide guides for configuration and deployment recipes.

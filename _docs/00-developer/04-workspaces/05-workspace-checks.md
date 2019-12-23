@@ -1,7 +1,5 @@
 ---
 title: Workspace Checks
-subtitle: Workspace Checks
-tag: developer
 tags: [developer]
 layout: root.html
 

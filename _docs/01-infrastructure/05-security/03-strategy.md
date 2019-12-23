@@ -1,7 +1,5 @@
 ---
 title: Strategy
-subtitle: Security
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

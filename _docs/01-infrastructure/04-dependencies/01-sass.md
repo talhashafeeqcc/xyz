@@ -1,7 +1,5 @@
 ---
 title: Sass
-subtitle: 
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

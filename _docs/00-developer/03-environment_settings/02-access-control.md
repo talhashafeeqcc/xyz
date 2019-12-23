@@ -1,7 +1,5 @@
 ---
 title: Access Control
-subtitle: Access Control
-tag: developer
 tags: [developer]
 layout: root.html
 ---

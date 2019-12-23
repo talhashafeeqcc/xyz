@@ -1,7 +1,5 @@
 ---
 title: 3rd Party API Keys
-subtitle: 3rd Party API Keys
-tag: developer
 tags: [developer]
 layout: root.html
 ---

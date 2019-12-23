@@ -1,7 +1,5 @@
 ---
 title: Client
-subtitle: Infrastructure
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

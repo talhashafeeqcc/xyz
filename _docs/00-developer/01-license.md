@@ -1,7 +1,5 @@
 ---
 title: License
-subtitle: This document covers the License
-tag: developer
 tags: [developer]
 layout: root.html
 ---

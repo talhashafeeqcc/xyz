@@ -1,7 +1,5 @@
 ---
 title: Grid (Hex) Layer
-subtitle: Grid (Hex) Layer
-tag: developer
 tags: [developer]
 layout: root.html
 ---

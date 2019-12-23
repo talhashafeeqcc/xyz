@@ -1,7 +1,5 @@
 ---
 title: Charts
-subtitle: Charts for layers
-tag: developer
 tags: [developer]
 layout: root.html
 ---

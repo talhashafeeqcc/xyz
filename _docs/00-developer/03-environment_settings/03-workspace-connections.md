@@ -1,7 +1,5 @@
 ---
 title: Workspace Connections
-subtitle: Workspace Connections
-tag: developer
 tags: [developer]
 layout: root.html
 ---

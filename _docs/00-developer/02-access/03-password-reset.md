@@ -1,7 +1,5 @@
 ---
 title: Password Reset
-subtitle: Password Reset
-tag: developer
 tags: [developer]
 layout: root.html
 ---

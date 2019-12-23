@@ -1,8 +1,5 @@
 ---
 title: Layers
-subtitle: Introduction of Layers
-class: first
-tag: developer
 tags: [developer]
 layout: root.html
 ---

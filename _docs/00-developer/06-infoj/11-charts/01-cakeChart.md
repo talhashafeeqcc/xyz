@@ -1,8 +1,5 @@
 ---
 title: Cake charts
-subtitle: Pie and doughnut
-author: agata
-tag: developer
 tags: [developer]
 layout: root.html
 ---

@@ -1,7 +1,5 @@
 ---
 title: Access Control List (ACL)
-subtitle: ACL
-tag: developer
 tags: [developer]
 layout: root.html
 ---

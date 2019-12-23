@@ -1,7 +1,5 @@
 ---
 title: GeoJson Layer
-subtitle: GeoJson Layer
-tag: developer
 tags: [developer]
 layout: root.html
 ---

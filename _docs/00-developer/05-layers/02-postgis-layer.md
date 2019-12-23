@@ -1,7 +1,5 @@
 ---
 title: PostGIS Data Layer
-subtitle: PostGIS Data Layer
-tag: developer
 tags: [developer]
 layout: root.html
 ---

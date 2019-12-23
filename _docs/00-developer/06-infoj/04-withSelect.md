@@ -1,7 +1,5 @@
 ---
 title: With Select
-subtitle: With Select
-tag: developer
 tags: [developer]
 layout: root.html
 ---

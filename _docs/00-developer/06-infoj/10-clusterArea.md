@@ -1,6 +1,5 @@
 ---
 title: Cluster Area
-subtitle: Properties from underlying geometry.
 tags: [developer]
 layout: root.html
 ---

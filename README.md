@@ -100,3 +100,24 @@ Free use of the code in this repository is allowed through a [MIT license](https
 ## BrowserStack
 
 BrowserStack supports this OpenSource project, providing us with valuable tools to test the XYZ client on different platforms.
+
+
+## Documentation
+
+Documentation for the XYZ project is available in the gh-pages branch hosted at [geolytix.github.io/xyz/](https://geolytix.github.io/xyz/).
+
+We use [Eleventy](https://github.com/11ty/eleventy) to compile the documentation pages hosted via GitHub pages.
+
+The documentation pages are in the gh-pages branch of this repository. Switch to this branch and install eleventy either globally or locally via npm.
+
+```
+npm install @11ty/eleventy
+```
+
+Compile and serve the documentation pages locally by executing the eleventy module via npx.
+
+```
+npx eleventy --input ./_docs --output ./docs --formats=html,md --pathprefix=/xyz/docs --serve
+```
+
+Edits should be done in the input directoty /_docs. While acting as a local webserver with the --serve flag eleventy will immediately compile changes detected in the input directory. Compile documentation pages as well as resources are writen to the output directory /docs.

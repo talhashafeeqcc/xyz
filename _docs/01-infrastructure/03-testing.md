@@ -1,7 +1,5 @@
 ---
 title: Testing
-subtitle: Infrastructure
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

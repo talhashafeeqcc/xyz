@@ -1,7 +1,5 @@
 ---
 title: Cluster Layer
-subtitle: Cluster Layer
-tag: developer
 tags: [developer]
 layout: root.html
 ---

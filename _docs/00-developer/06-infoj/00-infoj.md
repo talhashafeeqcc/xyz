@@ -1,8 +1,5 @@
 ---
 title: InfoJ
-subtitle: This document covers the Introduction of InfoJ
-class: first
-tag: developer
 tags: [developer]
 layout: root.html
 ---

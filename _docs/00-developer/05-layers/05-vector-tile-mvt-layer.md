@@ -1,7 +1,5 @@
 ---
 title: MapBox Vector Tile (MVT) Layer
-subtitle: MapBox Vector Tile (MVT) Layer
-tag: developer
 tags: [developer]
 layout: root.html
 ---

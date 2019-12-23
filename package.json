@@ -21,6 +21,7 @@
     ]
   },
   "dependencies": {
+    "@11ty/eleventy": "^0.9.0",
     "@mapbox/vector-tile": "^1.3.1",
     "@turf/point-on-feature": "^5.1.5",
     "bcrypt-nodejs": "0.0.3",
@@ -51,7 +52,6 @@
     "tabulator-tables": "^4.4.3"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.9.0",
     "eslint": "^4.19.1",
     "husky": "^1.1.3",
     "lint-staged": "^8.0.4",
@@ -59,5 +59,3 @@
     "webpack-cli": "^3.3.7"
   }
 }
-
-    

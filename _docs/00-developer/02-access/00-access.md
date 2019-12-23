@@ -1,8 +1,5 @@
 ---
 title: Access
-subtitle: Introduction to Access
-class: first
-tag: developer
 tags: [developer]
 layout: root.html 
 ---

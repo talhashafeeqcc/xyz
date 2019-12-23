@@ -1,0 +1,2171 @@
+{
+    "title": "XYZ TSH",
+    "locales": {
+        "UK": {
+            "minZoom": 5,
+            "maxZoom": 19,
+            "gazetteer": {
+                "provider": "GOOGLE",
+                "code": "GB",
+                "placeholder": "eg. London"
+            },
+            "view": {
+                "lat": 54.45,
+                "lng": -4.77,
+                "z": 6
+            },
+            "bounds": {
+                "north": 62,
+                "east": 5,
+                "south": 48,
+                "west": -13
+            },
+            "maskBounds": true,
+            "layers": {
+                "Mapbox Label": {
+                    "group": "Base Layer",
+                    "format": "tiles",
+                    "display": true,
+                    "attribution": {
+                        "© Mapbox": "https://www.mapbox.com/about/maps",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    },
+                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                },
+                "Mapbox Base": {
+                    "group": "Base Layer",
+                    "display": true,
+                    "attribution": {
+                        "© Mapbox": "https://www.mapbox.com/about/maps",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    },
+                    "format": "tiles",
+                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                },
+                "Output Area": {
+                    "display": false,
+                    "format": "mvt",
+                    "dbs": "XYZ",
+                    "table": "geodata.mv_uk_glx_geodata_oa_metrics",
+                    "geom": "geom_3857_5m",
+                    "srid": "3857",
+                    "cluster_label": "Output Area",
+                    "qID": "id",
+                    "class": "_report",
+                    "infoj": [
+                        {
+                            "type": "key"
+                        },
+                        {
+                            "label": "ID",
+                            "field": "id",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Age breakdown",
+                            "type": "group",
+                            "chart": {
+                                "active": true,
+                                "type": "bar",
+                                "beginAtZero": true,
+                                "backgroundColor": [
+                                    "#E6A5AE",
+                                    "#E08F9A",
+                                    "#D97985",
+                                    "#D36371",
+                                    "#CD4C5D"
+                                ],
+                                "borderColor": [
+                                    "#E6A5AE",
+                                    "#E08F9A",
+                                    "#D97985",
+                                    "#D36371",
+                                    "#CD4C5D"
+                                ]
+                            }
+                        },
+                        {
+                            "group": "Age breakdown",
+                            "level": 1,
+                            "label": "0-18",
+                            "field": "age0to18",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Age breakdown",
+                            "level": 1,
+                            "label": "18-24",
+                            "field": "age18to24",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Age breakdown",
+                            "level": 1,
+                            "label": "25-44",
+                            "field": "age25to44",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Age breakdown",
+                            "level": 1,
+                            "label": "45-59",
+                            "field": "age45to59",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Age breakdown",
+                            "level": 1,
+                            "label": "60+",
+                            "field": "age60plus",
+                            "type": "integer"
+                        },
+                        {
+                            "label": "Young people",
+                            "type": "group",
+                            "chart": {
+                                "active": true,
+                                "type": "bar",
+                                "beginAtZero": true,
+                                "backgroundColor": [
+                                    "#E6A5AE",
+                                    "#E08F9A",
+                                    "#D97985",
+                                    "#D36371",
+                                    "#CD4C5D",
+                                    "#C73649"
+                                ],
+                                "borderColor": [
+                                    "#E6A5AE",
+                                    "#E08F9A",
+                                    "#D97985",
+                                    "#D36371",
+                                    "#CD4C5D",
+                                    "#C73649"
+                                ]
+                            }
+                        },
+                        {
+                            "group": "Young people",
+                            "level": 1,
+                            "label": "0-4",
+                            "field": "age0to4",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Young people",
+                            "level": 1,
+                            "label": "5-7",
+                            "field": "age5to7",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Young people",
+                            "level": 1,
+                            "label": "8-9",
+                            "field": "age8to9",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Young people",
+                            "level": 1,
+                            "label": "10-14",
+                            "field": "age10to14",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Young people",
+                            "level": 1,
+                            "label": "15",
+                            "field": "age15",
+                            "type": "integer"
+                        },
+                        {
+                            "group": "Young people",
+                            "level": 1,
+                            "label": "16-17",
+                            "field": "age16to17",
+                            "type": "integer"
+                        },
+                        {
+                            "label": "Households",
+                            "field": "hhd_18",
+                            "type": "integer"
+                        },
+                        {
+                            "label": "OAC Super Group",
+                            "field": "oac_supergroup",
+                            "type": "integer"
+                        }
+                    ],
+                    "tables": {
+                        "10": null,
+                        "11": "geodata.mv_uk_glx_geodata_oa_metrics"
+                    },
+                    "mvt_fields": [
+                        "age0to18",
+                        "age18to24",
+                        "age25to44",
+                        "age45to59",
+                        "age60plus",
+                        "hhd_18",
+                        "oac_supergroup"
+                    ],
+                    "style": {
+                        "label": {
+                            "field": "oaid",
+                            "display": false,
+                            "declutter": true,
+                            "strokeColor": "#fff",
+                            "strokeWidth": 3
+                        },
+                        "default": {
+                            "strokeColor": "#ffffff",
+                            "fillColor": "#333333",
+                            "fillOpacity": 0.6
+                        },
+                        "highlight": {
+                            "strokeColor": "#f50057",
+                            "fillColor": "#fce4ec"
+                        },
+                        "themes": {
+                            "Ages 0 to 18 years": {
+                                "type": "graduated",
+                                "field": "age0to18",
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 20",
+                                        "style": {
+                                            "fillColor": "#edf8e9"
+                                        }
+                                    },
+                                    {
+                                        "value": 20,
+                                        "label": "20 to 40",
+                                        "style": {
+                                            "fillColor": "#bae4b3"
+                                        }
+                                    },
+                                    {
+                                        "value": 40,
+                                        "label": "40 to 60",
+                                        "style": {
+                                            "fillColor": "#74c476"
+                                        }
+                                    },
+                                    {
+                                        "value": 60,
+                                        "label": "60 to 80",
+                                        "style": {
+                                            "fillColor": "#31a354"
+                                        }
+                                    },
+                                    {
+                                        "value": 80,
+                                        "label": "80 plus",
+                                        "style": {
+                                            "fillColor": "006d2c"
+                                        }
+                                    }
+                                ]
+                            },
+                            "Ages 18 to 24 years": {
+                                "type": "graduated",
+                                "field": "age18to24",
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 20",
+                                        "style": {
+                                            "fillColor": "#fef0d9"
+                                        }
+                                    },
+                                    {
+                                        "value": 20,
+                                        "label": "20 to 40",
+                                        "style": {
+                                            "fillColor": "#fdcc8a"
+                                        }
+                                    },
+                                    {
+                                        "value": 40,
+                                        "label": "40 to 60",
+                                        "style": {
+                                            "fillColor": "#fc8d59"
+                                        }
+                                    },
+                                    {
+                                        "value": 60,
+                                        "label": "60 to 80",
+                                        "style": {
+                                            "fillColor": "#e34a33"
+                                        }
+                                    },
+                                    {
+                                        "value": 80,
+                                        "label": "80 plus",
+                                        "style": {
+                                            "fillColor": "#b30000"
+                                        }
+                                    }
+                                ]
+                            },
+                            "Ages 25 to 44 years": {
+                                "type": "graduated",
+                                "field": "age25to44",
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 20",
+                                        "style": {
+                                            "fillColor": "#ffffcc"
+                                        }
+                                    },
+                                    {
+                                        "value": 20,
+                                        "label": "20 to 40",
+                                        "style": {
+                                            "fillColor": "#a1dab4"
+                                        }
+                                    },
+                                    {
+                                        "value": 40,
+                                        "label": "40 to 60",
+                                        "style": {
+                                            "fillColor": "#41b6c4"
+                                        }
+                                    },
+                                    {
+                                        "value": 60,
+                                        "label": "60 to 80",
+                                        "style": {
+                                            "fillColor": "#2c7fb8"
+                                        }
+                                    },
+                                    {
+                                        "value": 80,
+                                        "label": "80 plus",
+                                        "style": {
+                                            "fillColor": "#253494"
+                                        }
+                                    }
+                                ]
+                            },
+                            "Ages 45 to 59 years": {
+                                "type": "graduated",
+                                "field": "age45to59",
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 20",
+                                        "style": {
+                                            "fillColor": "#feebe2"
+                                        }
+                                    },
+                                    {
+                                        "value": 20,
+                                        "label": "20 to 40",
+                                        "style": {
+                                            "fillColor": "#fbb4b9"
+                                        }
+                                    },
+                                    {
+                                        "value": 40,
+                                        "label": "40 to 60",
+                                        "style": {
+                                            "fillColor": "#f768a1"
+                                        }
+                                    },
+                                    {
+                                        "value": 60,
+                                        "label": "60 to 80",
+                                        "style": {
+                                            "fillColor": "#c51b8a"
+                                        }
+                                    },
+                                    {
+                                        "value": 80,
+                                        "label": "80 plus",
+                                        "style": {
+                                            "fillColor": "#7a0177"
+                                        }
+                                    }
+                                ]
+                            },
+                            "Age 60+ years": {
+                                "type": "graduated",
+                                "field": "age60plus",
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 20",
+                                        "style": {
+                                            "fillColor": "#f2f0f7"
+                                        }
+                                    },
+                                    {
+                                        "value": 20,
+                                        "label": "20 to 40",
+                                        "style": {
+                                            "fillColor": "#cbc9e2"
+                                        }
+                                    },
+                                    {
+                                        "value": 40,
+                                        "label": "40 to 60",
+                                        "style": {
+                                            "fillColor": "#9e9ac8"
+                                        }
+                                    },
+                                    {
+                                        "value": 60,
+                                        "label": "60 to 80",
+                                        "style": {
+                                            "fillColor": "#756bb1"
+                                        }
+                                    },
+                                    {
+                                        "value": 80,
+                                        "label": "80 plus",
+                                        "style": {
+                                            "fillColor": "#54278f"
+                                        }
+                                    }
+                                ]
+                            },
+                            "Households": {
+                                "label": "Households",
+                                "type": "graduated",
+                                "field": "hhd_18",
+                                "other": true,
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 100",
+                                        "style": {
+                                            "fillColor": "#15773f"
+                                        }
+                                    },
+                                    {
+                                        "value": 100,
+                                        "label": "100 to 200",
+                                        "style": {
+                                            "fillColor": "#66bd63"
+                                        }
+                                    },
+                                    {
+                                        "value": 200,
+                                        "label": "200 to 400",
+                                        "style": {
+                                            "fillColor": "#a6d96a"
+                                        }
+                                    },
+                                    {
+                                        "value": 400,
+                                        "label": "400 to 600",
+                                        "style": {
+                                            "fillColor": "#d9ef8b"
+                                        }
+                                    },
+                                    {
+                                        "value": 600,
+                                        "label": "600 to 800",
+                                        "style": {
+                                            "fillColor": "#fdae61"
+                                        }
+                                    },
+                                    {
+                                        "value": 800,
+                                        "label": "800 to 1000",
+                                        "style": {
+                                            "fillColor": "#f46d43"
+                                        }
+                                    },
+                                    {
+                                        "value": 1000,
+                                        "label": "1000 or more",
+                                        "style": {
+                                            "fillColor": "#d73027"
+                                        }
+                                    }
+                                ]
+                            },
+                            "OAC Super Group": {
+                                "label": "OAC Super Group",
+                                "type": "categorized",
+                                "field": "oac_supergroup",
+                                "other": true,
+                                "class": "_report",
+                                "cat": {
+                                    "1": {
+                                        "label": "1 - Rural Residents",
+                                        "style": {
+                                            "fillColor": "#8dd3c7"
+                                        }
+                                    },
+                                    "2": {
+                                        "label": "2 - Cosmopolitans",
+                                        "style": {
+                                            "fillColor": "#ffffb3"
+                                        }
+                                    },
+                                    "3": {
+                                        "label": "3 - Ethnicity Central",
+                                        "style": {
+                                            "fillColor": "#bebada"
+                                        }
+                                    },
+                                    "4": {
+                                        "label": "4 - Multicultural Metropolitans",
+                                        "style": {
+                                            "fillColor": "#fb8072"
+                                        }
+                                    },
+                                    "5": {
+                                        "label": "5 - Urbanites",
+                                        "style": {
+                                            "fillColor": "#80b1d3"
+                                        }
+                                    },
+                                    "6": {
+                                        "label": "6 - Suburbanites",
+                                        "style": {
+                                            "fillColor": "#fdb462"
+                                        }
+                                    },
+                                    "7": {
+                                        "label": "7 - Constrained City Dwellers",
+                                        "style": {
+                                            "fillColor": "#b3de69"
+                                        }
+                                    },
+                                    "8": {
+                                        "label": "8 - Hard-Pressed Living",
+                                        "style": {
+                                            "fillColor": "#fccde5"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "Locations": {
+                    "display": true,
+                    "format": "cluster",
+                    "dbs": "XYZ",
+                    "table": "tsh.uk_tsh_restrict_existing_locations",
+                    "geom": "geom_p_4326",
+                    "srid": "4326",
+                    "qID": "site_id",
+                    "cluster_label": "site",
+                    "cluster_kmeans": 0.05,
+                    "cluster_dbscan": 0.007,
+                    "style": {
+                        "label": {
+                            "field": "site",
+                            "declutter": true,
+                            "strokeColor": "#fff",
+                            "strokeWidth": 3
+                        },
+                        "marker": {
+                            "type": "target",
+                            "fillColor": "#000080",
+                            "layers": {
+                                "0.75": "#EEE",
+                                "0.50": "#000080"
+                            }
+                        },
+                        "markerMulti": {
+                            "type": "target",
+                            "fillColor": "#000080"
+                        },
+                        "themes": {
+                            "Type of Site": {
+                                "type": "categorized",
+                                "field": "site_type",
+                                "label": "Type of Site",
+                                "cat": {
+                                    "Beth Tweddle Gymnastics": {
+                                        "style": {
+                                            "fillColor": "#00b386",
+                                            "layers": {
+                                                "0.75": "#EEE",
+                                                "0.50": "#00b386"
+                                            }
+                                        }
+                                    },
+                                    "Total Swimming Acadamies": {
+                                        "style": {
+                                            "fillColor": "#0019a8",
+                                            "layers": {
+                                                "0.75": "#EEE",
+                                                "0.50": "#0019a8"
+                                            }
+                                        }
+                                    },
+                                    "Total Fitness/BASS": {
+                                        "style": {
+                                            "fillColor": "black",
+                                            "layers": {
+                                                "0.75": "#EEE",
+                                                "0.50": "black"
+                                            }
+                                        }
+                                    },
+                                    "swim!": {
+                                        "style": {
+                                            "fillColor": "red",
+                                            "layers": {
+                                                "0.75": "#EEE",
+                                                "0.50": "red"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "infoj": [
+                        {
+                            "label": "Site ID",
+                            "field": "site_id",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Site",
+                            "field": "site",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Postcode",
+                            "field": "postcode",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Type of Site",
+                            "field": "site_type",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Oaid",
+                            "field": "oaid",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Customer Count",
+                            "field": "customer_count",
+                            "type": "text",
+                            "inline": true
+                        }
+                    ]
+                },
+                "Competition": {
+                    "display": false,
+                    "format": "cluster",
+                    "dbs": "XYZ",
+                    "table": "tsh.uk_tsh_restrict_competition",
+                    "geom": "geom_p_4326",
+                    "srid": "4326",
+                    "qID": "glid",
+                    "cluster_label": "name",
+                    "cluster_kmeans": 0.05,
+                    "cluster_dbscan": 0.007,
+                    "style": {
+                        "label": {
+                            "field": "class",
+                            "display": false,
+                            "declutter": true,
+                            "strokeColor": "#fff",
+                            "strokeWidth": 3
+                        },
+                        "marker": {
+                            "type": "triangle",
+                            "fillColor": "grey"
+                        },
+                        "markerMulti": {
+                            "type": "triangle",
+                            "fillColor": "grey",
+                            "layers": {
+                                "0.75": "#EEE",
+                                "0.50": "grey"
+                            }
+                        },
+                        "highlight": {
+                            "type": "triangle",
+                            "fillColor": "#9F080C"
+                        },
+                        "themes": {
+                            "Competitor class": {
+                                "type": "categorized",
+                                "field": "class",
+                                "label": "Type of Site",
+                                "cat": {
+                                    "British Gymnastics Site": {
+                                        "style": {
+                                            "fillColor": "#00b386"
+                                        }
+                                    },
+                                    "Swimming Pool from Leisure Database": {
+                                        "style": {
+                                            "fillColor": "#0019a8"
+                                        }
+                                    },
+                                    "School with Swimming Pool": {
+                                        "style": {
+                                            "fillColor": "#00ffbf"
+                                        }
+                                    },
+                                    "Existing Site": {
+                                        "style": {
+                                            "fillColor": "#0026FF"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "infoj": [
+                        {
+                            "label": "Glid",
+                            "field": "glid",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Class",
+                            "field": "class",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Competitor Name",
+                            "field": "name",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Postcode",
+                            "field": "postcode",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Site ID",
+                            "field": "ld_site_id",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Sector",
+                            "field": "sector",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Indoor Pools",
+                            "field": "indoor_pools",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Main Pools",
+                            "field": "main_pools",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Main Pool Size",
+                            "field": "main_pool_size",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Teaching Pools",
+                            "field": "teaching_pools",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Teaching Pool Size",
+                            "field": "teaching_pool_size",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Leisure Pools",
+                            "field": "leisure_pools",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Leisure Pool Size",
+                            "field": "leisure_pool_size",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Car Park",
+                            "field": "car_park",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Parking Spaces",
+                            "field": "parking_spaces",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Main Sqm",
+                            "field": "main_sqm",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Leisure Sqm",
+                            "field": "leisure_sqm",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Teaching Sqm",
+                            "field": "teaching_sqm",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Total Sqm",
+                            "field": "total_sqm",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Oaid",
+                            "field": "oaid",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Open",
+                            "field": "open",
+                            "type": "text",
+                            "inline": true
+                        }
+                    ]
+                },
+                "Customer": {
+                    "display": false,
+                    "format": "cluster",
+                    "dbs": "XYZ",
+                    "table": "tsh.uk_tsh_restrict_customers",
+                    "geom": "geom_p_4326",
+                    "srid": "4326",
+                    "qID": "tid",
+                    "cluster_label": "venue",
+                    "cluster_kmeans": 0.2,
+                    "cluster_dbscan": 0.009,
+                    "style": {
+                        "label": {
+                            "field": "venue",
+                            "display": false,
+                            "declutter": true,
+                            "strokeColor": "#fff",
+                            "strokeWidth": 3
+                        },
+                        "marker": {
+                            "type": "square",
+                            "fillColor": "#e6071a"
+                        },
+                        "markerMulti": {
+                            "type": "square",
+                            "fillColor": "#EECEB2",
+                            "layers": {
+                                "0.75": "#ffffff",
+                                "0.6": "#EECEB2"
+                            }
+                        },
+                        "highlight": {
+                            "type": "square",
+                            "fillColor": "#9F080C"
+                        },
+                        "themes": {
+                            "Category": {
+                                "type": "categorized",
+                                "field": "venue_type",
+                                "cat": {
+                                    "BASS ": {
+                                        "style": {
+                                            "fillColor": "#fbb4ae"
+                                        }
+                                    },
+                                    "BTG": {
+                                        "style": {
+                                            "fillColor": "#ccebc5"
+                                        }
+                                    },
+                                    "SWIM": {
+                                        "style": {
+                                            "fillColor": "#b3cde3"
+                                        }
+                                    },
+                                    "TF": {
+                                        "style": {
+                                            "fillColor": "#decbe4"
+                                        }
+                                    },
+                                    "TSA": {
+                                        "style": {
+                                            "fillColor": "#ffffcc"
+                                        }
+                                    }
+                                }
+                            },
+                            "OAC Super Group": {
+                                "type": "categorized",
+                                "field": "oac_super_group",
+                                "cat": {
+                                    "1": {
+                                        "label": "Rural Residents",
+                                        "style": {
+                                            "fillColor": "red"
+                                        }
+                                    },
+                                    "2": {
+                                        "label": "Cosmopolitans",
+                                        "style": {
+                                            "fillColor": "blue"
+                                        }
+                                    },
+                                    "3": {
+                                        "label": "Ethnicity Central",
+                                        "style": {
+                                            "fillColor": "Green"
+                                        }
+                                    },
+                                    "4": {
+                                        "label": "Multicultural Metropolitans",
+                                        "style": {
+                                            "fillColor": "yellow"
+                                        }
+                                    },
+                                    "5": {
+                                        "label": "Urbanites",
+                                        "style": {
+                                            "fillColor": "purple"
+                                        }
+                                    },
+                                    "6": {
+                                        "label": "Suburbanites",
+                                        "style": {
+                                            "fillColor": "pink"
+                                        }
+                                    },
+                                    "7": {
+                                        "label": "Constrained City Dwellers",
+                                        "style": {
+                                            "fillColor": "grey"
+                                        }
+                                    },
+                                    "8": {
+                                        "label": "Hard-Pressed Living",
+                                        "style": {
+                                            "fillColor": "black"
+                                        }
+                                    }
+                                }
+                            },
+                            "OAC Group": {
+                                "type": "categorized",
+                                "field": "oac_group",
+                                "cat": {
+                                    "1": {
+                                        "label": "OAC Group 1",
+                                        "style": {
+                                            "fillColor": "#c62aa9"
+                                        }
+                                    },
+                                    "2": {
+                                        "label": "OAC Group 2",
+                                        "style": {
+                                            "fillColor": "#bf915f"
+                                        }
+                                    },
+                                    "3": {
+                                        "label": "OAC Group 3",
+                                        "style": {
+                                            "fillColor": "#3440c6"
+                                        }
+                                    },
+                                    "4": {
+                                        "label": "OAC Group 4",
+                                        "style": {
+                                            "fillColor": "#183213"
+                                        }
+                                    },
+                                    "5": {
+                                        "label": "OAC Group 5",
+                                        "style": {
+                                            "fillColor": "#085e44"
+                                        }
+                                    },
+                                    "6": {
+                                        "label": "OAC Group 6",
+                                        "style": {
+                                            "fillColor": "#27a0a5"
+                                        }
+                                    },
+                                    "7": {
+                                        "label": "OAC Group 7",
+                                        "style": {
+                                            "fillColor": "#7e66b5"
+                                        }
+                                    },
+                                    "8": {
+                                        "label": "OAC Group 8",
+                                        "style": {
+                                            "fillColor": "#d3f0e4"
+                                        }
+                                    },
+                                    "9": {
+                                        "label": "OAC Group 9",
+                                        "style": {
+                                            "fillColor": "#f87f45"
+                                        }
+                                    },
+                                    "10": {
+                                        "label": "OAC Group 10",
+                                        "style": {
+                                            "fillColor": "#f3ddc9"
+                                        }
+                                    },
+                                    "11": {
+                                        "label": "OAC Group 11",
+                                        "style": {
+                                            "fillColor": "#f6dd6b"
+                                        }
+                                    },
+                                    "12": {
+                                        "label": "OAC Group 12",
+                                        "style": {
+                                            "fillColor": "#9eaf63"
+                                        }
+                                    },
+                                    "13": {
+                                        "label": "OAC Group 13",
+                                        "style": {
+                                            "fillColor": "#16a63f"
+                                        }
+                                    },
+                                    "14": {
+                                        "label": "OAC Group 14",
+                                        "style": {
+                                            "fillColor": "#41d57f"
+                                        }
+                                    },
+                                    "15": {
+                                        "label": "OAC Group 15",
+                                        "style": {
+                                            "fillColor": "#2b0544"
+                                        }
+                                    },
+                                    "16": {
+                                        "label": "OAC Group 16",
+                                        "style": {
+                                            "fillColor": "#0480df"
+                                        }
+                                    },
+                                    "17": {
+                                        "label": "OAC Group 17",
+                                        "style": {
+                                            "fillColor": "#a13276"
+                                        }
+                                    },
+                                    "18": {
+                                        "label": "OAC Group 18",
+                                        "style": {
+                                            "fillColor": "#6dfb6c"
+                                        }
+                                    },
+                                    "19": {
+                                        "label": "OAC Group 19",
+                                        "style": {
+                                            "fillColor": "#6d6261"
+                                        }
+                                    },
+                                    "20": {
+                                        "label": "OAC Group 20",
+                                        "style": {
+                                            "fillColor": "#4a2324"
+                                        }
+                                    },
+                                    "21": {
+                                        "label": "OAC Group 21",
+                                        "style": {
+                                            "fillColor": "#06e5d9"
+                                        }
+                                    },
+                                    "22": {
+                                        "label": "OAC Group 22",
+                                        "style": {
+                                            "fillColor": "#0e253e"
+                                        }
+                                    },
+                                    "23": {
+                                        "label": "OAC Group 23",
+                                        "style": {
+                                            "fillColor": "#c7308e"
+                                        }
+                                    },
+                                    "24": {
+                                        "label": "OAC Group 24",
+                                        "style": {
+                                            "fillColor": "#1bf92b"
+                                        }
+                                    },
+                                    "25": {
+                                        "label": "OAC Group 25",
+                                        "style": {
+                                            "fillColor": "#9140b8"
+                                        }
+                                    },
+                                    "26": {
+                                        "label": "OAC Group 26",
+                                        "style": {
+                                            "fillColor": "#ea93bd"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "infoj": [
+                        {
+                            "label": "Tid",
+                            "field": "tid",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Venue",
+                            "field": "venue",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Postal code",
+                            "field": "postcode",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Category",
+                            "field": "venue_type",
+                            "type": "text",
+                            "inline": true
+                        },
+                        {
+                            "label": "Site Id",
+                            "field": "site_id",
+                            "type": "text",
+                            "inline": true,
+                            "filter": "like"
+                        },
+                        {
+                            "label": "Oaid",
+                            "field": "oaid",
+                            "type": "text",
+                            "inline": true
+                        }
+                    ]
+                },
+                "Network blueprint": {
+                    "display": false,
+                    "format": "cluster",
+                    "dbs": "XYZ",
+                    "table": "tsh.uk_tsh_restrict_network_plan",
+                    "geom": "geom_p_4326",
+                    "srid": "4326",
+                    "qID": "id",
+                    "cluster_label": "name",
+                    "cluster_kmeans": 0.1,
+                    "cluster_dbscan": 0.015,
+                    "class": "_report",
+                    "style": {
+                        "label": {
+                            "field": "name",
+                            "display": false,
+                            "declutter": true,
+                            "strokeColor": "#fff",
+                            "strokeWidth": 3
+                        },
+                        "marker": {
+                            "type": "target",
+                            "fillColor": "#1b8dcc"
+                        },
+                        "markerMulti": {
+                            "type": "target",
+                            "fillColor": "#9F080C"
+                        },
+                        "highlight": {
+                            "type": "target",
+                            "fillColor": "#ffff99"
+                        },
+                        "themes": {
+                            "Swimming Score": {
+                                "class": "_report",
+                                "type": "graduated",
+                                "field": "scaled_swim",
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 500",
+                                        "style": {
+                                            "fillColor": "#1b8dcc"
+                                        }
+                                    },
+                                    {
+                                        "value": 500,
+                                        "label": "500 to 1250",
+                                        "style": {
+                                            "fillColor": "#8dcceb"
+                                        }
+                                    },
+                                    {
+                                        "value": 1250,
+                                        "label": "1250 to 1500",
+                                        "style": {
+                                            "fillColor": "#e3ecf3"
+                                        }
+                                    },
+                                    {
+                                        "value": 1500,
+                                        "label": "1500 to 2000",
+                                        "style": {
+                                            "fillColor": "#de7aa0"
+                                        }
+                                    },
+                                    {
+                                        "value": 2000,
+                                        "label": "2000 plus",
+                                        "style": {
+                                            "fillColor": "#e6071a"
+                                        }
+                                    }
+                                ]
+                            },
+                            "Gymnastics Score": {
+                                "class": "_report",
+                                "type": "graduated",
+                                "field": "scaled_gym",
+                                "cat_arr": [
+                                    {
+                                        "value": 0,
+                                        "label": "0 to 500",
+                                        "class": "_report",
+                                        "style": {
+                                            "fillColor": "#1b8dcc"
+                                        }
+                                    },
+                                    {
+                                        "value": 500,
+                                        "label": "500 to 1250",
+                                        "style": {
+                                            "fillColor": "#8dcceb"
+                                        }
+                                    },
+                                    {
+                                        "value": 1250,
+                                        "label": "1250 to 1500",
+                                        "style": {
+                                            "fillColor": "#e3ecf3"
+                                        }
+                                    },
+                                    {
+                                        "value": 1500,
+                                        "label": "1500 to 2000",
+                                        "style": {
+                                            "fillColor": "#de7aa0"
+                                        }
+                                    },
+                                    {
+                                        "value": 2000,
+                                        "label": "2000 plus",
+                                        "style": {
+                                            "fillColor": "#e6071a"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "infoj": [
+                        {
+                            "type": "report",
+                            "class": "_report",
+                            "report": {
+                                "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/tsh/tsh.html&source=GITHUB",
+                                "name": "Create Report"
+                            }
+                        },
+                        {
+                            "label": "Competitor Name",
+                            "field": "name",
+                            "inline": true
+                        },
+                        {
+                            "label": "Competitor Type",
+                            "field": "type",
+                            "inline": true
+                        },
+                        {
+                            "label": "Postal Code",
+                            "field": "postcode",
+                            "inline": true
+                        },
+                        {
+                            "label": "Class",
+                            "field": "class",
+                            "inline": true
+                        },
+                        {
+                            "label": "Gymnastics Score",
+                            "field": "scaled_gym",
+                            "type": "integer",
+                            "inline": true
+                        },
+                        {
+                            "label": "Swimming Score",
+                            "field": "scaled_swim",
+                            "type": "integer",
+                            "inline": true
+                        },
+                        {
+                            "label": "Drivetimes",
+                            "type": "label"
+                        },
+                        {
+                            "name": "HERE Catchment 5min",
+                            "field": "isoline_5min",
+                            "fieldfx": "ST_asGeoJson(isoline_5min)",
+                            "type": "geometry",
+                            "edit": {
+                                "isoline_here": {
+                                    "minutes": 5
+                                }
+                            },
+                            "style": {
+                                "strokeColor": "#BB0A21",
+                                "fillColor": "#BB0A21",
+                                "strokeWidth": 2,
+                                "fillOpacity": 0.4
+                            }
+                        },
+                        {
+                            "name": "HERE Catchment 10min",
+                            "field": "isoline_10min",
+                            "fieldfx": "ST_asGeoJson(isoline_10min)",
+                            "type": "geometry",
+                            "edit": {
+                                "isoline_here": {
+                                    "minutes": 10
+                                }
+                            },
+                            "style": {
+                                "strokeColor": "#F9C991",
+                                "fillColor": "#F9C991",
+                                "strokeWidth": 2,
+                                "fillOpacity": 0.4
+                            }
+                        },
+                        {
+                            "name": "HERE Catchment 15min",
+                            "field": "isoline_15min",
+                            "fieldfx": "ST_asGeoJson(isoline_15min)",
+                            "type": "geometry",
+                            "edit": {
+                                "isoline_here": {
+                                    "minutes": 15
+                                }
+                            },
+                            "style": {
+                                "strokeColor": "#FFF05A",
+                                "fillColor": "#FFF05A",
+                                "strokeWidth": 2,
+                                "fillOpacity": 0.4
+                            }
+                        },
+                        {
+                            "type": "orderedList",
+                            "title": "Nearest Competitors",
+                            "display": true,
+                            "target_id": "xyz_table1",
+                            "class": "_report",
+                            "level": 2,
+                            "from": "tsh.uk_tsh_restrict_network_plan a, tsh.uk_tsh_restrict_competition b",
+                            "where": "a.id = $1",
+                            "orderby": "ST_Transform(a.geom_p_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857)",
+                            "limit": 10,
+                            "columns": [
+                                {
+                                    "title": "Competitor Name",
+                                    "field": "name",
+                                    "fieldfx": "b.name"
+                                },
+                                {
+                                    "title": "Postcode",
+                                    "field": "postcode",
+                                    "fieldfx": "b.postcode"
+                                },
+                                {
+                                    "title": "Class",
+                                    "field": "class",
+                                    "fieldfx": "b.class"
+                                },
+                                {
+                                    "title": "Total Sqm",
+                                    "field": "total_sqm",
+                                    "fieldfx": "b.total_sqm"
+                                },
+                                {
+                                    "type": "numeric",
+                                    "title": "Distance (km)",
+                                    "field": "dist",
+                                    "fieldfx": "ROUND(((ST_Transform(a.geom_p_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857))/1000)::numeric, 2)",
+                                    "align": "left"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "tableDefinition",
+                            "title": "Age Profile",
+                            "class": "_report",
+                            "display": true,
+                            "columns": [
+                                {
+                                    "type": "integer",
+                                    "title": "0-5 mins",
+                                    "field": "min5",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_5min",
+                                        "geom_b": "geom_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "integer",
+                                    "title": "0-10 mins",
+                                    "field": "min10",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_10min",
+                                        "geom_b": "geom_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "numeric",
+                                    "title": "0-15 mins",
+                                    "field": "min15",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_15min",
+                                        "geom_b": "geom_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "numeric",
+                                    "field": "uk",
+                                    "aspatial": "age_under_18, age_18to24, age_25to29, age_30to44, age_45to59, age_60plus, age_profile_total FROM geodata.mv_uk_glx_geodata_demographics_uk_regions where region = 'UK_avg'"
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "field": "age_under_18",
+                                    "title": "< 18",
+                                    "fieldfx": "round(SUM(pop__11 - age_18to19__11 - age_20to24__11 - age_25to29__11 - age_30to44__11 - age_45to59__11 - age60plus))"
+                                },
+                                {
+                                    "field": "age_18to24",
+                                    "fieldfx": "round(SUM(age_18to19__11 + age_20to24__11))",
+                                    "title": "18 to 24"
+                                },
+                                {
+                                    "field": "age_25to29",
+                                    "fieldfx": "round(SUM(age_25to29__11))",
+                                    "title": "25 to 29"
+                                },
+                                {
+                                    "field": "age_30to44",
+                                    "fieldfx": "round(SUM(age_30to44__11))",
+                                    "title": "30 to 44"
+                                },
+                                {
+                                    "field": "age_45to59",
+                                    "fieldfx": "round(SUM(age_45to59__11))",
+                                    "title": "45 to 59"
+                                },
+                                {
+                                    "field": "age_60plus",
+                                    "fieldfx": "round(SUM(age60plus))",
+                                    "title": "60+"
+                                },
+                                {
+                                    "field": "age_profile_total",
+                                    "fieldfx": "round(SUM(pop__11))",
+                                    "title": "Total"
+                                }
+                            ],
+                            "agg": {
+                                "share15": {
+                                    "title": "% with 15 min",
+                                    "type": "integer",
+                                    "rows": [
+                                        "100*min15.age_under_18/min15.age_profile_total",
+                                        "100*min15.age_18to24/min15.age_profile_total",
+                                        "100*min15.age_25to29/min15.age_profile_total",
+                                        "100*min15.age_30to44/min15.age_profile_total",
+                                        "100*min15.age_45to59/min15.age_profile_total",
+                                        "100*min15.age_60plus/min15.age_profile_total",
+                                        "100*min15.age_profile_total/min15.age_profile_total"
+                                    ],
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                "age_uk_total": {
+                                    "title": "UK %",
+                                    "type": "integer",
+                                    "class": "_report",
+                                    "rows": [
+                                        "uk.age_under_18*100/uk.age_profile_total",
+                                        "uk.age_18to24*100/uk.age_profile_total",
+                                        "uk.age_25to29*100/uk.age_profile_total",
+                                        "uk.age_30to44*100/uk.age_profile_total",
+                                        "uk.age_45to59*100/uk.age_profile_total",
+                                        "uk.age_60plus*100/uk.age_profile_total",
+                                        "uk.age_profile_total*100/uk.age_profile_total"
+                                    ],
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                "age_index": {
+                                    "title": "Age Profile Index",
+                                    "type": "integer",
+                                    "align": "right",
+                                    "class": "_report",
+                                    "formatter": "progress",
+                                    "formatterParams": {
+                                        "strokeColor": [
+                                            "rgba(211, 47, 47, 0.7)",
+                                            "rgba(56, 142, 60, 0.7)"
+                                        ],
+                                        "legend": true,
+                                        "legendAlign": "right",
+                                        "max": 200
+                                    },
+                                    "width": 200,
+                                    "sorter": "number",
+                                    "rows": [
+                                        "uk.age_profile_total*(100*min15.age_under_18/min15.age_profile_total)/uk.age_under_18",
+                                        "uk.age_profile_total*(100*min15.age_18to24/min15.age_profile_total)/uk.age_18to24",
+                                        "uk.age_profile_total*(100*min15.age_25to29/min15.age_profile_total)/uk.age_25to29",
+                                        "uk.age_profile_total*(100*min15.age_30to44/min15.age_profile_total)/uk.age_30to44",
+                                        "uk.age_profile_total*(100*min15.age_45to59/min15.age_profile_total)/uk.age_45to59",
+                                        "uk.age_profile_total*(100*min15.age_60plus/min15.age_profile_total)/uk.age_60plus",
+                                        "uk.age_profile_total*(100*min15.age_profile_total/min15.age_profile_total)/uk.age_profile_total"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "type": "tableDefinition",
+                            "title": "OAC Profile",
+                            "class": "_report",
+                            "target_id": "xyz_table3",
+                            "display": true,
+                            "columns": [
+                                {
+                                    "type": "integer",
+                                    "title": "0-5 mins",
+                                    "field": "min5",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_5min",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "integer",
+                                    "title": "0-10 mins",
+                                    "field": "min10",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_10min",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "integer",
+                                    "title": "0-15 mins",
+                                    "field": "min15",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_15min",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "numeric",
+                                    "field": "uk",
+                                    "aspatial": "oac_1a, oac_1b, oac_1c, oac_2a, oac_2b, oac_2c, oac_2d, oac_3a, oac_3b, oac_3c, oac_3d, oac_4a, oac_4b, oac_4c, oac_5a, oac_5b, oac_6a, oac_6b, oac_7a, oac_7b, oac_7c, oac_7d, oac_8a, oac_8b, oac_8c, oac_8d, oac_total FROM geodata.mv_uk_glx_geodata_demographics_uk_regions where region = 'UK_avg'",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "field": "oac_1a",
+                                    "fieldfx": "round(SUM(CASE WHEN oac_group=1 THEN pop__17 ELSE 0 END))",
+                                    "title": "1a - Farming communities"
+                                },
+                                {
+                                    "field": "oac_1b",
+                                    "fieldfx": "round(sum(case when oac_group=2 then pop__17 else 0 end))",
+                                    "title": "1b - Rural tenants"
+                                },
+                                {
+                                    "field": "oac_1c",
+                                    "fieldfx": "round(sum(case when oac_group=3 then pop__17 else 0 end))",
+                                    "title": "1c - Ageing rural dwellers"
+                                },
+                                {
+                                    "field": "oac_2a",
+                                    "fieldfx": "round(sum(case when oac_group=4 then pop__17 else 0 end))",
+                                    "title": "2a - Students around campus"
+                                },
+                                {
+                                    "field": "oac_2b",
+                                    "fieldfx": "round(sum(case when oac_group=5 then pop__17 else 0 end))",
+                                    "title": "2b - Inner city students"
+                                },
+                                {
+                                    "field": "oac_2c",
+                                    "fieldfx": "round(sum(case when oac_group=6 then pop__17 else 0 end))",
+                                    "title": "2c - Comforable cosmopolitans"
+                                },
+                                {
+                                    "field": "oac_2d",
+                                    "fieldfx": "round(sum(case when oac_group=7 then pop__17 else 0 end))",
+                                    "title": "2d - Aspiring and affluent"
+                                },
+                                {
+                                    "field": "oac_3a",
+                                    "fieldfx": "round(sum(case when oac_group=8 then pop__17 else 0 end))",
+                                    "title": "3a - Ethnic family life"
+                                },
+                                {
+                                    "field": "oac_3b",
+                                    "fieldfx": "round(sum(case when oac_group=9 then pop__17 else 0 end))",
+                                    "title": "3b - Endeavouring ethnic mix"
+                                },
+                                {
+                                    "field": "oac_3c",
+                                    "fieldfx": "round(sum(case when oac_group=10 then pop__17 else 0 end))",
+                                    "title": "3c - Ethnic dynamics"
+                                },
+                                {
+                                    "field": "oac_3d",
+                                    "fieldfx": "round(sum(case when oac_group=11 then pop__17 else 0 end))",
+                                    "title": "3d - Aspirational techies"
+                                },
+                                {
+                                    "field": "oac_4a",
+                                    "fieldfx": "round(sum(case when oac_group=12 then pop__17 else 0 end))",
+                                    "title": "4a - Rented family living"
+                                },
+                                {
+                                    "field": "oac_4b",
+                                    "fieldfx": "round(sum(case when oac_group=13 then pop__17 else 0 end))",
+                                    "title": "4b - Challenged Asian terraces"
+                                },
+                                {
+                                    "field": "oac_4c",
+                                    "fieldfx": "round(sum(case when oac_group=14 then pop__17 else 0 end))",
+                                    "title": "4c - Asian traits"
+                                },
+                                {
+                                    "field": "oac_5a",
+                                    "fieldfx": "round(sum(case when oac_group=15 then pop__17 else 0 end))",
+                                    "title": "5a - Urban professionals and families"
+                                },
+                                {
+                                    "field": "oac_5b",
+                                    "fieldfx": "round(sum(case when oac_group=16 then pop__17 else 0 end))",
+                                    "title": "5b - Ageing urban living"
+                                },
+                                {
+                                    "field": "oac_6a",
+                                    "fieldfx": "round(sum(case when oac_group=17 then pop__17 else 0 end))",
+                                    "title": "6a - Suburban achievers"
+                                },
+                                {
+                                    "field": "oac_6b",
+                                    "fieldfx": "round(sum(case when oac_group=18 then pop__17 else 0 end))",
+                                    "title": "6b - Semi-detached suburbia"
+                                },
+                                {
+                                    "field": "oac_7a",
+                                    "fieldfx": "round(sum(case when oac_group=19 then pop__17 else 0 end))",
+                                    "title": "7a - Challenged diversity"
+                                },
+                                {
+                                    "field": "oac_7b",
+                                    "fieldfx": "round(sum(case when oac_group=20 then pop__17 else 0 end))",
+                                    "title": "7b - Constrained flat dwellers"
+                                },
+                                {
+                                    "field": "oac_7c",
+                                    "fieldfx": "round(sum(case when oac_group=21 then pop__17 else 0 end))",
+                                    "title": "7c - White communities"
+                                },
+                                {
+                                    "field": "oac_7d",
+                                    "fieldfx": "round(sum(case when oac_group=22 then pop__17 else 0 end))",
+                                    "title": "7d - Ageing city dwellers"
+                                },
+                                {
+                                    "field": "oac_8a",
+                                    "fieldfx": "round(sum(case when oac_group=23 then pop__17 else 0 end))",
+                                    "title": "8a - Industrious communities"
+                                },
+                                {
+                                    "field": "oac_8b",
+                                    "fieldfx": "round(sum(case when oac_group=24 then pop__17 else 0 end))",
+                                    "title": "8b - Challenged terraced workers"
+                                },
+                                {
+                                    "field": "oac_8c",
+                                    "fieldfx": "round(sum(case when oac_group=25 then pop__17 else 0 end))",
+                                    "title": "8c - Hard-pressed ageing workers"
+                                },
+                                {
+                                    "field": "oac_8d",
+                                    "fieldfx": "round(sum(case when oac_group=26 then pop__17 else 0 end))",
+                                    "title": "8d - Migration and churn"
+                                },
+                                {
+                                    "field": "oac_total",
+                                    "fieldfx": "round(sum(case when oac_group>0 then pop__17 else 0 end))",
+                                    "title": "Total"
+                                }
+                            ],
+                            "agg": {
+                                "share15": {
+                                    "class": "_report",
+                                    "title": "% with 15 min",
+                                    "type": "integer",
+                                    "rows": [
+                                        "100*min15.oac_1a/min15.oac_total",
+                                        "100*min15.oac_1b/min15.oac_total",
+                                        "100*min15.oac_1c/min15.oac_total",
+                                        "100*min15.oac_2a/min15.oac_total",
+                                        "100*min15.oac_2b/min15.oac_total",
+                                        "100*min15.oac_2c/min15.oac_total",
+                                        "100*min15.oac_2d/min15.oac_total",
+                                        "100*min15.oac_3a/min15.oac_total",
+                                        "100*min15.oac_3b/min15.oac_total",
+                                        "100*min15.oac_3c/min15.oac_total",
+                                        "100*min15.oac_3d/min15.oac_total",
+                                        "100*min15.oac_4a/min15.oac_total",
+                                        "100*min15.oac_4b/min15.oac_total",
+                                        "100*min15.oac_4c/min15.oac_total",
+                                        "100*min15.oac_5a/min15.oac_total",
+                                        "100*min15.oac_5b/min15.oac_total",
+                                        "100*min15.oac_6a/min15.oac_total",
+                                        "100*min15.oac_6b/min15.oac_total",
+                                        "100*min15.oac_7a/min15.oac_total",
+                                        "100*min15.oac_7b/min15.oac_total",
+                                        "100*min15.oac_7c/min15.oac_total",
+                                        "100*min15.oac_7d/min15.oac_total",
+                                        "100*min15.oac_8a/min15.oac_total",
+                                        "100*min15.oac_8b/min15.oac_total",
+                                        "100*min15.oac_8c/min15.oac_total",
+                                        "100*min15.oac_8d/min15.oac_total"
+                                    ],
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                "oac_uk_total": {
+                                    "title": "UK %",
+                                    "class": "_report",
+                                    "type": "numeric",
+                                    "rows": [
+                                        "uk.oac_1a*100/uk.oac_total",
+                                        "uk.oac_1b*100/uk.oac_total",
+                                        "uk.oac_1c*100/uk.oac_total",
+                                        "uk.oac_2a*100/uk.oac_total",
+                                        "uk.oac_2b*100/uk.oac_total",
+                                        "uk.oac_2c*100/uk.oac_total",
+                                        "uk.oac_2d*100/uk.oac_total",
+                                        "uk.oac_3a*100/uk.oac_total",
+                                        "uk.oac_3b*100/uk.oac_total",
+                                        "uk.oac_3c*100/uk.oac_total",
+                                        "uk.oac_3d*100/uk.oac_total",
+                                        "uk.oac_4a*100/uk.oac_total",
+                                        "uk.oac_4b*100/uk.oac_total",
+                                        "uk.oac_4c*100/uk.oac_total",
+                                        "uk.oac_5a*100/uk.oac_total",
+                                        "uk.oac_5b*100/uk.oac_total",
+                                        "uk.oac_6a*100/uk.oac_total",
+                                        "uk.oac_6b*100/uk.oac_total",
+                                        "uk.oac_7a*100/uk.oac_total",
+                                        "uk.oac_7b*100/uk.oac_total",
+                                        "uk.oac_7c*100/uk.oac_total",
+                                        "uk.oac_7d*100/uk.oac_total",
+                                        "uk.oac_8a*100/uk.oac_total",
+                                        "uk.oac_8b*100/uk.oac_total",
+                                        "uk.oac_8c*100/uk.oac_total",
+                                        "uk.oac_8d*100/uk.oac_total"
+                                    ],
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 1
+                                    }
+                                },
+                                "oac_index": {
+                                    "title": "OAC Profile Index",
+                                    "type": "integer",
+                                    "class": "_report",
+                                    "formatter": "progress",
+                                    "formatterParams": {
+                                        "color": [
+                                            "#2196f3",
+                                            "orange",
+                                            "red"
+                                        ],
+                                        "max": 250
+                                    },
+                                    "width": 200,
+                                    "sorter": "number",
+                                    "rows": [
+                                        "uk.oac_total*(100*min15.oac_1a/min15.oac_total)/uk.oac_1a",
+                                        "uk.oac_total*(100*min15.oac_1b/min15.oac_total)/uk.oac_1b",
+                                        "uk.oac_total*(100*min15.oac_1c/min15.oac_total)/uk.oac_1c",
+                                        "uk.oac_total*(100*min15.oac_2a/min15.oac_total)/uk.oac_2a",
+                                        "uk.oac_total*(100*min15.oac_2b/min15.oac_total)/uk.oac_2b",
+                                        "uk.oac_total*(100*min15.oac_2c/min15.oac_total)/uk.oac_2c",
+                                        "uk.oac_total*(100*min15.oac_2d/min15.oac_total)/uk.oac_2d",
+                                        "uk.oac_total*(100*min15.oac_3a/min15.oac_total)/uk.oac_3a",
+                                        "uk.oac_total*(100*min15.oac_3b/min15.oac_total)/uk.oac_3b",
+                                        "uk.oac_total*(100*min15.oac_3c/min15.oac_total)/uk.oac_3c",
+                                        "uk.oac_total*(100*min15.oac_3d/min15.oac_total)/uk.oac_3d",
+                                        "uk.oac_total*(100*min15.oac_4a/min15.oac_total)/uk.oac_4a",
+                                        "uk.oac_total*(100*min15.oac_4b/min15.oac_total)/uk.oac_4b",
+                                        "uk.oac_total*(100*min15.oac_4c/min15.oac_total)/uk.oac_4c",
+                                        "uk.oac_total*(100*min15.oac_5a/min15.oac_total)/uk.oac_5a",
+                                        "uk.oac_total*(100*min15.oac_5b/min15.oac_total)/uk.oac_5b",
+                                        "uk.oac_total*(100*min15.oac_6a/min15.oac_total)/uk.oac_6a",
+                                        "uk.oac_total*(100*min15.oac_6b/min15.oac_total)/uk.oac_6b",
+                                        "uk.oac_total*(100*min15.oac_7a/min15.oac_total)/uk.oac_7a",
+                                        "uk.oac_total*(100*min15.oac_7b/min15.oac_total)/uk.oac_7b",
+                                        "uk.oac_total*(100*min15.oac_7c/min15.oac_total)/uk.oac_7c",
+                                        "uk.oac_total*(100*min15.oac_7d/min15.oac_total)/uk.oac_7d",
+                                        "uk.oac_total*(100*min15.oac_8a/min15.oac_total)/uk.oac_8a",
+                                        "uk.oac_total*(100*min15.oac_8b/min15.oac_total)/uk.oac_8b",
+                                        "uk.oac_total*(100*min15.oac_8c/min15.oac_total)/uk.oac_8c",
+                                        "uk.oac_total*(100*min15.oac_8d/min15.oac_total)/uk.oac_8d"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "type": "tableDefinition",
+                            "title": "OAC Grade Chart",
+                            "display": true,
+                            "target_id": "xyz_table2",
+                            "chart": {
+                                "type": "horizontalBar",
+                                "backgroundColor": [
+                                    "#FBDBB6",
+                                    "#FAD2A4",
+                                    "#F9C991",
+                                    "#F8C07F",
+                                    "#F7B76D",
+                                    "#F6AE5B",
+                                    "#F5A549",
+                                    "#F49D37",
+                                    "#8e24aa"
+                                ],
+                                "borderColor": [
+                                    "#FBDBB6",
+                                    "#FAD2A4",
+                                    "#F9C991",
+                                    "#F8C07F",
+                                    "#F7B76D",
+                                    "#F6AE5B",
+                                    "#F5A549",
+                                    "#F49D37",
+                                    "#00897b"
+                                ],
+                                "field": "min15"
+                            },
+                            "columns": [
+                                {
+                                    "type": "numeric",
+                                    "title": "0-15mins",
+                                    "field": "min15",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_15min",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "field": "oac_1",
+                                    "fieldfx": "round(SUM(CASE WHEN oac_group in (1,2,3) THEN pop__17 ELSE 0 END))",
+                                    "title": "Rural"
+                                },
+                                {
+                                    "field": "oac_2",
+                                    "fieldfx": "round(sum(case when oac_group in (4,5,6,7) then pop__17 else 0 end))",
+                                    "title": "Cosmo"
+                                },
+                                {
+                                    "field": "oac_3",
+                                    "fieldfx": "round(sum(case when oac_group in (8,9,10,11) then pop__17 else 0 end))",
+                                    "title": "Ethnicity"
+                                },
+                                {
+                                    "field": "oac_4",
+                                    "fieldfx": "round(sum(case when oac_group in (12,13,14) then pop__17 else 0 end))",
+                                    "title": "Multicultural"
+                                },
+                                {
+                                    "field": "oac_5",
+                                    "fieldfx": "round(sum(case when oac_group in (15,16) then pop__17 else 0 end))",
+                                    "title": "Urbanites"
+                                },
+                                {
+                                    "field": "oac_6",
+                                    "fieldfx": "round(sum(case when oac_group in (17,18) then pop__17 else 0 end))",
+                                    "title": "Suburbanites"
+                                },
+                                {
+                                    "field": "oac_7",
+                                    "fieldfx": "round(sum(case when oac_group in (19,20,21,22) then pop__17 else 0 end))",
+                                    "title": "Constrained"
+                                },
+                                {
+                                    "field": "oac_8",
+                                    "fieldfx": "round(sum(case when oac_group in (23,24,25,26) then pop__17 else 0 end))",
+                                    "title": "Hard-pressed"
+                                },
+                                {
+                                    "field": "oac_total",
+                                    "fieldfx": "round(sum(case when oac_group>0 then pop__17 else 0 end))",
+                                    "title": "Total"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "tableDefinition",
+                            "title": "OAC Grade",
+                            "display": false,
+                            "class": "_report",
+                            "chart": {
+                                "type": "bar",
+                                "active": true,
+                                "field": "oac_graph",
+                                "class": "_report",
+                                "backgroundColor": [
+                                    "#FBDBB6",
+                                    "#FAD2A4",
+                                    "#F9C991",
+                                    "#F8C07F",
+                                    "#F7B76D",
+                                    "#F6AE5B",
+                                    "#F5A549",
+                                    "#F49D37",
+                                    "#8e24aa"
+                                ],
+                                "borderColor": [
+                                    "#FBDBB6",
+                                    "#FAD2A4",
+                                    "#F9C991",
+                                    "#F8C07F",
+                                    "#F7B76D",
+                                    "#F6AE5B",
+                                    "#F5A549",
+                                    "#F49D37",
+                                    "#00897b"
+                                ]
+                            },
+                            "columns": [
+                                {
+                                    "type": "numeric",
+                                    "title": "0-15mins",
+                                    "field": "min15",
+                                    "lookup": {
+                                        "table_a": "tsh.uk_tsh_restrict_network_plan",
+                                        "table_b": "geodata.uk_glx_geodata_hex_1k",
+                                        "geom_a": "isoline_15min",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "numeric",
+                                    "field": "uk",
+                                    "aspatial": "oac_1, oac_2, oac_3, oac_4, oac_5, oac_6, oac_7, oac_8, oac_total FROM geodata.mv_uk_glx_geodata_demographics_uk_regions where region = 'UK_avg'"
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "field": "oac_1",
+                                    "fieldfx": "round(SUM(CASE WHEN oac_group in (1,2,3) THEN pop__17 ELSE 0 END))",
+                                    "title": "1 - Rural Residents"
+                                },
+                                {
+                                    "field": "oac_2",
+                                    "fieldfx": "round(sum(case when oac_group in (4,5,6,7) then pop__17 else 0 end))",
+                                    "title": "2 - Cosmopolitans"
+                                },
+                                {
+                                    "field": "oac_3",
+                                    "fieldfx": "round(sum(case when oac_group in (8,9,10,11) then pop__17 else 0 end))",
+                                    "title": "3 - Ethnicity central"
+                                },
+                                {
+                                    "field": "oac_4",
+                                    "fieldfx": "round(sum(case when oac_group in (12,13,14) then pop__17 else 0 end))",
+                                    "title": "4 - Multicultural metropolitans"
+                                },
+                                {
+                                    "field": "oac_5",
+                                    "fieldfx": "round(sum(case when oac_group in (15,16) then pop__17 else 0 end))",
+                                    "title": "5 - Urbanites"
+                                },
+                                {
+                                    "field": "oac_6",
+                                    "fieldfx": "round(sum(case when oac_group in (17,18) then pop__17 else 0 end))",
+                                    "title": "6 - Suburbanites"
+                                },
+                                {
+                                    "field": "oac_7",
+                                    "fieldfx": "round(sum(case when oac_group in (19,20,21,22) then pop__17 else 0 end))",
+                                    "title": "7 - Constrained city dwellers"
+                                },
+                                {
+                                    "field": "oac_8",
+                                    "fieldfx": "round(sum(case when oac_group in (23,24,25,26) then pop__17 else 0 end))",
+                                    "title": "8 - Hard-pressed living"
+                                },
+                                {
+                                    "field": "oac_total",
+                                    "fieldfx": "round(sum(case when oac_group>0 then pop__17 else 0 end))",
+                                    "title": "Total"
+                                }
+                            ],
+                            "agg": {
+                                "oac_graph": {
+                                    "title": "OAC Graph",
+                                    "type": "integer",
+                                    "class": "_report",
+                                    "formatter": "progress",
+                                    "field": "min15",
+                                    "formatterParams": {
+                                        "strokeColor": [
+                                            "rgba(211, 47, 47, 0.7)",
+                                            "rgba(56, 142, 60, 0.7)"
+                                        ],
+                                        "max": 200,
+                                        "legend": true,
+                                        "legendAlign": "right"
+                                    },
+                                    "width": 200,
+                                    "sorter": "number",
+                                    "rows": [
+                                        "uk.oac_total*(100*min15.oac_1/min15.oac_total)/uk.oac_1",
+                                        "uk.oac_total*(100*min15.oac_2/min15.oac_total)/uk.oac_2",
+                                        "uk.oac_total*(100*min15.oac_3/min15.oac_total)/uk.oac_3",
+                                        "uk.oac_total*(100*min15.oac_4/min15.oac_total)/uk.oac_4",
+                                        "uk.oac_total*(100*min15.oac_5/min15.oac_total)/uk.oac_5",
+                                        "uk.oac_total*(100*min15.oac_6/min15.oac_total)/uk.oac_6",
+                                        "uk.oac_total*(100*min15.oac_7/min15.oac_total)/uk.oac_7",
+                                        "uk.oac_total*(100*min15.oac_8/min15.oac_total)/uk.oac_8"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

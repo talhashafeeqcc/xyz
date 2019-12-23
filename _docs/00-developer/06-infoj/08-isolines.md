@@ -1,7 +1,5 @@
 ---
 title: Isolines
-subtitle: Introduction to isolines
-tag: developer
 tags: [developer]
 layout: root.html
 ---

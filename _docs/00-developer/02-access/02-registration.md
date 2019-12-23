@@ -1,7 +1,5 @@
 ---
 title: User Account Registration
-subtitle: User Account Registration
-tag: developer
 tags: [developer]
 layout: root.html
 ---

@@ -1,8 +1,5 @@
 ---
 title: Security
-subtitle: Security
-class: first
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

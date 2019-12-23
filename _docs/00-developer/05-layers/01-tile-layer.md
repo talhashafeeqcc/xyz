@@ -1,7 +1,5 @@
 ---
 title: Tile Layer
-subtitle: Tile Layer
-tag: developer
 tags: [developer]
 layout: root.html
 ---

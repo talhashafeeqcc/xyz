@@ -1,7 +1,5 @@
 ---
 title: Locate
-subtitle: Locate
-tag: developer
 tags: [developer]
 layout: root.html
 

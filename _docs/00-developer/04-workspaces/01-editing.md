@@ -1,7 +1,5 @@
 ---
 title: Editing
-subtitle: Editing Workspace
-tag: developer
 tags: [developer]
 layout: root.html
 

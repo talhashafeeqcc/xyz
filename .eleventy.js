@@ -1,6 +1,6 @@
-module.exports = function (eleventyConfig) {
+const markdownIt = require("markdown-it");
 
-  let markdownIt = require("markdown-it");
+module.exports = function (eleventyConfig) {
   
   eleventyConfig.setLibrary("md", markdownIt({
     html: true,
@@ -18,7 +18,14 @@ module.exports = function (eleventyConfig) {
       else return 0;
     })
 
-    _collection.forEach(entry => entry.data.level = entry.inputPath.split('/').length)
+    let currentGroup;
+    _collection.forEach(entry => {
+      let path = entry.inputPath.split('/');
+      let group = path[path.length - 2];
+      entry.data.level = path.length;
+      if (group !== currentGroup) entry.data.class = '__' + entry.data.level;
+      currentGroup = group;
+    })
 
     _collection.forEach(entry => entry.data.tag = entry.data.tags[0])
 

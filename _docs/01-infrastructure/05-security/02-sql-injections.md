@@ -1,7 +1,5 @@
 ---
 title: SQL injections
-subtitle: Security
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

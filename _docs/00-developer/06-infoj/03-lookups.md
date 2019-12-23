@@ -1,7 +1,5 @@
 ---
 title: Lookups
-subtitle: Lookups
-tag: developer
 tags: [developer]
 layout: root.html
 ---

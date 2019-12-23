@@ -1,7 +1,5 @@
 ---
 title: Gazetteer
-subtitle: This document covers the Introduction of Gazetteer
-tag: developer
 tags: [developer]
 layout: root.html
 ---

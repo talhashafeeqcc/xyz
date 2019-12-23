@@ -1,8 +1,5 @@
 ---
 title: Introduction
-subtitle: Dependencies
-class: first
-tag: infrastructure
 tags: [infrastructure]
 layout: root.html
 

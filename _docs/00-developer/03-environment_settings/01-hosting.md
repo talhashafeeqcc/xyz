@@ -1,7 +1,5 @@
 ---
 title: Hosting
-subtitle: Hosting
-tag: developer
 tags: [developer]
 layout: root.html
 ---

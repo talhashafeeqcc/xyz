@@ -1,7 +1,5 @@
 ---
 title: Title
-subtitle: Title
-tag: developer
 tags: [developer]
 layout: root.html
 

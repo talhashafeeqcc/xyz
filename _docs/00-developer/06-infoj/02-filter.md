@@ -1,7 +1,5 @@
 ---
 title: Filter
-subtitle: Filter
-
 tags: [developer]
 layout: root.html
 ---
