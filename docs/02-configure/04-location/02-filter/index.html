@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter</title>
+  <style>
+
+    .grid {
+      display: block;
+      margin: 20px;
+      font-family: system-ui;
+      display:grid;
+      grid-column-gap: 15px;
+      grid-template-columns: 1fr 5fr;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .grid > .toggle {
+        display: none;
+        border-right: 2px solid #000;
+        padding: 5px;
+    }
+
+    .grid > .toggle > .burger {
+      border-top: 2px solid #eee;
+      margin-top: 5px;
+      box-shadow: 1px 1px 1px #999;
+    }
+
+    .grid > .toggle:hover {
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 900px) {
+      .grid {
+        grid-template-columns: 30px 5fr;
+        margin: 0px;
+      }
+
+      .grid > .nav {
+        display: none;
+      }
+
+      .grid > .toggle {
+        display: block;
+      }
+    }
+
+    ._grid {
+      grid-template-columns: 1fr 5fr;
+    }
+
+    ._grid > .nav {
+      display: block;
+    }
+
+    ._grid > .toggle {
+      display: none;
+    }
+
+    .grid > .nav {
+      grid-column: 1;
+      padding-inline-start: 0px;
+      list-style-type: none;
+    }
+
+    .grid > .content {
+      grid-column: 2/4;
+      padding-left: 20px;
+      border-left: 1px solid #ddd;
+    }
+
+    .active {
+      font-weight: bold;
+    }
+
+    a {
+      text-decoration: none;
+      white-space: nowrap;
+      color: #333;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      margin-top: 0.5em;
+      line-height: 1.5;
+    }
+
+    li {
+      line-height: 1.5;
+    }
+
+    li._1 {
+      padding-left: 0px;
+    }
+
+    li._2 {
+      padding-left: 0px;
+    }
+
+    li._3 {
+      padding-left: 0px;
+    }
+
+    li._4 {
+      padding-left: 0px;
+    }
+
+    li._5 {
+      padding-left: 20px;
+    }
+
+    li.__5 {
+      padding-left: 0px;
+    }
+
+    li._6 {
+      padding-left: 40px;
+    }
+
+    li.__6 {
+      padding-left: 20px;
+    }
+
+    pre {
+      display: block;
+      font-family: monospace;
+      white-space: pre;
+      margin: 1em 0px;
+      padding: 20px;
+      box-shadow: 0px 0px 2px #555;
+      overflow-x: auto;
+    }
+
+    pre > code {
+      font-family: monospace;
+    }
+
+    .content a {
+      color: #090;
+    }
+
+    .content img {
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="grid">
+
+    <div id="toggle" class="toggle"><div class="burger"></div><div class="burger"></div><div class="burger"></div></div>
+
+    <ul class="nav">
+
+      <li>
+        <a style="font-weight: bold; font-size: 30px;" href="/xyz/docs">XYZ</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/02-configure/00-configure/">Configure</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/01-workspace/00-workspace/">Workspace</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/01-editing/">Editing</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/02-access-restrictions/">Access Restrictions & Filters</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/03-locate/">Locate</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/04-title/">Title</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/05-workspace-checks/">Workspace Checks</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/02-locale/00-locale/">Locale</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/03-layer/00-layers/">Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/01-tile-layer/">Tile Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/02-postgis-layer/">PostGIS Data Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/03-cluster-layer/">Cluster Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/04-geojson-layer/">GeoJson Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/05-vector-tile-mvt-layer/">MapBox Vector Tile (MVT) Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/06-grid-hex/">Grid (Hex) Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/07-filter/">Filter</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/08-tables/">Tables</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/09-charts/">Charts</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/04-location/00-infoj/">Location</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/01-groups/">Groups</a>
+      </li>
+      
+      
+      
+      <li class="_5  active">
+        <a href="/xyz/docs/02-configure/04-location/02-filter/">Filter</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/03-lookups/">Lookups</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/04-withSelect/">With Select</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/05-tabledefinition/">Table Definition</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/06-orderedlist/">Ordered List</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/07-geometry/">Geometry</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/08-isolines/">Isolines</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/09-locations/">Locations</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/10-clusterArea/">Cluster Area</a>
+      </li>
+      
+      
+      
+      <li class="_6 __6 ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/00-charts/">Charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/01-cakeChart/">Cake charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/02-polarChart/">Polar charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/03-radarChart/">Radar charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/04-simpleChart/">Simple charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/05-stackedChart/">Stacked charts</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/05-gazetteer/00-gazetteer/">Gazetteer</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </ul>
+
+    <div class="content">
+      <p>Layers which support locations can be filtered. Filter which are defined for entries in the layer's infoj array can be selected from a dropdown in the layers filter panel.</p>
+<p>Depending on the type of the entry, different filters are supported. Setting a filter will reload the layer not showing the filtered out locations in the map.</p>
+<p><code>&quot;filter&quot;: &quot;like&quot;</code></p>
+<p>Like filter allow items where the filter field must begin with the filter term.</p>
+<p><code>&quot;filter&quot;: &quot;match&quot;</code></p>
+<p>Filter locations where the value of the filter field must exactly match the filter term.</p>
+<p><code>&quot;filter&quot;: &quot;date&quot;</code></p>
+<p>Allowing to filter locations with date fields according to the date being before or after a date specified in the filter. Input value is allowed 2 decimals for numeric data.</p>
+<p><code>&quot;filter&quot;: &quot;numeric&quot;</code></p>
+<p>Allowing to filter locations with numeric fields with values being greater or lesser than a number defined in the filter.</p>
+<p>Numeric data types allow for 2 decimal input.</p>
+<pre><code class="language-text">&quot;filter&quot;: {
+  &quot;in&quot;: [
+    &quot;Class A&quot;,
+    &quot;Class B&quot;,
+    &quot;Class C&quot;
+  ]
+}
+</code></pre>
+<p>Filtering by checkbox adds checkboxes for each value added to &quot;in&quot; array within filter object. Applied filters are logically conjunctive.</p>
+<p><code>&quot;filter&quot;: &quot;boolean&quot;</code></p>
+<p>This filter works with <em>boolean data type</em>. Once enabled it displays a checkbox set to <code>TRUE</code> by default and updates the map. If unchecked it updates the map to filter <code>FALSE</code> fields values. In order to disable the filter it should be cleared.</p>
+
+    </div>
+
+  </div>
+
+</body>
+
+<script>
+    const toggle = document.getElementById('toggle');
+
+    toggle.onclick = e => { e.target.parentElement.classList.add('_grid'); };
+</script>
+
+</html>

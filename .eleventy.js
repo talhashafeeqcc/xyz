@@ -8,7 +8,9 @@ module.exports = function (eleventyConfig) {
     linkify: true
   }));
 
-  eleventyConfig.addPassthroughCopy('/_docs/**/*.png');
+  eleventyConfig.addPassthroughCopy('./_docs/**/*.png');
+
+  eleventyConfig.addPassthroughCopy('./_docs/**/*.jpg');
 
   eleventyConfig.addCollection('posts', collection => {
 
@@ -19,15 +21,15 @@ module.exports = function (eleventyConfig) {
     })
 
     let currentGroup;
+
     _collection.forEach(entry => {
       let path = entry.inputPath.split('/');
       let group = path[path.length - 2];
       entry.data.level = path.length;
       if (group !== currentGroup) entry.data.class = '__' + entry.data.level;
       currentGroup = group;
+      entry.data.tag = entry.data.tags && entry.data.tags[0];
     })
-
-    _collection.forEach(entry => entry.data.tag = entry.data.tags[0])
 
     return _collection;
   });

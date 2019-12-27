@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Introduction</title>
+  <title></title>
   <style>
 
     .grid {
@@ -14,6 +14,8 @@
       display:grid;
       grid-column-gap: 15px;
       grid-template-columns: 1fr 5fr;
+      max-width: 1100px;
+      margin: auto;
     }
 
     .grid > .toggle {
@@ -67,6 +69,8 @@
 
     .grid > .content {
       grid-column: 2/4;
+      padding-left: 20px;
+      border-left: 1px solid #ddd;
     }
 
     .active {
@@ -77,6 +81,15 @@
       text-decoration: none;
       white-space: nowrap;
       color: #333;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      margin-top: 0.5em;
+      line-height: 1.5;
     }
 
     li {
@@ -103,16 +116,15 @@
       padding-left: 20px;
     }
 
+    li.__5 {
+      padding-left: 0px;
+    }
+
     li._6 {
       padding-left: 40px;
     }
 
-    li.first {
-      padding-left: 0px;
-      margin-top: 10px;
-    }
-
-    li.second {
+    li.__6 {
       padding-left: 20px;
     }
 
@@ -123,8 +135,7 @@
       margin: 1em 0px;
       padding: 20px;
       box-shadow: 0px 0px 2px #555;
-      border-radius: 5px;
-      overflow-x: scroll;
+      overflow-x: auto;
     }
 
     pre > code {
@@ -137,6 +148,8 @@
 
     .content img {
       max-width: 100%;
+      display: block;
+      margin: 0 auto;
     }
   </style>
 
@@ -150,12 +163,46 @@
 
     <ul class="nav">
 
+      <li>
+        <a style="font-weight: bold; font-size: 30px;" href="/xyz/docs">XYZ</a>
+      </li>
+      
+      
+      
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/01-deploy/00-deploy/">Deploy</a>
+      </li>
       
       
       
       
-      <li class="_4  ">
-        <a href="/xyz/docs/00-developer/00-introduction/">Developer</a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/02-configure/00-introduction/">Configure</a>
       </li>
       
       
@@ -230,30 +277,8 @@
       
       
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <li class="_4  ">
-        <a href="/xyz/docs/01-infrastructure/00-infrastructure/">Infrastructure</a>
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/03-develop/00-infrastructure/">Infrastructure</a>
       </li>
       
       
@@ -278,16 +303,8 @@
       
       
       
-      
-      
-      
-      
-      
-      
-      
-      
-      <li class="_4  ">
-        <a href="/xyz/docs/02-design/00-design/">Design</a>
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/04-design/00-design/">Design</a>
       </li>
       
       
@@ -296,14 +313,20 @@
       
       
       
-      <li class="_3  ">
-        <a href="/xyz/docs/04-how_to_doc/">How to Document</a>
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/05-mapp/00-mapp/">Mapp</a>
       </li>
       
       
       
-      <li class="_3  ">
-        <a href="/xyz/docs/05-release-notes/">Release Notes</a>
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/06-document/00-document/">How to Document</a>
+      </li>
+      
+      
+      
+      <li class="_3 __3 active">
+        <a href="/xyz/docs/"></a>
       </li>
       
       
@@ -311,18 +334,23 @@
     </ul>
 
     <div class="content">
-      <h2>XYZ</h2>
-      
-<p>
-    The project documentation aims to give an overview of the project structure. Provide guides for configuration and deployment recipes.
-</p>
+      <h2>Open source javascript library and middleware for spatial data and application interfaces.</h2>
+<p>XYZ is a combination of node.js middleware and client libraries for building web applications for the analysis of spatial data.</p>
+<p>The XYZ middleware is a collection of RESTful endpoints which provide secure interfaces to spatial data sources.</p>
+<h3>Deploy</h3>
+<p>This section details how to deploy the middleware to different platforms, provide environment settings for database connections, and securing access via Access Control Lists.</p>
+<h3>Configure</h3>
+<p>Workspaces are used to configure locales, layers and locations in connected data sources. The workspace configuration defines how spatial data is presented in maps, tables, or charts created through the XYZ library.</p>
+<h3>Develop</h3>
+<p>User will primarily interact with spatial data interfaces through views which facilitate the XYZ library to communicate with the middleware. This section gives an overview of library methods as well as the various API endpoints providing access to connected data sources.</p>
+<p>Being open source we encourage developers to contribute to the XYZ project. Customization however can be achieved without the need to alter the core code base. Endpoints may be extended with stored scripts and custom views may be provided as a combination of markup and javascript.</p>
+<h3>Design</h3>
+<p>A collection of interface control elements with a consistent look and feel to ease the development of custom application views.</p>
+<h3>Mapp</h3>
+<p>A default user interface for desktop and mobile browser. This section provides a user guide to the functionality provided by the Mapp interface.</p>
+<h3>Document</h3>
+<p>Made possible with eleventy. This page explains how to the XYZ project documentation contained in the gh-pages branch of the XYZ repository can be run locally.</p>
 
-<p class="codepen" data-height="800" data-theme-id="light" data-default-tab="result" data-user="dbauszus-glx" data-slug-hash="ExxJLgg" style="height: 800px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="XYZ Dev Desktop">
-    <span>See the Pen <a href="https://codepen.io/dbauszus-glx/pen/ExxJLgg">
-    XYZ Dev Desktop</a> by dbauzus-glx (<a href="https://codepen.io/dbauszus-glx">@dbauszus-glx</a>)
-    on <a href="https://codepen.io">CodePen</a>.</span>
-  </p>
-  <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
     </div>
 
   </div>

@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid (Hex) Layer</title>
+  <style>
+
+    .grid {
+      display: block;
+      margin: 20px;
+      font-family: system-ui;
+      display:grid;
+      grid-column-gap: 15px;
+      grid-template-columns: 1fr 5fr;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .grid > .toggle {
+        display: none;
+        border-right: 2px solid #000;
+        padding: 5px;
+    }
+
+    .grid > .toggle > .burger {
+      border-top: 2px solid #eee;
+      margin-top: 5px;
+      box-shadow: 1px 1px 1px #999;
+    }
+
+    .grid > .toggle:hover {
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 900px) {
+      .grid {
+        grid-template-columns: 30px 5fr;
+        margin: 0px;
+      }
+
+      .grid > .nav {
+        display: none;
+      }
+
+      .grid > .toggle {
+        display: block;
+      }
+    }
+
+    ._grid {
+      grid-template-columns: 1fr 5fr;
+    }
+
+    ._grid > .nav {
+      display: block;
+    }
+
+    ._grid > .toggle {
+      display: none;
+    }
+
+    .grid > .nav {
+      grid-column: 1;
+      padding-inline-start: 0px;
+      list-style-type: none;
+    }
+
+    .grid > .content {
+      grid-column: 2/4;
+      padding-left: 20px;
+      border-left: 1px solid #ddd;
+    }
+
+    .active {
+      font-weight: bold;
+    }
+
+    a {
+      text-decoration: none;
+      white-space: nowrap;
+      color: #333;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      margin-top: 0.5em;
+      line-height: 1.5;
+    }
+
+    li {
+      line-height: 1.5;
+    }
+
+    li._1 {
+      padding-left: 0px;
+    }
+
+    li._2 {
+      padding-left: 0px;
+    }
+
+    li._3 {
+      padding-left: 0px;
+    }
+
+    li._4 {
+      padding-left: 0px;
+    }
+
+    li._5 {
+      padding-left: 20px;
+    }
+
+    li.__5 {
+      padding-left: 0px;
+    }
+
+    li._6 {
+      padding-left: 40px;
+    }
+
+    li.__6 {
+      padding-left: 20px;
+    }
+
+    pre {
+      display: block;
+      font-family: monospace;
+      white-space: pre;
+      margin: 1em 0px;
+      padding: 20px;
+      box-shadow: 0px 0px 2px #555;
+      overflow-x: auto;
+    }
+
+    pre > code {
+      font-family: monospace;
+    }
+
+    .content a {
+      color: #090;
+    }
+
+    .content img {
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="grid">
+
+    <div id="toggle" class="toggle"><div class="burger"></div><div class="burger"></div><div class="burger"></div></div>
+
+    <ul class="nav">
+
+      <li>
+        <a style="font-weight: bold; font-size: 30px;" href="/xyz/docs">XYZ</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <li class="_4 __4 ">
+        <a href="/xyz/docs/02-configure/00-configure/">Configure</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/01-workspace/00-workspace/">Workspace</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/01-editing/">Editing</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/02-access-restrictions/">Access Restrictions & Filters</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/03-locate/">Locate</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/04-title/">Title</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/01-workspace/05-workspace-checks/">Workspace Checks</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/02-locale/00-locale/">Locale</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/03-layer/00-layers/">Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/01-tile-layer/">Tile Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/02-postgis-layer/">PostGIS Data Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/03-cluster-layer/">Cluster Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/04-geojson-layer/">GeoJson Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/05-vector-tile-mvt-layer/">MapBox Vector Tile (MVT) Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  active">
+        <a href="/xyz/docs/02-configure/03-layer/06-grid-hex/">Grid (Hex) Layer</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/07-filter/">Filter</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/08-tables/">Tables</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/03-layer/09-charts/">Charts</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/04-location/00-infoj/">Location</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/01-groups/">Groups</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/02-filter/">Filter</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/03-lookups/">Lookups</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/04-withSelect/">With Select</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/05-tabledefinition/">Table Definition</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/06-orderedlist/">Ordered List</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/07-geometry/">Geometry</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/08-isolines/">Isolines</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/09-locations/">Locations</a>
+      </li>
+      
+      
+      
+      <li class="_5  ">
+        <a href="/xyz/docs/02-configure/04-location/10-clusterArea/">Cluster Area</a>
+      </li>
+      
+      
+      
+      <li class="_6 __6 ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/00-charts/">Charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/01-cakeChart/">Cake charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/02-polarChart/">Polar charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/03-radarChart/">Radar charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/04-simpleChart/">Simple charts</a>
+      </li>
+      
+      
+      
+      <li class="_6  ">
+        <a href="/xyz/docs/02-configure/04-location/11-charts/05-stackedChart/">Stacked charts</a>
+      </li>
+      
+      
+      
+      <li class="_5 __5 ">
+        <a href="/xyz/docs/02-configure/05-gazetteer/00-gazetteer/">Gazetteer</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </ul>
+
+    <div class="content">
+      <p>Hex grid layers need to be prepared in a PostGIS database. It is recommended to create a series of grid layer for different zoom level. Grid layers are styled with a special bi-variate theme. The grid panel allows to control which field should be used to define the size of a grid cell and a second field is applied to colour grid cells.</p>
+<p><img src="../grid_hex_layer_1.png" alt=""></p>
+<p>Grid layers do not have locations and grid cells can not be selected.</p>
+<h3><strong>Grid geometry</strong></h3>
+<p><code>&quot;geom&quot;: &quot;geom&quot;</code></p>
+<p>Grid cells require a PostGIS geometry column of the type GEOMETRY(POINT,4326). By default the geom value will be set to 'geom'.</p>
+<h2><strong>Grid fields</strong></h2>
+<p>The fields available for the styling of grid layers must be defined in the <strong>grid_fields</strong> entry.</p>
+<pre><code class="language-text">&quot;grid_fields&quot;: {
+  &quot;Population 2001&quot;: &quot;pop__01&quot;,
+  &quot;Population 2011&quot;: &quot;pop__11&quot;,
+  &quot;Female population&quot;: &quot;gen_female__11&quot;,
+  &quot;Male population&quot;: &quot;gen_male__11&quot;
+}
+</code></pre>
+<p>It is possible to set in the layer entry which fields should be set as the default.</p>
+<p><code>&quot;grid_color&quot;: &quot;pop__11&quot;</code></p>
+<p>The default field to be used for the color scale can be set as <strong>grid_color</strong>.</p>
+<p>&quot;grid_size&quot;: &quot;pop__01&quot;</p>
+<p>The default field to be used for the size scale can be set as <strong>grid_size</strong>.</p>
+<h2>Value distribution</h2>
+<p>The distribution of values is linear between min, avg and max.</p>
+<p>Following method is applied to determine the bounds between the colour bins.</p>
+<p>A grid cell falls into a bin if it's value is smaller than the bin's colour value.</p>
+<pre><code class="language-text">for (var i = 1; i &lt; n; i++) {
+
+  if (i &lt; (n / 2)) {
+    layer.colorBins.push(min + ((avg - min) / (n / 2) * i));
+  }
+
+  if (i === (n / 2)) {
+    layer.colorBins.push(avg);
+  }
+
+  if (i &gt; (n / 2)) {
+    layer.colorBins.push(avg + ((max - avg) / (n / 2) * (i - (n / 2))));
+  }
+      
+}
+
+// with n = 4, min = 0, avg = 3000, max = 30000;
+// yield 1500, 3000, 16500
+
+// with n = 4, min = 1000, avg = 3000, max = 30000;
+// yield 2000, 3000, 16500
+
+// with n = 5, min = 0, avg = 3000, max = 30000;
+// yield 1200, 2400, 8400, 19200
+
+// with n = 5, min = 1000, avg = 3000, max = 30000;
+// yield 1800, 2600, 8400, 19200
+</code></pre>
+
+    </div>
+
+  </div>
+
+</body>
+
+<script>
+    const toggle = document.getElementById('toggle');
+
+    toggle.onclick = e => { e.target.parentElement.classList.add('_grid'); };
+</script>
+
+</html>

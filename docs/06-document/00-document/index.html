@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
+  <title>Document</title>
   <style>
 
     .grid {
@@ -315,13 +315,13 @@
       
       
       
-      <li class="_4 __4 ">
+      <li class="_4 __4 active">
         <a href="/xyz/docs/06-document/00-document/">Document</a>
       </li>
       
       
       
-      <li class="_3 __3 active">
+      <li class="_3 __3 ">
         <a href="/xyz/docs/"></a>
       </li>
       
@@ -330,22 +330,27 @@
     </ul>
 
     <div class="content">
-      <h2>Open source javascript library and middleware for spatial data and application interfaces.</h2>
-<p>XYZ is a combination of node.js middleware and client libraries for building web applications for the analysis of spatial data.</p>
-<p>The XYZ middleware is a collection of RESTful endpoints which provide secure interfaces to spatial data sources.</p>
-<h3>Deploy</h3>
-<p>This section details how to deploy the middleware to different platforms, provide environment settings for database connections, and securing access via Access Control Lists.</p>
-<h3>Configure</h3>
-<p>Workspaces are used to configure locales, layers and locations in connected data sources. The workspace configuration defines how spatial data is presented in maps, tables, or charts created through the XYZ library.</p>
-<h3>Develop</h3>
-<p>User will primarily interact with spatial data interfaces through views which facilitate the XYZ library to communicate with the middleware. This section gives an overview of library methods as well as the various API endpoints providing access to connected data sources.</p>
-<p>Being open source we encourage developers to contribute to the XYZ project. Customization however can be achieved without the need to alter the core code base. Endpoints may be extended with stored scripts and custom views may be provided as a combination of markup and javascript.</p>
-<h3>Design</h3>
-<p>A collection of interface control elements with a consistent look and feel to ease the development of custom application views.</p>
-<h3>Mapp</h3>
-<p>A default user interface for desktop and mobile browser. This section provides a user guide to the functionality provided by the Mapp interface.</p>
-<h3>Document</h3>
-<p>Made possible with eleventy. This page explains how to the XYZ project documentation contained in the gh-pages branch of the XYZ repository can be run locally.</p>
+      <h1>How to Document</h1>
+<p>This article gives an overview of the XYZ documentation. Please refer to the information in order to contribute with new articles or edits to existing pages.</p>
+<h2>gh-pages</h2>
+<p>The gh-pages branch of the XYZ repository contains all resources for this documentation. Pull requests or commits to this branch will update the documentation pages which are hosted through GitHub Pages.</p>
+<h2>eleventy</h2>
+<p>We use <a href="https://github.com/11ty/eleventy">Eleventy</a> to compile markdown and other resources into static pages.</p>
+<p>eleventy must be installed via npm, either globally or into the current directory.</p>
+<pre><code>npm install @11ty/eleventy
+</code></pre>
+<p>Compile and serve the documentation pages locally by executing the eleventy module via npx.</p>
+<pre><code>npx eleventy --input ./_docs --output ./docs --formats=html,md --pathprefix=/xyz/docs --serve
+</code></pre>
+<p>While acting as a local webserver with the --serve flag eleventy will immediately compile changes detected in the input directory. The pathprefix option deploys the site to a subdirectory which is particularly helpful with GitHub pages.</p>
+<p><img src="../gh-pages.png" alt=""></p>
+<p>Compiling the input directory /_docs will write html to the output directory /docs for static file hosting.</p>
+<p>The .eleventy.js file in the root directory is required to order posts based on their file name, apply a markdown-it schema, and pass through images to the output directory.</p>
+<p>Images as shown above should be included in the same directory as the markdown file and referenced like so.</p>
+<p><code>![](../gh-pages.png)</code></p>
+<p>Eleventy will create a folder with an index.html file created from the markdown document in order for the static site navigation to work as expected. The image must therefore be referenced from the parent directory.</p>
+<h3>_includes</h3>
+<p>The _includes directory contains a root.html template which is used to provide navigation and additional styles to compiled documentation pages.</p>
 
     </div>
 
