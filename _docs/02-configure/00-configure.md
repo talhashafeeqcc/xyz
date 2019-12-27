@@ -1,6 +1,6 @@
 ---
 title: Configure
-tags: [configure]
+tags: [configure, root]
 layout: root.html
 
 ---

@@ -25,7 +25,7 @@ module.exports = function (eleventyConfig) {
     _collection.forEach(entry => {
       let path = entry.inputPath.split('/');
       let group = path[path.length - 2];
-      entry.data.level = path.length;
+      entry.data.level = path.length - 3;
       if (group !== currentGroup) entry.data.class = '__' + entry.data.level;
       currentGroup = group;
       entry.data.tag = entry.data.tags && entry.data.tags[0];
