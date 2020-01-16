@@ -32,8 +32,11 @@ dotenv && dotenv.config();
 // Initiate environment module.
 const env = require('./mod/env');
 
+
+return console.log(env);
+
 // Create PostGIS dbs connection pools.
-require('./mod/pg/dbs')();
+//require('./mod/pg/dbs')();
 
 // Create PostgreSQL ACL connection pool.
 require('./mod/pg/acl')();

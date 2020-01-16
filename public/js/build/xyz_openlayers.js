@@ -1764,7 +1764,7 @@ function inBBox(pt, bbox) {
   \**********************************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/helpers/main.es.js (<- Module is referenced from these modules with unsupported syntax: ./node_modules/@turf/point-on-feature/main.js (referenced with cjs require)) */
-/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/nearest-point/main.es.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/explode/main.es.js */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -69242,7 +69242,7 @@ module.exports = function(module) {
 
 /***/ "./public/js/index.mjs":
 /*!*******************************************!*\
-  !*** ./public/js/index.mjs + 353 modules ***!
+  !*** ./public/js/index.mjs + 352 modules ***!
   \*******************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/point-on-feature/main.js (<- Module is not an ECMAScript module) */
@@ -69572,7 +69572,9 @@ function paramString(param) {
 
   Object.keys(param).forEach(key => {
     if (param[key]
-      && (param[key].length > 0 || typeof(param[key]) === 'number') || param[key] === true) {
+      && (param[key].length > 0 || typeof(param[key]) === 'number')
+      || param[key] === true
+      || param[key] === 0) {
       arr.push(encodeURI(key + '=' + param[key]));
     }
   });
@@ -69656,13 +69658,13 @@ function scrolly(el) {
     bar.style.height = track.clientHeight * el.clientHeight / el.scrollHeight + 'px';
     bar.style.top = track.clientHeight * el.scrollTop / el.scrollHeight + 'px';
 
-    //clearTimeout(el.dataset.timeout);
+    clearTimeout(el.dataset.timeout);
 
-    /*!el.classList.contains('disable-hover') && el.classList.add('disable-hover');
+    !el.classList.contains('disable-hover') && el.classList.add('disable-hover');
 
     el.dataset.timeout = setTimeout(function() {
       el.classList.remove('disable-hover');
-    }, 500);*/
+    }, 500);
   });
 
   bar.addEventListener('mousedown', e => {
@@ -69965,7 +69967,7 @@ const turf = {
 
     const promise = await fetch(
       _xyz.host +
-      '/workspace/get?' +
+      '/api/workspace/get?' +
       _xyz.utils.paramString({
         token: _xyz.token
       }));
@@ -69981,7 +69983,7 @@ const turf = {
     // XHR to retrieve workspace from host backend.
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', _xyz.host + '/workspace/get?' + _xyz.utils.paramString({
+    xhr.open('GET', _xyz.host + '/api/workspace/get?' + _xyz.utils.paramString({
       token: _xyz.token
     }));
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -116999,7 +117001,11 @@ var Map_Map = /** @class */ (function (_super) {
       if (!tableZ) return source.clear();
 
       //const url = _xyz.host + '/api/layer/mvt/'+tileCoord[0]+'/'+tileCoord[1]+'/'+ String(-tileCoord[2] - 1) +'?' + _xyz.utils.paramString({
-      const url = _xyz.host + '/api/layer/mvt/'+tileCoord[0]+'/'+tileCoord[1]+'/'+ tileCoord[2] +'?' + _xyz.utils.paramString({
+      //const url = _xyz.host + '/api/layer/mvt/'+tileCoord[0]+'/'+tileCoord[1]+'/'+ tileCoord[2] +'?' + _xyz.utils.paramString({
+      const url = _xyz.host + '/api/layer/mvt?' + _xyz.utils.paramString({
+        z: tileCoord[0],
+        x: tileCoord[1],
+        y: tileCoord[2],
         locale: _xyz.workspace.locale.key,
         mapview_srid: _xyz.mapview.srid,
         layer: layer.key,
@@ -121807,36 +121813,11 @@ function panel(layer) {
 
   function showTab() {
 
-    const xhr = new XMLHttpRequest();
-
-    xhr.open('GET', _xyz.host + '/dashboard?' + _xyz.utils.paramString({
-      template: entry.template,
-      locale: _xyz.workspace.locale.key,
-      layer: entry.location.layer.key,
-      table: entry.location.table,
-      id: entry.location.id,
-      token: _xyz.token
-    }));
-
-    xhr.onload = e => {
-
-      entry.layout = e.target.response;
-
-      entry.location.tables.push(entry);
-
-      entry.target = _xyz.dataview.node && _xyz.dataview.node.querySelector('.tab-content') || document.getElementById(entry.target_id);
-
-      if (entry.target) return _xyz.dataview.dashboard(entry);
-
-    };
-
-    xhr.send();
-
-    /*entry.location.tables.push(entry);
+    entry.location.tables.push(entry);
 
     entry.target = _xyz.dataview.node && _xyz.dataview.node.querySelector('.tab-content') || document.getElementById(entry.target_id);
 
-    if (entry.target) _xyz.dataview.dashboard(entry);*/
+    if (entry.target) _xyz.dataview.dashboard(entry);
   }
 
   function removeTab() {
@@ -125062,13 +125043,7 @@ function random_rgba() {
 
     return columns;
 });
-// CONCATENATED MODULE: ./public/js/dataview/createElement.mjs
-/* harmony default export */ var dataview_createElement = (_xyz => param => {
-	console.log(param);
-});
 // CONCATENATED MODULE: ./public/js/dataview/_dataview.mjs
-
-
 
 
 
@@ -125125,9 +125100,7 @@ function random_rgba() {
 
     pgFunction: pgFunction(_xyz),
 
-    groupColumns: groupColumns(_xyz),
-
-    createElement: dataview_createElement(_xyz)
+    groupColumns: groupColumns(_xyz)
 
   };
     
@@ -125255,8 +125228,6 @@ function random_rgba() {
     gazetteer.xhr.setRequestHeader('Content-Type', 'application/json');
     gazetteer.xhr.responseType = 'json';
     gazetteer.xhr.onload = e => {
-
-      console.log(e.target.response);
   
       if (e.target.status !== 200) return;
         

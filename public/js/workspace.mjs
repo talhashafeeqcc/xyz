@@ -10,7 +10,7 @@ export default _xyz => {
 
     const promise = await fetch(
       _xyz.host +
-      '/workspace/get?' +
+      '/api/workspace/get?' +
       _xyz.utils.paramString({
         token: _xyz.token
       }));
@@ -26,7 +26,7 @@ export default _xyz => {
     // XHR to retrieve workspace from host backend.
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', _xyz.host + '/workspace/get?' + _xyz.utils.paramString({
+    xhr.open('GET', _xyz.host + '/api/workspace/get?' + _xyz.utils.paramString({
       token: _xyz.token
     }));
     xhr.setRequestHeader('Content-Type', 'application/json');

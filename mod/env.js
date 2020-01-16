@@ -1,3 +1,7 @@
+const _defaults = require('../workspaces/_defaults');
+
+const _dbs = require('./pg/_dbs');
+
 module.exports = {
 
   port: process.env.PORT || 3000,
@@ -13,7 +17,7 @@ module.exports = {
 
   desktop: process.env.DESKTOP_TEMPLATE ? process.env.DESKTOP_TEMPLATE : null,
   mobile: process.env.MOBILE_TEMPLATE ? process.env.MOBILE_TEMPLATE : null,
-  
+
   // Assign Google Captcha site_key[0] and secret_key[1].
   captcha: process.env.GOOGLE_CAPTCHA && process.env.GOOGLE_CAPTCHA.split('|'),
 
@@ -30,13 +34,13 @@ module.exports = {
 
   pg: {},
 
-  dbs: {},
+  dbs: _dbs,
 
-  _defaults: require('../workspaces/_defaults'),
+  _defaults: _defaults,
 
   workspace_connection: process.env.WORKSPACE,
 
-  workspace: {},
+  workspace: workspace(_defaults.workspace),
 
   CSP: {
 
@@ -84,4 +88,9 @@ function keys() {
 
   return keys;
 
+}
+
+function workspace(workspace) {
+  workspace.locales.zero = _defaults.locale;
+  return workspace
 }
