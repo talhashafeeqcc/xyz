@@ -1,6 +1,8 @@
 const env = require('../../mod/env');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
+
+  env.workspace = await env.workspace;
 
     const locales = JSON.parse(JSON.stringify(env.workspace.locales));
 

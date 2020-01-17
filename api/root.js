@@ -8,6 +8,8 @@ const fetch = require('node-fetch');
 
 module.exports = async (req, res, token = { access: 'public' }) => {
 
+    env.workspace = await env.workspace;
+
     // const md = new Md(req.headers['user-agent']);
 
     // const platform = (md.mobile() === null || md.tablet() !== null) ? 'desktop' : 'mobile';

@@ -2,19 +2,21 @@ const env = require('../../mod/env');
 
 module.exports = async (req, res) => {
 
-    let
-      layer = env.workspace.locales.zero.layers.COUNTRIES,//req.query.layer,
-      table = req.query.table,
-      geom = layer.geom,
-      srid = layer.srid,
-      mapview_srid = req.query.mapview_srid,
-      //filter = req.params.filter,// && JSON.parse(req.query.filter),
-      id = layer.qID || null, //'row_number() over()',
-      x = parseInt(req.query.x),
-      y = parseInt(req.query.y),
-      z = parseInt(req.query.z),
-      m = 20037508.34,
-      r = (m * 2) / (Math.pow(2, z));
+  env.workspace = await env.workspace;
+
+  let
+    layer = env.workspace.locales[req.query.locale].layers.COUNTRIES,//req.query.layer,
+    table = req.query.table,
+    geom = layer.geom,
+    srid = layer.srid,
+    mapview_srid = req.query.mapview_srid,
+    //filter = req.params.filter,// && JSON.parse(req.query.filter),
+    id = layer.qID || null, //'row_number() over()',
+    x = parseInt(req.query.x),
+    y = parseInt(req.query.y),
+    z = parseInt(req.query.z),
+    m = 20037508.34,
+    r = (m * 2) / (Math.pow(2, z));
 
     // SQL filter
     const filter_sql = '';//filter && await sql_filter(filter) || '';

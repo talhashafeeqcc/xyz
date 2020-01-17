@@ -33,7 +33,16 @@ dotenv && dotenv.config();
 const env = require('./mod/env');
 
 
-return console.log(env);
+const _workspace = require('./mod/workspace/get')();
+
+
+return logWorkspace();
+
+async function logWorkspace() {
+
+  let workspace = await _workspace;
+  console.log(workspace);
+}
 
 // Create PostGIS dbs connection pools.
 //require('./mod/pg/dbs')();

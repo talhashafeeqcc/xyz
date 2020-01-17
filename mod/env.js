@@ -1,13 +1,16 @@
-const _defaults = require('../workspaces/_defaults');
+//const _defaults = require('../workspaces/_defaults');
 
-const _dbs = require('./pg/_dbs');
+const _dbs = require('./pg/dbs')();
+
+const _workspace = require('./workspace/get')();
+
+//const _workspace = require('../workspaces/get')();
 
 module.exports = {
 
   port: process.env.PORT || 3000,
 
-  acl_connection: (process.env.PRIVATE || process.env.PUBLIC) ?
-    process.env.PRIVATE || process.env.PUBLIC : null,
+  acl_connection: (process.env.PRIVATE || process.env.PUBLIC) ? process.env.PRIVATE || process.env.PUBLIC : null,
 
   // Global dir expands the domain to create the root path for the application.
   path: process.env.DIR || '',
@@ -16,6 +19,7 @@ module.exports = {
   alias: process.env.ALIAS ? process.env.ALIAS : null,
 
   desktop: process.env.DESKTOP_TEMPLATE ? process.env.DESKTOP_TEMPLATE : null,
+
   mobile: process.env.MOBILE_TEMPLATE ? process.env.MOBILE_TEMPLATE : null,
 
   // Assign Google Captcha site_key[0] and secret_key[1].
@@ -30,17 +34,19 @@ module.exports = {
   // Additional logs will be written to console if env.logs is true.
   logs: process.env.LOG_LEVEL,
 
-  keys: keys(),
+  keys: Object.assign({}, ...Object.keys(process.env)
+    .filter(key => key.split('_')[0] === 'KEY')
+    .map(key => ({ [key.split('_')[1]]: process.env[key] }))),
 
   pg: {},
 
   dbs: _dbs,
 
-  _defaults: _defaults,
+  //_defaults: _defaults,
 
-  workspace_connection: process.env.WORKSPACE,
+  //workspace_connection: process.env.WORKSPACE,
 
-  workspace: workspace(_defaults.workspace),
+  workspace: _workspace,
 
   CSP: {
 
@@ -75,22 +81,3 @@ module.exports = {
   debug: process.env.DEBUG,
 
 };
-
-function keys() {
-
-  const keys = {};
-
-  Object.keys(process.env).forEach(key => {
-    if (key.split('_')[0] === 'KEY') {
-      keys[key.split('_')[1]] = process.env[key];
-    }
-  });
-
-  return keys;
-
-}
-
-function workspace(workspace) {
-  workspace.locales.zero = _defaults.locale;
-  return workspace
-}

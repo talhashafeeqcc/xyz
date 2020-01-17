@@ -21,22 +21,7 @@ module.exports = {
         display: true,
         format: 'tiles',
         URI: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      },
-      "COUNTRIES": {
-        "key": "COUNTRIES",
-        "display": true,
-        "format": "mvt",
-        "dbs": "XYZ",
-        "table": "dev.natural_earth_countries",
-        "geom": "geom_3857",
-        "srid": "3857",
-        "style": {
-            "default": {
-                "strokeColor": "#333333",
-                "fillColor": "#ffffff"
-            }
-        }
-    }
+      }
     },
   },
   layers: {
