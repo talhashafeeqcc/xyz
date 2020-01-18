@@ -4,17 +4,19 @@ const template = require('backtick-template');
 
 const nanoid = require('nanoid');
 
+const Md = require('mobile-detect');
+
 const fetch = require('node-fetch');
 
 module.exports = async (req, res, token = { access: 'public' }) => {
 
     env.workspace = await env.workspace;
 
-    // const md = new Md(req.headers['user-agent']);
+    const md = new Md(req.headers['user-agent']);
 
-    // const platform = (md.mobile() === null || md.tablet() !== null) ? 'desktop' : 'mobile';
-
-    const tmpl = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}/views/desktop.html`) 
+    const tmpl = (md.mobile() === null || md.tablet() !== null) ?
+      await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${env.path}/views/desktop.html`) :
+      await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${env.path}/views/mobile.html`);
 
     const html = template(await tmpl.text(), {
         dir: env.path,
@@ -26,7 +28,6 @@ module.exports = async (req, res, token = { access: 'public' }) => {
         pgworkspace: (env.pg.workspace) && 'true' || '""',
       });
     
-    //Build the template with jsrender and send to client.
-    res.send(html);
+      res.type && res.type('text/html').send(html) || res.send(html);
 
 }

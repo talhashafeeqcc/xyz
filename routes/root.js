@@ -55,7 +55,6 @@ async function view(req, res, token = { access: 'public' }) {
     pgworkspace: (env.pg.workspace) && 'true' || '""',
   });
 
-  //Build the template with jsrender and send to client.
   res.type('text/html').send(html);
 
 };

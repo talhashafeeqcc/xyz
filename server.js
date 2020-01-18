@@ -33,26 +33,6 @@ dotenv && dotenv.config();
 const env = require('./mod/env');
 
 
-const _workspace = require('./mod/workspace/get')();
-
-
-return logWorkspace();
-
-async function logWorkspace() {
-
-  let workspace = await _workspace;
-  console.log(workspace);
-}
-
-// Create PostGIS dbs connection pools.
-//require('./mod/pg/dbs')();
-
-// Create PostgreSQL ACL connection pool.
-require('./mod/pg/acl')();
-
-// Create PostgreSQL Workspace connection pool.
-require('./mod/workspace/init')();
-
 // Set fastify
 const fastify = require('fastify')({
   trustProxy: true,

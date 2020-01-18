@@ -1,10 +1,6 @@
-//const _defaults = require('../workspaces/_defaults');
-
 const _dbs = require('./pg/dbs')();
 
 const _workspace = require('./workspace/get')();
-
-//const _workspace = require('../workspaces/get')();
 
 module.exports = {
 
@@ -41,10 +37,6 @@ module.exports = {
   pg: {},
 
   dbs: _dbs,
-
-  //_defaults: _defaults,
-
-  //workspace_connection: process.env.WORKSPACE,
 
   workspace: _workspace,
 
