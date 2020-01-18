@@ -2,7 +2,7 @@ module.exports = fastify => {
 
   fastify.route({
     method: 'GET',
-    url: '/',
+    url: '/', 
     handler: require('../api/root')
   });
 

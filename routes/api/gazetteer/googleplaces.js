@@ -1,6 +1,6 @@
 const env = require('../../../mod/env');
 
-const fetch = require('../../../mod/fetch');
+const fetch = require('node-fetch');
 
 module.exports = fastify => {
   fastify.route({
@@ -16,11 +16,16 @@ module.exports = fastify => {
     ],
     handler: async (req, res) => {
 
-      const url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${req.query.id}&${env.keys.GOOGLE}`;
-
-      const fetched = await fetch(url);
-
-      if (fetched._err) res.code(500).send(fetched._err);
+      let fetched;
+      
+      try {
+        const response = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${req.query.id}&${env.keys.GOOGLE}`);
+        fetched = await response.json();
+        
+      } catch (err) {
+    
+        res.code(500).send(err);
+      }
 
       res.code(200).send({
         type: 'Point',

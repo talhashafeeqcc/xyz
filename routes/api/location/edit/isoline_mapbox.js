@@ -1,6 +1,6 @@
 const env = require('../../../../mod/env');
 
-const fetch = require('../../../../mod/fetch');
+const fetch = require('node-fetch');
 
 module.exports = fastify => {
 
@@ -33,11 +33,17 @@ module.exports = fastify => {
         profile: req.query.profile || 'driving'
       };
          
-      var q = `https://api.mapbox.com/isochrone/v1/mapbox/${params.profile}/${params.coordinates}?contours_minutes=${params.minutes}&generalize=${params.minutes}&polygons=true&${env.keys.MAPBOX}`;
+      let mapbox_isolines;
       
-      // Fetch results from Google maps places API.
-      const mapbox_isolines = await fetch(q);
-  
+      try {
+        const response = await fetch(`https://api.mapbox.com/isochrone/v1/mapbox/${params.profile}/${params.coordinates}?contours_minutes=${params.minutes}&generalize=${params.minutes}&polygons=true&${env.keys.MAPBOX}`);
+        mapbox_isolines = await response.json();
+        
+      } catch (err) {
+    
+        res.code(500).send(err);
+      }
+
       if(!mapbox_isolines.features) return res.code(202).send({
         msg: 'No catchment found within this time frame.',
         res: mapbox_isolines

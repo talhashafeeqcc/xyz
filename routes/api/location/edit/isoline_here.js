@@ -1,6 +1,6 @@
 const env = require('../../../../mod/env');
 
-const fetch = require('../../../../mod/fetch');
+const fetch = require('node-fetch');
 
 module.exports = fastify => {
 
@@ -41,11 +41,17 @@ module.exports = fastify => {
           (req.query.distance || 1) * 1000 || 1000 :
           600;
 
+      let here_isolines;
+      
+      try {
+        const response = await fetch(`https://isoline.route.api.here.com/routing/7.2/calculateisoline.json?${env.keys.HERE}&mode=${params.type};${params.mode};${params.traffic}&start=geo!${params.coordinates}&range=${params.range}&rangetype=${params.rangetype}`);
+        here_isolines = await response.json();
+        
+      } catch (err) {
+    
+        res.code(500).send(err);
+      }
 
-      var q = `https://isoline.route.api.here.com/routing/7.2/calculateisoline.json?${env.keys.HERE}&mode=${params.type};${params.mode};${params.traffic}&start=geo!${params.coordinates}&range=${params.range}&rangetype=${params.rangetype}`;
-
-      // Fetch results from Google maps places API.
-      const here_isolines = await fetch(q);
 
       if (!here_isolines.response
         || !here_isolines.response.isoline

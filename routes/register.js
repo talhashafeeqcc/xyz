@@ -1,8 +1,6 @@
 const env = require('../mod/env');
 
-const fetch = require('../mod/fetch');
-
-const _fetch = require('node-fetch');
+const fetch = require('node-fetch');
 
 const bcrypt = require('bcrypt-nodejs');
 
@@ -21,7 +19,7 @@ module.exports = fastify => {
     url: '/register',
     handler: async (req, res) => {
 
-      const tmpl = await _fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${env.path}/views/register.html`);
+      const tmpl = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${env.path}/views/register.html`);
 
       const html = template(await tmpl.text(), {
         dir: env.path,
@@ -40,8 +38,10 @@ module.exports = fastify => {
 
       if (env.captcha && env.captcha[1]) {
 
-        const captcha_verification = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${env.captcha[1]}&response=${req.body.captcha}&remoteip=${req.req.ips.pop()}`);
+        const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${env.captcha[1]}&response=${req.body.captcha}&remoteip=${req.req.ips.pop()}`);
 
+        const captcha_verification = await response.json();
+        
         if (captcha_verification.score < 0.6) return res.redirect(env.path + '/login?msg=fail');
 
       }
