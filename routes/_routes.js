@@ -7,6 +7,12 @@ module.exports = fastify => {
   });
 
   fastify.route({
+    method: 'POST',
+    url: '/', 
+    handler: require('../api/root')
+  });
+
+  fastify.route({
     method: 'GET',
     url: '/api/workspace/get',
     handler: require('../api/workspace/get')

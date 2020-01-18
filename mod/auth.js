@@ -1,10 +1,18 @@
 const env = require('./env');
 
+const validate = require('./validate');
+
 const login = require('../api/login');
 
 module.exports = async(req, res, next, access = {}) => {
 
-  console.log(access);
+  if (req.body) {
+    console.log(req.body);
+
+    const something = await validate(req.body);
+
+    return next(req, res);
+  }
 
   if (req.query.token === 'null') {
     delete req.query.token;
@@ -12,13 +20,11 @@ module.exports = async(req, res, next, access = {}) => {
 
   // Public access without token.
   if (!req.query.token && access.public && env.public) {
-    console.log('next');
     return next(req, res);
   }
 
   // Redirect to login
   if (!req.query.token && access.login) {
-    console.log('login');
     return login(req, res);
   }
 
