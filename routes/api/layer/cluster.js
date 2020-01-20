@@ -87,7 +87,7 @@ module.exports = fastify => {
 
         var rows = await env.dbs[layer.dbs](q);
           
-        if (rows.err) return res.code(500).send('Failed to query PostGIS table.');
+        if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
           
         // return if no locations found within the envelope.
         if (parseInt(rows[0].count) === 0) return res.code(200).send([]);
@@ -353,7 +353,7 @@ module.exports = fastify => {
 
       var rows = await env.dbs[layer.dbs](q);
         
-      if (rows.err) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
   
 
       if (!theme) return res.code(200).send(rows.map(row => ({

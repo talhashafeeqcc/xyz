@@ -97,7 +97,6 @@ _xyz({
   host: document.head.dataset.dir || new String(''),
   token: document.body.dataset.token,
   log: document.body.dataset.log,
-  nanoid: document.body.dataset.nanoid,
   hooks: true,
   callback: init,
 });
@@ -273,7 +272,7 @@ function init(_xyz) {
       href="${_xyz.host + '/user/admin'}">
       <div class="xyz-icon icon-supervisor-account">`);
 
-    _xyz.user.admin_workspace && document.body.dataset.pgworkspace && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
+    _xyz.user.admin_workspace && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
     <button
       title="Open workspace configuration view"
       class="enabled" style="cursor: pointer;"

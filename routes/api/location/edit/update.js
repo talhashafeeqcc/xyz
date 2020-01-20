@@ -51,7 +51,7 @@ module.exports = fastify => {
 
       var rows = await env.dbs[layer.dbs](q, [id]);
 
-      if (rows.err) return res.code(500).send('PostgreSQL query error - please check backend logs.');
+      if (rows instanceof Error) return res.code(500).send('PostgreSQL query error - please check backend logs.');
       
       // Remove tiles from mvt_cache.
       if (layer.mvt_cache) await mvt_cache(layer, table, id);
@@ -73,7 +73,7 @@ module.exports = fastify => {
 
       var rows = await env.dbs[layer.dbs](q, [id]);
 
-      if (rows.err) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
    
       // Send the infoj object with values back to the client.
       res.code(200).send(rows[0]);

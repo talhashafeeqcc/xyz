@@ -31,9 +31,8 @@ module.exports = () => {
           return rows;
 
         } catch (err) {
-
           console.error(err);
-          return { err: err };
+          return err;
         }
 
       };

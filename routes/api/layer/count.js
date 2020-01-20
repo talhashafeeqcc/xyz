@@ -47,7 +47,7 @@ module.exports = fastify => {
         WHERE true ${filter_sql};
       `);
       
-      if (rows.err) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
 
 
       // Regex format bounds as comma separated string and return to client.

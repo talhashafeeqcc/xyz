@@ -31,7 +31,7 @@ module.exports = async () => {
   
     } finally {
       env.workspace = await assignDefaults(workspace);
-      if (env.debug) checkLayer(env.workspace);
+      if (process.env.DEBUG) checkLayer(env.workspace);
       return;
     }
   }
@@ -58,7 +58,7 @@ module.exports = async () => {
     
       } finally {
         env.workspace = await assignDefaults(workspace);
-        if (env.debug) checkLayer(env.workspace);
+        if (process.env.DEBUG) checkLayer(env.workspace);
         return;
       }
     }
@@ -91,7 +91,7 @@ module.exports = async () => {
       }
     };
 
-    if (env.debug) checkWorkspaceTable(table);
+    if (process.env.DEBUG) checkWorkspaceTable(table);
 
     var config = await env.pg.workspace(`
     SELECT * FROM ${table}
@@ -105,7 +105,7 @@ module.exports = async () => {
 
     // Check and load workspace.
     env.workspace = await assignDefaults(config[0].settings || {});
-    if (env.debug) checkLayer(env.workspace);
+    if (process.env.DEBUG) checkLayer(env.workspace);
 
   }
 

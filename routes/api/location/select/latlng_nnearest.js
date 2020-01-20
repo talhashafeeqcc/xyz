@@ -72,7 +72,7 @@ module.exports = fastify => {
   
       var rows = await env.dbs[layer.dbs](q);
   
-      if (rows.err) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
 
       // return 204 if no record was returned from database.
       if (rows.length === 0) return res.code(202).send('No rows returned from table.');

@@ -57,7 +57,7 @@ module.exports = fastify => {
         WHERE true ${filter_sql};
       `);
       
-      if (rows.err) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
 
       // Get bounds from first row value.
       const bounds = Object.values(Object.values(rows)[0])[0];

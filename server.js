@@ -52,16 +52,16 @@ fastify
   .register(require('fastify-helmet'), {
     contentSecurityPolicy: {
       directives: {
-        defaultSrc: env.CSP.defaultSrc || ['\'self\''],
-        baseURI: env.CSP.baseURI || ['\'self\''],
-        objectSrc: env.CSP.objectSrc || ['\'self\''],
-        workerSrc: env.CSP.workerSrc || ['\'self\'', 'blob:'],
-        frameSrc: env.CSP.frameSrc || ['\'self\'', 'www.google.com', 'www.gstatic.com'],
-        formAction: env.CSP.formAction || ['\'self\''],
-        styleSrc: env.CSP.styleSrc || ['\'self\'', '\'unsafe-inline\'', 'fonts.googleapis.com', 'cdn.jsdelivr.net'],
-        fontSrc: env.CSP.fontSrc || ['\'self\'', 'fonts.gstatic.com', 'cdn.jsdelivr.net'],
-        scriptSrc: env.CSP.scriptSrc || ['\'self\'', '\'unsafe-inline\'', 'www.google.com', 'www.gstatic.com', 'cdn.jsdelivr.net', 'blob:'],
-        imgSrc: env.CSP.imgSrc || ['\'self\'', 'api.ordnancesurvey.co.uk', '*.tile.openstreetmap.org', 'api.mapbox.com', 'res.cloudinary.com', '*.global.ssl.fastly.net', 'cdn.jsdelivr.net', 'data:']
+        defaultSrc: process.env.CSP_defaultSrc && process.env.CSP_defaultSrc.split(',') || ['\'self\''],
+        baseURI: process.env.CSP_baseURI && process.env.CSP_baseURI.split(',') || ['\'self\''],
+        objectSrc: process.env.CSP_objectSrc && process.env.CSP_objectSrc.split(',') || ['\'self\''],
+        workerSrc: process.env.CSP_workerSrc && process.env.CSP_workerSrc.split(',') || ['\'self\'', 'blob:'],
+        frameSrc: process.env.CSP_frameSrc && process.env.CSP_frameSrc.split(',') || ['\'self\'', 'www.google.com', 'www.gstatic.com'],
+        formAction: process.env.CSP_formAction && process.env.CSP_formAction.split(',') || ['\'self\''],
+        styleSrc: process.env.CSP_styleSrc && process.env.CSP_styleSrc.split(',') || ['\'self\'', '\'unsafe-inline\'', 'fonts.googleapis.com', 'cdn.jsdelivr.net'],
+        fontSrc: process.env.CSP_fontSrc && process.env.CSP_fontSrc.split(',') || ['\'self\'', 'fonts.gstatic.com', 'cdn.jsdelivr.net'],
+        scriptSrc: process.env.CSP_scriptSrc && process.env.CSP_scriptSrc.split(',') || ['\'self\'', '\'unsafe-inline\'', 'www.google.com', 'www.gstatic.com', 'cdn.jsdelivr.net', 'blob:'],
+        imgSrc: process.env.CSP_imgSrc && process.env.CSP_imgSrc.split(',') || ['\'self\'', 'api.ordnancesurvey.co.uk', '*.tile.openstreetmap.org', 'api.mapbox.com', 'res.cloudinary.com', '*.global.ssl.fastly.net', 'cdn.jsdelivr.net', 'data:']
       },
       setAllHeaders: true
     },
@@ -77,20 +77,14 @@ fastify
     root: require('path').resolve(__dirname) + '/public',
     prefix: env.path
   })
-  .register(require('fastify-auth'))
-  .decorate('login', require('./routes/login')(fastify))
-  .decorate('authToken', require('./mod/authToken')(fastify))
-  .decorate('evalParam', require('./mod/evalParam'))
-  .register(require('fastify-jwt'), {
-    secret: env.secret
-  })
+  .decorate('evalParam', require('./mod/eval/_param'))
   .register(require('fastify-swagger'), {
     routePrefix: env.path + '/swagger',
     exposeRoute: true,
   })
   .addContentTypeParser('*', (req, done) => done())
   .register((fastify, opts, next) => {
-    require('./routes/_routes')(fastify);
+    require('./routes')(fastify);
     next();
   }, { prefix: env.path });
 

@@ -35,7 +35,7 @@ async function view(req, res, token) {
   SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`,
   [req.params.token]);
 
-  if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+  if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
 
   const user = rows[0];
 
@@ -49,7 +49,7 @@ async function view(req, res, token) {
   WHERE lower(email) = lower($1);`,
   [user.email]);
 
-  if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+  if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
 
   mailer({
     to: user.email,

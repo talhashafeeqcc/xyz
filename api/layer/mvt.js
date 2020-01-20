@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
       // Get MVT from cache table.
       var rows = await env.dbs[layer.dbs](`SELECT mvt FROM ${layer.mvt_cache} WHERE z = ${z} AND x = ${x} AND y = ${y}`);
 
-      if (rows.err) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
 
       // If found return the cached MVT to client.
       if (rows.length === 1) return res
@@ -101,7 +101,7 @@ module.exports = async (req, res) => {
 
     rows = env.dbs[layer.dbs] && await env.dbs[layer.dbs](q);
 
-    if (rows.err) return res.status(500).send('Failed to query PostGIS table.');
+    if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
 
     // Return MVT to client.
     res.send(rows[0].mvt);

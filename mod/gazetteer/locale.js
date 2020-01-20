@@ -46,7 +46,7 @@ module.exports = async (req, locale) => {
     // Get gazetteer results from dataset table.
     var rows = await env.dbs[layer.dbs](q, [`${dataset.leading_wildcard ? '%': ''}${decodeURIComponent(term)}%`]);
 
-    if (rows.err) return {err: 'Error fetching gazetteer results.'};
+    if (rows instanceof Error) return {err: 'Error fetching gazetteer results.'};
 
     // Format JSON array of gazetteer results from rows object.
     if (rows.length > 0) return Object.values(rows).map(row => ({

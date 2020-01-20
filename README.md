@@ -87,8 +87,6 @@ The XYZ middle may consume 3rd party services from Google Maps, Mapbox, MapTiler
 
 [node-fetch](https://github.com/bitinn/node-fetch) - A light-weight module that brings window.fetch to Node.js.
 
-[nanoid](https://github.com/ai/nanoid) - Unique ID generator for JavaScript.
-
 [mobile-detect.js](https://github.com/hgoebl/mobile-detect.js) - Node.js device detection from request header.
 
 

@@ -38,7 +38,7 @@ module.exports = fastify => {
 
       if (env.captcha && env.captcha[1]) {
 
-        const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${env.captcha[1]}&response=${req.body.captcha}&remoteip=${req.req.ips.pop()}`);
+        const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${env.captcha[1]}&response=${req.body.captcha}`);
 
         const captcha_verification = await response.json();
         
@@ -56,7 +56,7 @@ module.exports = fastify => {
 
       var rows = await env.acl(`SELECT * FROM acl_schema.acl_table WHERE lower(email) = lower($1);`, [email]);
 
-      if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+      if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
 
       const user = rows[0];
       const password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
@@ -73,11 +73,11 @@ module.exports = fastify => {
         UPDATE acl_schema.acl_table SET
           password_reset = '${password}',
           verificationtoken = '${verificationtoken}',
-          access_log = array_append(access_log, '${date}@${req.req.ips.pop() || req.req.ip}')
+          access_log = array_append(access_log, '${date}@${'foo' || req.req.ips.pop() || req.req.ip}')
         WHERE lower(email) = lower($1);`,
           [email]);
 
-        if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+        if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
 
         mailer({
           to: user.email,
@@ -98,9 +98,9 @@ module.exports = fastify => {
         '${email}' AS email,
         '${password}' AS password,
         '${verificationtoken}' AS verificationtoken,
-        array['${date}@${req.req.ips.pop() || req.req.ip}'] AS access_log;`);
+        array['${date}@${'foo' || req.req.ips.pop() || req.req.ip}'] AS access_log;`);
 
-      if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+      if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
 
       mailer({
         to: email,

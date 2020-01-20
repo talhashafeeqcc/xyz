@@ -46,7 +46,7 @@ module.exports = fastify => {
 
       var rows = await env.dbs[layer.dbs](q, [id]);
 
-      if (rows.err) return res.code(500).send('PostgreSQL query error - please check backend logs.');
+      if (rows instanceof Error) return res.code(500).send('PostgreSQL query error - please check backend logs.');
 
       res.code(200).send('Location delete successful');
 

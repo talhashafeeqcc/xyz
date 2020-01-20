@@ -1,11 +1,13 @@
-const env = require('./env');
+const mailer = require('nodemailer');
 
 module.exports = mail => {
-  if (!env.transport) return console.log('Transport not set.');
+
+  //test throw
+  if (!process.env.TRANSPORT) return console.error(new Error('Transport not set.'));
 
   let _mail = {
-    from: `<${env.transport.split(':')[1]}>`,
-    sender: `<${env.transport.split(':')[1]}>`,
+    from: `<${process.env.TRANSPORT.split(':')[1]}>`,
+    sender: `<${process.env.TRANSPORT.split(':')[1]}>`,
     subject: mail.subject.replace(/”/g,''),
     text: mail.text.replace(/”/g,'')
   };
@@ -14,5 +16,5 @@ module.exports = mail => {
 
   if (mail.bcc) _mail.bcc = mail.bcc;
 
-  require('nodemailer').createTransport(env.transport).sendMail(_mail);
+  mailer.createTransport(process.env.TRANSPORT).sendMail(_mail);
 };

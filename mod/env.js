@@ -24,9 +24,6 @@ module.exports = {
   // Application access. Default is public.
   public: !process.env.PRIVATE,
 
-  // Set the maximum number of failed login attempts before an account will be locked.
-  failed_attempts: parseInt(process.env.FAILED_ATTEMPTS) || 3,
-
   // Additional logs will be written to console if env.logs is true.
   logs: process.env.LOG_LEVEL,
 
@@ -34,42 +31,10 @@ module.exports = {
     .filter(key => key.split('_')[0] === 'KEY')
     .map(key => ({ [key.split('_')[1]]: process.env[key] }))),
 
-  pg: {},
-
   dbs: _dbs,
 
   workspace: _workspace,
 
-  CSP: {
-
-    defaultSrc: process.env.CSP_defaultSrc && process.env.CSP_defaultSrc.split(','),
-
-    baseURI: process.env.CSP_baseURI && process.env.CSP_baseURI.split(','),
-
-    objectSrc: process.env.CSP_objectSrc && process.env.CSP_objectSrc.split(','),
-
-    workerSrc: process.env.CSP_workerSrc && process.env.CSP_workerSrc.split(','),
-
-    frameSrc: process.env.CSP_frameSrc && process.env.CSP_frameSrc.split(','),
-
-    formAction: process.env.CSP_formAction && process.env.CSP_formAction.split(','),
-
-    styleSrc: process.env.CSP_styleSrc && process.env.CSP_styleSrc.split(','),
-
-    fontSrc: process.env.CSP_fontSrc && process.env.CSP_fontSrc.split(','),
-
-    scriptSrc: process.env.CSP_scriptSrc && process.env.CSP_scriptSrc.split(','),
-
-    imgSrc: process.env.CSP_imgSrc && process.env.CSP_imgSrc.split(','),
-
-  },
-
-  transport: process.env.TRANSPORT,
-
-  cloudinary: process.env.CLOUDINARY && process.env.CLOUDINARY.split(' '),
-
-  secret: process.env.SECRET || 'ChinaCatSunflower',
-
-  debug: process.env.DEBUG,
+  // cloudinary: process.env.CLOUDINARY && process.env.CLOUDINARY.split(' '),
 
 };

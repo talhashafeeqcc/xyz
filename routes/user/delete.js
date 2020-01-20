@@ -22,7 +22,7 @@ module.exports = fastify => {
       WHERE lower(email) = lower($1);`,
       [email]);
 
-      if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+      if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
 
       // Sent email to inform user that their account has been deleted.
       await mailer({

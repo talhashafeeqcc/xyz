@@ -16,7 +16,7 @@ module.exports = fastify => {
       SELECT * FROM acl_schema.acl_table WHERE verificationtoken = $1;`,
       [req.params.token]);
   
-      if (rows.err) return res.send('There seems to be a problem with the ACL configuration.');
+      if (rows instanceof Error) return res.send('There seems to be a problem with the ACL configuration.');
   
       const user = rows[0];
   
@@ -35,7 +35,7 @@ module.exports = fastify => {
       WHERE lower(email) = lower($1);`,
       [user.email]);
   
-      if (rows.err) return res.send('There seems to be a problem with the ACL configuration.');
+      if (rows instanceof Error) return res.send('There seems to be a problem with the ACL configuration.');
   
       // Return on password reset; Do NOT notify administrator
       if (user.password_reset) return res.send(env.path + '/login?msg=reset');
@@ -46,7 +46,7 @@ module.exports = fastify => {
         // Get all admin accounts from the ACL.
         rows = await env.acl('SELECT email FROM acl_schema.acl_table WHERE admin_user = true;');
     
-        if (rows.err) return res.send('There seems to be a problem with the ACL configuration.');
+        if (rows instanceof Error) return res.send('There seems to be a problem with the ACL configuration.');
   
         if (rows.length === 0) return console.log('No admin accounts were found.');
   

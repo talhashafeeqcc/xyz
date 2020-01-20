@@ -33,7 +33,7 @@ async function view(req, res, token, fastify) {
     WHERE lower(email) = lower($1);`,
   [token.email]);
     
-  if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+  if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
   
   const user = rows[0];
   
@@ -55,7 +55,7 @@ async function view(req, res, token, fastify) {
     WHERE lower(email) = lower($1);`,
   [user.email]);
     
-  if (rows.err) return res.redirect(env.path + '/login?msg=badconfig');
+  if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
   
   // Send ACL token.
   res.send(api_token);

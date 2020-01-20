@@ -45,7 +45,7 @@ module.exports = fastify => {
         WHERE lower(email) = lower($1);`,
       [email]);
   
-      if (rows.err) return res.code(500).send(new Error('Failed to query PostGIS table.'));
+      if (rows instanceof Error) return res.code(500).send(new Error('Failed to query PostGIS table.'));
   
       // Send email to the user account if an account has been approved.
       if (req.query.field === 'approved' && req.query.value)

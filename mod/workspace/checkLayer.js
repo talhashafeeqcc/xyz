@@ -76,7 +76,7 @@ async function chkLayerGeom(layer, layers) {
     // Check whether table has layer geom field.
     let rows = await env.dbs[layer.dbs](`SELECT ${layer.geom} FROM ${table} LIMIT 1`, null, 'no_log');
 
-    if (rows.err) {
+    if (rows instanceof Error) {
       log(`!!! ${layer.locale}.${layer.key} | ${table}.${layer.geom} (${layer.format}) => ${rows.err.message}`);
       return;
     }
@@ -130,7 +130,7 @@ async function chkMVTCache(layer) {
           // Truncate the cache table.
           rows = await env.dbs[layer.dbs](`TRUNCATE ${layer.mvt_cache};`);
 
-          if (rows.err) {
+          if (rows instanceof Error) {
             return log(`!!! ${layer.locale}.${layer.key} | ${layer.mvt_cache} (mvt cache) => Failed to truncate cache table`);
           }
 
@@ -194,7 +194,7 @@ async function chkLayerSelect(layer) {
 
     let rows = await env.dbs[layer.dbs](`SELECT ${layer.qID} FROM ${table} LIMIT 1`, null, 'no_log');
 
-    if (rows.err) {
+    if (rows instanceof Error) {
       log(`!!! ${layer.locale}.${layer.key} | ${table}.${layer.qID} (${layer.format}) => '¡No bueno!'`);
 
       return;
