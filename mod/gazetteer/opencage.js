@@ -6,7 +6,7 @@ module.exports = async (term, gazetteer) => {
 	const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(term)}` 
 	+ `${gazetteer.code ? `&countrycode=${gazetteer.code}` : ''}`
 	+ `${gazetteer.bounds ? '&bounds=' + decodeURIComponent(gazetteer.bounds) : ''}`
-	+ `&key=${env.keys.OPENCAGE}`;
+	+ `&key=${process.env.KEY_OPENCAGE}`;
 
 	const fetched = await fetch(url);
 

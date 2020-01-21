@@ -36,7 +36,7 @@ module.exports = fastify => {
       let mapbox_isolines;
       
       try {
-        const response = await fetch(`https://api.mapbox.com/isochrone/v1/mapbox/${params.profile}/${params.coordinates}?contours_minutes=${params.minutes}&generalize=${params.minutes}&polygons=true&${env.keys.MAPBOX}`);
+        const response = await fetch(`https://api.mapbox.com/isochrone/v1/mapbox/${params.profile}/${params.coordinates}?contours_minutes=${params.minutes}&generalize=${params.minutes}&polygons=true&${process.env.KEY_MAPBOX}`);
         mapbox_isolines = await response.json();
         
       } catch (err) {

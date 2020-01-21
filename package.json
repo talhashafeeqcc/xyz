@@ -29,12 +29,12 @@
     "chartjs-plugin-datalabels": "^0.6.0",
     "chroma-js": "^2.0.4",
     "dotenv": "^8.0.0",
-    "fastify": "^2.10.0",
+    "express": "^4.17.1",
+    "fastify": "^2.11.0",
     "fastify-cors": "^2.1.3",
     "fastify-formbody": "^3.1.0",
     "fastify-helmet": "^3.0.2",
     "fastify-static": "^2.5.0",
-    "fastify-swagger": "^2.4.0",
     "flatpickr": "^4.6.3",
     "hyperhtml": "^2.31.1",
     "js-datepicker": "^4.6.6",
@@ -47,6 +47,7 @@
     "pg": "^7.5.0",
     "pino-pretty": "^2.5.0",
     "request": "^2.88.0",
+    "restify": "^8.5.1",
     "tabulator-tables": "^4.4.3"
   },
   "devDependencies": {

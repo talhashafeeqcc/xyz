@@ -52,7 +52,7 @@ module.exports = async (req) => {
     // Sent fail mail when to account email if login failed.
     mailer({
       to: user.email,
-      subject: `A failed login attempt was made on ${env.alias || req.headers.host}${env.path}`,
+      subject: `A failed login attempt was made on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
       text: `${user.verified ? 'The account has been verified. \n \n' : 'The account has NOT been verified. \n \n'}`
         + `${user.approved ? 'The account has been approved. \n \n' : 'Please wait for account approval confirmation email. \n \n'}`
         + `The failed attempt occured from this remote address ${req.req.connection.remoteAddress} \n \n`
@@ -108,15 +108,15 @@ module.exports = async (req) => {
           verificationtoken = '${verificationtoken}'
         WHERE lower(email) = lower($1);`, [req.body.email]);
 
-      if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
+      if (rows instanceof Error) return res.redirect(process.env.DIR || '' + '/login?msg=badconfig');
 
       // Sent email with verification link to user.
       mailer({
         to: user.email,
-        subject: `Too many failed login attempts occured on ${env.alias || req.headers.host}${env.path}`,
+        subject: `Too many failed login attempts occured on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
         text: `${parseInt(process.env.FAILED_ATTEMPTS) || 3} failed login attempts have been recorded on this account. \n \n`
           + 'This account has now been locked until verified. \n \n'
-          + `Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${env.alias || req.headers.host}${env.path}/user/verify/${verificationtoken} \n \n`
+          + `Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/verify/${verificationtoken} \n \n`
           + 'Verifying the account will reset the failed login attempts. \n \n'
           + `The failed attempt occured from this remote address ${req.req.connection.remoteAddress} \n \n`
           + 'This wasn\'t you? Please let your manager know. \n \n'
@@ -128,7 +128,7 @@ module.exports = async (req) => {
       // Sent fail mail.
       mailer({
         to: user.email,
-        subject: `A failed login attempt was made on ${env.alias || req.headers.host}${env.path}`,
+        subject: `A failed login attempt was made on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
         text: 'An incorrect password was entered! \n \n'
           + `The failed attempt occured from this remote address ${req.req.connection.remoteAddress} \n \n`
           + 'This wasn\'t you? Please let your manager know. \n \n'

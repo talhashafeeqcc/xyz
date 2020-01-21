@@ -38,7 +38,7 @@ async function view(req, res, token = { access: 'public' }) {
 
     const response = await fetch(
       req.query.template,
-      { headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(env.keys.GITHUB).toString('base64')}` }) });
+      { headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) });
 
     const b64 = await response.json();
     const buff = await Buffer.from(b64.content, 'base64');
@@ -46,15 +46,15 @@ async function view(req, res, token = { access: 'public' }) {
 
   } else {
 
-    const response = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${env.path}${req.query.template}`);
+    const response = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}${req.query.template}`);
     if (response.status !== 200) return res.type('text/plain').send('Failed to retrieve report template');
     tmpl = await response.text();
 
   }
 
   const html = template(tmpl, {
-    dir: env.path,
-    host: `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.req.hostname}${env.path || ''}`,
+    dir: process.env.DIR || '',
+    host: `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.req.hostname}${process.env.DIR || '' || ''}`,
     token: req.query.token || token.signed || '""'
   });
 

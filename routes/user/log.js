@@ -23,7 +23,7 @@ module.exports = fastify => {
       WHERE lower(email) = lower($1);`,
       [email]);
   
-      if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
+      if (rows instanceof Error) return res.redirect(process.env.DIR || '' + '/login?msg=badconfig');
   
       return res.code(200).send(rows[0].access_log);
     }

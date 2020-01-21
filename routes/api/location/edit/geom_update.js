@@ -1,7 +1,5 @@
 const env = require('../../../../mod/env');
 
-const mvt_cache = require('../../../../mod/mvt_cache');
-
 module.exports = fastify => {
 
   fastify.route({
@@ -57,7 +55,17 @@ module.exports = fastify => {
       if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
       
       // delete new geometry from cache
-      if (layer.mvt_cache) await mvt_cache(layer, table, id);
+      if (layer.mvt_cache) {
+        var q = `
+        DELETE FROM ${layer.mvt_cache} 
+        WHERE
+          ST_Intersects(
+            tile, 
+            (SELECT ${layer.geom} FROM ${table} WHERE ${layer.qID} = $1)
+          );`;
+      
+        await env.dbs[layer.dbs](q, [id]);
+      }
       
       res.code(200).send();
 

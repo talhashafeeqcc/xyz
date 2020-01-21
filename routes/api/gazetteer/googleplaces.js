@@ -19,7 +19,7 @@ module.exports = fastify => {
       let fetched;
       
       try {
-        const response = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${req.query.id}&${env.keys.GOOGLE}`);
+        const response = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${req.query.id}&${process.env.KEY_GOOGLE}`);
         fetched = await response.json();
         
       } catch (err) {

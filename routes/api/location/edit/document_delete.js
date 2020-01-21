@@ -49,12 +49,12 @@ module.exports = fastify => {
 		    field = req.query.field,
 		    doc_src = decodeURIComponent(req.query.doc_src),
 		    ts = Date.now(),
-		    sig = crypto.createHash('sha1').update(`public_id=${req.query.doc_id}&timestamp=${ts}${env.cloudinary[1]}`).digest('hex');
+		    sig = crypto.createHash('sha1').update(`public_id=${req.query.doc_id}&timestamp=${ts}${process.env.CLOUDINARY.split(' ')[1]}`).digest('hex');
 
 		    request.post({
-		    	url: `https://api.cloudinary.com/v1_1/${env.cloudinary[2]}/raw/destroy`,
+		    	url: `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY.split(' ')[2]}/raw/destroy`,
 		    	body: {
-		    		'api_key': env.cloudinary[0],
+		    		'api_key': process.env.CLOUDINARY.split(' ')[0],
 		    		'public_id': req.query.doc_id,
 		    		'timestamp': ts,
 		    		'signature': sig

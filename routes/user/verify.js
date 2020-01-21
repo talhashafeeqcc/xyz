@@ -38,7 +38,7 @@ module.exports = fastify => {
       if (rows instanceof Error) return res.send('There seems to be a problem with the ACL configuration.');
   
       // Return on password reset; Do NOT notify administrator
-      if (user.password_reset) return res.send(env.path + '/login?msg=reset');
+      if (user.password_reset) return res.send(process.env.DIR || '' + '/login?msg=reset');
   
       // Notify administrator if user needs to be approved.
       if (!user.approved) {
@@ -56,16 +56,16 @@ module.exports = fastify => {
         // Sent an email to all admin account emails with a request to approve the new user account.
         mailer({
           bcc: adminmail,
-          subject: `A new account has been verified on ${env.alias || req.headers.host}${env.path}`,
-          text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${env.alias || req.headers.host}${env.path}/user/admin to approve ${user.email} \n \n`
-              + `You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${env.alias || req.headers.host}${env.path}/user/approve/${approvaltoken} \n \n`
-              + `!!! If you do not recognize this email address consider blocking the account >>> ${req.headers.host.includes('localhost') && 'http' || 'https'}://${env.alias || req.headers.host}${env.path}/user/block/${approvaltoken}`
+          subject: `A new account has been verified on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
+          text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/admin to approve ${user.email} \n \n`
+              + `You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/approve/${approvaltoken} \n \n`
+              + `!!! If you do not recognize this email address consider blocking the account >>> ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/block/${approvaltoken}`
         });
   
         return res.send('This account has been verified but requires administrator approval.');
       }
   
-      res.redirect(env.path + '/login');
+      res.redirect(process.env.DIR || '' + '/login');
     }
     
   });

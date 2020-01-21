@@ -46,7 +46,7 @@ module.exports = fastify => {
         id = req.query.id,
         field = req.query.field,
         ts = Date.now(),
-        sig = crypto.createHash('sha1').update(`folder=${env.cloudinary[3]}&timestamp=${ts}${env.cloudinary[1]}`).digest('hex');
+        sig = crypto.createHash('sha1').update(`folder=${process.env.CLOUDINARY.split(' ')[3]}&timestamp=${ts}${process.env.CLOUDINARY.split(' ')[1]}`).digest('hex');
 
       var data = [];
 
@@ -57,11 +57,11 @@ module.exports = fastify => {
         req.body = Buffer.concat(data);
 
         request.post({
-          url: `https://api.cloudinary.com/v1_1/${env.cloudinary[2]}/image/upload`,
+          url: `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY.split(' ')[2]}/image/upload`,
           body: {
             'file': `data:image/jpeg;base64,${req.body.toString('base64')}`,
-            'api_key': env.cloudinary[0],
-            'folder': env.cloudinary[3],
+            'api_key': process.env.CLOUDINARY.split(' ')[0],
+            'folder': process.env.CLOUDINARY.split(' ')[3],
             'timestamp': ts,
             'signature': sig
           },

@@ -1,4 +1,4 @@
-const env = require('../env');
+const dbs = require('../pg/dbs')();
 
 const logArray = [];
 
@@ -7,33 +7,13 @@ function log(msg) {
   logArray.push(msg);
 }
 
-module.exports = async workspace => {
+module.exports = async layers => {
 
   logArray.length = 0;
 
   log(' ');
   log('------Checking Layers------');
    
-  // Iterate through locales.
-  for (const key of Object.keys(workspace.locales)) {
-  
-    // Set default locale.
-    const locale = workspace.locales[key];
-   
-    // Check layers in locale.
-    await chkLayers(locale.layers);
-  }
-
-  return logArray;
-
-  log('-----------------------------');
-  log(' ');
-
-};
-
-async function chkLayers(layers) {
-
-  // Iterate through loayers.
   for (const key of Object.keys(layers)) {
 
     const layer = layers[key];
@@ -42,7 +22,13 @@ async function chkLayers(layers) {
     await chkLayerConnect(layer, layers);
 
   }
-}
+
+  log('-----------------------------');
+  log(' ');
+
+  return logArray;
+
+};
 
 async function chkLayerConnect(layer, layers) {
 
@@ -68,13 +54,13 @@ async function chkLayerGeom(layer, layers) {
     if (!table) return;
 
     // Invalidate layer if no dbs has been defined.
-    if (!layer.dbs || !env.dbs[layer.dbs]) {
+    if (!layer.dbs || !dbs[layer.dbs]) {
       log(`!!! ${layer.locale}.${layer.key} | ${table}.${layer.geom} (${layer.format}) => Missing or invalid DBS connection`);
       return;
     }
 
     // Check whether table has layer geom field.
-    let rows = await env.dbs[layer.dbs](`SELECT ${layer.geom} FROM ${table} LIMIT 1`, null, 'no_log');
+    let rows = await dbs[layer.dbs](`SELECT ${layer.geom} FROM ${table} LIMIT 1`);
 
     if (rows instanceof Error) {
       log(`!!! ${layer.locale}.${layer.key} | ${table}.${layer.geom} (${layer.format}) => ${rows.err.message}`);
@@ -103,7 +89,7 @@ async function chkMVTCache(layer) {
     if (!table && tables.length > 1) continue;
 
     // Get a sample MVT from the cache table.
-    let rows = await env.dbs[layer.dbs](`SELECT z, x, y, mvt, tile FROM ${layer.mvt_cache} LIMIT 1`, null, 'no_log');
+    let rows = await dbs[layer.dbs](`SELECT z, x, y, mvt, tile FROM ${layer.mvt_cache} LIMIT 1`);
 
     if (rows && rows.err) return await createMVTCache(layer);
 
@@ -128,7 +114,7 @@ async function chkMVTCache(layer) {
         if (Object.keys(tile.layers).length > 0 && tile.layers[layer.key]._keys.indexOf(field.split(' as ').pop()) < 0) {
 
           // Truncate the cache table.
-          rows = await env.dbs[layer.dbs](`TRUNCATE ${layer.mvt_cache};`);
+          rows = await dbs[layer.dbs](`TRUNCATE ${layer.mvt_cache};`);
 
           if (rows instanceof Error) {
             return log(`!!! ${layer.locale}.${layer.key} | ${layer.mvt_cache} (mvt cache) => Failed to truncate cache table`);
@@ -150,7 +136,7 @@ async function chkMVTCache(layer) {
 
 async function createMVTCache(layer){
 
-  let rows = await env.dbs[layer.dbs](`
+  let rows = await dbs[layer.dbs](`
     Create UNLOGGED table ${layer.mvt_cache}
     (
       z integer not null,
@@ -192,7 +178,7 @@ async function chkLayerSelect(layer) {
 
     if (!table) return;
 
-    let rows = await env.dbs[layer.dbs](`SELECT ${layer.qID} FROM ${table} LIMIT 1`, null, 'no_log');
+    let rows = await dbs[layer.dbs](`SELECT ${layer.qID} FROM ${table} LIMIT 1`);
 
     if (rows instanceof Error) {
       log(`!!! ${layer.locale}.${layer.key} | ${table}.${layer.qID} (${layer.format}) => '¡No bueno!'`);

@@ -1,7 +1,3 @@
-const env = require('../env');
-
-const checkLayer = require('./checkLayer');
-
 module.exports = async workspace => {
   
   // Check whether workspace keys are valid or missing.
@@ -13,7 +9,6 @@ module.exports = async workspace => {
   // Set workspace to env.
   env.workspace = workspace;
 
-  if (process.env.DEBUG) checkLayer(workspace);
 };
 
 async function chkOptionals(chk, opt) {

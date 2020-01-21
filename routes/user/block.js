@@ -35,7 +35,7 @@ async function view(req, res, token) {
   SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`,
   [req.params.token]);
 
-  if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
+  if (rows instanceof Error) return res.redirect(process.env.DIR || '' + '/login?msg=badconfig');
 
   const user = rows[0];
 
@@ -49,12 +49,12 @@ async function view(req, res, token) {
   WHERE lower(email) = lower($1);`,
   [user.email]);
 
-  if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
+  if (rows instanceof Error) return res.redirect(process.env.DIR || '' + '/login?msg=badconfig');
 
   mailer({
     to: user.email,
-    subject: `This account has been blocked on ${env.alias || req.headers.host}${env.path}`,
-    text: `You are will no longer be able to log on to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${env.alias || req.headers.host}${env.path}`
+    subject: `This account has been blocked on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
+    text: `You are will no longer be able to log on to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`
   });
 
   res.send('The account has been blocked by you. An email has been sent to the account holder.');

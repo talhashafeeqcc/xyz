@@ -1,0 +1,21 @@
+{
+    "title": "GEOLYTIX | XYZ",
+    "locales": {
+        "z2": {
+            "layers": {
+                "OSM": {
+                    "display": true,
+                    "format": "tiles",
+                    "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                },
+                "COUNTRIES": {
+                    "display": true,
+                    "format": "mvt",
+                    "dbs": "XYZ",
+                    "table": "dev.natural_earth_countries",
+                    "geom": "geom_3857"
+                }
+            }
+        }
+    }
+}

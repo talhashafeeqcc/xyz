@@ -25,11 +25,11 @@ async function view(req, res, token = { access: 'public' }) {
 
   let tmpl;
 
-  if (env.desktop.toLowerCase().includes('api.github')) {
+  if (process.env.DESKTOP_TEMPLATE && process.env.DESKTOP_TEMPLATE.toLowerCase().includes('api.github')) {
 
     const response = await fetch(
-      env.desktop,
-      { headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(env.keys.GITHUB).toString('base64')}` }) });
+      process.env.DESKTOP_TEMPLATE,
+      { headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) });
 
     const b64 = await response.json();
     const buff = await Buffer.from(b64.content, 'base64');
@@ -37,13 +37,13 @@ async function view(req, res, token = { access: 'public' }) {
 
   } else {
 
-    const response = await fetch(env.desktop || `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${env.path}/views/desktop.html`);
+    const response = await fetch(process.env.DESKTOP_TEMPLATE || `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/views/desktop.html`);
     tmpl = await response.text();
 
   }
 
   const html = template(tmpl, {
-    dir: env.path,
+    dir: process.env.DIR || '',
     token: req.query.token || token.signed || '""',
   })
 

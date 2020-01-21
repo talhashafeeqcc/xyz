@@ -22,13 +22,13 @@ module.exports = fastify => {
       WHERE lower(email) = lower($1);`,
       [email]);
 
-      if (rows instanceof Error) return res.redirect(env.path + '/login?msg=badconfig');
+      if (rows instanceof Error) return res.redirect(process.env.DIR || '' + '/login?msg=badconfig');
 
       // Sent email to inform user that their account has been deleted.
       await mailer({
         to: email,
-        subject: `This ${env.alias || req.headers.host}${env.path} account has been deleted.`,
-        text: `You will no longer be able to log in to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${env.alias || req.headers.host}${env.path}`
+        subject: `This ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''} account has been deleted.`,
+        text: `You will no longer be able to log in to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`
       });
 
       res.code(200).send('User account deleted.');

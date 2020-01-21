@@ -51,8 +51,8 @@ module.exports = fastify => {
       if (req.query.field === 'approved' && req.query.value)
         await mailer({
           to: email,
-          subject: `This account has been approved for ${env.alias || req.headers.host}${env.path}`,
-          text: `You are now able to log on to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${env.alias || req.headers.host}${env.path}`
+          subject: `This account has been approved for ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
+          text: `You are now able to log on to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`
         });
   
       return res.code(200).send('Update successful.');

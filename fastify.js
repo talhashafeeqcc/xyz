@@ -37,7 +37,7 @@ const env = require('./mod/env');
 const fastify = require('fastify')({
   trustProxy: true,
   logger: {
-    level: env.logs || 'error',
+    level: process.env.LOG_LEVEL || 'error',
     prettifier: require('pino-pretty'),
     prettyPrint: {
       errorProps: 'hint, detail',
@@ -75,21 +75,16 @@ fastify
   .register(require('fastify-formbody'))
   .register(require('fastify-static'), {
     root: require('path').resolve(__dirname) + '/public',
-    prefix: env.path
-  })
-  .decorate('evalParam', require('./mod/eval/_param'))
-  .register(require('fastify-swagger'), {
-    routePrefix: env.path + '/swagger',
-    exposeRoute: true,
+    prefix: process.env.DIR || ''
   })
   .addContentTypeParser('*', (req, done) => done())
   .register((fastify, opts, next) => {
-    require('./routes')(fastify);
+    routes(fastify);
     next();
-  }, { prefix: env.path });
+  }, { prefix: process.env.DIR || '' });
 
 
-fastify.listen(env.port, '0.0.0.0', err => {
+fastify.listen(process.env.PORT || 3000, '0.0.0.0', err => {
   if (err) {
     Object.keys(err).forEach(key => !err[key] && delete err[key]);
     console.error(err);
@@ -100,3 +95,38 @@ fastify.listen(env.port, '0.0.0.0', err => {
 
   console.log('Fastify listening for requests.');
 });
+
+
+function routes(fastify){
+
+  fastify.route({
+    method: ['GET','POST'],
+    url: '/', 
+    handler: require('./api/root')
+  });
+
+  fastify.route({
+    method: 'GET',
+    url: '/api/package',
+    handler: require('./api/package')
+  });
+
+  fastify.route({
+    method: 'GET',
+    url: '/api/workspace/get',
+    handler: require('./api/workspace/get')
+  });
+
+  fastify.route({
+    method: 'GET',
+    url: '/api/layer/mvt',
+    handler: require('./api/layer/mvt')
+  });
+
+  fastify.route({
+    method: ['GET','POST'],
+    url: '/api/user/admin',
+    handler: require('./api/user/admin')
+  });
+
+}

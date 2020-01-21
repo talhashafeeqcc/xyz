@@ -44,7 +44,7 @@ module.exports = fastify => {
       let here_isolines;
       
       try {
-        const response = await fetch(`https://isoline.route.api.here.com/routing/7.2/calculateisoline.json?${env.keys.HERE}&mode=${params.type};${params.mode};${params.traffic}&start=geo!${params.coordinates}&range=${params.range}&rangetype=${params.rangetype}`);
+        const response = await fetch(`https://isoline.route.api.here.com/routing/7.2/calculateisoline.json?${process.env.KEY_HERE}&mode=${params.type};${params.mode};${params.traffic}&start=geo!${params.coordinates}&range=${params.range}&rangetype=${params.rangetype}`);
         here_isolines = await response.json();
         
       } catch (err) {

@@ -2,8 +2,6 @@ const env = require('../../../../mod/env');
 
 const sql_infoj = require('../../../../mod/pg/sql_infoj');
 
-const mvt_cache = require('../../../../mod/mvt_cache');
-
 const sql_fields = require('../../../../mod/pg/sql_fields');
 
 module.exports = fastify => {
@@ -54,10 +52,17 @@ module.exports = fastify => {
       if (rows instanceof Error) return res.code(500).send('PostgreSQL query error - please check backend logs.');
       
       // Remove tiles from mvt_cache.
-      if (layer.mvt_cache) await mvt_cache(layer, table, id);
-
-
-      // Get the updated infoj.
+      if (layer.mvt_cache) {
+        var q = `
+        DELETE FROM ${layer.mvt_cache} 
+        WHERE
+          ST_Intersects(
+            tile, 
+            (SELECT ${layer.geom} FROM ${table} WHERE ${layer.qID} = $1)
+          );`;
+      
+        await env.dbs[layer.dbs](q, [id]);
+      }
 
 
       // Query field for updated infoj

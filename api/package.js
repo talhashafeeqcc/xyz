@@ -1,6 +1,6 @@
-const package = require('../package.json');
-
 const auth = require('../mod/auth/handler');
+
+const package = require('../package.json');
 
 module.exports = (req, res) => auth(req, res, handler, {
   public: true

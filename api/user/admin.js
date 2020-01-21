@@ -1,7 +1,5 @@
 const auth = require('../../mod/auth/handler');
 
-const env = require('../../mod/env');
-
 const fetch = require('node-fetch');
 
 const template = require('backtick-template');
@@ -13,13 +11,13 @@ module.exports = (req, res) => auth(req, res, handler, {
 
 async function handler(req, res, token){
 
-  const tmpl = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${env.path}/views/user.html`);
+  const tmpl = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/views/user.html`);
 
   const html = template(await tmpl.text(), {
-    dir: env.path,
+    dir: process.env.DIR || '',
     token: token.signed
   });
 
-  res.type && res.type('text/html').send(html) || res.send(html);
+  res.send(html);
 
 }

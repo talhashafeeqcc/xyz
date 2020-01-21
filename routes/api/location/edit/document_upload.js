@@ -53,7 +53,7 @@ module.exports = fastify => {
             ext = public_id_arr.pop(),
             public_id = `${public_id_name}.${ext}`;
             
-            sig = crypto.createHash('sha1').update(`folder=${env.cloudinary[3]}&public_id=${public_id}&timestamp=${ts}${env.cloudinary[1]}`).digest('hex');
+            sig = crypto.createHash('sha1').update(`folder=${process.env.CLOUDINARY.split(' ')[3]}&public_id=${public_id}&timestamp=${ts}${process.env.CLOUDINARY.split(' ')[1]}`).digest('hex');
 
             var data = [];
 
@@ -64,13 +64,13 @@ module.exports = fastify => {
             	req.body = Buffer.concat(data);
 
             	request.post({
-            		url: `https://api.cloudinary.com/v1_1/${env.cloudinary[2]}/raw/upload`,
+            		url: `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY.split(' ')[2]}/raw/upload`,
             		body: {
             			public_id: public_id,
             			file: req.body.toString(),
             		    resource_type: 'raw',
-            		    api_key: env.cloudinary[0],
-            		    folder: env.cloudinary[3],
+            		    api_key: process.env.CLOUDINARY.split(' ')[0],
+            		    folder: process.env.CLOUDINARY.split(' ')[3],
             		    timestamp: ts,
             		    signature: sig 
             		},

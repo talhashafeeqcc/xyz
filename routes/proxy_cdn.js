@@ -17,7 +17,7 @@ module.exports = fastify => {
 
         const response = await fetch(
           req.query.uri,
-          { headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(env.keys.GITHUB).toString('base64')}` }) });
+          { headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) });
 
         const b64 = await response.json();
         const buff = await Buffer.from(b64.content, 'base64');

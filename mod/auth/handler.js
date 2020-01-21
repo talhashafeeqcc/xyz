@@ -1,5 +1,3 @@
-const env = require('../env');
-
 const _token = require('./token');
 
 const login = require('./login');
@@ -27,7 +25,7 @@ module.exports = async (req, res, next, access = {}) => {
   }
 
   // Public access without token.
-  if (!req.query.token && access.public && env.public) {
+  if (!req.query.token && access.public && !process.env.PRIVATE) {
     return next(req, res);
   }
 

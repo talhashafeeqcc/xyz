@@ -1,11 +1,21 @@
-const env = require('../../mod/env');
+const auth = require('../../mod/auth/handler');
 
-module.exports = async (req, res) => {
+const _workspace = require('../../mod/workspace/get')();
 
-  env.workspace = await env.workspace;
+const dbs = require('../../mod/pg/dbs')();
+
+module.exports = (req, res) => auth(req, res, handler, {
+  public: true
+});
+
+async function handler(req, res){
+
+  const workspace = await _workspace;
+
+  const locale = workspace.locales[req.query.locale];
 
   let
-    layer = env.workspace.locales[req.query.locale].layers.COUNTRIES,//req.query.layer,
+    layer = locale.layers[req.query.layer],
     table = req.query.table,
     geom = layer.geom,
     srid = layer.srid,
@@ -27,7 +37,7 @@ module.exports = async (req, res) => {
     if (mvt_cache) {
 
       // Get MVT from cache table.
-      var rows = await env.dbs[layer.dbs](`SELECT mvt FROM ${layer.mvt_cache} WHERE z = ${z} AND x = ${x} AND y = ${y}`);
+      var rows = await dbs[layer.dbs](`SELECT mvt FROM ${layer.mvt_cache} WHERE z = ${z} AND x = ${x} AND y = ${y}`);
 
       if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
 
@@ -99,7 +109,7 @@ module.exports = async (req, res) => {
     
     ${mvt_cache ? 'RETURNING mvt;' : ';'}`;
 
-    rows = env.dbs[layer.dbs] && await env.dbs[layer.dbs](q);
+    rows = dbs[layer.dbs] && await dbs[layer.dbs](q);
 
     if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
 
