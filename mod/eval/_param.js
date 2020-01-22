@@ -12,7 +12,6 @@ module.exports = {
   layerValues: _layerValues,
   layerTheme: _layerTheme,
   tableDef: _tableDef,
-  userSchemaField: _userSchemaField,
   pgFunction: _pgFunction
 };
 

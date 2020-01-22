@@ -54,7 +54,7 @@ async function view(req, res, token = { access: 'public' }) {
 
   const html = template(tmpl, {
     dir: process.env.DIR || '',
-    host: `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.req.hostname}${process.env.DIR || '' || ''}`,
+    host: `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || '' || ''}`,
     token: req.query.token || token.signed || '""'
   });
 

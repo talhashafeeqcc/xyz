@@ -57,9 +57,9 @@ module.exports = fastify => {
 
             var data = [];
 
-            req.req.on('data', chunk => data.push(chunk));
+            req.on('data', chunk => data.push(chunk));
 
-            req.req.on('end', () => {
+            req.on('end', () => {
 
             	req.body = Buffer.concat(data);
 

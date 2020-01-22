@@ -14,7 +14,7 @@ module.exports = fastify => {
     handler: (req, res) => {
 
       // Split token and provider param from originalUrl.
-      const uri = req.req.originalUrl
+      const uri = req.originalUrl
         .split('/proxy/request?uri=').pop()
         .split('&token=').shift()
         .split('&provider=').shift();

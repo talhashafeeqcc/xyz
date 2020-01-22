@@ -73,7 +73,7 @@ module.exports = fastify => {
         UPDATE acl_schema.acl_table SET
           password_reset = '${password}',
           verificationtoken = '${verificationtoken}',
-          access_log = array_append(access_log, '${date}@${'foo' || req.req.ips.pop() || req.req.ip}')
+          access_log = array_append(access_log, '${date}@${req.ips.pop() || req.ip}')
         WHERE lower(email) = lower($1);`,
           [email]);
 
@@ -81,10 +81,10 @@ module.exports = fastify => {
 
         mailer({
           to: user.email,
-          subject: `Please verify your password reset for ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
+          subject: `Please verify your password reset for ${req.headers.host}${process.env.DIR || ''}`,
           text: 'A new password has been set for this account. \n \n'
-            + `Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/verify/${verificationtoken} \n \n`
-            + `The reset occured from this remote address ${req.req.connection.remoteAddress} \n \n`
+            + `Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/user/verify/${verificationtoken} \n \n`
+            + `The reset occured from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'} \n \n`
             + 'This wasn\'t you? Please let your manager know. \n \n'
         });
 
@@ -98,18 +98,18 @@ module.exports = fastify => {
         '${email}' AS email,
         '${password}' AS password,
         '${verificationtoken}' AS verificationtoken,
-        array['${date}@${'foo' || req.req.ips.pop() || req.req.ip}'] AS access_log;`);
+        array['${date}@${req.ips.pop() || req.ip}'] AS access_log;`);
 
       if (rows instanceof Error) return res.redirect(process.env.DIR || '' + '/login?msg=badconfig');
 
       mailer({
         to: email,
-        subject: `Please verify your account on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
-        text: `A new account for this email address has been registered with ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''} \n \n`
-          + `Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/verify/${verificationtoken} \n \n`
+        subject: `Please verify your account on ${req.headers.host}${process.env.DIR || ''}`,
+        text: `A new account for this email address has been registered with ${req.headers.host}${process.env.DIR || ''} \n \n`
+          + `Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/user/verify/${verificationtoken} \n \n`
           + 'A site administrator must approve the account before you are able to login. \n \n'
           + 'You will be notified via email once an adimistrator has approved your account. \n \n'
-          + `The account was registered from this remote address ${req.req.connection.remoteAddress} \n \n`
+          + `The account was registered from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'} \n \n`
           + 'This wasn\'t you? Do NOT verify the account and let your manager know. \n \n'
 
       });

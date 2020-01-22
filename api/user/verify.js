@@ -56,10 +56,10 @@ module.exports = fastify => {
         // Sent an email to all admin account emails with a request to approve the new user account.
         mailer({
           bcc: adminmail,
-          subject: `A new account has been verified on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
-          text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/admin to approve ${user.email} \n \n`
-              + `You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/approve/${approvaltoken} \n \n`
-              + `!!! If you do not recognize this email address consider blocking the account >>> ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}/user/block/${approvaltoken}`
+          subject: `A new account has been verified on ${req.headers.host}${process.env.DIR || ''}`,
+          text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/user/admin to approve ${user.email} \n \n`
+              + `You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/user/approve/${approvaltoken} \n \n`
+              + `!!! If you do not recognize this email address consider blocking the account >>> ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/user/block/${approvaltoken}`
         });
   
         return res.send('This account has been verified but requires administrator approval.');

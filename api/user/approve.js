@@ -8,7 +8,7 @@ function route(fastify) {
     
   fastify.route({
     method: 'GET',
-    url: '/user/block/:token',
+    url: '/user/approve/:token',
     preValidation: fastify.auth([
       (req, res, next) => fastify.authToken(req, res, next, {
         admin_user: true,
@@ -20,7 +20,7 @@ function route(fastify) {
 
   fastify.route({
     method: 'POST',
-    url: '/user/block/:token',
+    url: '/user/approve/:token',
     handler: (req, res) => fastify.login.post(req, res, {
       admin_user: true,
       view: view
@@ -43,7 +43,7 @@ async function view(req, res, token) {
 
   rows = await env.acl(`
   UPDATE acl_schema.acl_table SET
-    blocked = true,
+    approved = true,
     approvaltoken = null,
     approved_by = '${token.email}'
   WHERE lower(email) = lower($1);`,
@@ -53,10 +53,10 @@ async function view(req, res, token) {
 
   mailer({
     to: user.email,
-    subject: `This account has been blocked on ${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`,
-    text: `You are will no longer be able to log on to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`
+    subject: `This account has been approved on ${req.headers.host}${process.env.DIR || ''}`,
+    text: `You are now able to log on to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}`
   });
 
-  res.send('The account has been blocked by you. An email has been sent to the account holder.');
+  res.send('The account has been approved by you. An email has been sent to the account holder.');
 
 }

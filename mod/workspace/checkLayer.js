@@ -69,9 +69,6 @@ async function chkLayerGeom(layer, layers) {
 
     log(`${layer.locale}.${layer.key} | ${table}.${layer.geom} (${layer.format}) => 'A-ok'`);
 
-    // Check whether the defined qID is returned.
-    if (layer.qID) await chkLayerSelect(layer);
-
     // Check or create mvt_cache table.
     if (layer.mvt_cache) await chkMVTCache(layer);
   }
@@ -156,36 +153,4 @@ async function createMVTCache(layer){
   }
 
   log(`${layer.locale}.${layer.key} | ${layer.mvt_cache} (mvt cache) => Cache table created`);
-}
-
-async function chkLayerSelect(layer) {
-
-  // Create default infoj if non exist on selectable layer.
-  if (!layer.infoj) {
-    layer.infoj = [
-      {
-        field: layer.qID,
-        label: 'qID',
-        type: 'text',
-        inline: true
-      }
-    ];
-  }
-
-  let tables = layer.tables ? Object.values(layer.tables) : [layer.table];
-
-  for (const table of tables){
-
-    if (!table) return;
-
-    let rows = await dbs[layer.dbs](`SELECT ${layer.qID} FROM ${table} LIMIT 1`);
-
-    if (rows instanceof Error) {
-      log(`!!! ${layer.locale}.${layer.key} | ${table}.${layer.qID} (${layer.format}) => '¡No bueno!'`);
-
-      return;
-    }
-
-    log(`${layer.locale}.${layer.key} | ${table}.${layer.qID} (${layer.format}) => 'A-ok'`);
-  }
 }
