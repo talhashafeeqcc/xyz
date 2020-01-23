@@ -39,7 +39,7 @@ async function handler(req, res){
       // Get MVT from cache table.
       var rows = await dbs[layer.dbs](`SELECT mvt FROM ${layer.mvt_cache} WHERE z = ${z} AND x = ${x} AND y = ${y}`);
 
-      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
 
       // If found return the cached MVT to client.
       if (rows.length === 1) return res

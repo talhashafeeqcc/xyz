@@ -24,7 +24,7 @@ module.exports = fastify => {
         SELECT $1 AS settings;`, [JSON.stringify(workspace)]);
          
       // Return checked workspace to sender.
-      res.code(200).send();
+      res.status(200).send();
         
     }
   });

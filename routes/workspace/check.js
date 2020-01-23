@@ -19,7 +19,7 @@ module.exports = fastify => {
       const logArray = await checkLayer(workspace);
         
       // Return checked workspace to sender.
-      res.code(200).send(logArray);
+      res.status(200).send(logArray);
         
     }
   });

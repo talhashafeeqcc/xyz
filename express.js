@@ -20,7 +20,27 @@ app.get(`${process.env.DIR||''}/api/user/admin`, (req, res) => require('./api/us
 
 app.post(`${process.env.DIR||''}/api/user/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/admin')(req, res))
 
+app.get(`${process.env.DIR||''}/api/user/key`, (req, res) => require('./api/user/key')(req, res))
+
+app.post(`${process.env.DIR||''}/api/user/key`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/key')(req, res))
+
+app.get(`${process.env.DIR||''}/api/user/token`, (req, res) => require('./api/user/token')(req, res))
+
+app.post(`${process.env.DIR||''}/api/user/token`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/token')(req, res))
+
+app.get(`${process.env.DIR||''}/api/user/register`, (req, res) => require('./api/user/register')(req, res))
+
+app.post(`${process.env.DIR||''}/api/user/register`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/register')(req, res))
+
+app.get(`${process.env.DIR||''}/api/user/verify`, (req, res) => require('./api/user/verify')(req, res))
+
+app.get(`${process.env.DIR||''}/api/user/approve`, (req, res) => require('./api/user/approve')(req, res))
+
+app.post(`${process.env.DIR||''}/api/user/approve`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/approve')(req, res))
+
 app.get(`${process.env.DIR||''}/api/user/list`, (req, res) => require('./api/user/list')(req, res))
+
+app.get(`${process.env.DIR||''}/api/user/acl`, (req, res) => require('./api/user/acl')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/log`, (req, res) => require('./api/user/log')(req, res))
 

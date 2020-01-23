@@ -41,15 +41,15 @@ module.exports = fastify => {
         
       } catch (err) {
     
-        res.code(500).send(err);
+        res.status(500).send(err);
       }
 
-      if(!mapbox_isolines.features) return res.code(202).send({
+      if(!mapbox_isolines.features) return res.status(202).send({
         msg: 'No catchment found within this time frame.',
         res: mapbox_isolines
       });
 
-      return res.code(200).send(mapbox_isolines.features[0].geometry);
+      return res.status(200).send(mapbox_isolines.features[0].geometry);
 
     }
     

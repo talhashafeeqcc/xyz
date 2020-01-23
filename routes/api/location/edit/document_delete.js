@@ -71,7 +71,7 @@ module.exports = fastify => {
 
 		    	await env.dbs[layer.dbs](q, [id]);
 
-		    	res.code(200).send('Document deleted.');
+		    	res.status(200).send('Document deleted.');
 		    });
 
 		}

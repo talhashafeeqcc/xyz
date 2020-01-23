@@ -85,7 +85,7 @@ module.exports = fastify => {
 
                     await env.dbs[layer.dbs](q, [id]);
 
-                    res.code(200).send({
+                    res.status(200).send({
                     	'doc_id': body.public_id,
                      	'doc_url': body.secure_url
                      });

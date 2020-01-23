@@ -44,7 +44,7 @@ module.exports = fastify => {
         geom = req.query.geom || layer.geom;
       
       // Return 406 if table does not have EPSG:4326 geometry field.
-      if (!geom) return res.code(400).send(new Error('Missing geom (SRID 4326) field on layer.'));
+      if (!geom) return res.status(400).send(new Error('Missing geom (SRID 4326) field on layer.'));
   
   
       // The fields array stores all fields to be queried for the location info.
@@ -60,10 +60,10 @@ module.exports = fastify => {
     
       var rows = await env.dbs[layer.dbs](q);
   
-      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
 
       // return 204 if no record was returned from database.
-      if (rows.length === 0) return res.code(202).send('No rows returned from table.');
+      if (rows.length === 0) return res.status(202).send('No rows returned from table.');
   
       // Iterate through the rows whereas each row is one location.
       rows.forEach(row => {
@@ -76,7 +76,7 @@ module.exports = fastify => {
       });
           
       // Send the infoj object with values back to the client.
-      res.code(200).send(rows);
+      res.status(200).send(rows);
 
     }
   });

@@ -20,7 +20,7 @@ function _locale(req, res, next) {
   req.params.locale = env.workspace.locales[req.query.locale];
 
   if (!req.params.locale) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Invalid locale.'));
   }
 
@@ -33,7 +33,7 @@ function _layer(req, res, next) {
   req.params.layer = req.params.locale.layers[req.query.layer];
 
   if (!req.params.layer) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Invalid layer.'));
   }
 
@@ -50,7 +50,7 @@ function _roles(req, res, next) {
     if (!Object.keys(req.params.layer.roles).some(
       role => req.params.token.roles.includes(role)
     )) {
-      res.code(400);
+      res.status(400);
       return next(new Error('Insufficient role priviliges.'));
     }
 
@@ -84,7 +84,7 @@ function _lnglat(req, res, next) {
 
   // Return 406 if lnglat is not defined as query parameter.
   if (!req.params.lnglat) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Missing lnglat.'));
   }
 
@@ -98,7 +98,7 @@ function _coords(req, res, next) {
 
   // Return 406 if lnglat is not defined as query parameter.
   if (!req.params.coords) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Missing coords.'));
   }
 
@@ -111,7 +111,7 @@ function _layerTable(req, res, next) {
   req.params.table = req.params.layer.dataview[req.query.table];
 
   if (!req.params.table) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Missing layer table.'));
   }
 
@@ -124,7 +124,7 @@ function _layerChart(req, res, next) {
   req.params.chart = req.params.layer.dataview[req.query.chart];
 
   if (!req.params.chart) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Missing chart table.'));
   }
 
@@ -140,7 +140,7 @@ function _geomTable(req, res, next) {
     table => table === req.query.table
   )) return next();
 
-  res.code(400);
+  res.status(400);
   return next(new Error('Missing layer table.'));
 
 };
@@ -153,7 +153,7 @@ async function _layerValues(req, res, next, vals) {
     val => req.query[val] && !lookupValues.has(req.query[val])
   )) return next();
 
-  res.code(400);
+  res.status(400);
   return next(new Error('Invalid querystring parameter.'));
 
 };
@@ -166,7 +166,7 @@ function _layerTheme(req, res, next){
     return next();
   }
 
-  res.code(400);
+  res.status(400);
   return next(new Error('Invalid querystring parameter for layer theme.'));
 
 }
@@ -178,7 +178,7 @@ function _tableDef(req, res, next) {
   );
 
   if (!req.params.tableDef) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Missing table definition.'));
   }
 
@@ -193,7 +193,7 @@ function _pgFunction(req, res, next) {
   );
 
   if (!req.params.pgFunction) {
-    res.code(400);
+    res.status(400);
     return next(new Error('Missing pgFunction definition.'));
   }
 
@@ -214,7 +214,7 @@ function _userSchemaField(req, res, next) {
 
   if (userSchemaFields.has(req.query.field)) return next();
 
-  res.code(400);
+  res.status(400);
   return next(new Error('Invalid querystring parameter.'));
 
 };

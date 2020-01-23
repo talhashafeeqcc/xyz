@@ -53,6 +53,14 @@ xhr.onload = e => {
           cellClick: cellToggle,
         },
         {
+          field: 'api_key',
+          align: 'center',
+          headerTooltip: 'The account has priviliges to create API keys.',
+          titleFormatter: ()=> '<div class="xyz-icon icon-key"></div>',
+          formatter: 'tickCross',
+          cellClick: cellToggle,
+        },
+        {
           field: 'failedattempts',
           align: 'center',
           headerTooltip: 'Failed login attempts.',

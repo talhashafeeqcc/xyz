@@ -35,7 +35,7 @@ module.exports = fastify => {
       const locale = req.params.locale;
 
       // Return 406 is gazetteer is not found in locale.
-      if (!locale.gazetteer) return res.code(400).send(new Error('Gazetteer not defined for locale.'));
+      if (!locale.gazetteer) return res.status(400).send(new Error('Gazetteer not defined for locale.'));
 
       // Create an empty results object to be populated with the results from the different gazetteer methods.
       let results = [];
@@ -47,10 +47,10 @@ module.exports = fastify => {
           results = await gaz_google(req.query.q, locale.gazetteer);
 
           // Return error message _err if an error occured.
-          if (results._err) return res.code(500).send(results._err);
+          if (results._err) return res.status(500).send(results._err);
 
           // Return results to client.
-          return res.code(200).send(results);
+          return res.status(200).send(results);
         }
 
       }
@@ -60,10 +60,10 @@ module.exports = fastify => {
         results = await gaz_locale(req, locale);
 
         // Return error message _err if an error occured.
-        if (results._err) return res.code(500).send(results._err);
+        if (results._err) return res.status(500).send(results._err);
 
         // Return and send results to client.
-        if (results.length > 0) return res.code(200).send(results);
+        if (results.length > 0) return res.status(200).send(results);
       }
 
       // Query Google Maps API
@@ -71,7 +71,7 @@ module.exports = fastify => {
         results = await gaz_google(req.query.q, locale.gazetteer);
 
         // Return error message _err if an error occured.
-        if (results._err) return res.code(500).send(results._err);
+        if (results._err) return res.status(500).send(results._err);
       }
 
       if(locale.gazetteer.provider === 'OPENCAGE'){
@@ -83,11 +83,11 @@ module.exports = fastify => {
         results = await gaz_mapbox(req.query.q, locale.gazetteer);
 
         // Return error message _err if an error occured.
-        if (results._err) return res.code(500).send(results._err);
+        if (results._err) return res.status(500).send(results._err);
       }
 
       // Return results to client.
-      res.code(200).send(results);
+      res.status(200).send(results);
 
     }
   });

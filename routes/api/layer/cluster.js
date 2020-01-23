@@ -87,10 +87,10 @@ module.exports = fastify => {
 
         var rows = await env.dbs[layer.dbs](q);
           
-        if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+        if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
           
         // return if no locations found within the envelope.
-        if (parseInt(rows[0].count) === 0) return res.code(200).send([]);
+        if (parseInt(rows[0].count) === 0) return res.status(200).send([]);
           
         if (kmeans >= rows[0].count) kmeans = rows[0].count;
       
@@ -353,10 +353,10 @@ module.exports = fastify => {
 
       var rows = await env.dbs[layer.dbs](q);
         
-      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
   
 
-      if (!theme) return res.code(200).send(rows.map(row => ({
+      if (!theme) return res.status(200).send(rows.map(row => ({
         geometry: {
           x: row.x,
           y: row.y,
@@ -368,7 +368,7 @@ module.exports = fastify => {
         }
       })));
 
-      if (theme === 'categorized') return res.code(200).send(rows.map(row => ({
+      if (theme === 'categorized') return res.status(200).send(rows.map(row => ({
         geometry: {
           x: row.x,
           y: row.y,
@@ -381,7 +381,7 @@ module.exports = fastify => {
         }
       })));
 
-      if (theme === 'graduated') return res.code(200).send(rows.map(row => ({
+      if (theme === 'graduated') return res.status(200).send(rows.map(row => ({
         geometry: {
           x: row.x,
           y: row.y,
@@ -394,7 +394,7 @@ module.exports = fastify => {
         }
       })));
 
-      if (theme === 'competition') return res.code(200).send(rows.map(row => ({
+      if (theme === 'competition') return res.status(200).send(rows.map(row => ({
         geometry: {
           x: row.x,
           y: row.y,

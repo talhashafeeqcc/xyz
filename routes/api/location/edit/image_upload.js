@@ -78,7 +78,7 @@ module.exports = fastify => {
           // add filename to images field
           await env.dbs[layer.dbs](q, [id]);
 
-          res.code(200).send({
+          res.status(200).send({
             'image_id': body.public_id,
             'image_url': body.secure_url
           });

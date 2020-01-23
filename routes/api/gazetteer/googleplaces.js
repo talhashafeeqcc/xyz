@@ -24,10 +24,10 @@ module.exports = fastify => {
         
       } catch (err) {
     
-        res.code(500).send(err);
+        res.status(500).send(err);
       }
 
-      res.code(200).send({
+      res.status(200).send({
         type: 'Point',
         coordinates: [fetched.result.geometry.location.lng, fetched.result.geometry.location.lat]
       });

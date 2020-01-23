@@ -24,7 +24,7 @@ async function handler(req, res) {
   FROM acl_schema.acl_table;`);
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
-
+  
   res.send(rows);
 
 };

@@ -269,7 +269,7 @@ function init(_xyz) {
     <a
       title="Open account admin view"
       class="enabled" style="cursor: pointer;"
-      href="${_xyz.host + '/user/admin'}">
+      href="${_xyz.host + '/api/user/admin'}">
       <div class="xyz-icon icon-supervisor-account">`);
 
     _xyz.user.admin_workspace && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
@@ -285,7 +285,7 @@ function init(_xyz) {
     <a
       title="${_xyz.user ? `Logout ${_xyz.user.email}` : 'Login'}"
       class="enabled" style="cursor: pointer;"
-      href="${_xyz.host + '/login'}">
+      href="${_xyz.host + '?login'}">
       <div class="${'xyz-icon ' + (_xyz.user ? 'icon-logout' : 'icon-lock-open')}">`);
   }
 

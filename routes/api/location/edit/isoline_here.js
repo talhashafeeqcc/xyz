@@ -49,13 +49,13 @@ module.exports = fastify => {
         
       } catch (err) {
     
-        res.code(500).send(err);
+        res.status(500).send(err);
       }
 
 
       if (!here_isolines.response
         || !here_isolines.response.isoline
-        || !here_isolines.response.isoline[0].component) return res.code(202).send({
+        || !here_isolines.response.isoline[0].component) return res.status(202).send({
         'msg': 'No isoline found within this range.',
         'res': here_isolines
       });
@@ -71,7 +71,7 @@ module.exports = fastify => {
           geojson.coordinates[0].push(el.reverse());
         });
      
-      return res.code(200).send(geojson);
+      return res.status(200).send(geojson);
 
     }
 

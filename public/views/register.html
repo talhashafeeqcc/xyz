@@ -108,6 +108,7 @@
             font-weight: 700;
         }
 
+        button:hover,
         .switch:hover {
             cursor: pointer;
         }
@@ -148,11 +149,11 @@
             background-position: center;
             background-size: contain;
             -webkit-background-size: contain;
-            background-image: url("icons/icon-checkbox-unchecked.svg");
+            background-image: url("${dir}/icons/icon-checkbox-unchecked.svg");
         }
 
         input:checked+div {
-            background-image: url("icons/icon-checkbox-checked.svg");
+            background-image: url("${dir}/icons/icon-checkbox-checked.svg");
         }
 
         #btnRegister {
@@ -185,7 +186,7 @@
         <br>
 
         <div class="input-group">
-            <input id="auth_user_password_retype" name="password_retype" type="password" autocomplete="off" required
+            <input id="auth_user_password_retype" type="password" autocomplete="off" required
                 minlength="8" value="">
 
             <span class="bar"></span>
@@ -217,7 +218,7 @@
             Register or Re-set Password
         </button>
 
-        <input style="display:none;" id="captcha_input" required name="captcha">
+        <input style="display:none;" id="captcha_input" required>
 
         <p class="bold">What happens next? Confirming your account</p>
 
@@ -232,7 +233,7 @@
         <p>After verification, a site administrator will approve new accounts. You will receive a further email once
             your account has been approved.</p>
 
-        <a class="switch" href="${dir}/login">Already registered? Login.</a>
+        <a class="switch" href="${dir}/?login">Already registered? Login.</a>
     </form>
 
 </body>

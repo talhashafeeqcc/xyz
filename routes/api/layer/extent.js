@@ -57,16 +57,16 @@ module.exports = fastify => {
         WHERE true ${filter_sql};
       `);
       
-      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
 
       // Get bounds from first row value.
       const bounds = Object.values(Object.values(rows)[0])[0];
 
       // Return 204 if bounds couldn't be formed.
-      if (!bounds) return res.code(204).send('No bounds.');
+      if (!bounds) return res.status(204).send('No bounds.');
 
       // Regex format bounds as comma separated string and return to client.
-      res.code(200).send(/\((.*?)\)/.exec(bounds)[1].replace(/ /g, ','));
+      res.status(200).send(/\((.*?)\)/.exec(bounds)[1].replace(/ /g, ','));
 
     }
   });

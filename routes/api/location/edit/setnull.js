@@ -60,7 +60,7 @@ module.exports = fastify => {
   
       var rows = await env.dbs[layer.dbs](q, [id]);
   
-      if (rows instanceof Error) return res.code(500).send('Failed to update PostGIS table.');
+      if (rows instanceof Error) return res.status(500).send('Failed to update PostGIS table.');
   
 			var rows = await infoj_values({
 				locale: req.query.locale,
@@ -70,13 +70,13 @@ module.exports = fastify => {
 				roles: req.params.token.roles || []
 			})
 
-			if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+			if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
 
 			// return 204 if no record was returned from database.
-			if (rows.length === 0) return res.code(202).send('No rows returned from table.');
+			if (rows.length === 0) return res.status(202).send('No rows returned from table.');
 
 			// Send the infoj object with values back to the client.
-			res.code(200).send(rows[0]);
+			res.status(200).send(rows[0]);
 
     }
   });

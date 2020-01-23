@@ -63,13 +63,13 @@ module.exports = fastify => {
       }
            
       
-      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
 
       // return 204 if no record was returned from database.
-      if (rows.length === 0) return res.code(202).send('No rows returned from table.');
+      if (rows.length === 0) return res.status(202).send('No rows returned from table.');
         
       // Send the infoj object with values back to the client.
-      res.code(200).send({
+      res.status(200).send({
         field: rows[0][field]
       });
   

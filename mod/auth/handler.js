@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 
 module.exports = async (req, res, next, access = {}) => {
 
+  if (!req.body && typeof req.query.login !== 'undefined') return login(req, res);
+
   if (req.body && access.login) {
 
     const token = await _token(req);
@@ -17,7 +19,6 @@ module.exports = async (req, res, next, access = {}) => {
     if (access.admin_workspace && !token.admin_workspace) return login(req, res, 'Not an admin');
 
     return next(req, res, token);
-
   }
 
   if (req.query.token === 'null') {
@@ -59,7 +60,7 @@ module.exports = async (req, res, next, access = {}) => {
     //   const user = rows[0];
 
     //   if (!user.api || (user.api !== req.query.token)) {
-    //     return res.code(401).send(new Error('Invalid token.'));
+    //     return res.status(401).send(new Error('Invalid token.'));
     //   }
 
     //   // Create a private token with 10second expiry.

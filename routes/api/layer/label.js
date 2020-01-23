@@ -77,10 +77,10 @@ module.exports = fastify => {
 
       var rows = await env.dbs[layer.dbs](q);
         
-      if (rows instanceof Error) return res.code(500).send('Failed to query PostGIS table.');
+      if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');
   
 
-      return res.code(200).send(rows.map(row => ({
+      return res.status(200).send(rows.map(row => ({
         geometry: {
           x: row.x,
           y: row.y,
