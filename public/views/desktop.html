@@ -11,13 +11,6 @@
     <link rel="stylesheet" href="${dir}/css/control.css" />
     <link rel="stylesheet" href="${dir}/views/desktop.css" />
 
-    <link rel="stylesheet" href="${dir}/codemirror/codemirror.css">
-    <script src="${dir}/codemirror/codemirror.js" defer></script>
-    <script src="${dir}/codemirror/javascript.js" defer></script>
-    <script src="${dir}/codemirror/jsonlint.js" defer></script>
-    <script src="${dir}/codemirror/lint.js" defer></script>
-    <script src="${dir}/codemirror/lintjson.js" defer></script>
-
     <script src="${dir}/js/build/xyz_openlayers.js" defer></script>
     <script src="${dir}/views/desktop.js" defer></script>
 </head>
@@ -85,29 +78,6 @@ data-login=${login}>
             </button>
                     
         </div>
-
-    </div>
-
-    <div id="workspace" class="workspace" style="display: none;">
-
-        <div class="btn-column">
-        
-            <button id="btnCloseWS" class="enabled">
-                <div class="xyz-icon icon-close"></div>
-            </button>
-        
-            <button id="btnUploadWS" class="enabled">
-                <div class="xyz-icon icon-backup"></div>
-            </button>
-        
-            <button id="btnFileWS" class="enabled">
-                <div class="xyz-icon icon-description"></div>
-                <input id="fileInputWS" type="file" accept=".json" style="display: none;">
-            </button>            
-    
-        </div>
-
-        <div id="codemirror" class="codemirror"></div>
 
     </div>
 

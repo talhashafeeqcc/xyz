@@ -52,4 +52,8 @@ app.get(`${process.env.DIR||''}/api/workspace/checklayer`, (req, res) => require
 
 app.post(`${process.env.DIR||''}/api/workspace/checklayer`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/checkLayer')(req, res))
 
+app.get(`${process.env.DIR||''}/api/workspace/admin`, (req, res) => require('./api/workspace/admin')(req, res))
+
+app.post(`${process.env.DIR||''}/api/workspace/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/admin')(req, res))
+
 app.listen(process.env.PORT || 3000)

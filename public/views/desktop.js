@@ -230,7 +230,6 @@ function init(_xyz) {
 
 
     desktop.scrolly.insertBefore(localeDropdown, desktop.scrolly.firstChild);
-
   }
 
   if (_xyz.workspace.locale.gazetteer) {
@@ -263,22 +262,19 @@ function init(_xyz) {
     });
   });
 
-  if (_xyz.user) {
-
-    _xyz.user.admin_user && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
+  _xyz.user && _xyz.user.admin_user && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
     <a
       title="Open account admin view"
       class="enabled" style="cursor: pointer;"
       href="${_xyz.host + '/api/user/admin'}">
       <div class="xyz-icon icon-supervisor-account">`);
 
-    _xyz.user.admin_workspace && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
-    <button
+  _xyz.user && _xyz.user.admin_workspace && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
+    <a
       title="Open workspace configuration view"
       class="enabled" style="cursor: pointer;"
-      onclick=${_xyz.workspace.admin}>
+      href="${_xyz.host + '/api/workspace/admin'}">
       <div class="xyz-icon icon-settings">`);
-  }
 
   if (document.body.dataset.login) {
     document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
