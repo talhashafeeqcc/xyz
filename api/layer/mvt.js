@@ -8,7 +8,7 @@ module.exports = (req, res) => auth(req, res, handler, {
   public: true
 });
 
-async function handler(req, res){
+async function handler(req, res, token = {}){
 
   const workspace = await _workspace;
 
@@ -18,10 +18,9 @@ async function handler(req, res){
     layer = locale.layers[req.query.layer],
     table = req.query.table,
     geom = layer.geom,
-    srid = layer.srid,
     mapview_srid = req.query.mapview_srid,
-    //filter = req.params.filter,// && JSON.parse(req.query.filter),
-    id = layer.qID || null, //'row_number() over()',
+    filter = null, //req.params.filter,
+    id = layer.qID || null,
     x = parseInt(req.query.x),
     y = parseInt(req.query.y),
     z = parseInt(req.query.z),
@@ -29,7 +28,7 @@ async function handler(req, res){
     r = (m * 2) / (Math.pow(2, z));
 
     // SQL filter
-    const filter_sql = '';//filter && await sql_filter(filter) || '';
+    const filter_sql = filter && await sql_filter(filter) || '';
 
     // Use MVT cache if set on layer and no filter active.
     const mvt_cache = null;//(!filter_sql && (!layer.roles || !Object.keys(layer.roles).length) && layer.mvt_cache);

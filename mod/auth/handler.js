@@ -23,9 +23,9 @@ module.exports = async (req, res, next, access = {}) => {
     return next(req, res, token);
   }
 
-  if (req.query.token === 'null') {
-    delete req.query.token;
-  }
+  // if (req.query.token === 'null') {
+  //   delete req.query.token;
+  // }
 
   // Public access without token.
   if (!req.query.token && access.public && !process.env.PRIVATE) {

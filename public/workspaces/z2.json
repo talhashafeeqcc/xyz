@@ -252,7 +252,48 @@
                                 ]
                             }
                         }
-                    }
+                    },
+                    "qID": "id",
+
+                    "infoj": [
+                        {
+                            "type": "key"
+                        },
+                        {
+                            "label": "Name",
+                            "field": "name"
+                        },
+                        {
+                            "label": "Population Est",
+                            "field": "pop_est",
+                            "type": "integer"
+                        },
+                        {
+                            "label": "Population Est edit",
+                            "field": "pop_est_edit",
+                            "type": "integer",
+                            "filter": "numeric",
+                            "edit": true
+                        },
+                        {
+                            "label": "GDP",
+                            "field": "gdp_md_est",
+                            "type": "integer",
+                            "suffix": " dollars"
+                        },
+                        {
+                            "label": "GDP edit",
+                            "field": "gdp_md_est_edit",
+                            "type": "integer",
+                            "edit": true
+                        },
+                        {
+                            "label": "Area SRID:3857",
+                            "field": "area_",
+                            "fieldfx": "ST_Area(geom_3857)",
+                            "type": "integer"
+                        }
+                    ]
                 }
             }
         }

@@ -14,6 +14,8 @@ module.exports = () => {
   const pool = new Pool({
     connectionString: connection[0]
   });
+
+  console.log('ACL');
   
   // Method to query ACL. arr must be empty array by default.
   return async (q, arr) => {

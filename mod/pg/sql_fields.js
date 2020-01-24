@@ -86,8 +86,6 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
     
   });
 
-  //console.log(fields);
-
   return fields;
 
 };

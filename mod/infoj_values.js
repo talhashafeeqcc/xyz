@@ -1,6 +1,6 @@
-const env = require('../../../../mod/env');
+const dbs = require('./pg/dbs')();
 
-const sql_fields = require('../../../../mod/pg/sql_fields');
+const sql_fields = require('./pg/sql_fields');
 
 module.exports = async params => {
 
@@ -18,7 +18,7 @@ module.exports = async params => {
         FROM ${params.table}
         WHERE ${params.layer.qID} = $1`;
 
-    var rows = await env.dbs[params.layer.dbs](q, [params.id]);
+    var rows = await dbs[params.layer.dbs](q, [params.id]);
 
     return rows;
 
