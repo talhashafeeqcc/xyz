@@ -11,7 +11,8 @@ module.exports = async () => await assignDefaults(await get(process.env.WORKSPAC
 async function get(ref) {
 
   switch (ref && ref.split(':')[0]) {
-    case 'http' || 'https': return http(ref)
+    case 'http': return http(ref)
+    case 'https': return http(ref)
     case 'file': return file(ref.split(':')[1])
     case 'github': return github(ref.split(':')[1])
     case 'postgres': return postgres(ref.split(':')[1])
