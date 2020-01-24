@@ -4,6 +4,8 @@ const login = require('./login');
 
 const jwt = require('jsonwebtoken');
 
+const acl = require('./acl')();
+
 module.exports = async (req, res, next, access = {}) => {
 
   if (!req.body && typeof req.query.login !== 'undefined') return login(req, res);
@@ -48,40 +50,48 @@ module.exports = async (req, res, next, access = {}) => {
     // Token must have an email
     if (!token.email) return res.status(401).send('Invalid token.');
 
-    // if (token.api) {
+    if (token.api) {
 
-    //   // Get user from ACL.
-    //   var rows = await env.acl(`
-    //     SELECT * FROM acl_schema.acl_table
-    //     WHERE lower(email) = lower($1);`, [token.email]);
+      // Get user from ACL.
+      var rows = await acl(`
+        SELECT * FROM acl_schema.acl_table
+        WHERE lower(email) = lower($1);`, [token.email]);
 
-    //   if (rows instanceof Error) return fastify.login.view(req, res);
+      if (rows instanceof Error) return res.status(500).send('Bad Config.');
 
-    //   const user = rows[0];
+      const user = rows[0];
 
-    //   if (!user.api || (user.api !== req.query.token)) {
-    //     return res.status(401).send(new Error('Invalid token.'));
-    //   }
+      if (!user || !user.api || (user.api !== req.query.token)) {
+        return res.status(401).send('Invalid token.');
+      }
 
-    //   // Create a private token with 10second expiry.
-    //   req.query.token = fastify.jwt.sign({
-    //     email: user.email,
-    //     roles: user.roles
-    //   }, {
-    //     expiresIn: 10
-    //   });
+      // Create a private token with 10second expiry.
+      const api_token = {
+        email: user.email,
+        roles: user.roles
+      }
+      
+      api_token.signed = jwt.sign(
+        api_token,
+        process.env.SECRET,
+        {
+          expiresIn: 10
+        });
 
-    //   return next();
-    // }
+      return next(req, res, api_token);
+    }
 
-    // Continue if neither admin nor editor previliges are required.
-    if (!access.admin_user && !access.admin_workspace) return next(req, res, token);
+    // Check admin_user privileges.
+    if (access.key && token.key) return next(req, res, token);
 
     // Check admin_user privileges.
     if (access.admin_user && token.admin_user) return next(req, res, token);
 
     // Check admibn_workspace privileges.
     if (access.admin_workspace && token.admin_workspace) return next(req, res, token);
+
+    // Continue if neither admin nor editor previliges are required.
+    if (!access.admin_user && !access.admin_workspace) return next(req, res, token);    
 
     res.status(401).send('Invalid token.');
 

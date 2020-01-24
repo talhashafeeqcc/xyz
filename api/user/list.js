@@ -16,6 +16,7 @@ async function handler(req, res) {
     approved,
     admin_user,
     admin_workspace,
+    length(api)::boolean AS api,
     roles,
     access_log[array_upper(access_log, 1)],
     failedattempts,

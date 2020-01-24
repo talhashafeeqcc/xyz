@@ -21,7 +21,7 @@ async function handler(req, res, token) {
   var rows = await acl(`
   UPDATE acl_schema.acl_table
   SET
-    ${req.query.field} = ${req.query.value},
+    ${req.query.field} = ${req.query.value === 'false' && 'NULL' || req.query.value},
     approved_by = '${token.email}'
   WHERE lower(email) = lower($1);`, [email]);
 

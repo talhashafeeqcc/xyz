@@ -21,33 +21,30 @@
     ]
   },
   "dependencies": {
-    "@mapbox/vector-tile": "^1.3.1",
-    "@turf/point-on-feature": "^5.1.5",
     "backtick-template": "^0.2.0",
     "bcrypt-nodejs": "0.0.3",
-    "chart.js": "^2.9.2",
-    "chartjs-plugin-datalabels": "^0.6.0",
-    "chroma-js": "^2.0.4",
     "dotenv": "^8.0.0",
-    "flatpickr": "^4.6.3",
-    "hyperhtml": "^2.31.1",
-    "js-datepicker": "^4.6.6",
     "jsonwebtoken": "^8.5.1",
-    "jwt-decode": "^2.2.0",
     "mobile-detect": "^1.4.3",
     "node-fetch": "^2.2.1",
     "nodemailer": "^4.6.8",
     "pg": "^7.5.0",
-    "pino-pretty": "^2.5.0",
-    "request": "^2.88.0",
-    "tabulator-tables": "^4.4.3"
+    "request": "^2.88.0"
   },
   "devDependencies": {
+    "@turf/point-on-feature": "^5.1.5",
+    "chart.js": "^2.9.3",
+    "chartjs-plugin-datalabels": "^0.7.0",
+    "chroma-js": "^2.1.0",
     "eslint": "^4.19.1",
     "express": "^4.17.1",
+    "flatpickr": "^4.6.3",
     "husky": "^1.1.3",
+    "hyperhtml": "^2.31.6",
+    "jwt-decode": "^2.2.0",
     "lint-staged": "^8.0.4",
     "ol": "^6.1.1",
+    "tabulator-tables": "^4.5.3",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
   }
