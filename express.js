@@ -7,15 +7,44 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
+
+
+// const router = express.Router({ strict: true })
+
+// router.get(process.env.DIR||'/', (req, res) => require('./api/root')(req, res))
+
+// router.use((req, res, next) => {
+//     res.redirect(`${process.env.DIR||''}/view`);
+
+//     next();
+// });
+
+// app.use('', router)
+
+
+
+//app.enable('strict routing')
+
+// app.set('strict routing', true)
+
+app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
+
+app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
+
 app.use(process.env.DIR||'', express.static('public'))
-
-app.get(`${process.env.DIR||''}/`, (req, res) => require('./api/root')(req, res))
-
-app.post(`${process.env.DIR||''}/`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
 
 app.get(`${process.env.DIR||''}/api/package`, (req, res) => require('./api/package')(req, res))
 
 app.get(`${process.env.DIR||''}/api/workspace/get`, (req, res) => require('./api/workspace/get')(req, res))
+
+const proxy = require('express-http-proxy');
+
+app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
+    req => req.query.host,
+    {
+        https: true,
+        proxyReqPathResolver: req => `${req.query.uri}${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
+    }))
 
 app.get(`${process.env.DIR||''}/api/layer/mvt`, (req, res) => require('./api/layer/mvt')(req, res))
 
