@@ -8,25 +8,6 @@ const bodyParser = require('body-parser')
 const app = express()
 
 
-
-// const router = express.Router({ strict: true })
-
-// router.get(process.env.DIR||'/', (req, res) => require('./api/root')(req, res))
-
-// router.use((req, res, next) => {
-//     res.redirect(`${process.env.DIR||''}/view`);
-
-//     next();
-// });
-
-// app.use('', router)
-
-
-
-//app.enable('strict routing')
-
-// app.set('strict routing', true)
-
 app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
 
 app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
@@ -43,7 +24,7 @@ app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
     req => req.query.host,
     {
         https: true,
-        proxyReqPathResolver: req => `${req.query.uri}${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
+        proxyReqPathResolver: req => `${decodeURIComponent(req.query.uri)}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
     }))
 
 app.get(`${process.env.DIR||''}/api/layer/mvt`, (req, res) => require('./api/layer/mvt')(req, res))
@@ -51,6 +32,10 @@ app.get(`${process.env.DIR||''}/api/layer/mvt`, (req, res) => require('./api/lay
 app.get(`${process.env.DIR||''}/api/layer/label`, (req, res) => require('./api/layer/label')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/count`, (req, res) => require('./api/layer/count')(req, res))
+
+app.get(`${process.env.DIR||''}/api/layer/cluster`, (req, res) => require('./api/layer/cluster')(req, res))
+
+app.get(`${process.env.DIR||''}/api/layer/table`, (req, res) => require('./api/layer/table')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/admin`, (req, res) => require('./api/user/admin')(req, res))
 
@@ -93,5 +78,13 @@ app.get(`${process.env.DIR||''}/api/workspace/admin`, (req, res) => require('./a
 app.post(`${process.env.DIR||''}/api/workspace/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/admin')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('./api/location/select/id')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/select/cluster`, (req, res) => require('./api/location/select/cluster')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/field`, (req, res) => require('./api/location/field')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/edit/isoline/here`, (req, res) => require('./api/location/edit/isoline/here')(req, res))
+
+app.post(`${process.env.DIR||''}/api/location/edit/isoline/save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline/save')(req, res))
 
 app.listen(process.env.PORT || 3000)
