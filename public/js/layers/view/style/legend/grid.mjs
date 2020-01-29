@@ -56,7 +56,7 @@ export default _xyz => layer => {
 
   // Populate SVG grid legend
   let
-    yTrack = 35,
+    yTrack = 15, //35,
     n = layer.style.range.length,
     w = 100 / n;
 
@@ -84,7 +84,7 @@ export default _xyz => layer => {
 
     legend.appendChild(circle2);
 
-    if (i === 0) {
+    /*if (i === 0) {
 
       layer.style.legend.size_min = _xyz.utils.wire(null, 'svg')`
       <text
@@ -123,7 +123,7 @@ export default _xyz => layer => {
 
       legend.appendChild(layer.style.legend.size_max);
 
-    }
+    }*/
 
   }
 

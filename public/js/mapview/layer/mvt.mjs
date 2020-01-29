@@ -30,6 +30,14 @@ export default _xyz => layer => {
 
       if (!tableZ) return source.clear();
 
+      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
+        if(Object.keys(layer.filter.legend).includes(key)) {
+          layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
+        }
+      });
+
+      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
+
       //const url = _xyz.host + '/api/layer/mvt/'+tileCoord[0]+'/'+tileCoord[1]+'/'+ String(-tileCoord[2] - 1) +'?' + _xyz.utils.paramString({
       const url = _xyz.host + '/api/layer/mvt/'+tileCoord[0]+'/'+tileCoord[1]+'/'+ tileCoord[2] +'?' + _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
@@ -37,7 +45,7 @@ export default _xyz => layer => {
         layer: layer.key,
         table: tableZ,
         properties: layer.properties,
-        filter: JSON.stringify(layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current)),
+        filter: JSON.stringify(filter),
         token: _xyz.token
       });
 

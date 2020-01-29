@@ -117027,13 +117027,13 @@ var Map_Map = /** @class */ (function (_super) {
 
       if (!tableZ) return source.clear();
 
-      Object.keys(layer.filter.current).map(key => {
+      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
         if(Object.keys(layer.filter.legend).includes(key)) {
           layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
         }
       });
 
-      const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
       //const url = _xyz.host + '/api/layer/mvt/'+tileCoord[0]+'/'+tileCoord[1]+'/'+ String(-tileCoord[2] - 1) +'?' + _xyz.utils.paramString({
       const url = _xyz.host + '/api/layer/mvt/'+tileCoord[0]+'/'+tileCoord[1]+'/'+ tileCoord[2] +'?' + _xyz.utils.paramString({
@@ -117042,7 +117042,7 @@ var Map_Map = /** @class */ (function (_super) {
         layer: layer.key,
         table: tableZ,
         properties: layer.properties,
-        filter: JSON.stringify(layer.filter && filter),
+        filter: JSON.stringify(filter),
         token: _xyz.token
       });
 
@@ -117143,13 +117143,13 @@ var Map_Map = /** @class */ (function (_super) {
 
       if (!tableZ) return;
 
-      Object.keys(layer.filter.current).map(key => {
+      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
         if(Object.keys(layer.filter.legend).includes(key)) {
           layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
         }
       });
 
-      const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
       layer.xhr = new XMLHttpRequest();
 
@@ -117160,7 +117160,7 @@ var Map_Map = /** @class */ (function (_super) {
           layer: layer.key,
           table: tableZ,
           label: layer.style.label && layer.style.label.field,
-          filter: JSON.stringify(layer.filter && filter),
+          filter: JSON.stringify(filter),
           west: extent[0],
           south: extent[1],
           east: extent[2],
@@ -117257,13 +117257,13 @@ var Map_Map = /** @class */ (function (_super) {
 
       if (!tableZ) return;
 
-      Object.keys(layer.filter.current).map(key => {
+      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
         if(Object.keys(layer.filter.legend).includes(key)) {
           layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
         }
       });
 
-      const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
   
       layer.xhr = new XMLHttpRequest();   
       
@@ -117272,7 +117272,7 @@ var Map_Map = /** @class */ (function (_super) {
         layer: layer.key,
         table: tableZ,
         cat: layer.style.theme && layer.style.theme.field,
-        filter: JSON.stringify(layer.filter && filter),
+        filter: JSON.stringify(filter),
         token: _xyz.token
       }));
 
@@ -117406,7 +117406,7 @@ var Map_Map = /** @class */ (function (_super) {
 
   const xhr = new XMLHttpRequest();
 
-  Object.keys(layer.filter.current).map(key => {
+  layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
     if(Object.keys(layer.filter.legend).includes(key)) {
       layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
     }
@@ -117505,13 +117505,13 @@ var Map_Map = /** @class */ (function (_super) {
 
       if (!tableZ) return;
 
-       Object.keys(layer.filter.current).map(key => {
-          if(Object.keys(layer.filter.legend).includes(key)) {
-            layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
-          }
-        });
+      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
+        if(Object.keys(layer.filter.legend).includes(key)) {
+          layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
+        }
+      });
 
-       const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
       layer.xhr = new XMLHttpRequest();   
 
@@ -117526,7 +117526,7 @@ var Map_Map = /** @class */ (function (_super) {
             pixelRatio: window.devicePixelRatio,
             theme: layer.style.theme && encodeURIComponent(Object.keys(layer.style.themes).find(k => layer.style.themes[k] === layer.style.theme)),
             label: layer.style.label && layer.style.label.field,
-            filter: JSON.stringify(layer.filter && filter),
+            filter: JSON.stringify(filter),
             west: extent[0],
             south: extent[1],
             east: extent[2],
@@ -119049,7 +119049,7 @@ var Map_Map = /** @class */ (function (_super) {
 
   const xhr = new XMLHttpRequest();
 
-  Object.keys(layer.filter.current).map(key => {
+  layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
     if(Object.keys(layer.filter.legend).includes(key)) {
       layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
     }
@@ -119563,13 +119563,13 @@ var Map_Map = /** @class */ (function (_super) {
       class="btn-wide primary-colour"
       onclick=${()=>{
 
-        Object.keys(layer.filter.current).map(key => {
+        layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
           if(Object.keys(layer.filter.legend).includes(key)) {
             layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
           }
         });
   
-        const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+        const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
       
         const xhr = new XMLHttpRequest();
             
@@ -120692,13 +120692,13 @@ function panel(layer) {
   const xhr = new XMLHttpRequest();
 
   // Create filter from legend and current filter.
-   Object.keys(layer.filter.current).map(key => {
+   layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
     if(Object.keys(layer.filter.legend).includes(key)) {
       layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
     }
   });
 
-  const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+  const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
   xhr.open('GET', _xyz.host + '/api/layer/extent?' + _xyz.utils.paramString({
     locale: _xyz.workspace.locale.key,
@@ -120806,7 +120806,7 @@ function panel(layer) {
 
   const xhr = new XMLHttpRequest();
 
-   Object.keys(layer.filter.current).map(key => {
+   layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
     if(Object.keys(layer.filter.legend).includes(key)) {
       layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
     }

@@ -41,6 +41,10 @@ button {
     width: 25px;
     height: 20px;
     background-position: center;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .btn-wide {

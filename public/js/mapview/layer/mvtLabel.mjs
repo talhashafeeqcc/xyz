@@ -15,6 +15,14 @@ export default _xyz => layer => {
 
       if (!tableZ) return;
 
+      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
+        if(Object.keys(layer.filter.legend).includes(key)) {
+          layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
+        }
+      });
+
+      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
+
       layer.xhr = new XMLHttpRequest();
 
       layer.xhr.open(
@@ -24,7 +32,7 @@ export default _xyz => layer => {
           layer: layer.key,
           table: tableZ,
           label: layer.style.label && layer.style.label.field,
-          filter: JSON.stringify(layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current)),
+          filter: JSON.stringify(filter),
           west: extent[0],
           south: extent[1],
           east: extent[2],

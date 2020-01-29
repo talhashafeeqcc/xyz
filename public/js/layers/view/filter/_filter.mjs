@@ -169,8 +169,14 @@ export default _xyz => {
     <button
       class="btn-wide primary-colour"
       onclick=${()=>{
+
+        layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
+          if(Object.keys(layer.filter.legend).includes(key)) {
+            layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
+          }
+        });
   
-        const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+        const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
       
         const xhr = new XMLHttpRequest();
             

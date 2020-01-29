@@ -6,7 +6,13 @@ export default _xyz => function (params) {
   const xhr = new XMLHttpRequest();
 
   // Create filter from legend and current filter.
-  const filter = Object.assign({}, layer.filter.legend, layer.filter.current);
+   layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
+    if(Object.keys(layer.filter.legend).includes(key)) {
+      layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
+    }
+  });
+
+  const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
   xhr.open('GET', _xyz.host + '/api/layer/extent?' + _xyz.utils.paramString({
     locale: _xyz.workspace.locale.key,
