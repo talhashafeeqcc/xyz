@@ -1,5 +1,4 @@
 {
-    "title": "XYZ dev",
     "locales": {
         "Natural Earth": {
             "minZoom": 3,
@@ -502,7 +501,7 @@
                         "© Ordanance Survey": "https://ordnancesurvey.co.uk"
                     },
                     "format": "tiles",
-                    "URI": "/mapping_api/v1/service/zxy/EPSG%3A3857/Light%203857/{z}/{x}/{y}.png?&provider=OS&host=https://api.ordnancesurvey.co.uk"
+                    "URI": "https://api.ordnancesurvey.co.uk/mapping_api/v1/service/zxy/EPSG%3A3857/Light%203857/{z}/{x}/{y}.png?key=4vmpYY1uFdimsAkyGwuaFbbHEyfvA5Gy"
                 },
                 "Mapbox Base": {
                     "group": "Base Layer",

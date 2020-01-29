@@ -12,6 +12,14 @@ app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
 
 app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
 
+app.get(`${process.env.DIR||''}/desktop`, (req, res) => require('./api/desktop')(req, res))
+
+app.post(`${process.env.DIR||''}/desktop`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/desktop')(req, res))
+
+app.get(`${process.env.DIR||''}/mobile`, (req, res) => require('./api/mobile')(req, res))
+
+app.post(`${process.env.DIR||''}/mobile`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/mobile')(req, res))
+
 app.use(process.env.DIR||'', express.static('public'))
 
 app.get(`${process.env.DIR||''}/api/package`, (req, res) => require('./api/package')(req, res))
@@ -24,7 +32,12 @@ app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
     req => req.query.host,
     {
         https: true,
-        proxyReqPathResolver: req => `${decodeURIComponent(req.query.uri)}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
+        proxyReqPathResolver: req => {
+
+            console.log(`${encodeURIComponent(req.query.uri)}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`)
+            return `${encodeURIComponent(req.query.uri)}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
+
+        }
     }))
 
 app.get(`${process.env.DIR||''}/api/layer/mvt`, (req, res) => require('./api/layer/mvt')(req, res))
@@ -100,5 +113,9 @@ app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (
 app.get(`${process.env.DIR||''}/api/location/edit/isoline/here`, (req, res) => require('./api/location/edit/isoline/here')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/isoline/save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline/save')(req, res))
+
+app.get(`${process.env.DIR||''}/api/gazetteer/autocomplete`, (req, res) => require('./api/gazetteer/autocomplete')(req, res))
+
+app.get(`${process.env.DIR||''}/api/gazetteer/googleplaces`, (req, res) => require('./api/gazetteer/googleplaces')(req, res))
 
 app.listen(process.env.PORT || 3000)

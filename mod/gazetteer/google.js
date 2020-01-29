@@ -1,4 +1,4 @@
-const env = require('../env');
+const fetch = require('node-fetch')
 
 module.exports = async (term, gazetteer) => {
 
@@ -6,20 +6,18 @@ module.exports = async (term, gazetteer) => {
 
   // Create url decorated with gazetteer options.
   const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${term}`
-          + `${gazetteer.code ? '&components=country:' + gazetteer.code : ''}`
-          + `${gazetteer.bounds ? '&' + decodeURIComponent(gazetteer.bounds) : ''}`
-          + `&${process.env.KEY_GOOGLE}`;
+    + `${gazetteer.code ? '&components=country:' + gazetteer.code : ''}`
+    + `${gazetteer.bounds ? '&' + decodeURIComponent(gazetteer.bounds) : ''}`
+    + `&${process.env.KEY_GOOGLE}`
 
-  // Fetch results from Google maps places API.
-  const fetched = await require('../fetch')(url);
+  const fetched = await fetch(url)
 
-  if (fetched._err) return fetched;
-    
+  const google = await fetched.json()
+   
   // Return results to route. Zero results will return an empty array.
-  return await fetched.predictions.map(f => ({
+  return await google.predictions.map(f => ({
     label: f.description,
     id: f.place_id,
     source: 'google'
-  }));
-
-};
+  }))
+}
