@@ -43,6 +43,8 @@ app.get(`${process.env.DIR||''}/api/layer/table`, (req, res) => require('./api/l
 
 app.get(`${process.env.DIR||''}/api/layer/extent`, (req, res) => require('./api/layer/extent')(req, res))
 
+app.get(`${process.env.DIR||''}/api/layer/chart`, (req, res) => require('./api/layer/chart')(req, res))
+
 app.get(`${process.env.DIR||''}/api/user/admin`, (req, res) => require('./api/user/admin')(req, res))
 
 app.post(`${process.env.DIR||''}/api/user/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/admin')(req, res))
@@ -88,6 +90,10 @@ app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('
 app.get(`${process.env.DIR||''}/api/location/select/cluster`, (req, res) => require('./api/location/select/cluster')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/field`, (req, res) => require('./api/location/field')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/table`, (req, res) => require('./api/location/table')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/list`, (req, res) => require('./api/location/list')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/edit/isoline/here`, (req, res) => require('./api/location/edit/isoline/here')(req, res))
 
