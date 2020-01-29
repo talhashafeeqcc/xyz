@@ -95,6 +95,8 @@ app.get(`${process.env.DIR||''}/api/location/table`, (req, res) => require('./ap
 
 app.get(`${process.env.DIR||''}/api/location/list`, (req, res) => require('./api/location/list')(req, res))
 
+app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
+
 app.get(`${process.env.DIR||''}/api/location/edit/isoline/here`, (req, res) => require('./api/location/edit/isoline/here')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/isoline/save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline/save')(req, res))
