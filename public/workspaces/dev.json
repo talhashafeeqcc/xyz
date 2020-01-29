@@ -27,7 +27,7 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
                     "format": "tiles",
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 },
                 "COUNTRIES": {
                     "display": true,
@@ -453,7 +453,7 @@
                         "© Mapbox": "https://www.mapbox.com/about/maps",
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 }
             }
         },
@@ -502,7 +502,7 @@
                         "© Ordanance Survey": "https://ordnancesurvey.co.uk"
                     },
                     "format": "tiles",
-                    "URI": "https://api.ordnancesurvey.co.uk/mapping_api/v1/service/zxy/EPSG%3A3857/Light%203857/{z}/{x}/{y}.png?&provider=OS"
+                    "URI": "/mapping_api/v1/service/zxy/EPSG%3A3857/Light%203857/{z}/{x}/{y}.png?&provider=OS&host=https://api.ordnancesurvey.co.uk"
                 },
                 "Mapbox Base": {
                     "group": "Base Layer",
@@ -512,7 +512,7 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
                     "format": "tiles",
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 },
                 "Grid": {
                     "attribution": {
@@ -1993,7 +1993,7 @@
                         "© Mapbox": "https://www.mapbox.com/about/maps",
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 },
                 "Sites": {
                     "group": "Cluster",

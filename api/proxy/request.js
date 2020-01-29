@@ -8,7 +8,7 @@ app.use('/', proxy(
   req => req.query.host,
   {
     https: true,
-    proxyReqPathResolver: req => `${req.query.uri}${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
+    proxyReqPathResolver: req => `${req.query.uri}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
   }))
 
 module.exports = app
