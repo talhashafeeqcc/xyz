@@ -120,6 +120,8 @@ app.get(`${process.env.DIR||''}/api/location/list`, (req, res) => require('./api
 
 app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
 
+app.get(`${process.env.DIR||''}/api/location/edit/delete`, (req, res) => require('./api/location/edit/delete')(req, res))
+
 app.get(`${process.env.DIR||''}/api/location/edit/setnull`, (req, res) => require('./api/location/edit/setnull')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/edit/isoline/here`, (req, res) => require('./api/location/edit/isoline/here')(req, res))
