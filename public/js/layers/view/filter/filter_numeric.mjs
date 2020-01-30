@@ -8,7 +8,7 @@ export default _xyz => (layer, filter_entry) => {
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
   xhr.open('GET', _xyz.host +
-    '/api/location/field/range?' +
+    '/api/location/range?' +
     _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
       layer: layer.key,

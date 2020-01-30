@@ -1,13 +1,13 @@
-const sql_filter = require('./sql_filter');
+const sql_filter = require('./sql_filter')
 
 module.exports = async (fields, infoj, qID, roles, locale) => {
 
   // Iterate through infoj and push individual entries into fields array
   await infoj.forEach(async entry => {
 
-    if (entry.columns) return;
+    if (entry.columns) return
 
-    if (entry.type === 'key') return;
+    if (entry.type === 'key') return
 
     if (entry.clusterArea) {
 
@@ -16,7 +16,7 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
         || !entry.clusterArea.area
         || !entry.clusterArea.cluster
         || !entry.clusterArea.area_geom
-        || !entry.clusterArea.cluster_geom) return;
+        || !entry.clusterArea.cluster_geom) return
 
       let q = `
       (
@@ -31,9 +31,9 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
             b.${entry.clusterArea.area_geom},
             a.${entry.clusterArea.cluster_geom}
           ) LIMIT 1
-      ) AS ${entry.field}`;
+      ) AS ${entry.field}`
         
-      return fields.push(q);
+      return fields.push(q)
     }
 
     if (entry.lookup) {
@@ -43,9 +43,9 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
         || !entry.lookup.table_a
         || !entry.lookup.table_b
         || !entry.lookup.geom_a
-        || !entry.lookup.geom_b) return;
+        || !entry.lookup.geom_b) return
 
-      let filter = {};
+      let filter = {}
 
       if(roles && roles.length) await roles.forEach(async role => {
 
@@ -56,9 +56,9 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
           if(layer_roles) Object.assign(filter, layer_roles[role]);
         }
     
-      });
+      })
 
-      const filter_sql = await sql_filter(filter);
+      const filter_sql = await sql_filter(filter)
 
       let q = `
       (
@@ -74,42 +74,36 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
             b.${entry.lookup.geom_b}
           )
           ${typeof filter_sql !== 'undefined' ? filter_sql : ''}
-      ) AS ${entry.field}`;
+      ) AS ${entry.field}`
        
-      return fields.push(q);
+      return fields.push(q)
     
     }
 
-    if (entry.labelfx) fields.push(`\n   ${entry.labelfx} AS ${entry.field}_label`);
+    if (entry.labelfx) fields.push(`\n   ${entry.labelfx} AS ${entry.field}_label`)
     
-    if (entry.field) return fields.push(`\n   (${entry.fieldfx || entry.field}) AS ${entry.field}`);
+    if (entry.field) return fields.push(`\n   (${entry.fieldfx || entry.field}) AS ${entry.field}`)
     
-  });
+  })
 
-  return fields;
+  return fields
 
-};
+}
 
 async function role_filter(locale, layer, roles) {
 
-  if (!layer || !roles.length) return;
+  if (!layer || !roles.length) return
   
-  const layer_roles = locale.layers[layer].roles;
+  const layer_roles = locale.layers[layer].roles
 
-  if (!Object.keys(layer_roles).some(
-    role => roles.includes(role)
-  )) return;
+  if (!Object.keys(layer_roles).some(role => roles.includes(role))) return
 
-  let filter = {};
+  let filter = {}
 
-  await roles.forEach(async role => {
-   
-    filter = Object.assign(filter, layer_roles[role]);
+  await roles.forEach(async role => filter = Object.assign(filter, layer_roles[role]))
 
-  });
+  const filter_sql = await sql_filter(filter)
 
-  const filter_sql = await sql_filter(filter);
-
-  return filter_sql;
+  return filter_sql
 
 }

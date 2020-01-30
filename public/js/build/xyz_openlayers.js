@@ -1764,7 +1764,7 @@ function inBBox(pt, bbox) {
   \**********************************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/helpers/main.es.js (<- Module is referenced from these modules with unsupported syntax: ./node_modules/@turf/point-on-feature/main.js (referenced with cjs require)) */
-/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/explode/main.es.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/nearest-point/main.es.js */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -120046,7 +120046,7 @@ var Map_Map = /** @class */ (function (_super) {
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
   xhr.open('GET', _xyz.host +
-    '/api/location/field/range?' +
+    '/api/location/range?' +
     _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
       layer: layer.key,

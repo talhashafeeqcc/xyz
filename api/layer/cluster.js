@@ -18,14 +18,12 @@ async function handler(req, res, token = {}) {
 
   let
     layer = locale.layers[req.query.layer],
-    table = req.query.table,
     geom = layer.geom,
     style_theme = layer.style.themes[decodeURIComponent(req.query.theme)],
     cat = style_theme && (style_theme.fieldfx || style_theme.field) || null,
     size = style_theme && style_theme.size || 1,
     theme = style_theme && style_theme.type,
     label = req.query.label,
-    filter = null, //req.params.filter,
     pixelRatio = parseFloat(req.query.pixelRatio),
     kmeans = parseInt(1 / req.query.kmeans),
     dbscan = parseFloat(req.query.dbscan),
@@ -39,7 +37,7 @@ async function handler(req, res, token = {}) {
   WHERE ST_DWithin(
     ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${parseInt(layer.srid)}),
     ${geom}, 0.00001)
-    ${filter && await sql_filter(filter) || ''}`
+    ${req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''}`
 
   // Apply KMeans cluster algorithm.
   if (kmeans) {
@@ -51,7 +49,7 @@ async function handler(req, res, token = {}) {
         ST_Point(${west}, ${south}),
         ST_Point(${east}, ${north})
       ) AS xdistance
-    FROM ${table} ${where_sql}`
+    FROM ${req.query.table} ${where_sql}`
 
     var rows = await dbs[layer.dbs](q)
 
@@ -72,7 +70,7 @@ async function handler(req, res, token = {}) {
       ${label && label !== 'count' ? label + ' AS label,' : ''}
       ST_ClusterKMeans(${geom}, ${kmeans}
     ) OVER () kmeans_cid
-    FROM ${table} ${where_sql}) kmeans`
+    FROM ${req.query.table} ${where_sql}) kmeans`
 
 
     // Apply nested DBScan cluster algorithm.
@@ -166,7 +164,7 @@ async function handler(req, res, token = {}) {
 
             END p0                
 
-          FROM ${table} ${where_sql}
+          FROM ${req.query.table} ${where_sql}
 
         ), second as (
           
@@ -255,7 +253,7 @@ async function handler(req, res, token = {}) {
           round(ST_X(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) / ${r}) * ${r} x_round,
           round(ST_Y(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) / ${r}) * ${r} y_round
             
-        FROM ${table} ${where_sql}) agg_sql GROUP BY x_round, y_round;`
+        FROM ${req.query.table} ${where_sql}) agg_sql GROUP BY x_round, y_round;`
 
       var xy_sql = `
         percentile_disc(0.5) WITHIN GROUP (ORDER BY x) x,

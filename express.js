@@ -102,7 +102,17 @@ app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('
 
 app.get(`${process.env.DIR||''}/api/location/select/cluster`, (req, res) => require('./api/location/select/cluster')(req, res))
 
+app.get(`${process.env.DIR||''}/api/location/select/nnearest`, (req, res) => require('./api/location/select/nnearest')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/select/interesect`, (req, res) => require('./api/location/select/intersect')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/select/contains`, (req, res) => require('./api/location/select/contains')(req, res))
+
 app.get(`${process.env.DIR||''}/api/location/field`, (req, res) => require('./api/location/field')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/range`, (req, res) => require('./api/location/range')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => require('./api/location/select/aggregate')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/table`, (req, res) => require('./api/location/table')(req, res))
 

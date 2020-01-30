@@ -4,6 +4,8 @@ const _workspace = require('../../../mod/workspace/get')()
 
 const dbs = require('../../../mod/pg/dbs')()
 
+const sql_filter = require('../../../mod/pg/sql_filter')
+
 module.exports = (req, res) => auth(req, res, handler, {
   public: true
 })
