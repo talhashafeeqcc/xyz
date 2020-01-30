@@ -134,6 +134,10 @@ app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (re
 
 app.post(`${process.env.DIR||''}/api/location/edit/geom_update`, bodyParser.json(), (req, res) => require('./api/location/edit/geom_update')(req, res))
 
+app.post(`${process.env.DIR||''}/api/location/edit/cloudinary_upload`, bodyParser.json(), (req, res) => require('./api/location/edit/cloudinary_upload')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/edit/cloudinary_delete`, (req, res) => require('./api/location/edit/cloudinary_delete')(req, res))
+
 app.get(`${process.env.DIR||''}/api/gazetteer/autocomplete`, (req, res) => require('./api/gazetteer/autocomplete')(req, res))
 
 app.get(`${process.env.DIR||''}/api/gazetteer/googleplaces`, (req, res) => require('./api/gazetteer/googleplaces')(req, res))

@@ -17,6 +17,10 @@ Isolines have a common save and not a save handler depending on the isolines pro
 
 This is provisional. There should not be a handler to save isolines. This should be handled like any other geometry field.
 
+The images_upload & documents_upload have now become cloudinary_upload.
+
+Likewise, images_delete and documents_delete have become cloudinary_delete.
+
 
 We are using express-http-proxy (also for the Zeit Now deployment). This may be temporary but requires a change to the URL which have a provider defined. The host needs to be split from the beginning of the URL path and added as a host query param.
 
