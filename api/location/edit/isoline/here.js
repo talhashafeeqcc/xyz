@@ -1,6 +1,6 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch')
 
-const auth = require('../../../../mod/auth/handler');
+const auth = require('../../../../mod/auth/handler')
 
 module.exports = (req, res) => auth(req, res, handler, {
   public: true

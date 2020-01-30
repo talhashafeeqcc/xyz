@@ -18,21 +18,27 @@ async function handler(req, res, token = {}) {
 
 	const layer = locale.layers[req.query.layer]
 
-	var meta_json
+	// // here
+	// if (req.query.meta) meta_json = {
+	// 	'Recent isoline': 'Here',
+	// 	'Mode': req.body.mode || 'car',
+	// 	'Range type': req.body.rangetype || 'time',
+	// 	'Type': req.body.type || 'fastest',
+	// 	'Range': req.body.minutes || req.body.distance,
+	// 	'Created': date()
+	// }
 
-	if (req.query.meta) meta_json = {
-		'Recent isoline': 'Here',
-		'Mode': req.body.mode || 'car',
-		'Range type': req.body.rangetype || 'time',
-		'Type': req.body.type || 'fastest',
-		'Range': req.body.minutes || req.body.distance,
-		'Created': date()
-	}
+	// //mapbox
+	// if (req.query.meta) meta_json = {
+	// 	'Recent isoline': 'Mapbox',
+	// 	'Mode': req.body.profile || 'driving',
+	// 	'Minutes': req.body.minutes || 10,
+	// 	'Created': date()
+	// }
 
 	var q = `
     UPDATE ${req.query.table}
     SET ${req.query.field} = ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('${JSON.stringify(req.body.isoline)}'), 4326), ${layer.srid})
-    	${req.query.meta ? `, ${req.query.meta} = '${JSON.stringify(meta_json)}'` : ''}
     WHERE ${layer.qID} = $1;`
 
 	var rows = await dbs[layer.dbs](q, [req.query.id])

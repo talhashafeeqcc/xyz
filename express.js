@@ -34,8 +34,8 @@ app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
         https: true,
         proxyReqPathResolver: req => {
 
-            console.log(`${encodeURIComponent(req.query.uri)}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`)
-            return `${encodeURIComponent(req.query.uri)}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
+            //console.log(`${encodeURIComponent(req.query.uri)}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`)
+            return `${req.query.uri}&${process.env[`KEY_${req.query.provider.toUpperCase()}`]}`
 
         }
     }))
@@ -110,7 +110,11 @@ app.get(`${process.env.DIR||''}/api/location/list`, (req, res) => require('./api
 
 app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
 
+app.get(`${process.env.DIR||''}/api/location/edit/setnull`, (req, res) => require('./api/location/edit/setnull')(req, res))
+
 app.get(`${process.env.DIR||''}/api/location/edit/isoline/here`, (req, res) => require('./api/location/edit/isoline/here')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/edit/isoline/mapbox`, (req, res) => require('./api/location/edit/isoline/mapbox')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/isoline/save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline/save')(req, res))
 

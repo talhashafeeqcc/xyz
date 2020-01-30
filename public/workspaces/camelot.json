@@ -1886,7 +1886,7 @@
                     "cluster_kmeans": 0.01,
                     "dataview": {
                         "Existing Terminals": {
-                            "display": true,
+                            "display": false,
                             "from": "camelot.uk_camelot_restrict_existing_terminals",
                             "columns": [
                                 {
@@ -2142,7 +2142,6 @@
                     "srid": "4326",
                     "cluster_label": "fascia_date",
                     "cluster_kmeans": 0.01,
-                    "cluster_dbscan": 0.02,
                     "scripts": [
                         "_xyz_csv_import"
                     ],
@@ -2332,6 +2331,87 @@
                                     }
                                 },
                                 {
+                                    "field": "existing_stores_within_05miles",
+                                    "title": "Existing Terminals - 0.5mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "fair_share_population_based_05miles",
+                                    "title": "Fair Share Population - 0.5mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "fair_share_demand_based_05miles",
+                                    "title": "Fair Share Demand - 0.5mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "existing_stores_within_1miles",
+                                    "title": "Existing Terminals - 1mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "fair_share_population_based_1miles",
+                                    "title": "Fair Share Population - 1mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "fair_share_demand_based_1miles",
+                                    "title": "Fair Share Demand - 1mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "existing_stores_within_2miles",
+                                    "title": "Existing Terminals - 2mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "fair_share_population_based_2miles",
+                                    "title": "Fair Share Population - 2mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "field": "fair_share_demand_based_2miles",
+                                    "title": "Fair Share Demand - 2mi",
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
                                     "field": "pct_pop_within_half_mile",
                                     "fieldfx": "pct_pop_within_half_mile * 100",
                                     "title": "Pop within 1/2mi",
@@ -2362,7 +2442,7 @@
                                 },
                                 {
                                     "field": "fair_share_terminals_pop_based",
-                                    "fieldfx": "fair_share_terminals_pop_based * 100",
+                                    "fieldfx": "fair_share_terminals_pop_based",
                                     "title": "Fair share on population",
                                     "align": "right",
                                     "formatter": "money",
@@ -2372,7 +2452,7 @@
                                 },
                                 {
                                     "field": "fair_share_terminals_demand_based",
-                                    "fieldfx": "fair_share_terminals_demand_based * 100",
+                                    "fieldfx": "fair_share_terminals_demand_based",
                                     "title": "Fair share on demand",
                                     "align": "right",
                                     "formatter": "money",
@@ -2404,7 +2484,7 @@
                             "type": "report",
                             "class": "_report",
                             "report": {
-                                "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/report.html&source=GITHUB"
+                                "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/report_test.html&source=GITHUB"
                             }
                         },
                         {
@@ -2575,50 +2655,56 @@
                         },
                         {
                             "group": "Forecast Sales - Altura",
-                            "field": "altura_dbg_predicted_year1",
+                            "field": "_altura_dbg_predicted_year1",
+                            "fieldfx": "round(altura_dbg_predicted_year1, 0)",
                             "label": "DBG - Yr1",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - Altura",
-                            "field": "altura_iwg_predicted_year1",
+                            "field": "_altura_iwg_predicted_year1",
+                            "fieldfx": "round(altura_iwg_predicted_year1, 0)",
                             "label": "IWG - Yr1",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - Altura",
-                            "field": "altura_tot_predicted_year1",
+                            "field": "_altura_tot_predicted_year1",
+                            "fieldfx": "round(altura_tot_predicted_year1, 0)",
                             "label": "Total - Yr1",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - Altura",
-                            "field": "altura_dbg_predicted_mature",
+                            "field": "_altura_dbg_predicted_mature",
+                            "fieldfx": "round(altura_dbg_predicted_mature, 0)",
                             "label": "DBG - Mature",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - Altura",
-                            "field": "altura_iwg_predicted_mature",
+                            "field": "_altura_iwg_predicted_mature",
+                            "fieldfx": "round(altura_iwg_predicted_mature, 0)",
                             "label": "IWG - Mature",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - Altura",
-                            "field": "altura_tot_predicted_mature",
+                            "field": "_altura_tot_predicted_mature",
+                            "fieldfx": "round(altura_tot_predicted_mature, 0)",
                             "label": "Total - Mature",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - Altura",
-                            "field": "altura_confidence",
-                            "fieldfx": "altura_confidence * 100",
+                            "field": "_altura_confidence",
+                            "fieldfx": "round(altura_confidence * 100, 0)",
                             "label": "Confidence of >£1k",
                             "inline": true,
                             "suffix": "%",
@@ -2631,50 +2717,56 @@
                         },
                         {
                             "group": "Forecast Sales - CLT",
-                            "field": "clt_dbg_predicted_year1",
+                            "field": "_clt_dbg_predicted_year1",
+                            "fieldfx": "round(clt_dbg_predicted_year1, 0)",
                             "label": "DBG - Yr1",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - CLT",
-                            "field": "clt_iwg_predicted_year1",
+                            "field": "_clt_iwg_predicted_year1",
+                            "fieldfx": "round(clt_iwg_predicted_year1, 0)",
                             "label": "IWG - Yr1",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - CLT",
-                            "field": "clt_tot_predicted_year1",
+                            "field": "_clt_tot_predicted_year1",
+                            "fieldfx": "round(clt_tot_predicted_year1, 0)",
                             "label": "Total - Yr1",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - CLT",
-                            "field": "clt_dbg_predicted_mature",
+                            "field": "_clt_dbg_predicted_mature",
+                            "fieldfx": "round(clt_dbg_predicted_mature, 0)",
                             "label": "DBG - Mature",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - CLT",
-                            "field": "clt_iwg_predicted_mature",
+                            "field": "_clt_iwg_predicted_mature",
+                            "fieldfx": "round(clt_iwg_predicted_mature, 0)",
                             "label": "IWG - Mature",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - CLT",
-                            "field": "clt_tot_predicted_mature",
+                            "field": "_clt_tot_predicted_mature",
+                            "fieldfx": "round(clt_tot_predicted_mature, 0)",
                             "label": "Total - Mature",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Forecast Sales - CLT",
-                            "field": "clt_confidence",
-                            "fieldfx": "clt_confidence * 100",
+                            "field": "_clt_confidence",
+                            "fieldfx": "round(clt_confidence * 100, 0)",
                             "label": "Confidence of >£350",
                             "inline": true,
                             "suffix": "%",
@@ -2683,12 +2775,14 @@
                         {
                             "label": "Shoppertown",
                             "type": "group",
-                            "expanded": true
+                            "expanded": true,
+                            "class": "_report"
                         },
                         {
                             "group": "Shoppertown",
-                            "field": "pct_pop_within_half_mile",
-                            "fieldfx": "pct_pop_within_half_mile * 100",
+                            "field": "_pct_pop_within_half_mile",
+                            "fieldfx": "round(pct_pop_within_half_mile * 100, 0)",
+                            "class": "_report",
                             "label": "Pop within 1/2mi",
                             "inline": true,
                             "suffix": "%",
@@ -2696,8 +2790,9 @@
                         },
                         {
                             "group": "Shoppertown",
-                            "field": "pct_pop_within_one_mile",
-                            "fieldfx": "pct_pop_within_one_mile * 100",
+                            "field": "_pct_pop_within_one_mile",
+                            "fieldfx": "round(pct_pop_within_one_mile * 100, 0)",
+                            "class": "_report",
                             "label": "Pop within 1mi",
                             "inline": true,
                             "suffix": "%",
@@ -2706,22 +2801,25 @@
                         {
                             "group": "Shoppertown",
                             "field": "shoppertown_terminals",
+                            "class": "_report",
                             "label": "Shoppertown Terminals",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Shoppertown",
-                            "field": "fair_share_terminals_pop_based",
-                            "fieldfx": "fair_share_terminals_pop_based * 100",
+                            "field": "_fair_share_terminals_pop_based",
+                            "fieldfx": "round(fair_share_terminals_pop_based,0)",
+                            "class": "_report",
                             "label": "Fair share on population",
                             "inline": true,
                             "type": "integer"
                         },
                         {
                             "group": "Shoppertown",
-                            "field": "fair_share_terminals_demand_based",
-                            "fieldfx": "fair_share_terminals_demand_based * 100",
+                            "field": "_fair_share_terminals_demand_based",
+                            "fieldfx": "round(fair_share_terminals_demand_based,0)",
+                            "class": "_report",
                             "label": "Fair share on demand",
                             "inline": true,
                             "type": "integer"
@@ -2766,11 +2864,16 @@
                             }
                         },
                         {
+                            "label": "Available dataviews",
+                            "type": "label",
+                            "class": "_report"
+                        },
+                        {
                             "type": "tableDefinition",
                             "title": "Local Area",
                             "display": true,
                             "class": "_report",
-                            "layout": "fitColumns",
+                           
                             "target_id": "xyz_local_area",
                             "columns": [
                                 {
@@ -2842,6 +2945,81 @@
                                     "field": "online_demand",
                                     "fieldfx": "SUM(b.online_demand)",
                                     "title": "Digital Demand"
+                                },
+                                {
+                                    "field": "_fair_share_pop",
+                                    "fieldfx": "(SUM(b.pop_19) / 1509::numeric)",
+                                    "title": "Fair Share - population"
+                                },
+                                {
+                                    "field": "_fair_share_demand",
+                                    "fieldfx": "(SUM(b.dbg_demand + b.iwg_demand) / 2348::numeric)",
+                                    "title": "Fair Share - Demand"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "tableDefinition",
+                            "title": "Existing Terminals",
+                            "display": true,
+                            "class": "_report",
+                           
+                            "target_id": "xyz_existing_terminals",
+                            "columns": [
+                                {
+                                    "type": "integer",
+                                    "title": "1/2 Mile Radius",
+                                    "field": "min5",
+                                    "lookup": {
+                                        "table_a": "camelot.camelot_output_table_history",
+                                        "table_b": "camelot.uk_camelot_restrict_existing_terminals",
+                                        "geom_a": "geom_4326_05mile",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "integer",
+                                    "title": "1 Mile Radius",
+                                    "field": "min10",
+                                    "lookup": {
+                                        "table_a": "camelot.camelot_output_table_history",
+                                        "table_b": "camelot.uk_camelot_restrict_existing_terminals",
+                                        "geom_a": "geom_4326_1mile",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                },
+                                {
+                                    "type": "integer",
+                                    "title": "2 Mile Radius",
+                                    "field": "min15",
+                                    "lookup": {
+                                        "table_a": "camelot.camelot_output_table_history",
+                                        "table_b": "camelot.uk_camelot_restrict_existing_terminals",
+                                        "geom_a": "geom_4326_2mile",
+                                        "geom_b": "geom_p_4326"
+                                    },
+                                    "align": "right",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "field": "_existing_terminals",
+                                    "fieldfx": "count(b.storeid)",
+                                    "title": "Number of existing terminals"
                                 }
                             ]
                         },
@@ -2942,8 +3120,8 @@
                             "display": true,
                             "target_id": "xyz_nearest_supermarket_terminals",
                             "class": "_report",
-                            "from": "camelot.camelot_output_table_history a, camelot.vw_uk_camelot_restrict_existing_terminals_supermarkets b",
-                            "where": "a.id = $1",
+                            "from": "camelot.camelot_output_table_history a, camelot.uk_camelot_restrict_existing_terminals b",
+                            "where": "a.id = $1 and b.gltype_grp = 'Supermarket'",
                             "orderby": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326)",
                             "limit": 3,
                             "columns": [
@@ -3026,10 +3204,63 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "display": true,
+                            "title": "Shopper Town Population",
+                            "type": "orderedList",
+                            "target_id": "xyz_shop_town_population",
+                            "class": "_report",
+                            "from": "camelot.vw_camelot_output_history_st_metrics",
+                            "where": "id = $1 and metric_id <=2",
+                            "orderby": "metric_id",
+                            "limit": 10,
+                            "columns": [
+                                {
+                                    
+                                    "field": "metric_label"
+                                },
+                                {
+                                    
+                                    "field": "metric",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 1,
+                                        "symbol": "%",
+                                        "symbolAfter": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "display": true,
+                            "title": "Shopper Town Fair Share",
+                            "type": "orderedList",
+                            "class": "_report",
+                            "target_id": "xyz_shop_town_fairshare",
+                            "from": "camelot.vw_camelot_output_history_st_metrics",
+                            "where": "id = $1 and metric_id >2",
+                            "orderby": "metric_id",
+                            "limit": 10,
+                            "columns": [
+                                {
+                                    
+                                    "field": "metric_label"
+                                },
+                                {
+                                   
+                                    "field": "metric",
+                                    "formatter": "money",
+                                    "formatterParams": {
+                                        "precision": 0
+                                    }
+                                }
+                            ]
                         }
                     ],
                     "style": {
                         "hidden": true,
+                       
                         "marker": {
                             "type": "triangle",
                             "fillColor": "#006699"

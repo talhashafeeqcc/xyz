@@ -20,7 +20,7 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
-  var fields = await sql_infoj(req.body.infoj);
+  var fields = await sql_infoj(req.body.infoj)
 
   var q = `UPDATE ${req.query.table} SET ${fields} WHERE ${layer.qID} = $1;`
 
@@ -52,6 +52,6 @@ async function handler(req, res, token = {}) {
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
   // Send the infoj object with values back to the client.
-  res.send(rows[0]);
+  res.send(rows[0])
 
 }
