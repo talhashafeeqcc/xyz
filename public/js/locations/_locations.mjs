@@ -67,6 +67,8 @@ export default _xyz => {
 
         tables: [],
 
+        geometryCollection: [],
+
         style: Object.assign({
           strokeColor: '#1F964D',
           // icon: {

@@ -70853,7 +70853,7 @@ const compose = (...fns) => p => fns.forEach(f=>f(p));
 
 const turf = {
   pointOnFeature: point_on_feature_main,
-  kinks: kinks
+  kinks: kinks.default
 };
 // CONCATENATED MODULE: ./public/js/workspace.mjs
 /* harmony default export */ var workspace = (_xyz => {
@@ -117408,9 +117408,7 @@ var Map_Map = /** @class */ (function (_super) {
           };
 
           //console.log(JSON.stringify(trail));
-          console.log(typeof(_xyz.utils.turf.pointOnFeature));
-          console.log(JSON.stringify(_xyz.utils.turf.kinks));
-          //console.log(_xyz.utils.turf.kinks(trail));
+          console.log(_xyz.utils.turf.kinks(trail));
         
         }
 
@@ -117427,8 +117425,6 @@ var Map_Map = /** @class */ (function (_super) {
   
     _xyz.mapview.interaction.draw.interaction.on('drawstart', e => {
 
-      console.log('drawstart');
-
       params.style && e.feature.setStyle(
         new _xyz.mapview.lib.style.Style({
         stroke: params.style.strokeColor && new _xyz.mapview.lib.style.Stroke({
@@ -117442,7 +117438,7 @@ var Map_Map = /** @class */ (function (_super) {
     });
   
     _xyz.mapview.interaction.draw.interaction.on('drawend', e => {
-      console.log('drawend');
+
       params.freehand && _xyz.mapview.interaction.draw.vertices.push(e.target.sketchCoords_.pop());
       if (params.drawend) return params.drawend(e);
       setTimeout(contextmenu, 400);
@@ -122036,6 +122032,11 @@ function panel(layer) {
     _xyz.dataview.removeTab(table)
   });
 
+  location.geometryCollection = location.geometryCollection.filter(geom => {
+    _xyz.map.removeLayer(geom)
+  });
+
+
   const listview = _xyz.utils.wire()`<table>`;
 
   // Create object to hold view groups.
@@ -123146,7 +123147,7 @@ function panel(layer) {
 
   function settings(entry) {
 
-    if (entry.edit.isoline_here && entry.edit.isoline_here.minutes) return _xyz.utils.wire()`<div>`;
+    if (entry.edit.isoline_here && (entry.edit.isoline_here.minutes || (!entry.edit.isoline_here.minutes && entry.value))) return _xyz.utils.wire()`<div>`;
     
     const group = _xyz.utils.wire()`
     <div class="drawer panel expandable">`;
@@ -123160,8 +123161,8 @@ function panel(layer) {
         _xyz.utils.toggleExpanderParent(e.target);
       }}>Here Isoline settings`);
 
-    entry.edit.isoline_here.minutes = entry.edit.isoline_here.minutes || 10;
-    entry.edit.isoline_here.distance = entry.edit.isoline_here.distance || 10;
+    entry.edit.isoline_here._minutes = entry.edit.isoline_here.minutes || 10;
+    entry.edit.isoline_here._distance = entry.edit.isoline_here.distance || 10;
 
     const modes = [
       { Driving: 'car' },
@@ -123238,12 +123239,12 @@ function panel(layer) {
                       slider_here_range.querySelector('span').textContent = 'Travel time in minutes: ';
               
                       input.oninput = e => {
-                        entry.edit.isoline_here.minutes = parseInt(e.target.value);
-                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.minutes;
+                        entry.edit.isoline_here._minutes = parseInt(e.target.value);
+                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._minutes;
                       };
               
-                      input.value = entry.edit.isoline_here.minutes;
-                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.minutes;
+                      input.value = entry.edit.isoline_here._minutes;
+                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._minutes;
                     
                     }
               
@@ -123252,11 +123253,11 @@ function panel(layer) {
                       slider_here_range.querySelector('span').textContent = 'Travel distance in kilometer: ';
               
                       input.oninput = e => {
-                        entry.edit.isoline_here.distance = parseInt(e.target.value);
-                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.distance;
+                        entry.edit.isoline_here._distance = parseInt(e.target.value);
+                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._distance;
                       };
-                      input.value = entry.edit.isoline_here.distance;
-                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.distance;
+                      input.value = entry.edit.isoline_here._distance;
+                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._distance;
                     }
         
                 }}>${Object.keys(keyVal)[0]}`)}`);    
@@ -123264,18 +123265,18 @@ function panel(layer) {
     const slider_here_range = _xyz.utils.wire()`
     <div style="margin-top: 12px;">
         <span>Travel time in minutes: </span>
-        <span class="bold">${entry.edit.isoline_here.minutes}</span>
+        <span class="bold">${entry.edit.isoline_here._minutes}</span>
         <div class="input-range">
         <input
           class="secondary-colour-bg"
           type="range"
           min=5
-          value=${entry.edit.isoline_here.minutes}
+          value=${entry.edit.isoline_here._minutes}
           max=60
           step=1
           oninput=${e=>{
-            entry.edit.isoline_here.minutes = parseInt(e.target.value);
-            e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.minutes;
+            entry.edit.isoline_here._minutes = parseInt(e.target.value);
+            e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._minutes;
           }}>`
 
     group.appendChild(slider_here_range);
@@ -123302,8 +123303,8 @@ function panel(layer) {
         mode: entry.edit.isoline_here.mode,
         type: entry.edit.isoline_here.type,
         rangetype: entry.edit.isoline_here.rangetype,
-        minutes: entry.edit.isoline_here.minutes,
-        distance: entry.edit.isoline_here.distance,
+        minutes: entry.edit.isoline_here._minutes,
+        distance: entry.edit.isoline_here._distance,
         token: _xyz.token
       }));
 
@@ -123366,8 +123367,8 @@ function panel(layer) {
         mode: entry.edit.isoline_here.mode,
         rangetype: entry.edit.isoline_here.rangetype,
         type: entry.edit.isoline_here.type,
-        minutes: entry.edit.isoline_here.minutes,
-        distance: entry.edit.isoline_here.distance,
+        minutes: entry.edit.isoline_here._minutes,
+        distance: entry.edit.isoline_here._distance,
         isoline: e.target.response
       }));
 
@@ -123423,7 +123424,7 @@ function panel(layer) {
         if (_entry.field === key) _entry.value = e.target.response[key];
       });
 
-    })
+    });
 
     // Update the location view.
     _xyz.locations.view.create(entry.location);
@@ -123435,8 +123436,6 @@ function panel(layer) {
 });
 // CONCATENATED MODULE: ./public/js/locations/view/geometry/geometryCollection.mjs
 /* harmony default export */ var geometry_geometryCollection = (_xyz => entry => {
-
-	entry.location.geometryCollection = [];
 
 	entry.value.features.map(feature => {
 
@@ -123547,6 +123546,11 @@ function panel(layer) {
       entry.location.geometryCollection && entry.location.geometries.splice(entry.location.geometries.indexOf(entry.geometryCollection), 1) && entry.location.geometryCollection.map(f => _xyz.map.removeLayer(f));
 
       entry.display = false;
+
+      //if (entry.edit && entry.edit.isoline_mapbox) td.appendChild(isoline_mapbox.settings(entry));
+
+      //if (entry.edit && entry.edit.isoline_here) td.appendChild(isoline_here.settings(entry));
+    
     };
 
     function createGeom() {
@@ -123585,7 +123589,8 @@ function panel(layer) {
       }">`);
 
 
-
+    console.log('add settings');
+    
     if (entry.edit && entry.edit.isoline_mapbox) td.appendChild(isoline_mapbox.settings(entry));
 
     if (entry.edit && entry.edit.isoline_here) td.appendChild(isoline_here.settings(entry));
@@ -124130,7 +124135,7 @@ function panel(layer) {
     geom => _xyz.map.removeLayer(geom)
   );
 
-  if(location.geometryCollection) location.geometryCollection.forEach(
+  location.geometryCollection.forEach(
     geom => _xyz.map.removeLayer(geom)
   );
 
@@ -124352,6 +124357,8 @@ function panel(layer) {
         geometries: [],
 
         tables: [],
+
+        geometryCollection: [],
 
         style: Object.assign({
           strokeColor: '#1F964D',

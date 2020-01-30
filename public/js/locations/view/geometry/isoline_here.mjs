@@ -10,7 +10,7 @@ export default _xyz => {
 
   function settings(entry) {
 
-    if (entry.edit.isoline_here && entry.edit.isoline_here.minutes) return _xyz.utils.wire()`<div>`;
+    if (entry.edit.isoline_here && (entry.edit.isoline_here.minutes || (!entry.edit.isoline_here.minutes && entry.value))) return _xyz.utils.wire()`<div>`;
     
     const group = _xyz.utils.wire()`
     <div class="drawer panel expandable">`;
@@ -24,8 +24,8 @@ export default _xyz => {
         _xyz.utils.toggleExpanderParent(e.target);
       }}>Here Isoline settings`);
 
-    entry.edit.isoline_here.minutes = entry.edit.isoline_here.minutes || 10;
-    entry.edit.isoline_here.distance = entry.edit.isoline_here.distance || 10;
+    entry.edit.isoline_here._minutes = entry.edit.isoline_here.minutes || 10;
+    entry.edit.isoline_here._distance = entry.edit.isoline_here.distance || 10;
 
     const modes = [
       { Driving: 'car' },
@@ -102,12 +102,12 @@ export default _xyz => {
                       slider_here_range.querySelector('span').textContent = 'Travel time in minutes: ';
               
                       input.oninput = e => {
-                        entry.edit.isoline_here.minutes = parseInt(e.target.value);
-                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.minutes;
+                        entry.edit.isoline_here._minutes = parseInt(e.target.value);
+                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._minutes;
                       };
               
-                      input.value = entry.edit.isoline_here.minutes;
-                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.minutes;
+                      input.value = entry.edit.isoline_here._minutes;
+                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._minutes;
                     
                     }
               
@@ -116,11 +116,11 @@ export default _xyz => {
                       slider_here_range.querySelector('span').textContent = 'Travel distance in kilometer: ';
               
                       input.oninput = e => {
-                        entry.edit.isoline_here.distance = parseInt(e.target.value);
-                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.distance;
+                        entry.edit.isoline_here._distance = parseInt(e.target.value);
+                        e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._distance;
                       };
-                      input.value = entry.edit.isoline_here.distance;
-                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.distance;
+                      input.value = entry.edit.isoline_here._distance;
+                      input.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._distance;
                     }
         
                 }}>${Object.keys(keyVal)[0]}`)}`);    
@@ -128,18 +128,18 @@ export default _xyz => {
     const slider_here_range = _xyz.utils.wire()`
     <div style="margin-top: 12px;">
         <span>Travel time in minutes: </span>
-        <span class="bold">${entry.edit.isoline_here.minutes}</span>
+        <span class="bold">${entry.edit.isoline_here._minutes}</span>
         <div class="input-range">
         <input
           class="secondary-colour-bg"
           type="range"
           min=5
-          value=${entry.edit.isoline_here.minutes}
+          value=${entry.edit.isoline_here._minutes}
           max=60
           step=1
           oninput=${e=>{
-            entry.edit.isoline_here.minutes = parseInt(e.target.value);
-            e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here.minutes;
+            entry.edit.isoline_here._minutes = parseInt(e.target.value);
+            e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_here._minutes;
           }}>`
 
     group.appendChild(slider_here_range);
@@ -166,8 +166,8 @@ export default _xyz => {
         mode: entry.edit.isoline_here.mode,
         type: entry.edit.isoline_here.type,
         rangetype: entry.edit.isoline_here.rangetype,
-        minutes: entry.edit.isoline_here.minutes,
-        distance: entry.edit.isoline_here.distance,
+        minutes: entry.edit.isoline_here._minutes,
+        distance: entry.edit.isoline_here._distance,
         token: _xyz.token
       }));
 
@@ -230,8 +230,8 @@ export default _xyz => {
         mode: entry.edit.isoline_here.mode,
         rangetype: entry.edit.isoline_here.rangetype,
         type: entry.edit.isoline_here.type,
-        minutes: entry.edit.isoline_here.minutes,
-        distance: entry.edit.isoline_here.distance,
+        minutes: entry.edit.isoline_here._minutes,
+        distance: entry.edit.isoline_here._distance,
         isoline: e.target.response
       }));
 

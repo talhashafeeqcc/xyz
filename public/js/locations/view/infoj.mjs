@@ -10,6 +10,11 @@ export default _xyz => location => {
     _xyz.dataview.removeTab(table)
   });
 
+  location.geometryCollection = location.geometryCollection.filter(geom => {
+    _xyz.map.removeLayer(geom)
+  });
+
+
   const listview = _xyz.utils.wire()`<table>`;
 
   // Create object to hold view groups.

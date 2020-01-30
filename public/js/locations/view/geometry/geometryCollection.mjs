@@ -1,7 +1,5 @@
 export default _xyz => entry => {
 
-	entry.location.geometryCollection = [];
-
 	entry.value.features.map(feature => {
 
 		let style;
