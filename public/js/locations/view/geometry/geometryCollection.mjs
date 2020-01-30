@@ -22,7 +22,7 @@ export default _xyz => entry => {
           let f = _xyz.mapview.geoJSON({
             geometry: feature.geometry,
             dataProjection: '4326',
-            zIndex: 999,
+            zIndex: entry.location.layer.L.getZIndex()-1,
             style: new _xyz.mapview.lib.style.Style({
               stroke: style.strokeColor && new _xyz.mapview.lib.style.Stroke({
                 color: _xyz.utils.Chroma(style.color || style.strokeColor).alpha(1),
