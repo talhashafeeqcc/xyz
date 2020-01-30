@@ -10,8 +10,9 @@ export default _xyz => {
 
   function settings(entry) {
 
-    if (entry.edit.isoline_mapbox && entry.edit.isoline_mapbox.minutes) return _xyz.utils.wire()`<div>`;
-    
+    //if (entry.edit.isoline_mapbox && entry.edit.isoline_mapbox.minutes) return _xyz.utils.wire()`<div>`;
+    if (entry.edit.isoline_mapbox && (entry.edit.isoline_mapbox.minutes || (!entry.edit.isoline_mapbox.minutes && entry.value))) return _xyz.utils.wire()`<div>`;
+
     const group = _xyz.utils.wire()`
     <div class="drawer panel expandable">`;
 
@@ -25,7 +26,7 @@ export default _xyz => {
       }}>Mapbox Isoline settings`);
 
     entry.edit.isoline_mapbox.profile = entry.edit.isoline_mapbox.profile || 'driving';
-    entry.edit.isoline_mapbox.minutes = entry.edit.isoline_mapbox.minutes || 10;
+    entry.edit.isoline_mapbox._minutes = entry.edit.isoline_mapbox.minutes || 10;
 
     const modes = [
       { Driving : 'driving' },
@@ -65,18 +66,18 @@ export default _xyz => {
     group.appendChild(_xyz.utils.wire()`
     <div style="margin-top: 12px;">
       <span>Travel time in minutes: </span>
-      <span class="bold">${entry.edit.isoline_mapbox.minutes}</span>
+      <span class="bold">${entry.edit.isoline_mapbox._minutes}</span>
       <div class="input-range">
       <input
         class="secondary-colour-bg"
         type="range"
         min=5
-        value=${entry.edit.isoline_mapbox.minutes}
+        value=${entry.edit.isoline_mapbox._minutes}
         max=60
         step=1
         oninput=${e=>{
-          entry.edit.isoline_mapbox.minutes = parseInt(e.target.value);
-          e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_mapbox.minutes;
+          entry.edit.isoline_mapbox._minutes = parseInt(e.target.value);
+          e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_mapbox._minutes;
         }}>`);
 
     return group;
@@ -95,10 +96,8 @@ export default _xyz => {
         layer: entry.location.layer.key,
         table: entry.location.table,
         coordinates: origin.join(','),
-        minutes: entry.edit.isoline_mapbox.minutes,
+        minutes: entry.edit.isoline_mapbox._minutes,
         profile: entry.edit.isoline_mapbox.profile,
-        //id: entry.location.id,
-        //field: entry.field,
         meta: entry.edit.isoline_mapbox.meta || null,
         token: _xyz.token
       }));
@@ -160,7 +159,7 @@ export default _xyz => {
 
       xhr_save.send(JSON.stringify({
         profile: entry.edit.isoline_mapbox.profile,
-        minutes: entry.edit.isoline_mapbox.minutes,
+        minutes: entry.edit.isoline_mapbox._minutes,
         isoline: e.target.response
       }));
 

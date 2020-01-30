@@ -122971,8 +122971,9 @@ function panel(layer) {
 
   function settings(entry) {
 
-    if (entry.edit.isoline_mapbox && entry.edit.isoline_mapbox.minutes) return _xyz.utils.wire()`<div>`;
-    
+    //if (entry.edit.isoline_mapbox && entry.edit.isoline_mapbox.minutes) return _xyz.utils.wire()`<div>`;
+    if (entry.edit.isoline_mapbox && (entry.edit.isoline_mapbox.minutes || (!entry.edit.isoline_mapbox.minutes && entry.value))) return _xyz.utils.wire()`<div>`;
+
     const group = _xyz.utils.wire()`
     <div class="drawer panel expandable">`;
 
@@ -122986,7 +122987,7 @@ function panel(layer) {
       }}>Mapbox Isoline settings`);
 
     entry.edit.isoline_mapbox.profile = entry.edit.isoline_mapbox.profile || 'driving';
-    entry.edit.isoline_mapbox.minutes = entry.edit.isoline_mapbox.minutes || 10;
+    entry.edit.isoline_mapbox._minutes = entry.edit.isoline_mapbox.minutes || 10;
 
     const modes = [
       { Driving : 'driving' },
@@ -123026,18 +123027,18 @@ function panel(layer) {
     group.appendChild(_xyz.utils.wire()`
     <div style="margin-top: 12px;">
       <span>Travel time in minutes: </span>
-      <span class="bold">${entry.edit.isoline_mapbox.minutes}</span>
+      <span class="bold">${entry.edit.isoline_mapbox._minutes}</span>
       <div class="input-range">
       <input
         class="secondary-colour-bg"
         type="range"
         min=5
-        value=${entry.edit.isoline_mapbox.minutes}
+        value=${entry.edit.isoline_mapbox._minutes}
         max=60
         step=1
         oninput=${e=>{
-          entry.edit.isoline_mapbox.minutes = parseInt(e.target.value);
-          e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_mapbox.minutes;
+          entry.edit.isoline_mapbox._minutes = parseInt(e.target.value);
+          e.target.parentNode.previousElementSibling.textContent = entry.edit.isoline_mapbox._minutes;
         }}>`);
 
     return group;
@@ -123056,10 +123057,8 @@ function panel(layer) {
         layer: entry.location.layer.key,
         table: entry.location.table,
         coordinates: origin.join(','),
-        minutes: entry.edit.isoline_mapbox.minutes,
+        minutes: entry.edit.isoline_mapbox._minutes,
         profile: entry.edit.isoline_mapbox.profile,
-        //id: entry.location.id,
-        //field: entry.field,
         meta: entry.edit.isoline_mapbox.meta || null,
         token: _xyz.token
       }));
@@ -123121,7 +123120,7 @@ function panel(layer) {
 
       xhr_save.send(JSON.stringify({
         profile: entry.edit.isoline_mapbox.profile,
-        minutes: entry.edit.isoline_mapbox.minutes,
+        minutes: entry.edit.isoline_mapbox._minutes,
         isoline: e.target.response
       }));
 
@@ -123424,7 +123423,7 @@ function panel(layer) {
         if (_entry.field === key) _entry.value = e.target.response[key];
       });
 
-    });
+    })
 
     // Update the location view.
     _xyz.locations.view.create(entry.location);
@@ -123546,11 +123545,6 @@ function panel(layer) {
       entry.location.geometryCollection && entry.location.geometries.splice(entry.location.geometries.indexOf(entry.geometryCollection), 1) && entry.location.geometryCollection.map(f => _xyz.map.removeLayer(f));
 
       entry.display = false;
-
-      //if (entry.edit && entry.edit.isoline_mapbox) td.appendChild(isoline_mapbox.settings(entry));
-
-      //if (entry.edit && entry.edit.isoline_here) td.appendChild(isoline_here.settings(entry));
-    
     };
 
     function createGeom() {
@@ -123589,8 +123583,7 @@ function panel(layer) {
       }">`);
 
 
-    console.log('add settings');
-    
+
     if (entry.edit && entry.edit.isoline_mapbox) td.appendChild(isoline_mapbox.settings(entry));
 
     if (entry.edit && entry.edit.isoline_here) td.appendChild(isoline_here.settings(entry));
