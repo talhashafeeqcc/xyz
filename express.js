@@ -49,7 +49,7 @@ app.post(`${process.env.DIR||''}/api/proxy/pg`, bodyParser.text(), (req, res) =>
 
 app.get(`${process.env.DIR||''}/api/github`, (req, res) => require('./api/github')(req, res))
 
-app.get(`${process.env.DIR||''}/api/layer/mvt`, (req, res) => require('./api/layer/mvt')(req, res))
+app.get(`${process.env.DIR||''}/api/layer/mvt/:z/:x/:y`, (req, res) => require('./api/layer/mvt')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/grid`, (req, res) => require('./api/layer/grid')(req, res))
 

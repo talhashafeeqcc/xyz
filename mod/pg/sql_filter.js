@@ -79,3 +79,19 @@ module.exports = async filter => {
 
   }
 }
+
+
+function roles() {
+  token.roles.filter(
+    role => layer.roles && layer.roles[role]).forEach(
+      role => {
+        let key = Object.keys(layer.roles[role])[0]
+        if (!filter[key]) {
+          Object.assign(filter, layer.roles[role])
+
+        } else {
+          filter[key] = Array.prototype.concat(filter[key], layer.roles[role][key])
+        }
+      }
+    )
+}
