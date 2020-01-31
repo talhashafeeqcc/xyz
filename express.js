@@ -8,27 +8,8 @@ const bodyParser = require('body-parser')
 const app = express()
 
 
-app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
-
-app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
-
-app.get(`${process.env.DIR||''}/desktop`, (req, res) => require('./api/desktop')(req, res))
-
-app.post(`${process.env.DIR||''}/desktop`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/desktop')(req, res))
-
-app.get(`${process.env.DIR||''}/mobile`, (req, res) => require('./api/mobile')(req, res))
-
-app.post(`${process.env.DIR||''}/mobile`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/mobile')(req, res))
-
-app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report')(req, res))
-
-app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/report')(req, res))
-
 app.use(process.env.DIR||'', express.static('public'))
 
-app.get(`${process.env.DIR||''}/api/package`, (req, res) => require('./api/package')(req, res))
-
-app.get(`${process.env.DIR||''}/api/workspace/get`, (req, res) => require('./api/workspace/get')(req, res))
 
 const proxy = require('express-http-proxy');
 
@@ -44,6 +25,27 @@ app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
         }
     }))
 
+
+app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
+
+app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
+
+app.get(`${process.env.DIR||''}/desktop`, (req, res) => require('./api/desktop')(req, res))
+
+app.post(`${process.env.DIR||''}/desktop`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/desktop')(req, res))
+
+app.get(`${process.env.DIR||''}/mobile`, (req, res) => require('./api/mobile')(req, res))
+
+app.post(`${process.env.DIR||''}/mobile`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/mobile')(req, res))
+
+
+app.get(`${process.env.DIR||''}/api/package`, (req, res) => require('./api/package')(req, res))
+
+app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report')(req, res))
+
+app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/report')(req, res))
+
+app.get(`${process.env.DIR||''}/api/workspace/get`, (req, res) => require('./api/workspace/get')(req, res))
 
 app.post(`${process.env.DIR||''}/api/proxy/pg`, bodyParser.text(), (req, res) => require('./api/proxy/pg')(req, res))
 

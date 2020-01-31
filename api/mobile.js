@@ -32,6 +32,7 @@ async function handler(req, res, token = { access: 'public' }){
   }
 
   const html = template(tmpl, {
+    title: process.env.TITLE || 'GEOLYTIX | XYZ',
     dir: process.env.DIR || '',
     token: req.query.token || token.signed || '""',
   })
