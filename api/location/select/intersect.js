@@ -20,15 +20,13 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
+  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
+
   let
     lat = req.query.lat,
     lng = req.query.lng,
-    filter = null, //req.params.filter,
     infoj = JSON.parse(JSON.stringify(layer.infoj)),
     geom = req.query.geom || layer.geom
-
-  // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''
 
   // The fields array stores all fields to be queried for the location info.
   const fields = await sql_fields([], infoj)

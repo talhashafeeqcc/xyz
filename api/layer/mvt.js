@@ -16,20 +16,18 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
+  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
+
   let
     table = req.query.table,
     geom = layer.geom,
     mapview_srid = req.query.mapview_srid,
-    filter = null, //req.params.filter,
     id = layer.qID || null,
     x = parseInt(req.query.x),
     y = parseInt(req.query.y),
     z = parseInt(req.query.z),
     m = 20037508.34,
     r = (m * 2) / (Math.pow(2, z))
-
-  // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''
 
   // Use MVT cache if set on layer and no filter active.
   const mvt_cache = (!filter_sql && (!layer.roles || !Object.keys(layer.roles).length) && layer.mvt_cache)

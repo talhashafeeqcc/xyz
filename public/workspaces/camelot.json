@@ -26,8 +26,8 @@
             "maxZoom": 17,
             "showScaleBar": true,
             "scripts": [
-                "/camelot/proxy/cdn?uri=https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/run_model.js&source=GITHUB&type=application/javascript",
-                "/camelot/proxy/cdn?uri=https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/csv_import.js&source=GITHUB&type=application/javascript"
+                "/zeit/api/github?uri=https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/run_model.js&type=application/javascript",
+                "/zeit/api/github?uri=https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/csv_import.js&type=application/javascript"
             ],
             "queries": {
                 "_xyz_csv_import": "SELECT * FROM glx_camelot($1);",
@@ -42,7 +42,7 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
                     "format": "tiles",
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 },
                 "Mapbox Labels": {
                     "group": "Base maps",
@@ -52,7 +52,7 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
                     "format": "tiles",
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 },
                 "Seamless towns and suburbs": {
                     "group": "Location Boundaries",

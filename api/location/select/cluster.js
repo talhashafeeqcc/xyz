@@ -18,18 +18,15 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
+  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
+
   let
     table = req.query.table,
     geom = layer.geom,
     qID = layer.qID,
     coords = req.query.coords.split(',').map(xy => parseFloat(xy)),
-    filter = null, //req.params.filter,
     label = layer.cluster_label ? layer.cluster_label : qID,
     count = parseInt(req.query.count) || 99
-
-
-  // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''
 
   // Query the feature count from lat/lng bounding box.
   var q = `

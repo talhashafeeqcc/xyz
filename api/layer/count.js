@@ -18,10 +18,7 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
-  const filter = null //req.params.filter;
-
-  // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''
+  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
 
   // Query the estimated extent for the layer geometry field from layer table.
   var rows = await dbs[layer.dbs](`

@@ -18,10 +18,11 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
+  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
+
   let
     table = layer.dataview[req.query.table],
     viewport = req.query.viewport,
-    filter = null, //req.params.filter,
     orderby = req.query.orderby || layer.qID,
     order = req.query.order || 'ASC',
     west = parseFloat(req.query.west),
@@ -41,10 +42,6 @@ async function handler(req, res, token = {}) {
         ${layer.geom},
       0.00001)`
   }
-
-
-  // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''
 
   const fields = []
 

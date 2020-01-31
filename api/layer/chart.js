@@ -22,9 +22,10 @@ async function handler(req, res, token = {}) {
 
   const chart = layer.dataview[req.query.chart]
 
+  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
+
   let
     viewport = req.query.viewport,
-    filter = null //req.params.filter;
     orderby = req.query.orderby || layer.qID,
     order = req.query.order || 'ASC',
     mapview_srid = req.query.mapview_srid,
@@ -43,9 +44,6 @@ async function handler(req, res, token = {}) {
       ${layer.geom}, 0.00001)`
 
   }
-
-  // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''
 
   const fields = await sql_fields([], chart.columns)
 

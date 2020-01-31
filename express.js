@@ -20,6 +20,10 @@ app.get(`${process.env.DIR||''}/mobile`, (req, res) => require('./api/mobile')(r
 
 app.post(`${process.env.DIR||''}/mobile`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/mobile')(req, res))
 
+app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report')(req, res))
+
+app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/report')(req, res))
+
 app.use(process.env.DIR||'', express.static('public'))
 
 app.get(`${process.env.DIR||''}/api/package`, (req, res) => require('./api/package')(req, res))
@@ -39,6 +43,11 @@ app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
 
         }
     }))
+
+
+app.post(`${process.env.DIR||''}/api/proxy/pg`, bodyParser.text(), (req, res) => require('./api/proxy/pg')(req, res))
+
+app.get(`${process.env.DIR||''}/api/github`, (req, res) => require('./api/github')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/mvt`, (req, res) => require('./api/layer/mvt')(req, res))
 
@@ -82,7 +91,7 @@ app.post(`${process.env.DIR||''}/api/user/approve`, bodyParser.urlencoded({exten
 
 app.get(`${process.env.DIR||''}/api/user/list`, (req, res) => require('./api/user/list')(req, res))
 
-app.get(`${process.env.DIR||''}/api/user/acl`, (req, res) => require('./api/user/acl')(req, res))
+app.get(`${process.env.DIR||''}/api/user/pgtable`, (req, res) => require('./api/user/pgtable')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/log`, (req, res) => require('./api/user/log')(req, res))
 
@@ -94,9 +103,15 @@ app.get(`${process.env.DIR||''}/api/workspace/checklayer`, (req, res) => require
 
 app.post(`${process.env.DIR||''}/api/workspace/checklayer`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/checkLayer')(req, res))
 
+app.get(`${process.env.DIR||''}/api/workspace/pgtable`, (req, res) => require('./api/workspace/pgtable')(req, res))
+
+app.post(`${process.env.DIR||''}/api/workspace/pgtable`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/pgtable')(req, res))
+
 app.get(`${process.env.DIR||''}/api/workspace/admin`, (req, res) => require('./api/workspace/admin')(req, res))
 
 app.post(`${process.env.DIR||''}/api/workspace/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/admin')(req, res))
+
+app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5mb'}), (req, res) => require('./api/workspace/set')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('./api/location/select/id')(req, res))
 
@@ -117,6 +132,10 @@ app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => re
 app.get(`${process.env.DIR||''}/api/location/table`, (req, res) => require('./api/location/table')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/list`, (req, res) => require('./api/location/list')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/pgFunction`, (req, res) => require('./api/location/pgFunction')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/pgQuery`, (req, res) => require('./api/location/pgQuery')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
 

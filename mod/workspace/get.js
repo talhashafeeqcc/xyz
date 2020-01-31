@@ -15,7 +15,7 @@ async function get(ref) {
     case 'https': return http(ref)
     case 'file': return file(ref.split(':')[1])
     case 'github': return github(ref.split(':')[1])
-    case 'postgres': return postgres(ref.split(':')[1])
+    case 'postgres': return postgres(ref)
     default: {}
   }
 }
@@ -48,9 +48,14 @@ async function postgres(ref) {
   const pool = new Pool({
     connectionString: ref.split('|')[0],
     statement_timeout: 10000
-  });
+  })
 
-  const { rows } = await pool.query(`SELECT * FROM ${ref.split('|')[1]} ORDER BY _id DESC LIMIT 1`);
+  try {
+    const { rows } = await pool.query(`SELECT * FROM ${ref.split('|')[1]} ORDER BY _id DESC LIMIT 1`)
+    return rows[0].settings
 
-  return rows[0]
+  } catch(err) {
+    console.error(err)
+    return {}
+  }
 }

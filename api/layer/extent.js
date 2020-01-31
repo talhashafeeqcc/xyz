@@ -18,10 +18,7 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
-  const filter = null //req.params.filter;
-
-  // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''
+  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
 
   // Get table entry from layer or min table in from tables array.
   const table = layer.table || Object.values(layer.tables)[0] || Object.values(layer.tables)[1];

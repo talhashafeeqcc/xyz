@@ -75,3 +75,13 @@ The ALIAS environment key is no more.
 
 
 Workspace administration is now a seperate view. This is likely to stay in alpha for a while due to Github being the opinionated choice.
+
+There are two endpoints to create PostgreSQL tables for the ACL and workspaces. These endpoints are:
+
+/api/workspace/pgtable
+
+/api/user/pgtable
+
+The endpoints are only available to user with admin rights. Obviously there are no users yet if a new ACL table is to be created. For this reason a token will have to be fudged from the SECRET which is used to sign and verify token. This can be done via jwt.io website.
+
+The SECRET goes into the signature and the payload needs to have an email (any) and admin_user set to true.

@@ -22,7 +22,6 @@ async function handler(req, res, token = {}) {
     table = req.query.table,
     geom = layer.geom,
     label = req.query.label,
-    filter = null, //req.params.filter,
     west = parseFloat(req.query.west),
     south = parseFloat(req.query.south),
     east = parseFloat(req.query.east),
@@ -34,7 +33,7 @@ async function handler(req, res, token = {}) {
   WHERE ST_DWithin(
     ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${parseInt(layer.srid)}),
     ${geom}, 0.00001)
-    ${filter && await sql_filter(filter) || ''}`
+    ${req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''}`
 
 
   var q = `

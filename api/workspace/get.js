@@ -1,16 +1,16 @@
-const auth = require('../../mod/auth/handler');
+const auth = require('../../mod/auth/handler')
 
-const _workspace = require('../../mod/workspace/get')();
+const _workspace = require('../../mod/workspace/get')()
 
 module.exports = (req, res) => auth(req, res, handler, {
   public: true
-});
+})
 
 async function handler(req, res) {
 
-  const workspace = await _workspace;
+  const workspace = await _workspace
 
-  const locales = JSON.parse(JSON.stringify(workspace.locales));
+  const locales = JSON.parse(JSON.stringify(workspace.locales))
 
   // (function objectEval(o, parent, key) {
 
@@ -36,6 +36,6 @@ async function handler(req, res) {
   // })(locales);
 
   // Send workspace
-  res.send({ locales: locales });
+  res.send({ locales: locales })
 
 }
