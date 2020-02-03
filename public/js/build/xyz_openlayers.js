@@ -117387,33 +117387,15 @@ var Map_Map = /** @class */ (function (_super) {
       freehand: params.freehand,
       type: params.type,
       condition: e => {
-        console.log('interaction');
 
-        if(params.type === 'Polygon' && _xyz.mapview.interaction.draw.vertices.length > 2){
+        if(params.type === 'Polygon'){
 
-          let coords = _xyz.mapview.interaction.draw.vertices.map(c => {
-            return _xyz.mapview.lib.proj.transform(c, `EPSG:${_xyz.mapview.srid}`, 'EPSG:4326');
-          });
+          if(_xyz.mapview.interaction.draw.trail && _xyz.utils.turf.kinks(_xyz.mapview.interaction.draw.trail).features.length > 0) return false;
 
-          coords.push(coords[0]);
+          _xyz.map.on('pointermove', watchFeature);
+          _xyz.map.un('click', unwatchFeature);
 
-          
-          let trail = {
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-              "type": "Polygon",
-              "coordinates": [coords]
-            }
-          };
-
-          //console.log(JSON.stringify(trail));
-          console.log(_xyz.utils.turf.kinks(trail));
-        
         }
-
-        //const geoJSON = new _xyz.mapview.lib.format.GeoJSON();
-      
 
         if (e.pointerEvent.buttons === 1) {
           _xyz.mapview.interaction.draw.vertices.push(e.coordinate);
@@ -117453,6 +117435,8 @@ var Map_Map = /** @class */ (function (_super) {
   
   function finish() {
 
+    unwatchFeature();
+
     delete _xyz.mapview.interaction.draw.finish;
 
     _xyz.mapview.interaction.draw.Source.clear();
@@ -117473,9 +117457,9 @@ var Map_Map = /** @class */ (function (_super) {
 
   function update() {
 
-    const features = _xyz.mapview.interaction.draw.Source.getFeatures();
+    unwatchFeature();
 
-    console.log(features[0]);
+    const features = _xyz.mapview.interaction.draw.Source.getFeatures();
 
     const geoJSON = new _xyz.mapview.lib.format.GeoJSON();
    
@@ -117526,9 +117510,10 @@ var Map_Map = /** @class */ (function (_super) {
     finish();
   
   }
-
  
   function contextmenu(e) {
+
+    unwatchFeature(e);
   
     if (_xyz.mapview.interaction.draw.vertices.length === 0) return;
   
@@ -117556,7 +117541,50 @@ var Map_Map = /** @class */ (function (_super) {
       coords: _xyz.mapview.interaction.draw.vertices[_xyz.mapview.interaction.draw.vertices.length - 1],
       content: menu
     });
-  
+  }
+
+  function watchFeature(e){
+    
+    let mouse_coords = _xyz.mapview.lib.proj.transform(e.coordinate, `EPSG:${_xyz.mapview.srid}`, 'EPSG:4326');
+
+    let coords = _xyz.mapview.interaction.draw.vertices.map(c => {
+      return _xyz.mapview.lib.proj.transform(c, `EPSG:${_xyz.mapview.srid}`, 'EPSG:4326');
+    });
+
+    coords.push(mouse_coords)
+    coords.unshift(mouse_coords);
+
+    _xyz.mapview.interaction.draw.trail = {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [coords]
+      }
+    };
+
+    _xyz.mapview.interaction.draw.info && _xyz.mapview.interaction.draw.info.remove();
+    _xyz.mapview.interaction.draw.info = null;
+
+    if(_xyz.utils.turf.kinks(_xyz.mapview.interaction.draw.trail).features.length > 0) {
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      _xyz.mapview.interaction.draw.info = _xyz.utils.wire()`<div class="infotip" style="color:#d32f2f;">Invalid geometry.`;
+
+      _xyz.mapview.node.appendChild(_xyz.mapview.interaction.draw.info);
+      _xyz.mapview.interaction.draw.info.style.left = `${e.originalEvent.clientX}px`;
+      _xyz.mapview.interaction.draw.info.style.top = `${e.originalEvent.clientY}px`;
+      _xyz.mapview.interaction.draw.info.style.opacity = 1;
+
+    } else _xyz.mapview.interaction.draw.info = null;
+
+  }
+
+  function unwatchFeature(e){
+    _xyz.map.un('pointermove', watchFeature);
+    _xyz.mapview.interaction.draw.trail = null;
   }
   
 });
@@ -126529,7 +126557,7 @@ function random_rgba() {
 async function js_xyz(params) {
 
   const _xyz = Object.assign({
-    version: "2.1.1",
+    version: "2.1.2",
     defaults: {
       colours: [
         { hex: '#c62828', name: 'Fire Engine Red' },

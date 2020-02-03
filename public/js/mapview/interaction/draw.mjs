@@ -43,6 +43,16 @@ export default _xyz => {
       freehand: params.freehand,
       type: params.type,
       condition: e => {
+
+        if(params.type === 'Polygon'){
+
+          if(_xyz.mapview.interaction.draw.trail && _xyz.utils.turf.kinks(_xyz.mapview.interaction.draw.trail).features.length > 0) return false;
+
+          _xyz.map.on('pointermove', watchFeature);
+          _xyz.map.un('click', unwatchFeature);
+
+        }
+
         if (e.pointerEvent.buttons === 1) {
           _xyz.mapview.interaction.draw.vertices.push(e.coordinate);
           if (_xyz.mapview.popup.node) _xyz.mapview.popup.node.remove();
@@ -66,6 +76,7 @@ export default _xyz => {
     });
   
     _xyz.mapview.interaction.draw.interaction.on('drawend', e => {
+
       params.freehand && _xyz.mapview.interaction.draw.vertices.push(e.target.sketchCoords_.pop());
       if (params.drawend) return params.drawend(e);
       setTimeout(contextmenu, 400);
@@ -79,6 +90,8 @@ export default _xyz => {
   
   
   function finish() {
+
+    unwatchFeature();
 
     delete _xyz.mapview.interaction.draw.finish;
 
@@ -99,6 +112,8 @@ export default _xyz => {
 
 
   function update() {
+
+    unwatchFeature();
 
     const features = _xyz.mapview.interaction.draw.Source.getFeatures();
 
@@ -151,9 +166,10 @@ export default _xyz => {
     finish();
   
   }
-
  
   function contextmenu(e) {
+
+    unwatchFeature(e);
   
     if (_xyz.mapview.interaction.draw.vertices.length === 0) return;
   
@@ -181,7 +197,50 @@ export default _xyz => {
       coords: _xyz.mapview.interaction.draw.vertices[_xyz.mapview.interaction.draw.vertices.length - 1],
       content: menu
     });
-  
+  }
+
+  function watchFeature(e){
+    
+    let mouse_coords = _xyz.mapview.lib.proj.transform(e.coordinate, `EPSG:${_xyz.mapview.srid}`, 'EPSG:4326');
+
+    let coords = _xyz.mapview.interaction.draw.vertices.map(c => {
+      return _xyz.mapview.lib.proj.transform(c, `EPSG:${_xyz.mapview.srid}`, 'EPSG:4326');
+    });
+
+    coords.push(mouse_coords)
+    coords.unshift(mouse_coords);
+
+    _xyz.mapview.interaction.draw.trail = {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [coords]
+      }
+    };
+
+    _xyz.mapview.interaction.draw.info && _xyz.mapview.interaction.draw.info.remove();
+    _xyz.mapview.interaction.draw.info = null;
+
+    if(_xyz.utils.turf.kinks(_xyz.mapview.interaction.draw.trail).features.length > 0) {
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      _xyz.mapview.interaction.draw.info = _xyz.utils.wire()`<div class="infotip" style="color:#d32f2f;">Invalid geometry.`;
+
+      _xyz.mapview.node.appendChild(_xyz.mapview.interaction.draw.info);
+      _xyz.mapview.interaction.draw.info.style.left = `${e.originalEvent.clientX}px`;
+      _xyz.mapview.interaction.draw.info.style.top = `${e.originalEvent.clientY}px`;
+      _xyz.mapview.interaction.draw.info.style.opacity = 1;
+
+    } else _xyz.mapview.interaction.draw.info = null;
+
+  }
+
+  function unwatchFeature(e){
+    _xyz.map.un('pointermove', watchFeature);
+    _xyz.mapview.interaction.draw.trail = null;
   }
   
 };

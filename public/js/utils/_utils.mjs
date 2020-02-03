@@ -36,6 +36,9 @@ import 'chartjs-plugin-datalabels';
 
 import pointOnFeature from '@turf/point-on-feature';
 
+import kinks from '@turf/kinks';
+
 export const turf = {
-  pointOnFeature: pointOnFeature
+  pointOnFeature: pointOnFeature,
+  kinks: kinks.default
 };
