@@ -8,7 +8,7 @@ module.exports = (req, res) => auth(req, res, handler, {
 
 async function handler(req, res) {
 
-  const workspace = await _workspace
+  const workspace =  await _workspace
 
   const locales = JSON.parse(JSON.stringify(workspace.locales))
 

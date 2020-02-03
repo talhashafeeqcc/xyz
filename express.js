@@ -25,7 +25,6 @@ app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
         }
     }))
 
-
 app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
 
 app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
@@ -69,6 +68,10 @@ app.get(`${process.env.DIR||''}/api/layer/extent`, (req, res) => require('./api/
 
 app.get(`${process.env.DIR||''}/api/layer/chart`, (req, res) => require('./api/layer/chart')(req, res))
 
+app.get(`${process.env.DIR||''}/api/layer/mvt_cache`, (req, res) => require('./api/layer/mvt_cache')(req, res))
+
+app.post(`${process.env.DIR||''}/api/layer/mvt_cache`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/layer/mvt_cache')(req, res))
+
 app.get(`${process.env.DIR||''}/api/user/admin`, (req, res) => require('./api/user/admin')(req, res))
 
 app.post(`${process.env.DIR||''}/api/user/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/admin')(req, res))
@@ -100,10 +103,6 @@ app.get(`${process.env.DIR||''}/api/user/log`, (req, res) => require('./api/user
 app.get(`${process.env.DIR||''}/api/user/update`, (req, res) => require('./api/user/update')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/user/delete')(req, res))
-
-app.get(`${process.env.DIR||''}/api/workspace/checklayer`, (req, res) => require('./api/workspace/checkLayer')(req, res))
-
-app.post(`${process.env.DIR||''}/api/workspace/checklayer`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/checkLayer')(req, res))
 
 app.get(`${process.env.DIR||''}/api/workspace/pgtable`, (req, res) => require('./api/workspace/pgtable')(req, res))
 
@@ -162,5 +161,9 @@ app.get(`${process.env.DIR||''}/api/location/edit/cloudinary_delete`, (req, res)
 app.get(`${process.env.DIR||''}/api/gazetteer/autocomplete`, (req, res) => require('./api/gazetteer/autocomplete')(req, res))
 
 app.get(`${process.env.DIR||''}/api/gazetteer/googleplaces`, (req, res) => require('./api/gazetteer/googleplaces')(req, res))
+
+app.get(`${process.env.DIR||''}/api/clear_cache`, (req, res) => require('./api/clear_cache')(req, res))
+
+app.post(`${process.env.DIR||''}/api/clear_cache`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/clear_cache')(req, res))
 
 app.listen(process.env.PORT || 3000)
