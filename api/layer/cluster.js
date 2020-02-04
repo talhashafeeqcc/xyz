@@ -83,7 +83,7 @@ async function handler(req, res, token = {}) {
         cat,
         size,
         geom,
-        ${label && label !== 'count' ? 'label,' : ''}
+        ${label && label !== 'count' ? label + ' AS label,' : ''}
         kmeans_cid,
         ST_ClusterDBSCAN(geom, ${dbscan}, 1
       ) OVER (PARTITION BY kmeans_cid) dbscan_cid
@@ -147,6 +147,7 @@ async function handler(req, res, token = {}) {
           SELECT
             ${cat} AS cat,
             ${size} AS size,
+            ${label && label !== 'count' ? label + ' AS label,' : ''}
             ${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'} AS geom,
             ST_X(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) x,
             ST_Y(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) y,
@@ -171,6 +172,7 @@ async function handler(req, res, token = {}) {
           SELECT
             cat,
             size,
+            ${label && label !== 'count' ? 'label,' : ''}
 
             CASE WHEN odds = 0 THEN CASE
         
@@ -236,7 +238,7 @@ async function handler(req, res, token = {}) {
             END as point
           FROM first)`
 
-      var agg_sql = `second GROUP BY point;`
+      var agg_sql = `second GROUP BY point ${label && label !== 'count' ? ',label' : ''};`;
 
       var xy_sql = `
         ST_X(${layer.srid == 3857 && 'point' || 'ST_Transform(ST_SetSRID(point, 3857), ' + parseInt(layer.srid) + ')'}) x,
@@ -248,12 +250,13 @@ async function handler(req, res, token = {}) {
         (SELECT
           ${cat} AS cat,
           ${size} AS size,
+          ${label && label !== 'count' ? label + ' AS label,' : ''}
           ST_X(${geom}) AS x,
           ST_Y(${geom}) AS y,
           round(ST_X(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) / ${r}) * ${r} x_round,
           round(ST_Y(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) / ${r}) * ${r} y_round
             
-        FROM ${req.query.table} ${where_sql}) agg_sql GROUP BY x_round, y_round;`
+        FROM ${req.query.table} ${where_sql}) agg_sql GROUP BY x_round, y_round ${label && label !== 'count' ? ', label' : ''};`
 
       var xy_sql = `
         percentile_disc(0.5) WITHIN GROUP (ORDER BY x) x,
@@ -269,6 +272,7 @@ async function handler(req, res, token = {}) {
     SELECT
       count(1) count,
       SUM(size) size,
+      label,
       ${cat_sql || ''}
       ${xy_sql}
     FROM ${agg_sql}`
@@ -301,7 +305,7 @@ async function handler(req, res, token = {}) {
       count: parseInt(row.count),
       size: parseInt(row.size),
       cat: row.cat.length === 1 ? row.cat[0] : null,
-      label: row.label,
+      label: row.label
     }
   })))
 
@@ -314,7 +318,7 @@ async function handler(req, res, token = {}) {
       count: parseInt(row.count),
       size: parseInt(row.size),
       cat: parseFloat(row.cat),
-      label: row.label,
+      label: row.label
     }
   })))
 
@@ -327,7 +331,7 @@ async function handler(req, res, token = {}) {
       count: parseInt(row.count),
       size: parseInt(row.size),
       cat: Object.assign({}, ...row.cat),
-      label: row.label,
+      label: row.label
     }
   })))
 
