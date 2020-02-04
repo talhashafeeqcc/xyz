@@ -1,18 +1,14 @@
-const env = require('./env');
+const mailer = require('nodemailer')
 
-module.exports = mail => {
-  if (!env.transport) return console.log('Transport not set.');
+module.exports = async mail => {
 
-  let _mail = {
-    from: `<${env.transport.split(':')[1]}>`,
-    sender: `<${env.transport.split(':')[1]}>`,
-    subject: mail.subject.replace(/”/g,''),
-    text: mail.text.replace(/”/g,'')
-  };
+  if (!process.env.TRANSPORT) return console.error(new Error('Transport not set.'))
 
-  if (mail.to) _mail.to = mail.to;
+  Object.assign(mail, {
+    from: `<${process.env.TRANSPORT.split(':')[1]}>`,
+    sender: `<${process.env.TRANSPORT.split(':')[1]}>`,
+  })
 
-  if (mail.bcc) _mail.bcc = mail.bcc;
-
-  require('nodemailer').createTransport(env.transport).sendMail(_mail);
+  mail.text = mail.text.replace(/^(?!\s+$)\s+/gm, '')
+  return mailer.createTransport(process.env.TRANSPORT).sendMail(mail)
 };

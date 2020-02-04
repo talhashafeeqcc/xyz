@@ -1,47 +1,44 @@
-const env = require('../env');
+const { Pool } = require('pg');
 
-module.exports = async () => {
+const dbs = {};
 
-  // Iterate through environment variables to find DBS_* entries.
-  await Object.keys(process.env).forEach(async key => {
+module.exports = () => {
 
-    if (key.split('_')[0] !== 'DBS') return;
+  Object.keys(process.env)
+    .filter(key => key.split('_')[0] === 'DBS')
+    .filter(key => !dbs[key.split('_')[1]])
+    .forEach(key => {
 
-    // Create connection pool.
-    const pool = new require('pg').Pool({
-      connectionString: process.env[key],
-      statement_timeout: 10000
+      // Create connection pool.
+      const pool = new Pool({
+        connectionString: process.env[key],
+        statement_timeout: 10000
+      });
+
+      // Log connection name if after it's pool has been created.
+      console.log(key.split('_')[1]);
+
+      dbs[key.split('_')[1]] = async (q, arr, timeout) => {
+
+        // Request which accepts q and arr and will return rows or rows.err.
+        try {
+          timeout && await pool.query(`SET statement_timeout = ${timeout}`);
+
+          const { rows } = await pool.query(q, arr);
+
+          timeout && await pool.query(`SET statement_timeout = 10000`);
+
+          return rows;
+
+        } catch (err) {
+          console.error(err);
+          return err;
+        }
+
+      };
+
     });
 
-    const dbs = key.split('_')[1];
-
-    // Request which accepts q and arr and will return rows or rows.err.
-    env.dbs[dbs] = async (q, arr, no_log, no_timeout) => {
-
-      try {
-        no_timeout && await pool.query('SET statement_timeout = 0');
-        
-        const { rows } = await pool.query(q, arr);
-
-        no_timeout && await pool.query('SET statement_timeout = 10000');
-
-        return rows;
-
-      } catch (err) {
-        Object.keys(err).forEach(key => !err[key] && delete err[key]);
-        if (!no_log) console.error(err);
-        return { err: err };
-      }
-
-    };
-
-    const PostGIS = await env.dbs[dbs]('SELECT postgis_version();');
-
-    if (PostGIS.err) {
-      console.log(`${key}: Can't detect PostGIS.`);
-      delete env.dbs[dbs];
-    }
-
-  });
+  return dbs;
 
 };

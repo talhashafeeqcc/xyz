@@ -190,7 +190,7 @@ export default _xyz => {
       const xhr_save = new XMLHttpRequest();
 
       xhr_save.open('POST', _xyz.host +
-      '/api/location/edit/isoline/here/save?' +
+      '/api/location/edit/isoline/save?' +
       _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         layer: entry.location.layer.key,
@@ -225,6 +225,15 @@ export default _xyz => {
 
         //entry.location.flyTo();
       }
+
+      console.log({
+        mode: entry.edit.isoline_here.mode,
+        rangetype: entry.edit.isoline_here.rangetype,
+        type: entry.edit.isoline_here.type,
+        minutes: entry.edit.isoline_here.minutes,
+        distance: entry.edit.isoline_here.distance,
+        isoline: e.target.response
+      });
 
       xhr_save.send(JSON.stringify({
         mode: entry.edit.isoline_here.mode,

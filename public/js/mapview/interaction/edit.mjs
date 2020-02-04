@@ -129,7 +129,7 @@ export default _xyz => {
   
     xhr.open(
       'POST',
-      _xyz.host + '/api/location/edit/geom/update?' +
+      _xyz.host + '/api/location/edit/geom_update?' +
       _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         layer: _xyz.mapview.interaction.edit.location.layer.key,

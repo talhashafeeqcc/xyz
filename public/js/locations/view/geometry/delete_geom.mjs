@@ -10,7 +10,7 @@ export default _xyz => entry => {
   }
 
   xhr.open('GET', _xyz.host +
-    '/api/location/edit/field/setnull?' +
+    '/api/location/edit/setnull?' +
     _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
       layer: entry.location.layer.key,

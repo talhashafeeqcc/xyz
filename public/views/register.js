@@ -27,7 +27,7 @@ function check() {
     privacy_agreement.checked);
 }
 
-if (captcha_key) {
+if (captcha_key && location.hostname !== 'localhost') {
 
   grecaptcha.ready(() => {
     grecaptcha.execute(

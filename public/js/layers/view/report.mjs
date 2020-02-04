@@ -30,7 +30,7 @@ export default _xyz => {
 
     Object.entries(layer.report.templates).forEach(entry => {
 
-      const href = _xyz.host + '/report?' + _xyz.utils.paramString(
+      const href = _xyz.host + '/api/report?' + _xyz.utils.paramString(
         Object.assign(
           entry[1],
           {

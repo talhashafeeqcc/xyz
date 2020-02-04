@@ -121,7 +121,7 @@ export default _xyz => {
       const xhr_save = new XMLHttpRequest();
 
       xhr_save.open('POST', _xyz.host +
-      '/api/location/edit/isoline/mapbox/save?' +
+      '/api/location/edit/isoline/save?' +
       _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         layer: entry.location.layer.key,

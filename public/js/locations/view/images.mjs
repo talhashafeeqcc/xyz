@@ -84,12 +84,13 @@ export default _xyz => entry => {
           const xhr = new XMLHttpRequest();
 
           xhr.open('POST', _xyz.host +
-            '/api/location/edit/images/upload?' + _xyz.utils.paramString({
+            '/api/location/edit/cloudinary_upload?' + _xyz.utils.paramString({
               locale: _xyz.workspace.locale.key,
               layer: entry.location.layer.key,
               table: entry.location.table,
               field: entry.field,
               id: entry.location.id,
+              resource_type: 'image',
               token: _xyz.token
             }));
 
@@ -97,29 +98,27 @@ export default _xyz => entry => {
 
           xhr.onload = e => {
 
-            if (e.target.status !== 200) return console.log('image_upload failed');
+            if (e.target.status !== 200) return console.error('image upload failed');
 
             const json = JSON.parse(e.target.responseText);
 
             _xyz.utils.bind(placeholder)`
             <div class="item">
-            <img src=${json.image_url}>
+            <img src=${json.secure_url}>
             ${(entry.edit) && _xyz.utils.wire()`
             <button
               class="xyz-icon icon-trash img-remove"
-              data-name=${json.image_id}
-              data-src=${json.image_url}
+              data-name=${json.public_id}
+              data-src=${json.secure_url}
               onclick=${e => removeDocument(e)}>
             </button>`}`
 
           };
 
           xhr.send(_xyz.utils.dataURLtoBlob(dataURL));
-
         };
 
         img.src = readerOnload.target.result;
-
       };
 
       reader.readAsDataURL(file);
@@ -137,25 +136,23 @@ export default _xyz => entry => {
     const xhr = new XMLHttpRequest();
 
     xhr.open('GET', _xyz.host +
-      '/api/location/edit/images/delete?' + _xyz.utils.paramString({
+      '/api/location/edit/cloudinary_delete?' + _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         layer: entry.location.layer.key,
         table: entry.location.table,
         field: entry.field,
         id: entry.location.id,
-        image_id: img.dataset.name,
-        image_src: encodeURIComponent(img.dataset.src),
+        public_id: img.dataset.name,
+        secure_url: encodeURIComponent(img.dataset.src),
         token: _xyz.token
       }));
 
     xhr.onload = e => {
-
       if (e.target.status !== 200) return;
-
       img.parentNode.remove();
-    };
+    }
 
-    xhr.send();
+    xhr.send()
   }
 
-};
+}

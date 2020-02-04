@@ -54,19 +54,19 @@ export default _xyz => entry => {
 
 		_td.insertBefore(placeholder, _td.childNodes[_td.childNodes.length - 1]); 
 
-        reader.onload = readerOnload => {
+    reader.onload = readerOnload => {
 			
 			const xhr = new XMLHttpRequest();
 
 			xhr.open('POST', _xyz.host +
-				'/api/location/edit/documents/upload?' + _xyz.utils.paramString({
+				'/api/location/edit/cloudinary_upload?' + _xyz.utils.paramString({
 				locale: _xyz.workspace.locale.key,
 				layer: entry.location.layer.key,
 				table: entry.location.table,
 				field: entry.field,
-				qID: entry.location.qID,
 				id: entry.location.id,
 				public_id: file.name,
+				resource_type: 'raw',
 				token: _xyz.token
 			}));
 		  
@@ -83,16 +83,16 @@ export default _xyz => entry => {
 				${(entry.edit) && _xyz.utils.wire()`
 				<button
 					class="xyz-icon icon-trash link-remove"
-					data-name=${json.doc_id.replace(/^.*[\\\/]/, '')}
-					data-href=${json.doc_url}
+					data-name=${json.public_id.replace(/^.*[\\\/]/, '')}
+					data-href=${json.secure_url}
 					onclick=${e => removeDocument(e)}>
 				</button>`}
-				<a href=${json.doc_url}>${json.doc_id.split('/').pop()}`
+				<a href=${json.secure_url}>${json.public_id.split('/').pop()}`
 		  
 			};
 		  
 			xhr.send(readerOnload.target.result);
-        };
+		};
 
 		reader.readAsDataURL(file);
 		
@@ -108,23 +108,23 @@ export default _xyz => entry => {
 		const xhr = new XMLHttpRequest();
 
 		xhr.open('GET', _xyz.host +
-			'/api/location/edit/documents/delete?' + _xyz.utils.paramString({
+			'/api/location/edit/cloudinary_delete?' + _xyz.utils.paramString({
 			locale: _xyz.workspace.locale.key,
 			layer: entry.location.layer.key,
 			table: entry.location.table,
 			field: entry.field,
 			id: entry.location.id,
-			doc_id: doc.dataset.name,
-			doc_src: encodeURIComponent(doc.dataset.href),
+			public_id: doc.dataset.name,
+			secure_url: encodeURIComponent(doc.dataset.href),
 			token: _xyz.token
 		}));
 	
 		xhr.onload = e => {
 			if (e.target.status !== 200) return;
 			doc.parentNode.remove();
-		};
+		}
 	
-		xhr.send();
+		xhr.send()
 	}
 
 }

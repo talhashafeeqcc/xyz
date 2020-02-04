@@ -2,7 +2,7 @@ const token = document.body.dataset.token;
 
 const xhr = new XMLHttpRequest();
 
-xhr.open('GET', document.head.dataset.dir + '/user/list?token=' + token);
+xhr.open('GET', document.head.dataset.dir + '/api/user/list?token=' + token);
 
 xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.responseType = 'json';
@@ -49,6 +49,14 @@ xhr.onload = e => {
           align: 'center',
           headerTooltip: 'The account has priviliges to modify the workspace.',
           titleFormatter: ()=> '<div class="xyz-icon icon-settings"></div>',
+          formatter: 'tickCross',
+          cellClick: cellToggle,
+        },
+        {
+          field: 'api',
+          align: 'center',
+          headerTooltip: 'The account has priviliges to create API keys.',
+          titleFormatter: ()=> '<div class="xyz-icon icon-key"></div>',
           formatter: 'tickCross',
           cellClick: cellToggle,
         },
@@ -114,7 +122,7 @@ function cellToggle(e, cell) {
   xhr.open(
     'GET',
     document.head.dataset.dir + 
-    '/user/update' + 
+    '/api/user/update' + 
     '?email=' + user.email +
     '&field=' + col.getField() +
     '&value=' + !cell.getValue() +
@@ -138,7 +146,7 @@ function getAccessLog(e, cell) {
   xhr.open(
     'GET',
     document.head.dataset.dir + 
-    '/user/log' + 
+    '/api/user/log' + 
     '?email=' + user.email +
     '&token=' + token);
 
@@ -164,7 +172,7 @@ function rowDelete(e, cell) {
     xhr.open(
       'GET',
       document.head.dataset.dir +
-      '/user/delete?' +
+      '/api/user/delete?' +
       'email=' + user.email +
       '&token=' + token);
 
@@ -203,7 +211,7 @@ function roleEdit(cell, onRendered, success, cancel, editorParams){
       xhr.open(
         'GET',
         document.head.dataset.dir + 
-        '/user/update' + 
+        '/api/user/update' + 
         '?email=' + user.email +
         '&field=roles' +
         '&value=' + editor.value +
