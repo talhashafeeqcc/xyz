@@ -1,6 +1,6 @@
 {
   "name": "xyz",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/geolytix/xyz"
@@ -32,6 +32,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "@turf/kinks": "^6.0.0",
     "@turf/point-on-feature": "^5.1.5",
     "chart.js": "^2.9.3",
     "chartjs-plugin-datalabels": "^0.7.0",
