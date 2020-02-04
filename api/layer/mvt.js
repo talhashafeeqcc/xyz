@@ -1,5 +1,7 @@
 const auth = require('../../mod/auth/handler')
 
+const sql_filter = require('../../mod/pg/sql_filter')
+
 const _workspace = require('../../mod/workspace/get')()
 
 const dbs = require('../../mod/pg/dbs')()
