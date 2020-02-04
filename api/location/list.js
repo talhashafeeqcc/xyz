@@ -23,8 +23,8 @@ async function handler(req, res, token = {}) {
   var q = `
   SELECT ${fields.join(',')} 
   FROM ${tableDef.from}
-  WHERE ${tableDef.where}
-  ORDER BY ${tableDef.orderby || ''} NULLS LAST
+  ${tableDef.where ? `WHERE ${tableDef.where}` : ``}
+  ${tableDef.orderby ? `ORDER BY ${tableDef.orderby}` : ``} NULLS LAST
   LIMIT ${tableDef.limit || 100};`;
 
   const rows = await dbs[layer.dbs](q, [req.query.id])
