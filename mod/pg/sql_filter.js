@@ -68,7 +68,7 @@ module.exports = async filter => {
     }
 
     if((filter.match)) {
-      sql_filter.push(`${field}::text ILIKE '${decodeURIComponent(filter.match.replace(/'/g, "''"))}'`)
+      sql_filter.push(`${field}::text ILIKE '${decodeURIComponent(filter.match.toString().replace(/'/g, "''"))}'`)
       sql_filter.push(conjunction)
     }
 
