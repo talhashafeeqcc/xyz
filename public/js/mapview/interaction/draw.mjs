@@ -44,7 +44,7 @@ export default _xyz => {
       type: params.type,
       condition: e => {
 
-        if(params.type === 'Polygon'){
+        if(params.type === 'Polygon' || params.type === 'LineString'){
 
           if(_xyz.mapview.interaction.draw.trail && _xyz.utils.turf.kinks(_xyz.mapview.interaction.draw.trail).features.length > 0) return false;
 

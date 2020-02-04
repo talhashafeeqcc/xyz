@@ -71,16 +71,29 @@ export default _xyz => {
     _xyz.map.addLayer(_xyz.mapview.interaction.edit.Layer);
 
     _xyz.mapview.interaction.edit.interaction = new _xyz.mapview.lib.interaction.Modify({
-      source: _xyz.mapview.interaction.edit.Source
+      source: _xyz.mapview.interaction.edit.Source,
+      condition: e => {
+
+        if(params.type !== 'Polygon' && params.type === 'LineString') return true;
+
+        return !(_xyz.mapview.interaction.edit.trail && (_xyz.utils.turf.kinks(_xyz.mapview.interaction.edit.trail).features.length > 0));
+      
+      }
+
     });
   
     _xyz.mapview.interaction.edit.interaction.on('modifystart', e => {
+
       _xyz.mapview.popup.node && _xyz.mapview.popup.node.remove();
       _xyz.mapview.interaction.edit.feature.push(_xyz.mapview.interaction.edit.Source.getFeatures()[0].clone());
     });
 
     _xyz.mapview.interaction.edit.interaction.on('modifyend', e => {
+      
       _xyz.mapview.interaction.edit.vertices.push(e.mapBrowserEvent.coordinate);
+
+      if(params.type === 'Polygon' || params.type === 'LineString') validateFeature(e);
+
     });
   
     _xyz.map.addInteraction(_xyz.mapview.interaction.edit.interaction);
@@ -107,8 +120,13 @@ export default _xyz => {
     _xyz.mapview.interaction.edit.callback && _xyz.mapview.interaction.edit.callback();
 
     _xyz.mapview.interaction.highlight.begin();
-  }
 
+    _xyz.mapview.interaction.edit.info && _xyz.mapview.interaction.edit.info.remove();
+    
+    _xyz.mapview.interaction.edit.info = null;
+    _xyz.mapview.interaction.edit.trail = null;
+  
+  }
 
   function update() {
 
@@ -185,11 +203,9 @@ export default _xyz => {
     xhr.send(JSON.stringify(feature.geometry));
 
     finish();
-
   }
 
-
-  function undo() {
+  function undo(e) {
 
     _xyz.mapview.popup.node && _xyz.mapview.popup.node.remove();
 
@@ -198,8 +214,9 @@ export default _xyz => {
     _xyz.mapview.interaction.edit.Source.addFeature(_xyz.mapview.interaction.edit.feature.pop());
 
     _xyz.mapview.interaction.edit.vertices.pop();
-  }
 
+    validateFeature(e);
+  }
 
   function contextmenu(e) {
    
@@ -207,7 +224,7 @@ export default _xyz => {
 
     const menu = _xyz.utils.wire()`<ul>`;
 
-    _xyz.mapview.interaction.edit.feature.length && menu.appendChild(_xyz.utils.wire()`<li class="off-white-hover" onclick=${update}>Update</li>`);
+    !_xyz.mapview.interaction.edit.info && _xyz.mapview.interaction.edit.feature.length && menu.appendChild(_xyz.utils.wire()`<li class="off-white-hover" onclick=${update}>Update</li>`);
 
     _xyz.mapview.interaction.edit.feature.length && menu.appendChild(_xyz.utils.wire()`<li class="off-white-hover" onclick=${undo}>Undo</li>`);
 
@@ -217,7 +234,33 @@ export default _xyz => {
       coords: _xyz.mapview.interaction.edit.vertices[_xyz.mapview.interaction.edit.vertices.length - 1],
       content: menu
     });
-  
+  }
+
+  function validateFeature(e){
+
+    const geoJSON = new _xyz.mapview.lib.format.GeoJSON();
+
+    _xyz.mapview.interaction.edit.trail = null;
+
+    _xyz.mapview.interaction.edit.trail = geoJSON.writeFeatureObject(
+      _xyz.mapview.interaction.edit.Source.getFeatures()[0].clone(), {
+        dataProjection: 'EPSG:4326',
+        featureProjection:'EPSG:' + _xyz.mapview.srid
+      });
+
+    _xyz.mapview.interaction.edit.info && _xyz.mapview.interaction.edit.info.remove();
+    _xyz.mapview.interaction.edit.info = null;
+
+    if(_xyz.utils.turf.kinks(_xyz.mapview.interaction.edit.trail).features.length > 0){
+
+      _xyz.mapview.interaction.edit.info = _xyz.utils.wire()`<div class="infotip" style="color:#d32f2f;">Invalid geometry. Right click to continue.`;
+      _xyz.mapview.node.appendChild(_xyz.mapview.interaction.edit.info);
+      _xyz.mapview.interaction.edit.info.style.left = `${e.mapBrowserEvent.originalEvent.clientX}px`;
+      _xyz.mapview.interaction.edit.info.style.top = `${e.mapBrowserEvent.originalEvent.clientY}px`;
+      _xyz.mapview.interaction.edit.info.style.opacity = 1;
+
+    }
+    
   }
 
 };
