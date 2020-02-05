@@ -91,8 +91,6 @@ export default _xyz => {
   
   function finish() {
 
-    unwatchFeature();
-
     delete _xyz.mapview.interaction.draw.finish;
 
     _xyz.mapview.interaction.draw.Source.clear();
@@ -112,8 +110,6 @@ export default _xyz => {
 
 
   function update() {
-
-    unwatchFeature();
 
     const features = _xyz.mapview.interaction.draw.Source.getFeatures();
 
@@ -188,6 +184,9 @@ export default _xyz => {
         _xyz.mapview.interaction.draw.interaction.removeLastPoint();
         _xyz.mapview.interaction.draw.vertices.pop();
         _xyz.mapview.popup.node && _xyz.mapview.popup.node.remove();
+
+        _xyz.map.on('pointermove', watchFeature);
+      
       }}>Remove last vertex</li>`);
 
     menu.appendChild(_xyz.utils.wire()`
@@ -228,13 +227,17 @@ export default _xyz => {
       e.preventDefault();
 
       _xyz.mapview.interaction.draw.info = _xyz.utils.wire()`<div class="infotip" style="color:#d32f2f;">Invalid geometry.`;
-
       _xyz.mapview.node.appendChild(_xyz.mapview.interaction.draw.info);
       _xyz.mapview.interaction.draw.info.style.left = `${e.originalEvent.clientX}px`;
       _xyz.mapview.interaction.draw.info.style.top = `${e.originalEvent.clientY}px`;
       _xyz.mapview.interaction.draw.info.style.opacity = 1;
 
-    } else _xyz.mapview.interaction.draw.info = null;
+      setTimeout(() => {
+        _xyz.mapview.interaction.draw.info && _xyz.mapview.interaction.draw.info.remove();
+        _xyz.mapview.interaction.draw.info = null;
+      }, 1.5*1000);
+
+    }
 
   }
 

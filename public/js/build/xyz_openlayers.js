@@ -1764,7 +1764,7 @@ function inBBox(pt, bbox) {
   \**********************************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/helpers/main.es.js (<- Module is referenced from these modules with unsupported syntax: ./node_modules/@turf/point-on-feature/main.js (referenced with cjs require)) */
-/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/nearest-point/main.es.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/explode/main.es.js */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -118522,8 +118522,6 @@ var Map_Map = /** @class */ (function (_super) {
   
   function finish() {
 
-    unwatchFeature();
-
     delete _xyz.mapview.interaction.draw.finish;
 
     _xyz.mapview.interaction.draw.Source.clear();
@@ -118543,8 +118541,6 @@ var Map_Map = /** @class */ (function (_super) {
 
 
   function update() {
-
-    unwatchFeature();
 
     const features = _xyz.mapview.interaction.draw.Source.getFeatures();
 
@@ -118619,6 +118615,9 @@ var Map_Map = /** @class */ (function (_super) {
         _xyz.mapview.interaction.draw.interaction.removeLastPoint();
         _xyz.mapview.interaction.draw.vertices.pop();
         _xyz.mapview.popup.node && _xyz.mapview.popup.node.remove();
+
+        _xyz.map.on('pointermove', watchFeature);
+      
       }}>Remove last vertex</li>`);
 
     menu.appendChild(_xyz.utils.wire()`
@@ -118659,13 +118658,17 @@ var Map_Map = /** @class */ (function (_super) {
       e.preventDefault();
 
       _xyz.mapview.interaction.draw.info = _xyz.utils.wire()`<div class="infotip" style="color:#d32f2f;">Invalid geometry.`;
-
       _xyz.mapview.node.appendChild(_xyz.mapview.interaction.draw.info);
       _xyz.mapview.interaction.draw.info.style.left = `${e.originalEvent.clientX}px`;
       _xyz.mapview.interaction.draw.info.style.top = `${e.originalEvent.clientY}px`;
       _xyz.mapview.interaction.draw.info.style.opacity = 1;
 
-    } else _xyz.mapview.interaction.draw.info = null;
+      setTimeout(() => {
+        _xyz.mapview.interaction.draw.info && _xyz.mapview.interaction.draw.info.remove();
+        _xyz.mapview.interaction.draw.info = null;
+      }, 1.5*1000);
+
+    }
 
   }
 
