@@ -1,5 +1,3 @@
-const sql_filter = require('./sql_filter')
-
 module.exports = async (fields, infoj, qID, roles, locale) => {
 
   // Iterate through infoj and push individual entries into fields array
@@ -45,21 +43,6 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
         || !entry.lookup.geom_a
         || !entry.lookup.geom_b) return
 
-      let filter = {}
-
-      if(roles && roles.length) await roles.forEach(async role => {
-
-        if(entry.lookup.layer_roles) { 
-
-          const layer_roles = locale.layers[entry.lookup.layer_roles].roles;
-          
-          if(layer_roles) Object.assign(filter, layer_roles[role]);
-        }
-    
-      })
-
-      const filter_sql = await sql_filter(filter)
-
       let q = `
       (
         SELECT ${entry.fieldfx || `${entry.lookup.aggregate || 'SUM'}(${entry.field})`}
@@ -73,7 +56,7 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
             a.${entry.lookup.geom_a},
             b.${entry.lookup.geom_b}
           )
-          ${typeof filter_sql !== 'undefined' ? filter_sql : ''}
+          
       ) AS ${entry.field}`
        
       return fields.push(q)
@@ -87,23 +70,5 @@ module.exports = async (fields, infoj, qID, roles, locale) => {
   })
 
   return fields
-
-}
-
-async function role_filter(locale, layer, roles) {
-
-  if (!layer || !roles.length) return
-  
-  const layer_roles = locale.layers[layer].roles
-
-  if (!Object.keys(layer_roles).some(role => roles.includes(role))) return
-
-  let filter = {}
-
-  await roles.forEach(async role => filter = Object.assign(filter, layer_roles[role]))
-
-  const filter_sql = await sql_filter(filter)
-
-  return filter_sql
 
 }

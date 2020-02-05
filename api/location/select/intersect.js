@@ -20,7 +20,7 @@ async function handler(req, res, token = {}) {
 
   const layer = locale.layers[req.query.layer]
 
-  const filter_sql = req.query.filter && await sql_filter(req.query.filter) || ''
+  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '' 
 
   let
     lat = req.query.lat,

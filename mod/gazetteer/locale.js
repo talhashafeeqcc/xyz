@@ -9,11 +9,6 @@ module.exports = async (req, locale) => {
 
     const layer = locale.layers[dataset.layer]
 
-    req.params.token.roles = req.params.token.roles || []
-
-    // Parse filter from query string.
-    const filter = {}
-
     // if (layer.roles) {
 
     //   if (!(layer.roles && Object.keys(layer.roles).some(
@@ -28,7 +23,7 @@ module.exports = async (req, locale) => {
 
     // }
 
-    const filter_sql = filter && await sql_filter(filter) || ''
+    const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '' 
 
     // Build PostgreSQL query to fetch gazetteer results.
     var q = `

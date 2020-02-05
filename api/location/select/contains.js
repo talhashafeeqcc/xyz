@@ -27,7 +27,7 @@ async function handler(req, res, token = {}) {
     geom = req.query.geom || layer.geom
 
   // SQL filter
-  const filter_sql = filter && await sql_filter(filter) || ''    
+  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '' 
 
   // The fields array stores all fields to be queried for the location info.
   const fields = await sql_fields([], infoj, qID)

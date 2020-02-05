@@ -23,8 +23,14 @@ async function handler(req, res, token = {}) {
 
   const locale = workspace.locales[req.query.locale]
 
+  const layer = locale.layers[req.query.layer]
+
+  if (layer.roles && !Object.keys(layer.roles).some(
+    role => token.roles && token.roles.includes(role)
+  )) return res.status(400).send('Insufficient role priviliges.')
+
+
   let
-    layer = locale.layers[req.query.layer],
     geom = layer.geom,
     style_theme = layer.style.themes[decodeURIComponent(req.query.theme)],
     cat = style_theme && (style_theme.fieldfx || style_theme.field) || null,
@@ -39,12 +45,23 @@ async function handler(req, res, token = {}) {
     east = parseFloat(req.query.east),
     north = parseFloat(req.query.north)
 
+  const roles = layer.roles && token.roles && token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
+
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
+
+  console.log(filter);
+
   // Combine filter with envelope
   const where_sql = `
   WHERE ST_DWithin(
     ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${parseInt(layer.srid)}),
     ${geom}, 0.00001)
-    ${req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''}`
+    ${filter}`
 
   // Apply KMeans cluster algorithm.
   if (kmeans) {
