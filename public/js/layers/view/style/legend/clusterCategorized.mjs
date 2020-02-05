@@ -41,8 +41,9 @@ export default _xyz => layer => {
         e.target.style.fillOpacity = 0.8;
 
         if(!layer.filter.legend[layer.style.theme.field]) {
-          layer.filter.legend[layer.style.theme.field] = {};
-          layer.filter.legend[layer.style.theme.field].ni = [];
+          layer.filter.legend[layer.style.theme.field] = {
+            ni: []
+          };
         }
         
         // Push value into the NI (not in) legend filter.
@@ -79,6 +80,8 @@ export default _xyz => layer => {
 
     text.addEventListener('click', e => {
 
+      e.stopPropagation();
+
       if(e.target.style.textDecoration === 'line-through'){
 
         e.target.style.textDecoration = 'none';
@@ -95,8 +98,9 @@ export default _xyz => layer => {
         e.target.style.fillOpacity = 0.8;
 
         if(!layer.filter.legend[layer.style.theme.field]) {
-          layer.filter.legend[layer.style.theme.field] = {};
-          layer.filter.legend[layer.style.theme.field].ni = [];
+          layer.filter.legend[layer.style.theme.field] = {
+            ni: []
+          };
         }
 
         // Assign all cat keys to IN filter.

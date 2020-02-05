@@ -1764,7 +1764,7 @@ function inBBox(pt, bbox) {
   \**********************************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/helpers/main.es.js (<- Module is referenced from these modules with unsupported syntax: ./node_modules/@turf/point-on-feature/main.js (referenced with cjs require)) */
-/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/explode/main.es.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/meta/main.es.js because of ./node_modules/@turf/nearest-point/main.es.js */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -120342,11 +120342,6 @@ var Map_Map = /** @class */ (function (_super) {
   // Create / empty legend filter when theme is applied.
   layer.filter.legend = {};
 
-  // Create array for NI (not in) value filter.
-  layer.filter.legend[layer.style.theme.field] = {
-    ni: []
-  };
-
   Object.entries(layer.style.theme.cat).forEach(cat => {
 
     let image_container = _xyz.utils.wire()`<div style="height: 24px; width: 24px;">`;
@@ -120391,6 +120386,9 @@ var Map_Map = /** @class */ (function (_super) {
     let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">${cat[1].label || cat[0]}`;
 
     text.addEventListener('click', e => {
+
+      e.stopPropagation();
+
       if (e.target.style.textDecoration === 'line-through') {
           e.target.style.textDecoration = 'none';
           e.target.style.opacity = 1;
@@ -120403,6 +120401,12 @@ var Map_Map = /** @class */ (function (_super) {
           e.target.style.textDecoration = 'line-through';
           e.target.style.opacity = 0.8;
           e.target.style.fillOpacity = 0.8;
+
+          if(!layer.filter.legend[layer.style.theme.field]) {
+            layer.filter.legend[layer.style.theme.field] = {
+              ni: []
+            };
+          }
           
           // Push value into the NI (not in) legend filter.
           layer.filter.legend[layer.style.theme.field].ni.push(cat[0]);
@@ -120458,7 +120462,11 @@ var Map_Map = /** @class */ (function (_super) {
     let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">other`;
 
     text.addEventListener('click', e => {
+
+      e.stopPropagation();
+
       if (e.target.style.textDecoration === 'line-through') {
+        
         e.target.style.textDecoration = 'none';
         e.target.style.opacity = 1;
         e.target.style.fillOpacity = 1;
@@ -120470,6 +120478,12 @@ var Map_Map = /** @class */ (function (_super) {
         e.target.style.textDecoration = 'line-through';
         e.target.style.opacity = 0.8;
         e.target.style.fillOpacity = 0.8;
+
+        if(!layer.filter.legend[layer.style.theme.field]) {
+          layer.filter.legend[layer.style.theme.field] = {
+            ni: []
+          };
+        }
 
         // Assign all cat keys to IN filter.
         layer.filter.legend[layer.style.theme.field].in = Object.keys(layer.style.theme.cat);
@@ -120568,8 +120582,9 @@ var Map_Map = /** @class */ (function (_super) {
         e.target.style.fillOpacity = 0.8;
 
         if(!layer.filter.legend[layer.style.theme.field]) {
-          layer.filter.legend[layer.style.theme.field] = {};
-          layer.filter.legend[layer.style.theme.field].ni = [];
+          layer.filter.legend[layer.style.theme.field] = {
+            ni: []
+          };
         }
         
         // Push value into the NI (not in) legend filter.
@@ -120606,6 +120621,8 @@ var Map_Map = /** @class */ (function (_super) {
 
     text.addEventListener('click', e => {
 
+      e.stopPropagation();
+
       if(e.target.style.textDecoration === 'line-through'){
 
         e.target.style.textDecoration = 'none';
@@ -120622,8 +120639,9 @@ var Map_Map = /** @class */ (function (_super) {
         e.target.style.fillOpacity = 0.8;
 
         if(!layer.filter.legend[layer.style.theme.field]) {
-          layer.filter.legend[layer.style.theme.field] = {};
-          layer.filter.legend[layer.style.theme.field].ni = [];
+          layer.filter.legend[layer.style.theme.field] = {
+            ni: []
+          };
         }
 
         // Assign all cat keys to IN filter.
@@ -126762,7 +126780,7 @@ function random_rgba() {
         invalidOptionWarnings: false,
         //placeholder: 'No Data Available',
         tooltipsHeader: true,
-        columnVertAlign: 'center',
+        columnHeaderVertAlign: 'center',
         columns: columns,
         layout: table.layout || 'fitDataFill',
         height: 'auto'
@@ -126838,7 +126856,7 @@ function random_rgba() {
         invalidOptionWarnings: false,
         //placeholder: 'No Data Available',
         tooltipsHeader: true,
-        columnVertAlign: 'center',
+        columnHeaderVertAlign: 'center',
         columns: _xyz.dataview.groupColumns(table),
         layout: table.layout || 'fitDataFill',
         height: 'auto'
@@ -127014,7 +127032,7 @@ function random_rgba() {
         invalidOptionWarnings: false,
         //placeholder: 'No Data Available',
         tooltipsHeader: true,
-        columnVertAlign: 'center',
+        columnHeaderVertAlign: 'center',
         columns: _xyz.dataview.groupColumns(table),//table.columns,
         layout: table.layout || 'fitDataFill',
         autoResize: true,

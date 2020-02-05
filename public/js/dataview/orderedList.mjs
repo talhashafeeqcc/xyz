@@ -59,7 +59,7 @@ export default _xyz => (table, callback) => {
         invalidOptionWarnings: false,
         //placeholder: 'No Data Available',
         tooltipsHeader: true,
-        columnVertAlign: 'center',
+        columnHeaderVertAlign: 'center',
         columns: _xyz.dataview.groupColumns(table),
         layout: table.layout || 'fitDataFill',
         height: 'auto'
