@@ -2,7 +2,9 @@ const auth = require('../../mod/auth/handler')
 
 const sql_filter = require('../../mod/pg/sql_filter')
 
-const _workspace = require('../../mod/workspace/get')()
+const getWorkspace = require('../../mod/workspace/get')
+
+const workspace = getWorkspace()
 
 const dbs = require('../../mod/pg/dbs')()
 
@@ -12,7 +14,12 @@ module.exports = (req, res) => auth(req, res, handler, {
 
 async function handler(req, res, token = {}) {
 
-  const workspace = await _workspace
+  if (req.query.clear_cache) {
+    Object.assign(workspace, getWorkspace())
+    return res.end()
+  }
+
+  Object.assign(workspace, await workspace)
 
   const locale = workspace.locales[req.query.locale]
 

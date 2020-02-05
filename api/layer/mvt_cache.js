@@ -1,7 +1,5 @@
 const auth = require('../../mod/auth/handler')
 
-const _workspace = require('../../mod/workspace/get')()
-
 const dbs = require('../../mod/pg/dbs')()
 
 module.exports = (req, res) => auth(req, res, handler, {
@@ -11,7 +9,7 @@ module.exports = (req, res) => auth(req, res, handler, {
 
 async function handler(req, res, token = {}) {
 
-  const workspace = await _workspace
+  const workspace = await getWorkspace();
 
   const locale = workspace.locales[req.query.locale]
 

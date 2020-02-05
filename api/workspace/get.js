@@ -1,16 +1,25 @@
 const auth = require('../../mod/auth/handler')
 
-const _workspace = require('../../mod/workspace/get')()
+const getWorkspace = require('../../mod/workspace/get')
+
+const workspace = getWorkspace()
+
+const clearCache = require('../../mod/workspace/clearCache')
 
 module.exports = (req, res) => auth(req, res, handler, {
   public: true
 })
 
-async function handler(req, res) {
+async function handler(req, res, token = {}) {
 
-  const workspace =  await _workspace
+  Object.assign(workspace, await workspace)
 
-  const locales = JSON.parse(JSON.stringify(workspace.locales))
+  if (JSON.stringify(workspace) !== JSON.stringify(await getWorkspace())) {
+    await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, token.signed)
+    Object.assign(workspace, await getWorkspace())
+  }
+
+  //const locales = JSON.parse(JSON.stringify(workspace.locales))
 
   // (function objectEval(o, parent, key) {
 
@@ -36,6 +45,6 @@ async function handler(req, res) {
   // })(locales);
 
   // Send workspace
-  res.send({ locales: locales })
+  res.send({ locales: workspace.locales })
 
 }
