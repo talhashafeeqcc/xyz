@@ -50,16 +50,6 @@ export default _xyz => {
       }}>
     </input>
     <div></div><span>Display Labels.`);
-
-    layer.style.bringToFront = _xyz.utils.wire()`<button 
-      title="Bring layer to front." 
-      class="btn-wide primary-colour"
-      onclick=${e => layer.bringToFront()
-      }>Bring layer to front`;
-
-    layer.style.bringToFront.disabled = !layer.display;
-
-    //panel.appendChild(layer.style.bringToFront);
   
     // Add theme control
     if(layer.style.theme && !layer.style.hidden){
@@ -131,22 +121,34 @@ export default _xyz => {
 
     }}>switch all</a>.`);
 
-    
+    layer.style.bringToFront = _xyz.utils.wire()`<button 
+      title="Bring layer to front." 
+      class="btn-wide primary-colour"
+      onclick=${e => layer.bringToFront()
+      }>Bring layer to front`;
+
     // Apply the current theme.
     applyTheme(layer); 
-
-    panel.appendChild(layer.style.bringToFront);
   
     return panel;
   
     function applyTheme(layer) {
+      
       // enable or hide 'switch all' filter.
       panel.querySelector('.switch-all').style.display = layer.style.theme && layer.style.theme.type === 'categorized' ? 'block' : 'none';
   
       // Empty legend.
       layer.style.legend && layer.style.legend.remove();
+
+      layer.style.bringToFront.remove();
   
-      if (layer.style.theme || layer.format === 'grid') return panel.appendChild(_xyz.layers.view.style.legend(layer));
+      if (layer.style.theme || layer.format === 'grid') {
+
+        layer.style.bringToFront.disabled = !layer.display;
+        panel.appendChild(_xyz.layers.view.style.legend(layer));
+        panel.appendChild(layer.style.bringToFront);
+        return;
+      }
   
       layer.style.legend = _xyz.utils.wire()`<div class="legend">`;
   
@@ -157,8 +159,12 @@ export default _xyz => {
       layer.style.default && style.polyStyle(layer, layer.style.default, 'Polygon');
   
       layer.style.highlight && style.polyStyle(layer, layer.style.highlight, 'Highlight');
-  
+
       panel.appendChild(layer.style.legend);
+
+      layer.style.bringToFront.disabled = !layer.display;
+
+      panel.appendChild(layer.style.bringToFront);
   
     }
   

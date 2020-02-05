@@ -120,7 +120,7 @@ export default _xyz => (table, callback) => {
         invalidOptionWarnings: false,
         //placeholder: 'No Data Available',
         tooltipsHeader: true,
-        columnVertAlign: 'center',
+        columnHeaderVertAlign: 'center',
         columns: columns,
         layout: table.layout || 'fitDataFill',
         height: 'auto'

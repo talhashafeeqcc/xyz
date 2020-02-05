@@ -7,11 +7,6 @@ export default _xyz => layer => {
   // Create / empty legend filter when theme is applied.
   layer.filter.legend = {};
 
-  // Create array for NI (not in) value filter.
-  layer.filter.legend[layer.style.theme.field] = {
-    ni: []
-  };
-
   Object.entries(layer.style.theme.cat).forEach(cat => {
 
     let image_container = _xyz.utils.wire()`<div style="height: 24px; width: 24px;">`;
@@ -56,6 +51,9 @@ export default _xyz => layer => {
     let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">${cat[1].label || cat[0]}`;
 
     text.addEventListener('click', e => {
+
+      e.stopPropagation();
+
       if (e.target.style.textDecoration === 'line-through') {
           e.target.style.textDecoration = 'none';
           e.target.style.opacity = 1;
@@ -68,6 +66,12 @@ export default _xyz => layer => {
           e.target.style.textDecoration = 'line-through';
           e.target.style.opacity = 0.8;
           e.target.style.fillOpacity = 0.8;
+
+          if(!layer.filter.legend[layer.style.theme.field]) {
+            layer.filter.legend[layer.style.theme.field] = {
+              ni: []
+            };
+          }
           
           // Push value into the NI (not in) legend filter.
           layer.filter.legend[layer.style.theme.field].ni.push(cat[0]);
@@ -123,7 +127,11 @@ export default _xyz => layer => {
     let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">other`;
 
     text.addEventListener('click', e => {
+
+      e.stopPropagation();
+
       if (e.target.style.textDecoration === 'line-through') {
+        
         e.target.style.textDecoration = 'none';
         e.target.style.opacity = 1;
         e.target.style.fillOpacity = 1;
@@ -135,6 +143,12 @@ export default _xyz => layer => {
         e.target.style.textDecoration = 'line-through';
         e.target.style.opacity = 0.8;
         e.target.style.fillOpacity = 0.8;
+
+        if(!layer.filter.legend[layer.style.theme.field]) {
+          layer.filter.legend[layer.style.theme.field] = {
+            ni: []
+          };
+        }
 
         // Assign all cat keys to IN filter.
         layer.filter.legend[layer.style.theme.field].in = Object.keys(layer.style.theme.cat);
