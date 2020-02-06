@@ -96,7 +96,7 @@ export default _xyz => {
         layer: entry.location.layer.key,
         table: entry.location.table,
         coordinates: origin.join(','),
-        minutes: entry.edit.isoline_mapbox._minutes,
+        minutes: entry.edit.isoline_mapbox._minutes || entry.edit.isoline_mapbox.minutes,
         profile: entry.edit.isoline_mapbox.profile,
         meta: entry.edit.isoline_mapbox.meta || null,
         token: _xyz.token

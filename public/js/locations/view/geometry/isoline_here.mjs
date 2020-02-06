@@ -166,7 +166,7 @@ export default _xyz => {
         mode: entry.edit.isoline_here.mode,
         type: entry.edit.isoline_here.type,
         rangetype: entry.edit.isoline_here.rangetype,
-        minutes: entry.edit.isoline_here._minutes,
+        minutes: entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes,
         distance: entry.edit.isoline_here._distance,
         token: _xyz.token
       }));
