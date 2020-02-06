@@ -25,15 +25,24 @@ async function handler(req, res, token = {}) {
 
 	const layer = locale.layers[req.query.layer]
 
-	const response = await fetch(
-		req.query.pgquery,
-		{ headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) })
+	var query;
 
-	const b64 = await response.json()
+	if(req.query.pgquery.toLowerCase().includes('api.github')) {
 
-	const buff = await Buffer.from(b64.content, 'base64')
+		const response = await fetch(
+			req.query.pgquery,
+			{ headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) })
 
-	const query = await buff.toString('utf8')
+		const b64 = await response.json()
+
+		const buff = await Buffer.from(b64.content, 'base64')
+
+		query = await buff.toString('utf8')
+	
+	} else {
+
+		query = req.query.pgquery;
+	}
 
 	const rows = await dbs[layer.dbs](query, [req.query.id])
 

@@ -4,20 +4,19 @@ export default _xyz => (table, callback) => {
 
   if (_xyz.dataview.node) document.body.style.gridTemplateRows = 'minmax(0, 1fr) 40px';
   
-  if (!table.columns) {
-
+  /*if (!table.columns) {
     const infoj = table.location.layer.infoj;
     const infoj_table = Object.values(infoj).find(v => v.title === table.title);
-
     Object.assign(table, infoj_table);
+  }*/
 
-  }
-
- if(_xyz.dataview.tables.indexOf(table) < 0) _xyz.dataview.tables.push(table);
+  if(_xyz.dataview.tables.indexOf(table) < 0) _xyz.dataview.tables.push(table);
   
   if (_xyz.dataview.nav_bar) _xyz.dataview.addTab(table);
 
   table.update = () => {
+
+    if(!table.pgQuery && !table.pgFunction) return;
 
     const xhr = new XMLHttpRequest();
 
@@ -65,32 +64,10 @@ export default _xyz => (table, callback) => {
         if (callback) callback(e.target.response);
       };
 
-    } else {
+    };
 
-      xhr.open('GET', _xyz.host + '/api/location/table?' + _xyz.utils.paramString({
-        locale: _xyz.workspace.locale.key,
-        layer: table.location.layer.key,
-        id: table.location.id,
-        tableDef: encodeURIComponent(table.title),
-        token: _xyz.token
-      }));
-
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.responseType = 'json';
-
-      xhr.onload = e => {
-
-        if (e.target.status !== 200) return;
-
-        table.Tabulator.setData(e.target.response);
-        table.Tabulator.redraw(true);
-
-        if (callback) callback(e.target.response);
-      };
-      
-    }
     xhr.send();
-  };
+  }
 
   table.activate = () => {
 
@@ -99,20 +76,9 @@ export default _xyz => (table, callback) => {
     // disable header sorting by default
     table.columns.map(col => { col.headerSort = col.headerSort ? col.headerSort : false;});
 
-    // get table aggregate columns if defined
-    const _agg_columns = Object.keys(table.agg || {}).map(key => {
-      return Object.assign({}, {field: key}, table.agg[key]);
-    });
-
     table.update();
 
-    // group columns if grouped defined.
-    let columns = _xyz.dataview.groupColumns({columns: table.columns.concat(_agg_columns)});
-
-    // filtered out helper columns
-    columns = columns.filter(col => { return !col.aspatial; }); 
-
-    columns.unshift({ field: 'rows', title: table.title, headerSort: false, align: 'left'});
+    table.columns.unshift({ field: 'rows', title: table.title, headerSort: false, align: 'left'});
 
     table.Tabulator = new _xyz.utils.Tabulator(
       table.target,
@@ -121,7 +87,7 @@ export default _xyz => (table, callback) => {
         //placeholder: 'No Data Available',
         tooltipsHeader: true,
         columnHeaderVertAlign: 'center',
-        columns: columns,
+        columns: table.columns,
         layout: table.layout || 'fitDataFill',
         height: 'auto'
       });
