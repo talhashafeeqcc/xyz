@@ -71,7 +71,7 @@ async function handler(req, res) {
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
   // Send the infoj object with values back to the client.
-  res.status(200).send({
+  res.send({
     geomj: rows[0].geomj,
     infoj: infoj
   })

@@ -30,15 +30,12 @@ async function handler(req, res) {
   if (layer.mvt_cache) {
 
     var q = `
-        DELETE FROM ${layer.mvt_cache} 
-        WHERE
-          ST_Intersects(
-            tile, 
-            (SELECT ${layer.geom} FROM ${req.query.table} WHERE ${layer.qID} = $1)
-          );`
+      DELETE FROM ${layer.mvt_cache} 
+      WHERE
+        ST_Intersects(tile, 
+          (SELECT ${layer.geom} FROM ${req.query.table} WHERE ${layer.qID} = $1));`
 
     await dbs[layer.dbs](q, [rows[0].id])
-
   }
 
   res.send(rows[0].id.toString())

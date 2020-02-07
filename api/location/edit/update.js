@@ -27,9 +27,12 @@ async function handler(req, res) {
   // Remove tiles from mvt_cache.
   if (layer.mvt_cache) {
     await dbs[layer.dbs](`
-    DELETE FROM ${layer.mvt_cache}
-    WHERE ST_Intersects(tile, (SELECT ${layer.geom} FROM ${req.query.table} WHERE ${layer.qID} = $1));`,
-    [req.query.id])
+      DELETE FROM ${layer.mvt_cache}
+      WHERE ST_Intersects(tile, (
+        SELECT ${layer.geom}
+        FROM ${req.query.table}
+        WHERE ${layer.qID} = $1));`,
+        [req.query.id])
   }
 
   // Query field for updated infoj
