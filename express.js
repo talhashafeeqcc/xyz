@@ -130,10 +130,6 @@ app.get(`${process.env.DIR||''}/api/location/range`, (req, res) => require('./ap
 
 app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => require('./api/location/select/aggregate')(req, res))
 
-app.get(`${process.env.DIR||''}/api/location/table`, (req, res) => require('./api/location/table')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/list`, (req, res) => require('./api/location/list')(req, res))
-
 app.get(`${process.env.DIR||''}/api/location/pgFunction`, (req, res) => require('./api/location/pgFunction')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/pgQuery`, (req, res) => require('./api/location/pgQuery')(req, res))
