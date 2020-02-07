@@ -8,7 +8,7 @@ module.exports = async params => {
     const infoj = params.layer.infoj && JSON.parse(JSON.stringify(params.layer.infoj));
 
     // The fields array stores all fields to be queried for the location info.    
-    const fields = (infoj && await sql_fields([], infoj, params.layer.qID, params.roles, params.locale)) || [];
+    const fields = (infoj && await sql_fields([], infoj, params.layer.qID)) || [];
 
     // Push JSON geometry field into fields array.
     fields.push(`\n   ST_asGeoJson(${params.layer.geom},4) AS geomj`);

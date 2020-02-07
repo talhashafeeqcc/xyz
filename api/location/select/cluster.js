@@ -1,22 +1,18 @@
-const auth = require('../../../mod/auth/handler')
+const requestBearer = require('../../../mod/requestBearer')
 
-const _workspace = require('../../../mod/workspace/get')()
+const layer = require('../../../mod/layer')
 
 const dbs = require('../../../mod/pg/dbs')()
 
 const sql_filter = require('../../../mod/pg/sql_filter')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
   public: true
 })
 
-async function handler(req, res, token = {}) {
+async function handler(req, res) {
 
-  const workspace = await _workspace
-
-  const locale = workspace.locales[req.query.locale]
-
-  const layer = locale.layers[req.query.layer]
+  const layer = req.params.layer
 
   const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''
 

@@ -1,8 +1,8 @@
-const auth = require('../../mod/auth/handler')
+const requestBearer = require('../../mod/requestBearer')
 
 const { Pool } = require('pg')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   admin_workspace: true,
   login: true
 })

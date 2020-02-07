@@ -1,4 +1,4 @@
-module.exports = async (fields, infoj, qID, roles, locale) => {
+module.exports = async (fields, infoj, qID) => {
 
   // Iterate through infoj and push individual entries into fields array
   await infoj.forEach(async entry => {

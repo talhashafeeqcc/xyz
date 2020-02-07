@@ -1,15 +1,15 @@
-const auth = require('../../mod/auth/handler');
+const requestBearer = require('../../mod/requestBearer');
 
 const acl = require('../../mod/auth/acl')();
 
 const mailer = require('../../mod/mailer');
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   login: true,
   admin_user: true
 });
 
-async function handler(req, res, token) {
+async function handler(req, res) {
 
   var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`, [req.query.approvaltoken]);
 
@@ -23,7 +23,7 @@ async function handler(req, res, token) {
   UPDATE acl_schema.acl_table SET
     approved = true,
     approvaltoken = null,
-    approved_by = '${token.email}'
+    approved_by = '${req.params.token.email}'
   WHERE lower(email) = lower($1);`, [user.email]);
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');

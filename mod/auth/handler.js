@@ -6,7 +6,9 @@ const jwt = require('jsonwebtoken')
 
 const acl = require('./acl')()
 
-module.exports = async (req, res, next, access = {}) => {
+module.exports = access => async (req, res) => {
+
+  req.params = { token: {} }
 
   if (!req.body && typeof req.query.login !== 'undefined') return login(req, res)
 
@@ -20,11 +22,13 @@ module.exports = async (req, res, next, access = {}) => {
 
     if (access.admin_workspace && !token.admin_workspace) return login(req, res, 'Not an admin')
 
-    return next(req, res, token)
+    req.params.token = token
+
+    return
   }
 
   // Public access without token.
-  if (!req.query.token && access.public && !process.env.PRIVATE) return next(req, res)
+  if (!req.query.token && access.public && !process.env.PRIVATE) return
 
   // Redirect to login
   if (!req.query.token && access.login) return login(req, res)
@@ -36,6 +40,8 @@ module.exports = async (req, res, next, access = {}) => {
   jwt.verify(req.query.token, process.env.SECRET, async (err, token) => {
 
     if (err) return res.status(401).send('Invalid token.');
+
+    req.params.token = token
 
     // Token must have an email
     if (!token.email) return res.status(401).send('Invalid token.');
@@ -66,20 +72,22 @@ module.exports = async (req, res, next, access = {}) => {
           expiresIn: 10
         });
 
-      return next(req, res, api_token);
+      req.params.token = api_token
+
+      return
     }
 
     // Check admin_user privileges.
-    if (access.key && token.key) return next(req, res, token);
+    if (access.key && token.key) return
 
     // Check admin_user privileges.
-    if (access.admin_user && token.admin_user) return next(req, res, token);
+    if (access.admin_user && token.admin_user) return
 
     // Check admibn_workspace privileges.
-    if (access.admin_workspace && token.admin_workspace) return next(req, res, token);
+    if (access.admin_workspace && token.admin_workspace) return
 
     // Continue if neither admin nor editor previliges are required.
-    if (!access.admin_user && !access.admin_workspace) return next(req, res, token);    
+    if (!access.admin_user && !access.admin_workspace) return
 
     res.status(401).send('Invalid token.');
 

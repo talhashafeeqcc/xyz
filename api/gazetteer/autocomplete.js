@@ -6,17 +6,17 @@ const gaz_mapbox = require('../../mod/gazetteer/mapbox');
 
 const gaz_opencage = require('../../mod/gazetteer/opencage');
 
-const auth = require('../../mod/auth/handler')
+const requestBearer = require('../../mod/requestBearer')
 
 const getWorkspace = require('../../mod/workspace/get')
 
 const workspace = getWorkspace()
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true
 })
 
-async function handler(req, res, token = {}) {
+async function handler(req, res) {
 
   if (req.query.clear_cache) {
     Object.assign(workspace, getWorkspace())

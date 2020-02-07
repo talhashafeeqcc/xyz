@@ -28,3 +28,4 @@ public/views/geodata.js
 !.elasticbeanstalk/*.global.yml
 .ebextensions/*
 \.ebextensions/
+.now

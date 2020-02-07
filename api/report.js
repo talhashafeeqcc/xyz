@@ -1,15 +1,15 @@
-const auth = require('../mod/auth/handler')
+const requestBearer = require('../mod/requestBearer')
 
 const fetch = require('node-fetch')
 
 const template = require('backtick-template')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
   login: true
 })
 
-async function handler(req, res, token = { access: 'public' }){
+async function handler(req, res){
 
   let tmpl
 
@@ -34,7 +34,7 @@ async function handler(req, res, token = { access: 'public' }){
   const html = template(tmpl, {
     dir: process.env.DIR || '',
     host: `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || '' || ''}`,
-    token: req.query.token || token.signed || '""'
+    token: req.query.token || req.params.token.signed || '""'
   })
 
   //Build the template with jsrender and send to client.

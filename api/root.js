@@ -1,4 +1,4 @@
-const auth = require('../mod/auth/handler')
+const requestBearer = require('../mod/requestBearer')
 
 const Md = require('mobile-detect')
 
@@ -6,12 +6,12 @@ const fetch = require('node-fetch')
 
 const template = require('backtick-template')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
   login: true
 })
 
-async function handler(req, res, token = { access: 'public' }){
+async function handler(req, res){
 
   const md = new Md(req.headers['user-agent'])
 
@@ -22,7 +22,7 @@ async function handler(req, res, token = { access: 'public' }){
   const html = template(await tmpl.text(), {
     dir: process.env.DIR || '',
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
-    token: req.query.token || token.signed || '""',
+    token: req.query.token || req.params.token.signed || '""',
     log: process.env.LOG_LEVEL || '""',
     login: (process.env.PRIVATE || process.env.PUBLIC) && 'true' || '""',
   })

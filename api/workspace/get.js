@@ -1,4 +1,4 @@
-const auth = require('../../mod/auth/handler')
+const requestBearer = require('../../mod/requestBearer')
 
 const getWorkspace = require('../../mod/workspace/get')
 
@@ -6,11 +6,11 @@ const workspace = getWorkspace()
 
 const clearCache = require('../../mod/workspace/clearCache')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true
 })
 
-async function handler(req, res, token = {}) {
+async function handler(req, res) {
 
   Object.assign(workspace, await workspace)
 
@@ -26,7 +26,7 @@ async function handler(req, res, token = {}) {
     // check whether the object has an access key matching the current level.
     if (Object.entries(o).some(
       e => e[0] === 'roles' && !Object.keys(e[1]).some(
-        role => token.roles && token.roles.includes(role)
+        role => req.params.token.roles && req.params.token.roles.includes(role)
       )
     )) {
 

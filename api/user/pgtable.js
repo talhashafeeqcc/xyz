@@ -1,10 +1,10 @@
-const auth = require('../../mod/auth/handler')
+const requestBearer = require('../../mod/requestBearer')
 
 const acl = require('../../mod/auth/acl')()
 
 const bcrypt = require('bcrypt-nodejs')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   admin_user: true
 })
 

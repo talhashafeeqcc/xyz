@@ -1,4 +1,4 @@
-const auth = require('../../mod/auth/handler')
+const requestBearer = require('../../mod/requestBearer')
 
 const getWorkspace = require('../../mod/workspace/get')
 
@@ -6,11 +6,11 @@ const workspace = getWorkspace()
 
 const dbs = require('../../mod/pg/dbs')()
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true
 })
 
-async function handler(req, res, token = {}) {
+async function handler(req, res) {
 
   if (req.query.clear_cache) {
     Object.assign(workspace, getWorkspace())

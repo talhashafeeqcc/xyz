@@ -1,8 +1,8 @@
-const auth = require('../mod/auth/handler')
+const requestBearer = require('../mod/requestBearer')
 
 const package = require('../package.json')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true
 })
 

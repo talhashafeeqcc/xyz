@@ -1,14 +1,12 @@
-const auth = require('../mod/auth/handler')
+const requestBearer = require('../mod/requestBearer')
 
 const fetch = require('node-fetch')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true
 })
 
-async function handler(req, res, token = { access: 'public' }) {
-
-  console.log(req.query.uri)
+async function handler(req, res) {
 
   const response = await fetch(
     req.query.uri,

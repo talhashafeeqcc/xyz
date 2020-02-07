@@ -1,8 +1,6 @@
-const auth = require('../../mod/auth/handler')
+const requestBearer = require('../../mod/requestBearer')
 
-const getWorkspace = require('../../mod/workspace/get')
-
-const workspace = getWorkspace()
+const layer = require('../../mod/layer')
 
 const dbs = require('../../mod/pg/dbs')()
 
@@ -10,22 +8,13 @@ const sql_filter = require('../../mod/pg/sql_filter')
 
 const sql_fields = require('../../mod/pg/sql_fields')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
   public: true
 })
 
-async function handler(req, res, token = {}) {
+async function handler(req, res) {
 
-  if (req.query.clear_cache) {
-    Object.assign(workspace, getWorkspace())
-    return res.end()
-  }
-
-  Object.assign(workspace, await workspace)
-
-  const locale = workspace.locales[req.query.locale]
-
-  const layer = locale.layers[req.query.layer]
+  const layer = req.params.layer
 
   const chart = layer.dataview[req.query.chart]
 

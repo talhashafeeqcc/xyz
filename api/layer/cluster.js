@@ -1,34 +1,18 @@
-const auth = require('../../mod/auth/handler')
-
-const getWorkspace = require('../../mod/workspace/get')
-
-const workspace = getWorkspace()
+const requestBearer = require('../../mod/requestBearer')
 
 const dbs = require('../../mod/pg/dbs')()
 
 const sql_filter = require('../../mod/pg/sql_filter')
 
-module.exports = (req, res) => auth(req, res, handler, {
-  public: true
-})
+const layer = require('../../mod/layer')
 
-async function handler(req, res, token = {}) {
+module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {public:true})
 
-  if (req.query.clear_cache) {
-    Object.assign(workspace, getWorkspace())
-    return res.end()
-  }
+async function handler(req, res) {
 
-  Object.assign(workspace, await workspace)
+  const layer = req.params.layer
 
-  const locale = workspace.locales[req.query.locale]
-
-  const layer = locale.layers[req.query.layer]
-
-  if (layer.roles && !Object.keys(layer.roles).some(
-    role => token.roles && token.roles.includes(role)
-  )) return res.status(400).send('Insufficient role priviliges.')
-
+  const token = req.params.token
 
   let
     geom = layer.geom,

@@ -1,20 +1,20 @@
-const auth = require('../../mod/auth/handler');
+const requestBearer = require('../../mod/requestBearer');
 
 const acl = require('../../mod/auth/acl')();
 
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   key: true,
   login: true
 });
 
-async function handler(req, res, token){
+async function handler(req, res){
 
   // Get user from ACL.
   var rows = await acl(`
     SELECT * FROM acl_schema.acl_table
-    WHERE lower(email) = lower($1);`, [token.email]);
+    WHERE lower(email) = lower($1);`, [req.params.token.email]);
     
   if (rows instanceof Error) return res.status(500).send('Bad config.');
   

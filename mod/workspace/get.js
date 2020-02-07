@@ -33,8 +33,7 @@ async function github(ref){
 
   const response = await fetch(
     `https:${ref}`,
-    { headers: new fetch.Headers({
-        Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}`})})
+    { headers: new fetch.Headers({Authorization: `token ${process.env.KEY_GITHUB}`}) })   
 
   const b64 = await response.json()
   const buff = await Buffer.from(b64.content, 'base64')

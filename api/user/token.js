@@ -1,11 +1,9 @@
-const auth = require('../../mod/auth/handler');
+const requestBearer = require('../../mod/requestBearer')
 
-module.exports = (req, res) => auth(req, res, handler, {
-  login: true
-});
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {login:true})
 
-async function handler(req, res, token){
+async function handler(req, res){
 
-  res.send(token.signed);
+  res.send(req.params.token.signed)
 
 }

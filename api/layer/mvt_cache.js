@@ -1,19 +1,17 @@
-const auth = require('../../mod/auth/handler')
+const requestBearer = require('../../mod/requestBearer')
 
 const dbs = require('../../mod/pg/dbs')()
 
-module.exports = (req, res) => auth(req, res, handler, {
+const layer = require('../../mod/layer')
+
+module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
   admin_workspace: true,
   login: true
 });
 
-async function handler(req, res, token = {}) {
+async function handler(req, res) {
 
-  const workspace = await getWorkspace();
-
-  const locale = workspace.locales[req.query.locale]
-
-  const layer = locale.layers[req.query.layer]
+  const layer = req.params.layer
 
   var rows = await dbs[layer.dbs](`
     DROP table if exists ${layer.mvt_cache};

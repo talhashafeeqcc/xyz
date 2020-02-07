@@ -1,14 +1,14 @@
-const auth = require('../../mod/auth/handler');
+const requestBearer = require('../../mod/requestBearer');
 
 const acl = require('../../mod/auth/acl')();
 
 const mailer = require('../../mod/mailer');
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   admin_user: true
 });
 
-async function handler(req, res, token) {
+async function handler(req, res) {
 
   // Remove spaces from email.
   const email = req.query.email.replace(/\s+/g, '');
@@ -22,7 +22,7 @@ async function handler(req, res, token) {
   UPDATE acl_schema.acl_table
   SET
     ${req.query.field} = ${req.query.value === 'false' && 'NULL' || req.query.value},
-    approved_by = '${token.email}'
+    approved_by = '${req.params.token.email}'
   WHERE lower(email) = lower($1);`, [email]);
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.');

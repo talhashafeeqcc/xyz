@@ -1,12 +1,12 @@
 const fetch = require('node-fetch')
 
-const auth = require('../../../../mod/auth/handler')
+const requestBearer = require('../../../../mod/requestBearer')
 
-module.exports = (req, res) => auth(req, res, handler, {
+module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true
 })
 
-async function handler(req, res, token = {}) {
+async function handler(req, res) {
 
   const params = {
     coordinates: req.query.coordinates,
