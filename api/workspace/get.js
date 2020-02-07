@@ -15,7 +15,7 @@ async function handler(req, res) {
   Object.assign(workspace, await workspace)
 
   if (JSON.stringify(workspace) !== JSON.stringify(await getWorkspace())) {
-    await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, token.signed)
+    await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
     Object.assign(workspace, await getWorkspace())
   }
 
