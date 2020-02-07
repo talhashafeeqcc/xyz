@@ -30,8 +30,6 @@ module.exports = async (host, token) => {
 
   await fetch(`${host}/api/location/field?clear_cache=true&token=${token || ''}`)
 
-  await fetch(`${host}/api/location/table?clear_cache=true&token=${token || ''}`)
-
   await fetch(`${host}/api/location/pgfunction?clear_cache=true&token=${token || ''}`)
 
   await fetch(`${host}/api/location/pgquery?clear_cache=true&token=${token || ''}`)
