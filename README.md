@@ -4,9 +4,9 @@
 
 **An open source javascript framework for spatial data and application interfaces.**
 
-XYZ is a combination of node.js middleware and client libraries for building web applications for the analysis of spatial data.
+XYZ is a combination of Node middleware and client libraries for building web applications for the analysis of spatial data.
 
-The XYZ middleware is a collection of RESTful endpoints which provide secure interfaces to spatial data sources. These endpoints are routed with Fastify, a low overhead web framework for Node.js. Deployed as a service endpoints may serve templates and other static ressources.
+The XYZ middleware is a collection of RESTful endpoints which provide secure interfaces to spatial data sources.
 
 Spatial data must be stored in a cloud accessible PostGIS (v2.4+) database, allowing XYZ route handler to compose SQL statements that query, transform and aggregate geometries and their associated properties. The use of standards such as [GeoJSON](https://tools.ietf.org/html/rfc7946) and Mapbox Vector Tiles ([MVT](https://docs.mapbox.com/vector-tiles/specification/)) allow for the cartographic presentation of spatial data with common web mapping engines. No additional services such as Geoserver or Mapserver are required.
 
@@ -32,7 +32,7 @@ Workspaces define the layers and locations to be loaded by the API and applicati
 
 ### Deployment
 
-XYZ may be deployed to any node runtime. It is recommended to deploy the node application as a cloud function to a scalable backend as a service (BaaS).
+XYZ may be deployed to any Node runtime. It is recommended to deploy the Node application as a cloud function to a scalable backend as a service (BaaS).
 
 ### Security
 
@@ -59,15 +59,15 @@ The XYZ middle may consume 3rd party services from Google Maps, Mapbox, MapTiler
 
 [Openlayers](https://github.com/openlayers/openlayers) - High-performance web mapping engine.
 
-[Node-Postgres](https://github.com/brianc/node-postgres) - PostgreSQL client for node.js.
+[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - A Node implementation of JSON Web Token.
 
-[Fastify](https://github.com/fastify/fastify) - Fast and low overhead framework for node.js.
+[bcryptjs](https://www.npmjs.com/package/bcryptjs) - Optimized bcrypt in JavaScript with zero dependencies.
 
-[Fastify-JWT](https://github.com/fastify/fastify-jwt) - JWT utils for Fastify.
+[Node-Postgres](https://github.com/brianc/node-postgres) - PostgreSQL client for Node.
 
-[Fastify-Helmet](https://github.com/fastify/fastify-helmet) - Security headers for Fastify.
+[Express](https://www.npmjs.com/package/express) - Fast, unopinionated, minimalist web framework for Node.
 
-[Fastify-Swagger](https://github.com/fastify/fastify-swagger) - Swagger documentation generator for Fastify
+[express-http-proxy](https://www.npmjs.com/package/express-http-proxy) - Express middleware to proxy request to another host and pass response back to original caller.
 
 [hyperHTML](https://github.com/WebReflection/hyperHTML) - A Fast & Light Virtual DOM Alternative.
 
@@ -75,19 +75,21 @@ The XYZ middle may consume 3rd party services from Google Maps, Mapbox, MapTiler
 
 [chart.js](https://github.com/chartjs/Chart.js) - For the creation of HTML canvas charts in info panels and report views.
 
-[Tabulator](https://github.com/olifolkerd/tabulator) - Javascript library for interactive tables and data grids.
+[tabulator](https://github.com/olifolkerd/tabulator) - Javascript library for interactive tables and data grids.
 
-[js-datepicker](https://github.com/qodesmith/datepicker) - A JavaScript datepicker.
+[flatpickr](https://www.npmjs.com/package/flatpickr) - A customisable JavaScript datetime picker.
 
 [chroma.js](https://github.com/gka/chroma.js) - A JavaScript library for all kinds of color manipulations.
 
 [TurfJS](https://github.com/Turfjs/turf) - A modular geospatial engine for geometry aggregation and transformations in the middleware and on the client side.
 
-[nodemailer](https://github.com/nodemailer/nodemailer) - Send e-mails with Node.JS – easy as cake!
+[nodemailer](https://github.com/nodemailer/nodemailer) - Send e-mails with Node – easy as cake!
 
-[node-fetch](https://github.com/bitinn/node-fetch) - A light-weight module that brings window.fetch to Node.js.
+[node-fetch](https://github.com/bitinn/node-fetch) - A light-weight module that brings window.fetch to Node.
 
-[mobile-detect.js](https://github.com/hgoebl/mobile-detect.js) - Node.js device detection from request header.
+[request](https://www.npmjs.com/package/request) - Request is designed to be the simplest way possible to make http calls. It supports HTTPS and follows redirects by default.
+
+[mobile-detect.js](https://github.com/hgoebl/mobile-detect.js) - Node device detection from request header.
 
 
 ## License

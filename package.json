@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "backtick-template": "^0.2.0",
-    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
     "express-http-proxy": "^1.6.0",
     "jsonwebtoken": "^8.5.1",
     "mobile-detect": "^1.4.3",
