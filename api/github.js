@@ -10,7 +10,7 @@ async function handler(req, res) {
 
   const response = await fetch(
     req.query.uri,
-    { headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) })
+    { headers: new fetch.Headers({ Authorization: `token ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) })
 
   const b64 = await response.json()
   const buff = await Buffer.from(b64.content, 'base64')

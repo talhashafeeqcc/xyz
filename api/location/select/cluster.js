@@ -14,11 +14,17 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
+
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
   let
     table = req.query.table,
-    geom = layer.geom,
     qID = layer.qID,
     coords = req.query.coords.split(',').map(xy => parseFloat(xy)),
     label = layer.cluster_label ? layer.cluster_label : qID,
@@ -29,11 +35,11 @@ async function handler(req, res) {
   SELECT
     ${qID} AS ID,
     ${label} AS label,
-    array[st_x(st_centroid(${geom})), st_y(st_centroid(${geom}))] AS coords
+    array[st_x(st_centroid(${layer.geom})), st_y(st_centroid(${layer.geom}))] AS coords
   FROM ${table}
   WHERE true 
-    ${filter_sql} 
-  ORDER BY ST_Point(${coords}) <#> ${geom} LIMIT ${count};`
+    ${filter} 
+  ORDER BY ST_Point(${coords}) <#> ${layer.geom} LIMIT ${count};`
 
   var rows = await dbs[layer.dbs](q)
 

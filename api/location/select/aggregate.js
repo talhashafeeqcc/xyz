@@ -18,8 +18,14 @@ async function handler(req, res) {
 
   const geom_extent = `ST_Transform(ST_SetSRID(ST_Extent(${layer.geom}), ${layer.srid}), 4326)`
 
-  // SQL filter
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
+
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
   const infoj = layer.filter.infoj
 
@@ -58,7 +64,7 @@ async function handler(req, res) {
     ${layer.srid})) AS geomj,
     ${fields.join()}
   FROM ${req.query.table}
-  WHERE true ${filter_sql};`
+  WHERE true ${filter};`
 
   var rows = await dbs[layer.dbs](q)
 

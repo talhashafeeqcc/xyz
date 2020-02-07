@@ -14,30 +14,31 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''
-
   let
     table = layer.dataview[req.query.table],
-    viewport = req.query.viewport,
     orderby = req.query.orderby || layer.qID,
     order = req.query.order || 'ASC',
     west = parseFloat(req.query.west),
     south = parseFloat(req.query.south),
     east = parseFloat(req.query.east),
-    north = parseFloat(req.query.north),
-    viewport_sql = 'WHERE true '
+    north = parseFloat(req.query.north)
 
-  if (viewport && layer.geom) {
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
 
-    viewport_sql = `
-    WHERE
-      ST_DWithin(
-        ST_Transform(
-          ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${req.query.mapview_srid}),
-          ${layer.srid}),
-        ${layer.geom},
-      0.00001)`
-  }
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
+
+  const viewport = req.query.viewport && `
+    AND ST_DWithin(
+      ST_Transform(
+        ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${req.query.srid || 3857}),
+        ${layer.srid}),
+      ${layer.geom},
+    0.00001)` || ''
 
   const fields = []
 
@@ -69,8 +70,9 @@ async function handler(req, res) {
   FROM
     ${table.from}
     ${laterals.join(' ')}
-    ${viewport_sql}
-    ${filter_sql}
+  WHERE true
+    ${viewport}
+    ${filter}
   ORDER BY ${orderby} ${order}
   FETCH FIRST ${table.limit || 99} ROW ONLY;`
 

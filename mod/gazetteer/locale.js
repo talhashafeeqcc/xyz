@@ -9,21 +9,14 @@ module.exports = async (req, locale) => {
 
     const layer = locale.layers[dataset.layer]
 
-    // if (layer.roles) {
-
-    //   if (!(layer.roles && Object.keys(layer.roles).some(
-    //     role => req.params.token.roles.includes(role)
-    //   ))) return []
-
-    //   // Apply role filter
-    //   req.params.token.roles.filter(
-    //     role => layer.roles[role]).forEach(
-    //     role => Object.assign(filter, layer.roles[role])
-    //   )
-
-    // }
-
-    const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '' 
+    const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+      role => layer.roles[role]).map(
+        role => layer.roles[role]) || []
+  
+    const filter = await sql_filter(Object.assign(
+      {},
+      req.query.filter && JSON.parse(req.query.filter) || {},
+      roles.length && Object.assign(...roles) || {}))
 
     // Build PostgreSQL query to fetch gazetteer results.
     var q = `
@@ -34,7 +27,7 @@ module.exports = async (req, locale) => {
       ST_Y(ST_PointOnSurface(${layer.geom || 'geom'})) AS lat
       FROM ${dataset.table}
       WHERE ${dataset.qterm || dataset.label}::text ILIKE $1
-      ${filter_sql}
+      ${filter}
       ORDER BY length(${dataset.label})
       LIMIT 10`
 

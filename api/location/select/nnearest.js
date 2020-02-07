@@ -16,27 +16,27 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '' 
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
 
-  let
-    lat = req.query.lat,
-    lng = req.query.lng,
-    nnearest = parseInt(req.query.nnearest || 3),
-    infoj = JSON.parse(JSON.stringify(layer.infoj)),
-    geom = req.query.geom || layer.geom
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
   // The fields array stores all fields to be queried for the location info.
-  const fields = await sql_fields([], infoj)
+  const fields = await sql_fields([], JSON.parse(JSON.stringify(layer.infoj)))
 
   // Push JSON geometry field into fields array.
-  fields.push(` ST_asGeoJson(${geom}) AS geomj`)
+  fields.push(` ST_asGeoJson(${req.query.geom || layer.geom}) AS geomj`)
 
   var q = `
   SELECT ${fields.join()}
   FROM ${req.query.table}
-  WHERE true ${filter_sql} 
-  ORDER BY ST_SetSRID(ST_Point(${lng}, ${lat}), 4326) <#> ${geom}
-  LIMIT ${nnearest};`
+  WHERE true ${filter} 
+  ORDER BY ST_SetSRID(ST_Point(${req.query.lng}, ${req.query.lat}), 4326) <#> ${req.query.geom || layer.geom}
+  LIMIT ${parseInt(req.query.nnearest || 3)};`
 
   var rows = await dbs[layer.dbs](q)
 

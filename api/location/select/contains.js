@@ -19,22 +19,29 @@ async function handler(req, res) {
   let
     lat = req.query.lat,
     lng = req.query.lng,
-    infoj = JSON.parse(JSON.stringify(layer.infoj)),
-    geom = req.query.geom || layer.geom
+    infoj = JSON.parse(JSON.stringify(layer.infoj))
 
-  // SQL filter
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '' 
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
+
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
   // The fields array stores all fields to be queried for the location info.
   const fields = await sql_fields([], infoj, qID)
 
   // Push JSON geometry field into fields array.
-  fields.push(` ST_asGeoJson(${geom}) AS geomj`)
+  fields.push(` ST_asGeoJson(${req.query.geom || layer.geom}) AS geomj`)
 
   var q = `
   SELECT ${fields.join()}
   FROM ${req.query.table}
-  WHERE ST_Contains(${geom}, ST_SetSRID(ST_Point(${lng}, ${lat}), 4326));`
+  WHERE
+    ST_Contains(${req.query.geom || layer.geom}, ST_SetSRID(ST_Point(${lng}, ${lat}), 4326))
+    ${filter};`
 
   var rows = await dbs[layer.dbs](q)
 

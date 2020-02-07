@@ -16,7 +16,7 @@ export default _xyz => function (params) {
 
   xhr.open('GET', _xyz.host + '/api/layer/extent?' + _xyz.utils.paramString({
     locale: _xyz.workspace.locale.key,
-    mapview_srid: _xyz.mapview.srid,
+    srid: _xyz.mapview.srid,
     layer: layer.key,
     filter: JSON.stringify(filter),
     token: _xyz.token

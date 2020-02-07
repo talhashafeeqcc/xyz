@@ -39,7 +39,7 @@ export default _xyz => table => {
       
     xhr.open('GET', _xyz.host + '/api/layer/table?' + _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
-      mapview_srid: _xyz.mapview.srid,
+      srid: _xyz.mapview.srid,
       layer: table.layer.key,
       table: table.key,
       viewport: table.viewport,

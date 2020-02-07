@@ -16,28 +16,37 @@ async function handler(req, res) {
 
   let
     table = req.query.table,
-    geom = layer.geom,
     label = req.query.label,
     west = parseFloat(req.query.west),
     south = parseFloat(req.query.south),
     east = parseFloat(req.query.east),
     north = parseFloat(req.query.north)
 
-
   // Combine filter with envelope
-  const where_sql = `
-  WHERE ST_DWithin(
+  const viewport = `
+  AND ST_DWithin(
     ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${parseInt(layer.srid)}),
-    ${geom}, 0.00001)
+    ${layer.geom}, 0.00001)
     ${req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''}`
 
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
+
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
   var q = `
   SELECT
     ${label} AS label,
-    ST_X(ST_PointOnSurface(${geom})) AS x,
-    ST_Y(ST_PointOnSurface(${geom})) AS y
-  FROM ${table} ${where_sql}`
+    ST_X(ST_PointOnSurface(${layer.geom})) AS x,
+    ST_Y(ST_PointOnSurface(${layer.geom})) AS y
+  FROM ${table}
+  WHERE true
+    ${viewport}
+    ${filter}`
 
 
   var rows = await dbs[layer.dbs](q)

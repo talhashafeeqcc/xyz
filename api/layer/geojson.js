@@ -14,8 +14,14 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ' true';
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
 
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
   var q = `
   SELECT
@@ -23,7 +29,7 @@ async function handler(req, res) {
     ${req.query.cat || null} AS cat,
     ST_asGeoJson(${layer.geom}) AS geomj
   FROM ${req.query.table}
-  WHERE ${filter_sql};`
+  WHERE true ${filter};`
 
   var rows = await dbs[layer.dbs](q)
 

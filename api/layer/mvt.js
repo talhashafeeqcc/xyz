@@ -14,12 +14,8 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '';
-
   let
     table = req.query.table,
-    geom = layer.geom,
-    mapview_srid = req.query.mapview_srid,
     id = layer.qID || null,
     x = parseInt(req.query.x),
     y = parseInt(req.query.y),
@@ -27,10 +23,16 @@ async function handler(req, res) {
     m = 20037508.34,
     r = (m * 2) / (Math.pow(2, z))
 
-  // Use MVT cache if set on layer and no filter active.
-  const mvt_cache = (!filter_sql && (!layer.roles || !Object.keys(layer.roles).length) && layer.mvt_cache)
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
 
-  if (mvt_cache) {
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
+
+  if (!filter && layer.mvt_cache) {
 
     // Get MVT from cache table.
     var rows = await dbs[layer.dbs](`SELECT mvt FROM ${layer.mvt_cache} WHERE z = ${z} AND x = ${x} AND y = ${y}`)
@@ -60,7 +62,7 @@ async function handler(req, res) {
         ${ m - (y * r)},
         ${-m + (x * r) + r},
         ${ m - (y * r) - r},
-        ${mapview_srid}
+        ${req.query.srid || 3857}
       ) tile
 
     FROM (
@@ -69,13 +71,13 @@ async function handler(req, res) {
         ${id} as id,
         ${mvt_fields.length && mvt_fields.toString() + ',' || ''}
         ST_AsMVTGeom(
-          ${geom},
+          ${layer.geom},
           ST_MakeEnvelope(
             ${-m + (x * r)},
             ${ m - (y * r)},
             ${-m + (x * r) + r},
             ${ m - (y * r) - r},
-            ${mapview_srid}
+            ${req.query.srid || 3857}
           ),
           4096,
           256,
@@ -91,13 +93,13 @@ async function handler(req, res) {
             ${ m - (y * r)},
             ${-m + (x * r) + r},
             ${ m - (y * r) - r},
-            ${mapview_srid}
+            ${req.query.srid || 3857}
           ),
-          ${geom},
+          ${layer.geom},
           ${r / 4}
         )
 
-        ${filter_sql}
+        ${filter}
 
     ) tile
     

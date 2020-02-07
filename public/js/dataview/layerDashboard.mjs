@@ -25,7 +25,7 @@ export default _xyz => chart => {
       orderby: chart.orderby,
       order: chart.order,
       filter: JSON.stringify(filter),
-      mapview_srid: _xyz.mapview.srid,
+      srid: _xyz.mapview.srid,
       west: bounds && bounds.west,
       south: bounds && bounds.south,
       east: bounds && bounds.east,

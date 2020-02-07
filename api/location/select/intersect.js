@@ -16,29 +16,32 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || '' 
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
 
-  let
-    lat = req.query.lat,
-    lng = req.query.lng,
-    infoj = JSON.parse(JSON.stringify(layer.infoj)),
-    geom = req.query.geom || layer.geom
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
   // The fields array stores all fields to be queried for the location info.
-  const fields = await sql_fields([], infoj)
+  const fields = await sql_fields([], JSON.parse(JSON.stringify(layer.infoj)))
 
   // Push JSON geometry field into fields array.
-  fields.push(` ST_asGeoJson(${geom}) AS geomj`)
+  fields.push(` ST_asGeoJson(${req.query.geom || layer.geom}) AS geomj`)
 
   var q = `
   WITH T AS (
-    SELECT ${geom} AS _geom
+    SELECT ${req.query.geom || layer.geom} AS _geom
     FROM ${req.query.table}
-    WHERE ST_Contains(${geom}, ST_SetSRID(ST_Point(${lng}, ${lat}), 4326))
+    WHERE ST_Contains(${req.query.geom || layer.geom}, ST_SetSRID(ST_Point(${req.query.lng}, ${req.query.lat}), 4326))
     LIMIT 1
   )
   SELECT ${fields.join()} FROM ${req.query.table}, T
-  WHERE ST_Intersects(${geom}, _geom);`
+  WHERE
+    ST_Intersects(${req.query.geom || layer.geom}, _geom)
+    ${filter};`
 
   var rows = await dbs[layer.dbs](q)
 

@@ -12,8 +12,6 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const token = req.params.token
-
   let
     geom = layer.geom,
     style_theme = layer.style.themes[decodeURIComponent(req.query.theme)],
@@ -29,7 +27,7 @@ async function handler(req, res) {
     east = parseFloat(req.query.east),
     north = parseFloat(req.query.north)
 
-  const roles = layer.roles && token.roles && token.roles.filter(
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
     role => layer.roles[role]).map(
       role => layer.roles[role]) || []
 
@@ -37,8 +35,6 @@ async function handler(req, res) {
     {},
     req.query.filter && JSON.parse(req.query.filter) || {},
     roles.length && Object.assign(...roles) || {}))
-
-  console.log(filter);
 
   // Combine filter with envelope
   const where_sql = `

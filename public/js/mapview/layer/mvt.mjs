@@ -45,7 +45,7 @@ export default _xyz => layer => {
         x: tileCoord[1],
         y: tileCoord[2],
         locale: _xyz.workspace.locale.key,
-        mapview_srid: _xyz.mapview.srid,
+        srid: _xyz.mapview.srid,
         layer: layer.key,
         table: tableZ,
         properties: layer.properties,

@@ -18,28 +18,28 @@ async function handler(req, res) {
 
   const chart = layer.dataview[req.query.chart]
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''
-
   let
     viewport = req.query.viewport,
     orderby = req.query.orderby || layer.qID,
     order = req.query.order || 'ASC',
-    mapview_srid = req.query.mapview_srid,
     west = parseFloat(req.query.west),
     south = parseFloat(req.query.south),
     east = parseFloat(req.query.east),
-    north = parseFloat(req.query.north),
-    viewport_sql = 'WHERE true '
+    north = parseFloat(req.query.north)
 
-  if (viewport) {
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
 
-    viewport_sql = `
-    WHERE
-      ST_DWithin(
-        ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${mapview_srid}),
-      ${layer.geom}, 0.00001)`
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
 
-  }
+  const viewport = req.query.viewport && `
+    AND ST_DWithin(
+      ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${req.query.srid || 3857}),
+      ${layer.geom}, 0.00001)` || ''
 
   const fields = await sql_fields([], chart.columns)
 
@@ -47,9 +47,11 @@ async function handler(req, res) {
   SELECT
     ${layer.qID} AS qID,
     ${fields}
-  FROM ${chart.from}
-    ${viewport_sql}
-    ${filter_sql}
+  FROM
+    ${chart.from}
+  WHERE true
+    ${viewport}
+    ${filter}
   ORDER BY ${orderby} ${order}
   FETCH FIRST 99 ROW ONLY;`
 

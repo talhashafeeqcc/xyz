@@ -14,13 +14,20 @@ async function handler(req, res) {
 
   const layer = req.params.layer
 
-  const filter_sql = req.query.filter && await sql_filter(JSON.parse(req.query.filter)) || ''
+  const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    role => layer.roles[role]).map(
+      role => layer.roles[role]) || []
 
+  const filter = await sql_filter(Object.assign(
+    {},
+    req.query.filter && JSON.parse(req.query.filter) || {},
+    roles.length && Object.assign(...roles) || {}))
+    
   // Query the estimated extent for the layer geometry field from layer table.
   var rows = await dbs[layer.dbs](`
     SELECT count(1)
     FROM ${req.query.table}
-    WHERE true ${filter_sql};`)
+    WHERE true ${filter};`)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
