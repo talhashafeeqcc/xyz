@@ -38,6 +38,6 @@ async function handler(req, res){
   })
 
   //Build the template with jsrender and send to client.
-  res.type('text/html').send(html)
+  res.send(html)
 
 }
