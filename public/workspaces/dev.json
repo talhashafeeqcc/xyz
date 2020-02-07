@@ -2575,6 +2575,12 @@
                             "layout": "fitColumns",
                             "toolbars": {},
                             "columns": [
+                                { 
+                                    "field": "rows", 
+                                    "title": "Population Summary", 
+                                    "headerSort": false, 
+                                    "align": "left"
+                                },
                                 {
                                     "title": "Grouped columns",
                                     "columns": [
@@ -2609,6 +2615,12 @@
                             "layout": "fitColumns",
                             "pgQuery": "WITH workers AS (SELECT (SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=250 then b.workers else 0 end))::integer AS workers_250,(SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=500 then b.workers else 0 end))::integer AS workers_500 FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE a.id = $1 AND ST_INTERSECTS(a.isoline_15min, b.geom_p_4326)) SELECT UNNEST(ARRAY['Workers 250m','Workers 500m']) AS rows,UNNEST(ARRAY[workers.workers_250,workers.workers_500]) AS workers FROM workers;",
                             "columns": [
+                                { 
+                                    "field": "rows", 
+                                    "title": "Worker Summary", 
+                                    "headerSort": false, 
+                                    "align": "left"
+                                },
                                 {
                                     "title": "Total Workers",
                                     "field": "workers",
@@ -2630,6 +2642,12 @@
                             "class": "_report",
                             "pgQuery": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/oac_profile.txt",
                             "columns": [
+                                { 
+                                    "field": "rows", 
+                                    "title": "OAC Profile", 
+                                    "headerSort": false, 
+                                    "align": "left"
+                                },
                                 {
                                     "title": "0-5 mins",
                                     "field": "min5",
@@ -2749,6 +2767,12 @@
                             "target_id": "xyz_table2",
                             "layout": "fitColumns",
                             "columns": [
+                                { 
+                                    "field": "rows", 
+                                    "title": "Age Profile", 
+                                    "headerSort": false, 
+                                    "align": "left"
+                                },
                                 {
                                     "title": "0-5 mins",
                                     "field": "min5",
@@ -2787,6 +2811,12 @@
                             "class": "_report",
                             "layout": "fitColumns",
                             "columns": [
+                                { 
+                                    "field": "rows", 
+                                    "title": "Social Grade", 
+                                    "headerSort": false, 
+                                    "align": "left"
+                                },
                                 {
                                     "title": "Drivetimes",
                                     "columns": [
@@ -2856,21 +2886,17 @@
                             ]
                         },
                         {
-                            "type": "orderedList",
+                            "type": "tableDefinition",
                             "title": "Nearest competitors",
                             "display": false,
                             "class": "_report",
                             "target_id": "xyz_table5",
                             "layout": "fitColumns",
-                            "from": "dev.uk_glx_sites a, geodata.uk_glx_open_retail_points b",
-                            "where": "a.id = $1",
-                            "orderby": "ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857)",
-                            "limit": 5,
+                            "pgQuery": "SELECT (ROUND(((ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857))/1000)::numeric, 2))::text AS dist,(b.fascia)::text AS fascia,(b.postcode)::text AS postcode FROM dev.uk_glx_sites a, geodata.uk_glx_open_retail_points b WHERE a.id = $1 ORDER BY ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857) NULLS LAST LIMIT 5;",
                             "columns": [
                                 {
                                     "title": "Distance",
                                     "field": "dist",
-                                    "fieldfx": "ROUND(((ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857))/1000)::numeric, 2)",
                                     "align": "right",
                                     "formatter": "money",
                                     "formatterParams": {
@@ -2880,13 +2906,11 @@
                                 },
                                 {
                                     "title": "Competitor name",
-                                    "field": "fascia",
-                                    "fieldfx": "b.fascia"
+                                    "field": "fascia"
                                 },
                                 {
                                     "title": "Postcode",
-                                    "field": "postcode",
-                                    "fieldfx": "b.postcode"
+                                    "field": "postcode"
                                 }
                             ]
                         }

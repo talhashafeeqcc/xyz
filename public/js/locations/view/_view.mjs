@@ -12,8 +12,6 @@ import meta from './meta.mjs';
 
 import tableDefinition from './tableDefinition.mjs';
 
-import orderedList from './orderedList.mjs';
-
 import dashboard from './dashboard.mjs';
 
 import report from './report.mjs';
@@ -49,8 +47,6 @@ export default _xyz => {
     boolean: boolean(_xyz),
 
     tableDefinition: tableDefinition(_xyz),
-
-    orderedList: orderedList(_xyz),
 
     dashboard: dashboard(_xyz),
 

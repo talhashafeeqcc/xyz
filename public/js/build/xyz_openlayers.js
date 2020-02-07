@@ -71342,7 +71342,7 @@ module.exports = function(module) {
 
 /***/ "./public/js/index.mjs":
 /*!*******************************************!*\
-  !*** ./public/js/index.mjs + 354 modules ***!
+  !*** ./public/js/index.mjs + 352 modules ***!
   \*******************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/kinks/index.js (<- Module is not an ECMAScript module) */
@@ -123396,13 +123396,6 @@ function panel(layer) {
       continue
     }
 
-
-    if (entry.type === 'orderedList') {
-      _xyz.locations.view.orderedList(entry);  
-      continue
-    }
-
-
     if (entry.type === 'dashboard') {
       _xyz.locations.view.dashboard(entry);
       continue
@@ -124010,53 +124003,6 @@ function panel(layer) {
     }
   }
 
-});
-// CONCATENATED MODULE: ./public/js/locations/view/orderedList.mjs
-/* harmony default export */ var orderedList = (_xyz => entry => {
-
-  if(!_xyz.dataview.node && !document.getElementById(entry.target_id)) return;
-
-  entry.row.appendChild(_xyz.utils.wire()`
-  <td style="padding-top: 5px;" colSpan=2>
-  <label class="input-checkbox">
-  <input type="checkbox"
-    checked=${!!entry.display}
-    onchange=${e => {
-      entry.display = e.target.checked;
-      entry.display ? showTab() : removeTab();
-    }}>
-  </input>
-  <div></div><span>${entry.title || 'Show table'}`);
-
-  if (entry.display) showTab();
-
-
-  function showTab() {
-
-    if(_xyz.dataview.node && !_xyz.dataview.node.querySelector('.table')) {
-
-      _xyz.dataview.node.querySelector('.tab-content').appendChild(_xyz.utils.wire()`<div class="table">`);
-
-    }
-
-    entry.location.tables.push(entry);
-
-    entry.target = _xyz.dataview.node && _xyz.dataview.node.querySelector('.table') || document.getElementById(entry.target_id);
-
-    if (entry.target) _xyz.dataview.orderedList(entry);
-
-  }
-
-  function removeTab() {
-
-    let idx = entry.location.tables.indexOf(entry);
-
-    if (idx < 0) return;
-
-    entry.location.tables.splice(idx, 1);
-
-    _xyz.dataview.removeTab(entry);
-  }
 });
 // CONCATENATED MODULE: ./public/js/locations/view/dashboard.mjs
 /* harmony default export */ var dashboard = (_xyz => entry => {
@@ -124982,8 +124928,6 @@ function panel(layer) {
 
 
 
-
-
 /* harmony default export */ var view_view = (_xyz => {
 
   const view = {
@@ -125009,8 +124953,6 @@ function panel(layer) {
     boolean: view_boolean(_xyz),
 
     tableDefinition: tableDefinition(_xyz),
-
-    orderedList: orderedList(_xyz),
 
     dashboard: dashboard(_xyz),
 
@@ -126689,7 +126631,7 @@ function random_rgba() {
         locale: _xyz.workspace.locale.key,
         layer: table.location.layer.key,
         id: table.location.id,
-        pgquery: table.pgQuery,
+        pgquery: encodeURIComponent(table.pgQuery),
         token: _xyz.token
       }));
 
@@ -126741,8 +126683,6 @@ function random_rgba() {
 
     table.update();
 
-    table.columns.unshift({ field: 'rows', title: table.title, headerSort: false, align: 'left'});
-
     table.Tabulator = new _xyz.utils.Tabulator(
       table.target,
       {
@@ -126759,84 +126699,6 @@ function random_rgba() {
 
   };
   
-  // active only if displayed in the navbar 
-  if(!table.tab || !table.tab.classList.contains('folded')) table.activate();
-
-});
-// CONCATENATED MODULE: ./public/js/dataview/orderedList.mjs
-/* harmony default export */ var dataview_orderedList = (_xyz => (table, callback) => {
-
-  if (!table || !table.location) return;
-
-  if (_xyz.dataview.node) document.body.style.gridTemplateRows = 'minmax(0, 1fr) 40px';
-
-  if (!table.columns) {
-
-    const infoj = table.location.layer.infoj;
-
-    const infoj_table = Object.values(infoj).find(v => v.title === table.title);
-
-    Object.assign(table, infoj_table);
-
-  }
-
-  if (_xyz.dataview.tables.indexOf(table) < 0) _xyz.dataview.tables.push(table);
-
-  if (_xyz.dataview.nav_bar) _xyz.dataview.addTab(table);
-
-  table.update = () => {
-
-  	const xhr = new XMLHttpRequest();
-
-  	xhr.open('GET', _xyz.host + '/api/location/list?' + _xyz.utils.paramString({
-      locale: _xyz.workspace.locale.key,
-      layer: table.location.layer.key,
-      table: table.location.layer.tables ? table.location.layer.tableMax() : null,
-      id: table.location.id,
-      tableDef: encodeURIComponent(table.title),
-      token: _xyz.token
-    }));
-
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.responseType = 'json';
-
-    xhr.onload = e => {
-      if (e.target.status !== 200) return;
-
-      table.Tabulator.setData(e.target.response);
-      table.Tabulator.redraw(true);
-      if (callback) callback(e.target.response);
-    };
-
-    xhr.send();
-
-  };
-
-  table.activate = () => {
-
-    table.target = document.getElementById(table.target_id) || _xyz.dataview.tableContainer(table.toolbars);
-
-    // disable header sorting by default
-    table.columns.map(col => col.headerSort = col.headerSort ? col.headerSort : false );
-
-    table.Tabulator = new _xyz.utils.Tabulator(
-      table.target,
-      {
-        invalidOptionWarnings: false,
-        //placeholder: 'No Data Available',
-        tooltipsHeader: true,
-        columnHeaderVertAlign: 'center',
-        columns: _xyz.dataview.groupColumns(table),
-        layout: table.layout || 'fitDataFill',
-        height: 'auto'
-      });
-
-    table.update();
-
-    _xyz.dataview.current_table = table;
-
-  };
-
   // active only if displayed in the navbar 
   if(!table.tab || !table.tab.classList.contains('folded')) table.activate();
 
@@ -127376,8 +127238,6 @@ function random_rgba() {
 
 
 
-
-
 /* harmony default export */ var _dataview = (_xyz => {
 
   return {
@@ -127393,8 +127253,6 @@ function random_rgba() {
     removeTab: removeTab(_xyz),
 
     locationTable: locationTable(_xyz),
-
-    orderedList: dataview_orderedList(_xyz),
 
     dashboard: dataview_dashboard(_xyz),
 

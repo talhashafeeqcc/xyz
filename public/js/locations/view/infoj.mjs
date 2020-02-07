@@ -185,13 +185,6 @@ export default _xyz => location => {
       continue
     }
 
-
-    if (entry.type === 'orderedList') {
-      _xyz.locations.view.orderedList(entry);  
-      continue
-    }
-
-
     if (entry.type === 'dashboard') {
       _xyz.locations.view.dashboard(entry);
       continue

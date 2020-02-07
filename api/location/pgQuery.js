@@ -16,10 +16,10 @@ async function handler(req, res) {
 
 	var query;
 
-	if(req.query.pgquery.toLowerCase().includes('api.github')) {
+	if(decodeURIComponent(req.query.pgquery).toLowerCase().includes('api.github')) {
 
 		const response = await fetch(
-			req.query.pgquery,
+			decodeURIComponent(req.query.pgquery),
 			{ headers: new fetch.Headers({ Authorization: `Basic ${Buffer.from(process.env.KEY_GITHUB).toString('base64')}` }) })
 
 		const b64 = await response.json()
@@ -30,7 +30,7 @@ async function handler(req, res) {
 	
 	} else {
 
-		query = req.query.pgquery;
+		query = decodeURIComponent(req.query.pgquery);
 	}
 
 	const rows = await dbs[layer.dbs](query, [req.query.id])
