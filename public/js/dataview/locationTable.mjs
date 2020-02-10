@@ -16,11 +16,9 @@ export default _xyz => (table, callback) => {
 
   table.update = () => {
 
-    if(!table.pgQuery && !table.pgFunction) return;
+    if(!table.pgQuery) return;
 
     const xhr = new XMLHttpRequest();
-
-    if(table.pgQuery){
 
       xhr.open('GET', _xyz.host + '/api/location/pgquery?' + _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
@@ -41,30 +39,6 @@ export default _xyz => (table, callback) => {
         table.Tabulator.redraw(true);
         if (callback) callback(e.target.response);
       };
-
-    } else if(table.pgFunction){
-
-      xhr.open('GET', _xyz.host + '/api/location/pgfunction?' + _xyz.utils.paramString({
-        locale: _xyz.workspace.locale.key,
-        layer: table.location.layer.key,
-        id: table.location.id,
-        pgFunction: table.pgFunction,
-        token: _xyz.token
-      }));
-
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.responseType = 'json';
-
-      xhr.onload = e => {
-
-        if (e.target.status !== 200) return;
-
-        table.Tabulator.setData(e.target.response);
-        table.Tabulator.redraw(true);
-        if (callback) callback(e.target.response);
-      };
-
-    };
 
     xhr.send();
   }
