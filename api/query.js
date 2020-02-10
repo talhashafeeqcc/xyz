@@ -1,12 +1,10 @@
 const requestBearer = require('../mod/requestBearer')
 
-const queries = require('../mod/queries')
+const getQueries = require('../mod/queries/_queries')
+
+const queries = getQueries()
 
 const dbs = require('../mod/pg/dbs')()
-
-const template = require('backtick-template')
-
-const fetch = require('node-fetch')
 
 const sql_filter = require('../mod/pg/sql_filter')
 
@@ -16,21 +14,16 @@ module.exports = (req, res) => requestBearer(req, res, [ handler ], {
 
 async function handler(req, res) {
 
-  const response = await fetch(
-    'https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/_population_summary',
-    { headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}` }) })
+  if (req.query.clear_cache) {
+    Object.assign(queries, getQueries())
+    return res.end()
+  }
 
-  const b64 = await response.json()
-  const buff = await Buffer.from(b64.content, 'base64')
-  const file = await buff.toString('utf8')
+  Object.assign(queries, await queries)
 
-  queries['_population_summary'] = params => template(file, params)
+  const q = queries[req.query.template].template(req.query)
 
-
-
-  const q = queries[req.query.template](req.query)
-
-  var rows = await dbs[req.query.dbs](q)
+  const rows = await dbs[queries[req.query.template].dbs || req.query.dbs](q)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

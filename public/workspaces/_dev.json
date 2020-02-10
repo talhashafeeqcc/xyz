@@ -1,5 +1,11 @@
 {
   "title": "GEOLYTIX | XYZ DEV",
+  "queries": {
+      "population_summary": {
+          "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/_population_summary",
+          "dbs": "XYZ"
+      }
+  },
   "locales": {
       "UK": {
           "name": "United Kingdom",

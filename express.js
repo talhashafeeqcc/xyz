@@ -37,16 +37,11 @@ app.get(`${process.env.DIR||''}/mobile`, (req, res) => require('./api/mobile')(r
 
 app.post(`${process.env.DIR||''}/mobile`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/mobile')(req, res))
 
-
-app.get(`${process.env.DIR||''}/api/package`, (req, res) => require('./api/package')(req, res))
-
 app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report')(req, res))
 
 app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/report')(req, res))
 
 app.get(`${process.env.DIR||''}/api/workspace/get`, (req, res) => require('./api/workspace/get')(req, res))
-
-app.post(`${process.env.DIR||''}/api/proxy/pg`, bodyParser.text(), (req, res) => require('./api/proxy/pg')(req, res))
 
 app.get(`${process.env.DIR||''}/api/github`, (req, res) => require('./api/github')(req, res))
 
@@ -66,15 +61,9 @@ app.get(`${process.env.DIR||''}/api/layer/table`, (req, res) => require('./api/l
 
 app.get(`${process.env.DIR||''}/api/layer/extent`, (req, res) => require('./api/layer/extent')(req, res))
 
-
 app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
 
-
 app.get(`${process.env.DIR||''}/api/layer/chart`, (req, res) => require('./api/layer/chart')(req, res))
-
-app.get(`${process.env.DIR||''}/api/layer/mvt_cache`, (req, res) => require('./api/layer/mvt_cache')(req, res))
-
-app.post(`${process.env.DIR||''}/api/layer/mvt_cache`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/layer/mvt_cache')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/admin`, (req, res) => require('./api/user/admin')(req, res))
 
@@ -121,12 +110,6 @@ app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5m
 app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('./api/location/select/id')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/select/cluster`, (req, res) => require('./api/location/select/cluster')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/select/nnearest`, (req, res) => require('./api/location/select/nnearest')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/select/interesect`, (req, res) => require('./api/location/select/intersect')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/select/contains`, (req, res) => require('./api/location/select/contains')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/field`, (req, res) => require('./api/location/field')(req, res))
 
