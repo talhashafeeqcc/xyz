@@ -66,6 +66,10 @@ app.get(`${process.env.DIR||''}/api/layer/table`, (req, res) => require('./api/l
 
 app.get(`${process.env.DIR||''}/api/layer/extent`, (req, res) => require('./api/layer/extent')(req, res))
 
+
+app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
+
+
 app.get(`${process.env.DIR||''}/api/layer/chart`, (req, res) => require('./api/layer/chart')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/mvt_cache`, (req, res) => require('./api/layer/mvt_cache')(req, res))

@@ -18,8 +18,6 @@ async function handler(req, res) {
 
 	if(decodeURIComponent(req.query.pgquery).toLowerCase().includes('api.github')) {
 
-		console.log(decodeURIComponent(req.query.pgquery));
-
 		const response = await fetch(
 			decodeURIComponent(req.query.pgquery),
 			{ headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}`}) })
