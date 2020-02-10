@@ -15,13 +15,15 @@ async function handler(req, res){
 
   if (process.env.MOBILE_TEMPLATE && process.env.MOBILE_TEMPLATE.split(':')[0] === 'github') {
 
-    const response = await fetch(
+    /*const response = await fetch(
       `https:${process.env.MOBILE_TEMPLATE.split(':')[1]}`,
       { headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}`}) })
   
     const b64 = await response.json()
     const buff = await Buffer.from(b64.content, 'base64')
-    tmpl = await buff.toString('utf8')
+    tmpl = await buff.toString('utf8')*/
+
+    tmpl = await github({uri: `https:${process.env.MOBILE_TEMPLATE.split(':')[1]}`})
 
   } else {
 

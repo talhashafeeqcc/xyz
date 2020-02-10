@@ -4,7 +4,9 @@ const layer = require('../../mod/layer')
 
 const dbs = require('../../mod/pg/dbs')()
 
-const fetch = require('node-fetch')
+//const fetch = require('node-fetch')
+
+const github = require('../../mod/github/get');
 
 module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
 	public: true
@@ -18,22 +20,15 @@ async function handler(req, res) {
 
 	if(decodeURIComponent(req.query.pgquery).toLowerCase().includes('api.github')) {
 
-		console.log(decodeURIComponent(req.query.pgquery));
-
-		const response = await fetch(
-			decodeURIComponent(req.query.pgquery),
-			{ headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}`}) })
-
-		const b64 = await response.json()
-
-		const buff = await Buffer.from(b64.content, 'base64')
-
-		query = await buff.toString('utf8')
+		query = await github({uri: decodeURIComponent(req.query.pgquery)});
 	
 	} else {
 
 		query = decodeURIComponent(req.query.pgquery);
 	}
+
+	console.log(query);
+	console.log(req.query.id);
 
 	const rows = await dbs[layer.dbs](query, [req.query.id])
 

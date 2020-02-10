@@ -4,6 +4,8 @@ const fetch = require('node-fetch')
 
 const template = require('backtick-template')
 
+const github = require('../mod/github/get')
+
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
   login: true
@@ -15,7 +17,7 @@ async function handler(req, res){
 
   if (process.env.DESKTOP_TEMPLATE && process.env.DESKTOP_TEMPLATE.split(':')[0] === 'github') {
 
-    const response = await fetch(
+    /*const response = await fetch(
       `https:${process.env.DESKTOP_TEMPLATE.split(':')[1]}`,
       { headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}`}) })
   
@@ -23,7 +25,9 @@ async function handler(req, res){
 
     const buff = await Buffer.from(b64.content, 'base64')
     
-    tmpl = await buff.toString('utf8')
+    tmpl = await buff.toString('utf8')*/
+
+    tmpl = await github({uri: `https:${process.env.DESKTOP_TEMPLATE.split(':')[1]}`})
 
   } else {
 
