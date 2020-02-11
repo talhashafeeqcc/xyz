@@ -7,8 +7,9 @@ export default _xyz => function() {
   xhr.open(
     'GET',
     _xyz.host +
-          '/api/location/field?' +
+          '/api/query?' +
           _xyz.utils.paramString({
+            template: 'infotip',
             locale: _xyz.workspace.locale.key,
             layer: layer.key,
             table: layer.tableCurrent(),
@@ -25,7 +26,7 @@ export default _xyz => function() {
 
     if (e.target.status !== 200) return;
     
-    _xyz.mapview.infotip.create(e.target.response.field);
+    _xyz.mapview.infotip.create(e.target.response[layer.hover.field]);
     
   };
     

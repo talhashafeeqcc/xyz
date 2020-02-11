@@ -41,9 +41,17 @@ app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report
 
 app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/report')(req, res))
 
+app.get(`${process.env.DIR||''}/api/github`, (req, res) => require('./api/github')(req, res))
+
+app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
+
 app.get(`${process.env.DIR||''}/api/workspace/get`, (req, res) => require('./api/workspace/get')(req, res))
 
-app.get(`${process.env.DIR||''}/api/github`, (req, res) => require('./api/github')(req, res))
+app.get(`${process.env.DIR||''}/api/workspace/admin`, (req, res) => require('./api/workspace/admin')(req, res))
+
+app.post(`${process.env.DIR||''}/api/workspace/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/admin')(req, res))
+
+app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5mb'}), (req, res) => require('./api/workspace/set')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/mvt/:z/:x/:y`, (req, res) => require('./api/layer/mvt')(req, res))
 
@@ -60,8 +68,6 @@ app.get(`${process.env.DIR||''}/api/layer/geojson`, (req, res) => require('./api
 app.get(`${process.env.DIR||''}/api/layer/table`, (req, res) => require('./api/layer/table')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/extent`, (req, res) => require('./api/layer/extent')(req, res))
-
-app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/chart`, (req, res) => require('./api/layer/chart')(req, res))
 
@@ -97,18 +103,6 @@ app.get(`${process.env.DIR||''}/api/user/update`, (req, res) => require('./api/u
 
 app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/user/delete')(req, res))
 
-app.get(`${process.env.DIR||''}/api/workspace/pgtable`, (req, res) => require('./api/workspace/pgtable')(req, res))
-
-app.post(`${process.env.DIR||''}/api/workspace/pgtable`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/pgtable')(req, res))
-
-app.get(`${process.env.DIR||''}/api/workspace/admin`, (req, res) => require('./api/workspace/admin')(req, res))
-
-app.post(`${process.env.DIR||''}/api/workspace/admin`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/workspace/admin')(req, res))
-
-app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5mb'}), (req, res) => require('./api/workspace/set')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/field`, (req, res) => require('./api/location/field')(req, res))
-
 app.get(`${process.env.DIR||''}/api/location/pgFunction`, (req, res) => require('./api/location/pgFunction')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/pgQuery`, (req, res) => require('./api/location/pgQuery')(req, res))
@@ -135,11 +129,7 @@ app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (re
 
 app.post(`${process.env.DIR||''}/api/location/edit/geom_update`, bodyParser.json(), (req, res) => require('./api/location/edit/geom_update')(req, res))
 
-//app.post(`${process.env.DIR||''}/api/location/edit/cloudinary_upload`, bodyParser.json(), (req, res) => require('./api/location/edit/cloudinary_upload')(req, res))
-
 app.post(`${process.env.DIR||''}/api/location/edit/cloudinary`, bodyParser.json(), (req, res) => require('./services/cloudinary')(req, res))
-
-//app.get(`${process.env.DIR||''}/api/location/edit/cloudinary_delete`, (req, res) => require('./api/location/edit/cloudinary_delete')(req, res))
 
 app.get(`${process.env.DIR||''}/api/gazetteer/autocomplete`, (req, res) => require('./api/gazetteer/autocomplete')(req, res))
 

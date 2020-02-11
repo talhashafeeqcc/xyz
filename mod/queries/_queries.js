@@ -16,6 +16,8 @@ const get_contains = require('./get_contains')
 
 const field_stats = require('./field_stats')
 
+const infotip = require('./infotip')
+
 module.exports = async () => {
 
     Object.assign(workspace, await workspace)
@@ -25,7 +27,8 @@ module.exports = async () => {
         get_nnearest: get_nnearest,
         get_intersect: get_intersect,
         get_contains: get_contains,
-        field_stats: field_stats
+        field_stats: field_stats,
+        infotip: infotip
     }
 
     for (key of Object.keys(workspace.queries || {})) {
