@@ -55,6 +55,8 @@ async function handler(req, res) {
 
   const q = query.template(params)
 
+  console.log(query.dbs || params.dbs || params.layer.dbs);
+
   const rows = await dbs[query.dbs || params.dbs || params.layer.dbs](q)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')

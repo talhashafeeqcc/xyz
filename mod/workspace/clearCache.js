@@ -10,8 +10,6 @@ module.exports = async (host, token) => {
 
   await fetch(`${host}/api/layer/geojson?clear_cache=true&token=${token || ''}`)
 
-  await fetch(`${host}/api/layer/count?clear_cache=true&token=${token || ''}`)
-
   await fetch(`${host}/api/layer/label?clear_cache=true&token=${token || ''}`)
 
   await fetch(`${host}/api/layer/extent?clear_cache=true&token=${token || ''}`)

@@ -59,8 +59,6 @@ app.get(`${process.env.DIR||''}/api/layer/grid`, (req, res) => require('./api/la
 
 app.get(`${process.env.DIR||''}/api/layer/label`, (req, res) => require('./api/layer/label')(req, res))
 
-app.get(`${process.env.DIR||''}/api/layer/count`, (req, res) => require('./api/layer/count')(req, res))
-
 app.get(`${process.env.DIR||''}/api/layer/cluster`, (req, res) => require('./api/layer/cluster')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/geojson`, (req, res) => require('./api/layer/geojson')(req, res))

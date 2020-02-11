@@ -11,22 +11,26 @@ export default _xyz => function (callback) {
   });
 
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
-
+ 
   xhr.open('GET', _xyz.host +
-    '/api/layer/count?' +
+    '/api/query?' +
     _xyz.utils.paramString({
+      template: 'count_locations',
       locale: _xyz.workspace.locale.key,
       layer: layer.key,
       table: layer.tableMin(),
       filter: JSON.stringify(filter),
       token: _xyz.token
     }));
+
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.responseType = 'json';
       
   xhr.onload = e => {
 
     if (e.target.status !== 200) return;
 
-    callback && callback(parseInt(e.target.response));
+    callback && callback(parseInt(e.target.response.count));
 
   };
 
