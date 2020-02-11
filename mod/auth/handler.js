@@ -8,7 +8,7 @@ const acl = require('./acl')()
 
 module.exports = access => async (req, res) => {
 
-  req.params = { token: {} }
+  req.params = Object.assign(req.params || {}, { token: {} })
 
   if (!req.body && typeof req.query.login !== 'undefined') return login(req, res)
 

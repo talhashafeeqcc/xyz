@@ -1,12 +1,12 @@
 const requestBearer = require('../mod/requestBearer')
 
-const getQueries = require('../mod/queries/_queries')
-
-const queries = getQueries()
-
 const getWorkspace = require('../mod/workspace/get')
 
 const workspace = getWorkspace()
+
+const getQueries = require('../mod/queries/_queries')
+
+const queries = getQueries(workspace)
 
 const dbs = require('../mod/pg/dbs')()
 
@@ -19,13 +19,13 @@ module.exports = (req, res) => requestBearer(req, res, [ handler ], {
 async function handler(req, res) {
 
   if (req.query.clear_cache) {
-    Object.assign(queries, getQueries())
     Object.assign(workspace, getWorkspace())
+    Object.assign(queries, getQueries(workspace))
     return res.end()
   }
 
-  Object.assign(queries, await queries)
   Object.assign(workspace, await workspace)
+  Object.assign(queries, await queries)
 
   const query = queries[req.query.template];
 

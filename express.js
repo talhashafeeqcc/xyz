@@ -29,13 +29,9 @@ app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
 
 app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
 
-app.get(`${process.env.DIR||''}/desktop`, (req, res) => require('./api/desktop')(req, res))
+app.get(`${process.env.DIR||''}/view/:template`, (req, res) => require('./api/view')(req, res))
 
-app.post(`${process.env.DIR||''}/desktop`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/desktop')(req, res))
-
-app.get(`${process.env.DIR||''}/mobile`, (req, res) => require('./api/mobile')(req, res))
-
-app.post(`${process.env.DIR||''}/mobile`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/mobile')(req, res))
+app.post(`${process.env.DIR||''}/view/:template`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/view')(req, res))
 
 app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report')(req, res))
 
@@ -103,8 +99,6 @@ app.get(`${process.env.DIR||''}/api/location/pgQuery`, (req, res) => require('./
 
 app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('./api/location/select/id')(req, res))
 
-app.get(`${process.env.DIR||''}/api/location/select/cluster`, (req, res) => require('./api/location/select/cluster')(req, res))
-
 app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => require('./api/location/select/aggregate')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
@@ -123,7 +117,7 @@ app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (re
 
 app.post(`${process.env.DIR||''}/api/location/edit/geom_update`, bodyParser.json(), (req, res) => require('./api/location/edit/geom_update')(req, res))
 
-app.post(`${process.env.DIR||''}/api/location/edit/cloudinary`, bodyParser.json(), (req, res) => require('./services/cloudinary')(req, res))
+app.post(`${process.env.DIR||''}/api/location/edit/cloudinary`, bodyParser.json(), (req, res) => require('./api/services/cloudinary')(req, res))
 
 app.get(`${process.env.DIR||''}/api/gazetteer/autocomplete`, (req, res) => require('./api/gazetteer/autocomplete')(req, res))
 

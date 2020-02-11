@@ -2,10 +2,6 @@ const template = require('backtick-template')
 
 const fetch = require('node-fetch')
 
-const getWorkspace = require('../workspace/get')
-
-const workspace = getWorkspace()
-
 const mvt_cache = require('./mvt_cache')
 
 const get_nnearest = require('./get_nnearest')
@@ -24,7 +20,7 @@ const labels = require('./labels')
 
 const layer_extent = require('./layer_extent')
 
-module.exports = async () => {
+module.exports = async (workspace) => {
 
     Object.assign(workspace, await workspace)
 

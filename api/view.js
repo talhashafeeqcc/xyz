@@ -1,7 +1,5 @@
 const requestBearer = require('../mod/requestBearer')
 
-const Md = require('mobile-detect')
-
 const getWorkspace = require('../mod/workspace/get')
 
 const workspace = getWorkspace()
@@ -25,19 +23,14 @@ async function handler(req, res){
 
   Object.assign(workspace, await workspace)
   Object.assign(views, await views)
-
-  const md = new Md(req.headers['user-agent'])
-
-  const view = views[(md.mobile() === null || md.tablet() !== null) && 'desktop' || 'mobile'];
   
-  const html = view.template({
-    dir: process.env.DIR || '',
+  const html = views[req.params.template].template({
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
+    dir: process.env.DIR || '',
     token: req.query.token || req.params.token.signed || '""',
-    log: process.env.LOG_LEVEL || '""',
-    login: (process.env.PRIVATE || process.env.PUBLIC) && 'true' || '""',
   })
 
+  //Build the template with jsrender and send to client.
   res.send(html)
 
 }
