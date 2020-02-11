@@ -22,8 +22,6 @@ module.exports = async (host, token) => {
 
   await fetch(`${host}/api/location/list?clear_cache=true&token=${token || ''}`)
 
-  await fetch(`${host}/api/location/range?clear_cache=true&token=${token || ''}`)
-
   await fetch(`${host}/api/location/field?clear_cache=true&token=${token || ''}`)
 
   await fetch(`${host}/api/location/pgfunction?clear_cache=true&token=${token || ''}`)

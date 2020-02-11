@@ -109,8 +109,6 @@ app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5m
 
 app.get(`${process.env.DIR||''}/api/location/field`, (req, res) => require('./api/location/field')(req, res))
 
-app.get(`${process.env.DIR||''}/api/location/range`, (req, res) => require('./api/location/range')(req, res))
-
 app.get(`${process.env.DIR||''}/api/location/pgFunction`, (req, res) => require('./api/location/pgFunction')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/pgQuery`, (req, res) => require('./api/location/pgQuery')(req, res))

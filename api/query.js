@@ -63,6 +63,6 @@ async function handler(req, res) {
   if (!rows || !rows.length) return res.status(202).send('No rows returned from table.')
 
   // Send the infoj object with values back to the client.
-  res.send(rows)
+  res.send(rows.length === 1 && rows[0] || rows)
 
 }

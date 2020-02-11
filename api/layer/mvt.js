@@ -51,7 +51,7 @@ async function handler(req, res) {
   // Create a new tile and store in cache table if defined.
   // ST_MakeEnvelope() in ST_AsMVT is based on https://github.com/mapbox/postgis-vt-util/blob/master/src/TileBBox.sql
   var q = `
-    ${mvt_cache ? `INSERT INTO ${layer.mvt_cache} (z, x, y, mvt, tile)` : ''}
+    ${!filter && layer.mvt_cache && `INSERT INTO ${layer.mvt_cache} (z, x, y, mvt, tile)` ||''}
     SELECT
       ${z},
       ${x},
@@ -103,7 +103,7 @@ async function handler(req, res) {
 
     ) tile
     
-    ${mvt_cache ? 'RETURNING mvt;' : ';'}`
+    ${!filter && layer.mvt_cache && 'RETURNING mvt' ||''};`
 
   var rows = dbs[layer.dbs] && await dbs[layer.dbs](q)
 

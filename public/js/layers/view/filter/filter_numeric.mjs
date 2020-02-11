@@ -14,8 +14,9 @@ export default _xyz => (layer, filter_entry) => {
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
   xhr.open('GET', _xyz.host +
-    '/api/location/range?' +
+    '/api/query?' +
     _xyz.utils.paramString({
+      template: 'field_stats',
       locale: _xyz.workspace.locale.key,
       layer: layer.key,
       table: layer.tableCurrent(),
