@@ -26,8 +26,9 @@ export default _xyz => layer => {
       layer.xhr = new XMLHttpRequest();
 
       layer.xhr.open(
-        'GET', _xyz.host + '/api/layer/label?' +
+        'GET', _xyz.host + '/api/query?' +
         _xyz.utils.paramString({
+          template: 'labels',
           locale: _xyz.workspace.locale.key,
           layer: layer.key,
           table: tableZ,
@@ -49,10 +50,8 @@ export default _xyz => layer => {
         if (e.target.status !== 200) return;
 
         const features = e.target.response.map(f => new _xyz.mapview.lib.Feature({
-          geometry: new _xyz.mapview.lib.geom.Point(
-            layer.srid == 4326 && _xyz.mapview.lib.proj.fromLonLat([f.geometry.x, f.geometry.y]) || [f.geometry.x, f.geometry.y]
-          ),
-          properties: f.properties
+          geometry: new _xyz.mapview.lib.geom.Point([f.x, f.y]),
+          properties: { label: f.label }
         }));
 
         source.addFeatures(features);

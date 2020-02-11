@@ -20,6 +20,8 @@ const infotip = require('./infotip')
 
 const count_locations = require('./count_locations')
 
+const labels = require('./labels')
+
 module.exports = async () => {
 
     Object.assign(workspace, await workspace)
@@ -32,6 +34,7 @@ module.exports = async () => {
         field_stats: field_stats,
         infotip: infotip,
         count_locations: count_locations,
+        labels: labels,
     }
 
     for (key of Object.keys(workspace.queries || {})) {

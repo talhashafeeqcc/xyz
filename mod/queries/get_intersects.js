@@ -1,13 +1,13 @@
 module.exports = {
   template: _ => `
   WITH T AS (
-    SELECT ${req.query.geom || layer.geom} AS _geom
-    FROM ${req.query.table}
-    WHERE ST_Contains(${req.query.geom || layer.geom}, ST_SetSRID(ST_Point(${req.query.lng}, ${req.query.lat}), 4326))
+    SELECT ${_.geom || _.layer.geom} AS _geom
+    FROM ${_.table}
+    WHERE ST_Contains(${_.geom || layer.geom}, ST_SetSRID(ST_Point(${_.lng}, ${_.lat}), 4326))
     LIMIT 1
   )
-  SELECT ${fields.join()} FROM ${req.query.table}, T
+  SELECT ${_.fields} FROM ${_.table}, T
   WHERE
-    ST_Intersects(${req.query.geom || layer.geom}, _geom)
-    ${filter};`
+    ST_Intersects(${_.geom || _.layer.geom}, _geom)
+    ${_.filter};`
 }
