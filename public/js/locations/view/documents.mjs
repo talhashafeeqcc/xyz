@@ -58,8 +58,20 @@ export default _xyz => entry => {
 			
 			const xhr = new XMLHttpRequest();
 
-			xhr.open('POST', _xyz.host +
+			/*xhr.open('POST', _xyz.host +
 				'/api/location/edit/cloudinary_upload?' + _xyz.utils.paramString({
+				locale: _xyz.workspace.locale.key,
+				layer: entry.location.layer.key,
+				table: entry.location.table,
+				field: entry.field,
+				id: entry.location.id,
+				public_id: file.name,
+				resource_type: 'raw',
+				token: _xyz.token
+			}));*/
+
+			xhr.open('POST', _xyz.host +
+				'/api/location/edit/cloudinary?' + _xyz.utils.paramString({
 				locale: _xyz.workspace.locale.key,
 				layer: entry.location.layer.key,
 				table: entry.location.table,
@@ -107,7 +119,7 @@ export default _xyz => entry => {
 
 		const xhr = new XMLHttpRequest();
 
-		xhr.open('GET', _xyz.host +
+		/*xhr.open('GET', _xyz.host +
 			'/api/location/edit/cloudinary_delete?' + _xyz.utils.paramString({
 			locale: _xyz.workspace.locale.key,
 			layer: entry.location.layer.key,
@@ -116,6 +128,20 @@ export default _xyz => entry => {
 			id: entry.location.id,
 			public_id: doc.dataset.name,
 			secure_url: encodeURIComponent(doc.dataset.href),
+			delete: true,
+			token: _xyz.token
+		}));*/
+
+		xhr.open('POST', _xyz.host +
+			'/api/location/edit/cloudinary?' + _xyz.utils.paramString({
+			locale: _xyz.workspace.locale.key,
+			layer: entry.location.layer.key,
+			table: entry.location.table,
+			field: entry.field,
+			id: entry.location.id,
+			public_id: doc.dataset.name,
+			secure_url: encodeURIComponent(doc.dataset.href),
+			delete: true,
 			token: _xyz.token
 		}));
 	
