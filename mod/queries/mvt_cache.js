@@ -14,4 +14,6 @@ Create UNLOGGED table ${_.table}
     primary key (z, x, y)
 );
 
-Create index IF NOT EXISTS ${_.table.replace(/\./,'_')}_tile on ${_.table} (tile);`}
+Create index IF NOT EXISTS ${_.table.replace(/\./,'_')}_tile on ${_.table} (tile);
+
+SELECT '${_.table} cache OK';`}

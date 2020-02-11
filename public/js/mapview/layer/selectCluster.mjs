@@ -21,12 +21,13 @@ export default _xyz => function(feature) {
 
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
-  xhr.open('GET', _xyz.host + '/api/location/select/cluster?' + _xyz.utils.paramString({
+  xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
+    template: 'get_nnearest',
     locale: _xyz.workspace.locale.key,
     layer: layer.key,
     table: layer.tableCurrent(),
     filter: JSON.stringify(filter),
-    count: count > 99 ? 99 : count,
+    n: count > 99 ? 99 : count,
     coords: coords,
     token: _xyz.token
   }));

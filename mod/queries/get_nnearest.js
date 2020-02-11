@@ -1,7 +1,10 @@
 module.exports = {
-template: _ => `
-SELECT ${_.select}
-FROM ${_.from}
-WHERE true ${_.filter || ''} 
-ORDER BY ST_Transform(ST_SetSRID(ST_Point(${_.lng}, ${_.lat}), 4326), ${_.srid}) <#> ${_.geom}
-LIMIT ${_.nnearest || 3};`}
+  template: _ => `
+  SELECT
+    ${_.layer.qID} AS ID,
+    ${_.label || _.layer.cluster_label || _.layer.qID} AS label,
+    array[st_x(st_centroid(${_.geom || _.layer.geom})), st_y(st_centroid(${_.geom || _.layer.geom}))] AS coords
+  FROM ${_.table}
+  WHERE true ${_.filter}
+  ORDER BY ST_Point(${_.coords}) <#> ${_.geom || _.layer.geom} LIMIT ${_.n || 99};`
+}

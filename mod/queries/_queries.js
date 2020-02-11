@@ -10,13 +10,20 @@ const mvt_cache = require('./mvt_cache')
 
 const get_nnearest = require('./get_nnearest')
 
+const get_intersect = require('./get_intersects')
+
+const get_contains = require('./get_contains')
+
+
 module.exports = async () => {
 
     Object.assign(workspace, await workspace)
 
     const queries = {
-        get_nnearest: get_nnearest,
         mvt_cache: mvt_cache,
+        get_nnearest: get_nnearest,
+        get_intersect: get_intersect,
+        get_contains: get_contains,
     }
 
     for (key of Object.keys(workspace.queries)) {

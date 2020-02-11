@@ -107,19 +107,19 @@ app.post(`${process.env.DIR||''}/api/workspace/admin`, bodyParser.urlencoded({ex
 
 app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5mb'}), (req, res) => require('./api/workspace/set')(req, res))
 
-app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('./api/location/select/id')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/select/cluster`, (req, res) => require('./api/location/select/cluster')(req, res))
-
 app.get(`${process.env.DIR||''}/api/location/field`, (req, res) => require('./api/location/field')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/range`, (req, res) => require('./api/location/range')(req, res))
 
-app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => require('./api/location/select/aggregate')(req, res))
-
 app.get(`${process.env.DIR||''}/api/location/pgFunction`, (req, res) => require('./api/location/pgFunction')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/pgQuery`, (req, res) => require('./api/location/pgQuery')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('./api/location/select/id')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/select/cluster`, (req, res) => require('./api/location/select/cluster')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => require('./api/location/select/aggregate')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
 
