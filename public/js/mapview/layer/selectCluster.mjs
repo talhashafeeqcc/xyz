@@ -21,7 +21,8 @@ export default _xyz => function(feature) {
 
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
-  xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
+  xhr.open('GET', _xyz.host + '/api/query?' +
+  _xyz.utils.paramString({
     template: 'get_nnearest',
     locale: _xyz.workspace.locale.key,
     layer: layer.key,
