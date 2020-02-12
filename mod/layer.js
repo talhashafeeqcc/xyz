@@ -1,15 +1,15 @@
 const getWorkspace = require('./workspace/get')
 
-const workspace = getWorkspace()
+let _workspace = getWorkspace()
 
 module.exports = async (req, res) => {
 
   if (req.query.clear_cache) {
-    Object.assign(workspace, getWorkspace())
+    _workspace = getWorkspace()
     return res.end()
   }
 
-  Object.assign(workspace, await workspace)
+  const workspace = await _workspace
 
   const locale = workspace.locales[req.query.locale]
 

@@ -1,6 +1,5 @@
 const fetch = require('node-fetch')
 
-
 //queries
 
 const mvt_cache = require('./queries/mvt_cache')
@@ -34,8 +33,8 @@ module.exports = async _workspace => {
     const templates = {
 
         //views
-        desktop: desktop,
-        mobile: mobile,
+        _desktop: desktop,
+        _mobile: mobile,
 
         //queries
         mvt_cache: mvt_cache,

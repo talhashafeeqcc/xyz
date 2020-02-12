@@ -2,11 +2,11 @@ const requestBearer = require('../mod/requestBearer')
 
 const getWorkspace = require('../mod/workspace/get')
 
-const workspace = getWorkspace()
+let _workspace = getWorkspace()
 
 const getTemplates = require('../mod/templates/_templates')
 
-const templates = getTemplates(workspace)
+let _templates = getTemplates(_workspace)
 
 const dbs = require('../mod/pg/dbs')()
 
@@ -19,13 +19,14 @@ module.exports = (req, res) => requestBearer(req, res, [ handler ], {
 async function handler(req, res) {
 
   if (req.query.clear_cache) {
-    Object.assign(workspace, getWorkspace())
-    Object.assign(templates, getTemplates(workspace))
+    _workspace = getWorkspace()
+    _templates = getTemplates(_workspace)
     return res.end()
   }
 
-  Object.assign(workspace, await workspace)
-  Object.assign(templates, await templates)
+  const workspace = await _workspace
+
+  const templates = await _templates
 
   const template = templates[req.query.template];
 

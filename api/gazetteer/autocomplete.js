@@ -10,7 +10,7 @@ const requestBearer = require('../../mod/requestBearer')
 
 const getWorkspace = require('../../mod/workspace/get')
 
-const workspace = getWorkspace()
+const _workspace = getWorkspace()
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true
@@ -19,11 +19,11 @@ module.exports = (req, res) => requestBearer(req, res, [ handler ], {
 async function handler(req, res) {
 
   if (req.query.clear_cache) {
-    Object.assign(workspace, getWorkspace())
+    _workspace = getWorkspace()
     return res.end()
   }
 
-  Object.assign(workspace, await workspace)
+  const workspace = await _workspace
 
   const locale = workspace.locales[req.query.locale]
 
