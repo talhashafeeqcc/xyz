@@ -1,6 +1,6 @@
 {
   "title": "GEOLYTIX | XYZ DEV",
-  "queries": {
+  "templates": {
       "population_summary": {
           "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/_population_summary",
           "dbs": "XYZ"

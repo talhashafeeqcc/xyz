@@ -1,5 +1,5 @@
 module.exports = {
-  template: _ => `
+  render: _ => `
   WITH T AS (
     SELECT ${_.geom || _.layer.geom} AS _geom
     FROM ${_.table}

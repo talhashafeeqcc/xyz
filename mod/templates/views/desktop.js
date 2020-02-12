@@ -1,5 +1,5 @@
 module.exports = {
-template: _ => `
+render: _ => `
 <!DOCTYPE html>
 <html lang="en">
 

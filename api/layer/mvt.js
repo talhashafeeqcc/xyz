@@ -17,9 +17,9 @@ async function handler(req, res) {
   let
     table = req.query.table,
     id = layer.qID || null,
-    x = parseInt(req.query.x),
-    y = parseInt(req.query.y),
-    z = parseInt(req.query.z),
+    x = parseInt(req.params.x),
+    y = parseInt(req.params.y),
+    z = parseInt(req.params.z),
     m = 20037508.34,
     r = (m * 2) / (Math.pow(2, z))
 

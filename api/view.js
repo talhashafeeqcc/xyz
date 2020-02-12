@@ -4,9 +4,9 @@ const getWorkspace = require('../mod/workspace/get')
 
 const workspace = getWorkspace()
 
-const getViews = require('../mod/views/_views')
+const getTemplates = require('../mod/templates/_templates')
 
-const views = getViews(workspace)
+const templates = getTemplates(workspace)
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
@@ -17,14 +17,14 @@ async function handler(req, res){
 
   if (req.query.clear_cache) {
     Object.assign(workspace, getWorkspace())
-    Object.assign(views, getQueries(workspace))
+    Object.assign(templates, getTemplates(workspace))
     return res.end()
   }
 
   Object.assign(workspace, await workspace)
-  Object.assign(views, await views)
+  Object.assign(templates, await templates)
   
-  const html = views[req.params.template].template({
+  const html = templates[req.params.template].render({
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
     dir: process.env.DIR || '',
     token: req.query.token || req.params.token.signed || '""',

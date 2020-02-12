@@ -1,5 +1,5 @@
 module.exports = {
-  template: _ => `
+  render: _ => `
   SELECT
   min(${_.field}),
   max(${_.field}),

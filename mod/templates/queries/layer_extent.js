@@ -1,5 +1,5 @@
 module.exports = {
-  template: _ => `
+  render: _ => `
   SELECT
     Box2D(
       ST_Transform(

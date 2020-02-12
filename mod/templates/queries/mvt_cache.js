@@ -1,6 +1,6 @@
 module.exports = {
 admin_workspace: true,
-template: _ => `
+render: _ => `
 DROP table if exists ${_.layer.mvt_cache};
     
 Create UNLOGGED table ${_.layer.mvt_cache}

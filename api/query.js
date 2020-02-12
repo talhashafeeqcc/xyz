@@ -4,9 +4,9 @@ const getWorkspace = require('../mod/workspace/get')
 
 const workspace = getWorkspace()
 
-const getQueries = require('../mod/queries/_queries')
+const getTemplates = require('../mod/templates/_templates')
 
-const queries = getQueries(workspace)
+const templates = getTemplates(workspace)
 
 const dbs = require('../mod/pg/dbs')()
 
@@ -20,20 +20,20 @@ async function handler(req, res) {
 
   if (req.query.clear_cache) {
     Object.assign(workspace, getWorkspace())
-    Object.assign(queries, getQueries(workspace))
+    Object.assign(templates, getTemplates(workspace))
     return res.end()
   }
 
   Object.assign(workspace, await workspace)
-  Object.assign(queries, await queries)
+  Object.assign(templates, await templates)
 
-  const query = queries[req.query.template];
+  const template = templates[req.query.template];
 
   const token = req.params.token || {};
 
   const params = req.query || {};
 
-  if (query.admin_workspace && !token.admin_workspace) return res.status(401).send('Insuficcient priviliges.')
+  if (template.admin_workspace && !token.admin_workspace) return res.status(401).send('Insuficcient priviliges.')
 
   if (req.query.locale && req.query.layer) {
 
@@ -53,9 +53,9 @@ async function handler(req, res) {
     Object.assign(params, {layer: layer, filter: filter})
   }
 
-  const q = query.template(params)
+  const q = template.render(params)
 
-  const rows = await dbs[query.dbs || params.dbs || params.layer.dbs](q)
+  const rows = await dbs[template.dbs || params.dbs || params.layer.dbs](q)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

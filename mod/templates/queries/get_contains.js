@@ -1,5 +1,5 @@
 module.exports = {
-  template: _ => `
+  render: _ => `
   SELECT ${_.fields}
   FROM ${_.table}
   WHERE

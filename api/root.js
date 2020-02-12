@@ -6,9 +6,9 @@ const getWorkspace = require('../mod/workspace/get')
 
 const workspace = getWorkspace()
 
-const getViews = require('../mod/views/_views')
+const getTemplates = require('../mod/templates/_templates')
 
-const views = getViews(workspace)
+const templates = getViews(workspace)
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
@@ -19,18 +19,18 @@ async function handler(req, res){
 
   if (req.query.clear_cache) {
     Object.assign(workspace, getWorkspace())
-    Object.assign(views, getQueries(workspace))
+    Object.assign(templates, getTemplates(workspace))
     return res.end()
   }
 
   Object.assign(workspace, await workspace)
-  Object.assign(views, await views)
+  Object.assign(templates, await templates)
 
   const md = new Md(req.headers['user-agent'])
 
-  const view = views[(md.mobile() === null || md.tablet() !== null) && 'desktop' || 'mobile'];
+  const template = templates[(md.mobile() === null || md.tablet() !== null) && 'desktop' || 'mobile'];
   
-  const html = view.template({
+  const html = template.render({
     dir: process.env.DIR || '',
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
     token: req.query.token || req.params.token.signed || '""',
