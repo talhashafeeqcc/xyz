@@ -1,15 +1,17 @@
+module.exports = {
+render: _ => `
 <!doctype html>
 <html>
 
-<head data-dir="${dir}">
+<head data-dir="${_.dir}">
     <title>XYZ | Login</title>
-    <link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="${_.dir}/icons/favicon.ico" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <script src="https://www.google.com/recaptcha/api.js?render=${captcha}"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=${_.captcha}"></script>
 
-    <script src="${dir}/views/login.js" async defer></script>
+    <script src="${_.dir}/views/login.js" async defer></script>
 
     <style>
         @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
@@ -141,9 +143,9 @@
     </style>
 </head>
 
-<body class="login_form" data-captcha=${captcha}>
+<body class="login_form" data-captcha=${_.captcha}>
 
-    <form action="${action}" method="post" autocomplete="off">
+    <form action="${_.action}" method="post" autocomplete="off">
 
         <div class="input-group">
             <input
@@ -175,7 +177,7 @@
 
         <br>
 
-        <p class="msg">${msg}</p>
+        <p class="msg">${_.msg}</p>
 
         <button id="btnLogin" type="submit" disabled>
             Log In
@@ -189,9 +191,10 @@
 
         <p>Your account must be verified by following a verification link sent to the email address and approved by
             an administrator before you are able to log in.</p>
-        <a class="switch" href="${dir}/api/user/register">Register a new account or reset your password.</a>
+        <a class="switch" href="${_.dir}/api/user/register">Register a new account or reset your password.</a>
     </form>
 
 </body>
 
 </html>
+`}

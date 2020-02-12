@@ -26,6 +26,8 @@ const mobile = require('./views/mobile')
 
 const desktop = require('./views/desktop')
 
+const login = require('./views/login')
+
 module.exports = async _workspace => {
 
     const workspace = await _workspace
@@ -35,6 +37,7 @@ module.exports = async _workspace => {
         //views
         _desktop: desktop,
         _mobile: mobile,
+        _login: login,
 
         //queries
         mvt_cache: mvt_cache,
