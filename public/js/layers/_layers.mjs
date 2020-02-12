@@ -54,7 +54,7 @@ export default _xyz => {
 
         count: count(_xyz),
 
-        bringToFront: bringToFront(_xyz)
+        bringToFront: bringToFront(_xyz),
 
       },
       layer

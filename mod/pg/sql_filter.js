@@ -29,6 +29,8 @@ module.exports = async filter => {
       
   if (sql_filter.length > 1) return sql_filter.join(' ')
 
+  return ' '
+
   function addField(filter, field, conjunction) {
 
     if (filter.ni && filter.ni.length > 0) {

@@ -57,17 +57,24 @@ module.exports = async _workspace => {
     
             const b64 = await response.json()
             const buff = await Buffer.from(b64.content, 'base64')
-            var template = await buff.toString('utf8')
+            const template = await buff.toString('utf8')
+            templates[key] = {
+                render: params => template.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || ''),
+                dbs: workspace.templates[key].dbs || null,
+                roles: workspace.templates[key].roles || null,
+                admin_workspace: workspace.templates[key].admin_workspace || null,
+                template: template
+            }
+
         } else {
-            var template = workspace.templates[key].template
-        }
-
-
-        templates[key] = {
-            render: params => template.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || ''),
-            dbs: workspace.templates[key].dbs || null,
-            roles: workspace.templates[key].roles || null,
-            admin_workspace: workspace.templates[key].admin_workspace || null,
+            const template = workspace.templates[key].template
+            templates[key] = {
+                render: params => template.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || ''),
+                dbs: workspace.templates[key].dbs || null,
+                roles: workspace.templates[key].roles || null,
+                admin_workspace: workspace.templates[key].admin_workspace || null,
+                template: template
+            }
         }
 
     }

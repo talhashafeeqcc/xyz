@@ -29,7 +29,7 @@ export default _xyz => layer => {
       if (!tableZ) return;
 
       layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
-        if(Object.keys(layer.filter.legend).includes(key)) {
+        if(layer.filter.legend && Object.keys(layer.filter.legend).includes(key)) {
           layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
         }
       });
