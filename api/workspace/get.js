@@ -14,9 +14,11 @@ async function handler(req, res) {
 
   Object.assign(workspace, await workspace)
 
-  if (JSON.stringify(workspace) !== JSON.stringify(await getWorkspace())) {
+  const _workspace = await getWorkspace()
+
+  if (JSON.stringify(workspace) !== JSON.stringify(_workspace)) {
     await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
-    Object.assign(workspace, await getWorkspace())
+    Object.assign(workspace, _workspace)
   }
 
   const locales = JSON.parse(JSON.stringify(workspace.locales));

@@ -24,11 +24,11 @@ async function handler(req, res){
   Object.assign(workspace, await workspace)
   Object.assign(templates, await templates)
   
-  const html = templates[req.params.template].render({
+  const html = templates[req.params.template].render(Object.assign({
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
     dir: process.env.DIR || '',
     token: req.query.token || req.params.token.signed || '""',
-  })
+  }, req.query))
 
   //Build the template with jsrender and send to client.
   res.send(html)

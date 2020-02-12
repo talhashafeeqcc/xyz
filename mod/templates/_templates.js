@@ -1,4 +1,4 @@
-const backtickTemplate = require('backtick-template')
+// const backtickTemplate = require('backtick-template')
 
 const fetch = require('node-fetch')
 
@@ -53,16 +53,21 @@ module.exports = async (workspace) => {
 
     for (key of Object.keys(workspace.templates || {})) {
 
-        const response = await fetch(
-            workspace.templates[key].template,
-            { headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}` }) })
+        if (workspace.templates[key].template.toLowerCase().includes('api.github')) {
+            const response = await fetch(
+                workspace.templates[key].template,
+                { headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}` }) })
+    
+            const b64 = await response.json()
+            const buff = await Buffer.from(b64.content, 'base64')
+            var template = await buff.toString('utf8')
+        } else {
+            var template = workspace.templates[key].template
+        }
 
-        const b64 = await response.json()
-        const buff = await Buffer.from(b64.content, 'base64')
-        const utf8 = await buff.toString('utf8')
 
         templates[key] = {
-            render: params => backtickTemplate(utf8, params),
+            render: params => template.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || ''),
             dbs: workspace.templates[key].dbs || null,
             roles: workspace.templates[key].roles || null,
             admin_workspace: workspace.templates[key].admin_workspace || null,

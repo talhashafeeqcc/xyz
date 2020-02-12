@@ -19,7 +19,6 @@ async function handler(req, res) {
   const chart = layer.dataview[req.query.chart]
 
   let
-    viewport = req.query.viewport,
     orderby = req.query.orderby || layer.qID,
     order = req.query.order || 'ASC',
     west = parseFloat(req.query.west),

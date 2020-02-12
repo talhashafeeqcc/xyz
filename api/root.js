@@ -8,7 +8,7 @@ const workspace = getWorkspace()
 
 const getTemplates = require('../mod/templates/_templates')
 
-const templates = getViews(workspace)
+const templates = getTemplates(workspace)
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
