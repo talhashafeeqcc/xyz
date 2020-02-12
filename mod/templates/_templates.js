@@ -1,5 +1,3 @@
-// const backtickTemplate = require('backtick-template')
-
 const fetch = require('node-fetch')
 
 
@@ -29,9 +27,9 @@ const mobile = require('./views/mobile')
 
 const desktop = require('./views/desktop')
 
-module.exports = async (workspace) => {
+module.exports = async _workspace => {
 
-    Object.assign(workspace, await workspace)
+    const workspace = await _workspace
 
     const templates = {
 

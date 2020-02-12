@@ -2,7 +2,7 @@ const requestBearer = require('../../mod/requestBearer')
 
 const getWorkspace = require('../../mod/workspace/get')
 
-const workspace = getWorkspace()
+let _workspace = getWorkspace()
 
 const clearCache = require('../../mod/workspace/clearCache')
 
@@ -12,13 +12,13 @@ module.exports = (req, res) => requestBearer(req, res, [ handler ], {
 
 async function handler(req, res) {
 
-  Object.assign(workspace, await workspace)
+  let workspace = await _workspace
 
-  const _workspace = await getWorkspace()
+  const newWorkspace = await getWorkspace()
 
-  if (JSON.stringify(workspace) !== JSON.stringify(_workspace)) {
+  if (JSON.stringify(workspace) !== JSON.stringify(newWorkspace)) {
     await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
-    Object.assign(workspace, _workspace)
+    workspace = newWorkspace
   }
 
   const locales = JSON.parse(JSON.stringify(workspace.locales));

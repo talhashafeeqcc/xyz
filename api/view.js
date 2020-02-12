@@ -2,11 +2,11 @@ const requestBearer = require('../mod/requestBearer')
 
 const getWorkspace = require('../mod/workspace/get')
 
-const workspace = getWorkspace()
+let workspace = getWorkspace()
 
 const getTemplates = require('../mod/templates/_templates')
 
-const templates = getTemplates(workspace)
+let _templates = getTemplates(workspace)
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
@@ -16,13 +16,12 @@ module.exports = (req, res) => requestBearer(req, res, [ handler ], {
 async function handler(req, res){
 
   if (req.query.clear_cache) {
-    Object.assign(workspace, getWorkspace())
-    Object.assign(templates, getTemplates(workspace))
+    workspace = getWorkspace()
+    _templates = getTemplates(workspace)
     return res.end()
   }
 
-  Object.assign(workspace, await workspace)
-  Object.assign(templates, await templates)
+  const templates = await _templates
   
   const html = templates[req.params.template].render(Object.assign({
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
