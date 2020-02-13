@@ -20,6 +20,8 @@ const labels = require('./queries/labels')
 
 const layer_extent = require('./queries/layer_extent')
 
+const user_list = require('./queries/user_list')
+
 //views
 
 const mobile = require('./views/mobile')
@@ -58,6 +60,7 @@ module.exports = async _workspace => {
         count_locations: count_locations,
         labels: labels,
         layer_extent: layer_extent,
+        user_list: user_list,
     }
 
     for (key of Object.keys(workspace.templates || {})) {

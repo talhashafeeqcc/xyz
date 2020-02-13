@@ -10,6 +10,8 @@ let _templates = getTemplates(_workspace)
 
 const dbs = require('../mod/pg/dbs')()
 
+const acl = require('../mod/auth/acl')()
+
 const sql_filter = require('../mod/pg/sql_filter')
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
@@ -34,6 +36,8 @@ async function handler(req, res) {
 
   const params = req.query || {};
 
+  if (template.admin_user && !token.admin_user) return res.status(401).send('Insuficcient priviliges.')
+
   if (template.admin_workspace && !token.admin_workspace) return res.status(401).send('Insuficcient priviliges.')
 
   if (req.query.locale && req.query.layer) {
@@ -56,7 +60,9 @@ async function handler(req, res) {
 
   const q = template.render(params)
 
-  const rows = await dbs[template.dbs || params.dbs || params.layer.dbs](q)
+  const rows = template.admin_user && token.admin_user ?
+  await acl(q) :
+  await dbs[template.dbs || params.dbs || params.layer.dbs](q)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

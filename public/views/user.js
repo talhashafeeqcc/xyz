@@ -2,7 +2,7 @@ const token = document.body.dataset.token;
 
 const xhr = new XMLHttpRequest();
 
-xhr.open('GET', document.head.dataset.dir + '/api/user/list?token=' + token);
+xhr.open('GET', document.head.dataset.dir + '/api/query?template=user_list&token=' + token);
 
 xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.responseType = 'json';

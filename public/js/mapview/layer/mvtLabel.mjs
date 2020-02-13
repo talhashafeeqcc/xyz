@@ -25,8 +25,7 @@ export default _xyz => layer => {
 
       layer.xhr = new XMLHttpRequest();
 
-      layer.xhr.open(
-        'GET', _xyz.host + '/api/query?' +
+      layer.xhr.open('GET', _xyz.host + '/api/query?' +
         _xyz.utils.paramString({
           template: 'labels',
           locale: _xyz.workspace.locale.key,

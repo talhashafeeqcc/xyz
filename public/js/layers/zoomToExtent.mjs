@@ -15,14 +15,14 @@ export default _xyz => function (params) {
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
   xhr.open('GET', _xyz.host + '/api/query?' +
-  _xyz.utils.paramString({
-    template: 'layer_extent',
-    locale: _xyz.workspace.locale.key,
-    srid: _xyz.mapview.srid,
-    layer: layer.key,
-    filter: JSON.stringify(filter),
-    token: _xyz.token
-  }));
+    _xyz.utils.paramString({
+      template: 'layer_extent',
+      locale: _xyz.workspace.locale.key,
+      srid: _xyz.mapview.srid,
+      layer: layer.key,
+      filter: JSON.stringify(filter),
+      token: _xyz.token
+    }));
 
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.responseType = 'json';

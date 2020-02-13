@@ -12,8 +12,7 @@ export default _xyz => function (callback) {
 
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
  
-  xhr.open('GET', _xyz.host +
-    '/api/query?' +
+  xhr.open('GET', _xyz.host + '/api/query?' +
     _xyz.utils.paramString({
       template: 'count_locations',
       locale: _xyz.workspace.locale.key,

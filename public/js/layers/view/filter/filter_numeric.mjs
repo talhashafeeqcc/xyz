@@ -13,8 +13,7 @@ export default _xyz => (layer, filter_entry) => {
 
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 
-  xhr.open('GET', _xyz.host +
-    '/api/query?' +
+  xhr.open('GET', _xyz.host + '/api/query?' +
     _xyz.utils.paramString({
       template: 'field_stats',
       locale: _xyz.workspace.locale.key,
@@ -22,7 +21,8 @@ export default _xyz => (layer, filter_entry) => {
       table: layer.tableCurrent(),
       field: filter_entry.field,
       filter: JSON.stringify(filter),
-      token: _xyz.token}));
+      token: _xyz.token
+    }));
 
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.responseType = 'json';

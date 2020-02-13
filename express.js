@@ -75,8 +75,6 @@ app.get(`${process.env.DIR||''}/api/user/approve`, (req, res) => require('./api/
 
 app.post(`${process.env.DIR||''}/api/user/approve`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/approve')(req, res))
 
-app.get(`${process.env.DIR||''}/api/user/list`, (req, res) => require('./api/user/list')(req, res))
-
 app.get(`${process.env.DIR||''}/api/user/pgtable`, (req, res) => require('./api/user/pgtable')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/log`, (req, res) => require('./api/user/log')(req, res))
