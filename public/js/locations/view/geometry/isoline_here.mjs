@@ -156,14 +156,13 @@ export default _xyz => {
 
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', _xyz.host +
-      '/api/location/edit/isoline/here?' +
+    xhr.open('GET', _xyz.host + '/api/provider/here?' +
       _xyz.utils.paramString({
-        locale: _xyz.workspace.locale.key,
-        layer: entry.location.layer.key,
-        table: entry.location.table,
+        url: 'isoline.route.api.here.com/routing/7.2/calculateisoline.json?',
+        mode: entry.edit.isoline_here.mode || 'car',
+        type: entry.edit.isoline_here.type || 'fastest',
         coordinates: origin.join(','),
-        mode: entry.edit.isoline_here.mode,
+        
         type: entry.edit.isoline_here.type,
         rangetype: entry.edit.isoline_here.rangetype,
         minutes: entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes,

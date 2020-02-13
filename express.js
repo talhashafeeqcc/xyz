@@ -33,11 +33,13 @@ app.get(`${process.env.DIR||''}/view/:template`, (req, res) => require('./api/vi
 
 app.post(`${process.env.DIR||''}/view/:template`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/view')(req, res))
 
+app.get(`${process.env.DIR||''}/api/provider/:provider`, (req, res) => require('./api/provider')(req, res))
+
+app.post(`${process.env.DIR||''}/api/provider/:provider`, bodyParser.json(), (req, res) => require('./api/provider')(req, res))
+
 app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report')(req, res))
 
 app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/report')(req, res))
-
-app.get(`${process.env.DIR||''}/api/github`, (req, res) => require('./api/github')(req, res))
 
 app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
 
@@ -110,9 +112,5 @@ app.post(`${process.env.DIR||''}/api/location/edit/cloudinary`, bodyParser.json(
 app.get(`${process.env.DIR||''}/api/gazetteer/autocomplete`, (req, res) => require('./api/gazetteer/autocomplete')(req, res))
 
 app.get(`${process.env.DIR||''}/api/gazetteer/googleplaces`, (req, res) => require('./api/gazetteer/googleplaces')(req, res))
-
-app.get(`${process.env.DIR||''}/api/clear_cache`, (req, res) => require('./api/clear_cache')(req, res))
-
-app.post(`${process.env.DIR||''}/api/clear_cache`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/clear_cache')(req, res))
 
 app.listen(process.env.PORT || 3000)

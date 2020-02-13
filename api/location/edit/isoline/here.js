@@ -24,6 +24,8 @@ async function handler(req, res) {
 
   let here_isolines
 
+  console.log(`https://isoline.route.api.here.com/routing/7.2/calculateisoline.json?${process.env.KEY_HERE}&mode=${params.type};${params.mode};${params.traffic}&start=geo!${params.coordinates}&range=${params.range}&rangetype=${params.rangetype}`)
+
   try {
     const response = await fetch(`https://isoline.route.api.here.com/routing/7.2/calculateisoline.json?${process.env.KEY_HERE}&mode=${params.type};${params.mode};${params.traffic}&start=geo!${params.coordinates}&range=${params.range}&rangetype=${params.rangetype}`)
     here_isolines = await response.json()

@@ -12,9 +12,13 @@ render: _ => `
     <link rel="stylesheet" href="${_.dir}/css/openlayers.css" />
     <link rel="stylesheet" href="${_.dir}/css/control.css" />
     <link rel="stylesheet" href="${_.dir}/views/desktop.css" />
+    <!--link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/GEOLYTIX/xyz@master/public/views/desktop.css"-->
+    <!--link rel="stylesheet" href="${_.dir}/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz/contents/public/views/desktop.css&content_type=text/css"-->
 
     <script src="${_.dir}/js/build/xyz_openlayers.js" defer></script>
     <script src="${_.dir}/views/desktop.js" defer></script>
+    <!--script src="https://cdn.jsdelivr.net/gh/GEOLYTIX/xyz@master/public/views/desktop.js" defer></script-->
+    <!--script src="${_.dir}/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz/contents/public/views/desktop.js" defer></script>-->
 </head>
 
 <body
