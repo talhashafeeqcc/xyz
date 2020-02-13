@@ -77,8 +77,6 @@ app.post(`${process.env.DIR||''}/api/user/approve`, bodyParser.urlencoded({exten
 
 app.get(`${process.env.DIR||''}/api/user/pgtable`, (req, res) => require('./api/user/pgtable')(req, res))
 
-app.get(`${process.env.DIR||''}/api/user/log`, (req, res) => require('./api/user/log')(req, res))
-
 app.get(`${process.env.DIR||''}/api/user/update`, (req, res) => require('./api/user/update')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/user/delete')(req, res))

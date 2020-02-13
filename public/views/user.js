@@ -143,18 +143,14 @@ function getAccessLog(e, cell) {
 
   const user = cell.getData();
 
-  xhr.open(
-    'GET',
-    document.head.dataset.dir + 
-    '/api/user/log' + 
-    '?email=' + user.email +
-    '&token=' + token);
+  xhr.open('GET', `${document.head.dataset.dir}/api/query?template=user_log&email=${user.email}&token=${token}`);
 
   xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.responseType = 'json';
 
   xhr.onload = e => {
     if (xhr.status === 500) alert('Soz. It\'s me not you.');
-    if (xhr.status === 200) alert(e.target.response.join('\n'));
+    if (xhr.status === 200) alert(e.target.response.access_log.join('\n'));
   };
 
   xhr.send();
