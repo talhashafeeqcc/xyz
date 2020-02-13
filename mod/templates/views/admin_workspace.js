@@ -1,4 +1,5 @@
 module.exports = {
+admin_workspace: true,
 render: _ => `
 <!DOCTYPE html>
 <html lang="en">

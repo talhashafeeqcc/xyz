@@ -266,14 +266,14 @@ function init(_xyz) {
     <a
       title="Open account admin view"
       class="enabled" style="cursor: pointer;"
-      href="${_xyz.host + '/api/user/admin'}">
+      href="${_xyz.host + '/view/admin_user'}">
       <div class="xyz-icon icon-supervisor-account">`);
 
   _xyz.user && _xyz.user.admin_workspace && document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
     <a
       title="Open workspace configuration view"
       class="enabled" style="cursor: pointer;"
-      href="${_xyz.host + '/api/workspace/admin'}">
+      href="${_xyz.host + '/view/admin_workspace'}">
       <div class="xyz-icon icon-settings">`);
 
   if (document.body.dataset.login) {

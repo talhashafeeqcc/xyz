@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
       await mailer({
         bcc: adminmail,
         subject: `A new account has been verified on ${req.headers.host}${process.env.DIR || ''}`,
-        text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/admin to approve ${user.email}
+        text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/view/admin_user to approve ${user.email}
         You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/approve?approvaltoken=${approvaltoken}`
       });
 

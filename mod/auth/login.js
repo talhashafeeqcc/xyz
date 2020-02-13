@@ -8,12 +8,6 @@ let _templates = getTemplates(workspace)
 
 module.exports = async (req, res, msg) => {
 
-  if (req.query.clear_cache) {
-    workspace = getWorkspace()
-    _templates = getTemplates(workspace)
-    return res.end()
-  }
-
   const templates = await _templates
 
   const html = templates._login.render({

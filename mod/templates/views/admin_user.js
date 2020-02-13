@@ -1,4 +1,5 @@
 module.exports = {
+admin_user: true,
 render: _ => `
 <!DOCTYPE html>
 <html>

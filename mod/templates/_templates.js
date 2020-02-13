@@ -45,8 +45,8 @@ module.exports = async _workspace => {
         _mobile: mobile,
         _login: login,
         _register: register,
-        _admin_user: admin_user,
-        _admin_workspace: admin_workspace,
+        admin_user: admin_user,
+        admin_workspace: admin_workspace,
 
         //queries
         mvt_cache: mvt_cache,
@@ -75,6 +75,7 @@ module.exports = async _workspace => {
                 dbs: workspace.templates[key].dbs || null,
                 roles: workspace.templates[key].roles || null,
                 admin_workspace: workspace.templates[key].admin_workspace || null,
+                admin_user: workspace.templates[key].admin_user || null,
                 template: template
             }
 
