@@ -123431,10 +123431,10 @@ function panel(layer) {
       continue
     }
 
-    if (entry.type === 'dashboard') {
+    /*if (entry.type === 'dashboard') {
       _xyz.locations.view.dashboard(entry);
       continue
-    }
+    }*/
 
 
     // prevent clusterArea from firing if layer is not cluster
