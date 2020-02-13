@@ -21,13 +21,9 @@ async function handler(req, res){
     return res.end()
   }
 
-  console.log(req.params.template);
-
   const templates = await _templates
 
   const template = templates[req.params.template];
-
-  console.log(template);
 
   const token = req.params.token || {};
 
