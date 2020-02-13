@@ -16,41 +16,6 @@ export default _xyz => entry => {
     _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
   }
 
-  let stacked_labels = entry.fields.map(field => field.stack);
-
-  if(!stacked_labels.length) return;
-
-  stacked_labels = stacked_labels.filter((item, idx) => {return stacked_labels.indexOf(item) >= idx;});
-
-  const data = entry.fields.map(field => (field.type === 'integer' ? parseInt(field.value) : field.value));
-
-  const displayValues = entry.fields.map(field => field.displayValue);
-
-  const datasets = [];
-
-  const tmp = {};
-
-  Object.values(entry.fields).map(field => {
-    tmp[field.label] = {};
-    tmp[field.label].data = [];
-  });
-
-  Object.values(entry.fields).map(field => {
-    Object.keys(tmp).map(key => {
-      if(key === field.label){
-        let idx = Object.keys(tmp).indexOf(key);
-        tmp[key].data.push(Number(field.value));
-        tmp[key].label = field.label;
-        tmp[key].borderColor = (entry.chart.borderColor[idx] || _xyz.dataview.charts.fallbackStyle.borderColor);
-
-        (entry.chart.type === 'stackedLine' && !entry.chart.fill) ? tmp[key].backgroundColor = null : tmp[key].backgroundColor = (entry.chart.backgroundColor[idx] || _xyz.dataview.charts.fallbackStyle.backgroundColor);
-
-      }
-    });
-  });
-
-  Object.values(tmp).map(val => datasets.push(val));
-
   let chartType;
 
   if(entry.chart.type === 'stackedBar') chartType = 'bar';
@@ -61,8 +26,8 @@ export default _xyz => entry => {
   new _xyz.utils.Chart(canvas, {
     	type: chartType,
     	data: {
-    		labels: stacked_labels,
-    		datasets: datasets
+    		labels: entry.labels,
+    		datasets: entry.datasets
     	},
     	options: {
     		title: {

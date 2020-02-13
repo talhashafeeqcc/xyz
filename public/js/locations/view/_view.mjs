@@ -22,6 +22,8 @@ import geometry from './geometry/_geometry.mjs';
 
 import edit from './edit/_edit.mjs';
 
+import dataview from './dataview.mjs';
+
 export default _xyz => {
 
   const view = {
@@ -51,6 +53,8 @@ export default _xyz => {
     dashboard: dashboard(_xyz),
 
     report: report(_xyz),
+
+    dataview: dataview(_xyz)
 
   };
 

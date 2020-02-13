@@ -64,6 +64,32 @@ export default _xyz => location => {
       continue
     }
 
+        // Create a new info group.
+    if (entry.type === 'dataview') {
+
+      //location.groups[entry.label] = entry;
+      entry.td = _xyz.utils.wire()`<td colSpan=2>`;
+
+      entry.row.appendChild(entry.td);
+
+      _xyz.locations.view.dataview(entry);
+            
+      listview.appendChild(entry.row);
+      
+      continue
+    }
+
+    // Create a new info group.
+    if (entry.type === 'group') {
+
+      location.groups[entry.label] = entry;
+
+      _xyz.locations.view.group(entry);
+            
+      listview.appendChild(location.groups[entry.label].row);
+      continue
+    }
+
     // Create entry.row inside previously created group.
     if (entry.group && location.groups[entry.group]){ 
 

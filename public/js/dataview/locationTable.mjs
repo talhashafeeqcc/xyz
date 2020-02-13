@@ -16,15 +16,15 @@ export default _xyz => (table, callback) => {
 
   table.update = () => {
 
-    if(!table.pgQuery) return;
+    if(!table.query) return;
 
     const xhr = new XMLHttpRequest();
 
-      xhr.open('GET', _xyz.host + '/api/location/pgquery?' + _xyz.utils.paramString({
+      xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         layer: table.location.layer.key,
         id: table.location.id,
-        pgquery: encodeURIComponent(table.pgQuery),
+        template: table.query,
         token: _xyz.token
       }));
 
