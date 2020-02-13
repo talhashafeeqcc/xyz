@@ -2,8 +2,6 @@ const requestBearer = require('../mod/requestBearer')
 
 const fetch = require('node-fetch')
 
-const template = require('backtick-template')
-
 const github = require('../mod/github/get')
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
@@ -27,7 +25,9 @@ async function handler(req, res){
 
   }
 
-  const html = template(tmpl, {
+  const render = params => tmpl.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || '')
+
+  const html = render({
     dir: process.env.DIR || '',
     host: `${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || '' || ''}`,
     token: req.query.token || req.params.token.signed || '""'

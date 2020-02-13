@@ -1,14 +1,24 @@
-const fetch = require('node-fetch')
+const getWorkspace = require('../../mod/workspace/get')
 
-const template = require('backtick-template')
+let workspace = getWorkspace()
+
+const getTemplates = require('../../mod/templates/_templates')
+
+let _templates = getTemplates(workspace)
 
 module.exports = async (req, res) => {
 
   if (req.body) return register(req, res)
 
-  const tmpl = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/views/register.html`)
+  if (req.query.clear_cache) {
+    workspace = getWorkspace()
+    _templates = getTemplates(workspace)
+    return res.end()
+  }
 
-  const html = template(await tmpl.text(), {
+  const templates = await _templates
+
+  const html = templates._register.render({
     dir: process.env.DIR || '',
     captcha: process.env.GOOGLE_CAPTCHA && process.env.GOOGLE_CAPTCHA.split('|')[0] || '',
   })

@@ -1,8 +1,12 @@
 const requestBearer = require('../../mod/requestBearer')
 
-const fetch = require('node-fetch')
+const getWorkspace = require('../../mod/workspace/get')
 
-const template = require('backtick-template')
+let workspace = getWorkspace()
+
+const getTemplates = require('../../mod/templates/_templates')
+
+let _templates = getTemplates(workspace)
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   admin_workspace: true,
@@ -11,9 +15,15 @@ module.exports = (req, res) => requestBearer(req, res, [ handler ], {
 
 async function handler(req, res){
 
-  const tmpl = await fetch(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/views/workspace.html`)
+  if (req.query.clear_cache) {
+    workspace = getWorkspace()
+    _templates = getTemplates(workspace)
+    return res.end()
+  }
 
-  const html = template(await tmpl.text(), {
+  const templates = await _templates
+
+  const html = templates._admin_workspace.render({
     dir: process.env.DIR || '',
     token: req.params.token.signed
   })

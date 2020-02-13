@@ -1,15 +1,17 @@
+module.exports = {
+render: _ => `
 <!doctype html>
 <html>
 
-<head data-dir="${dir}">
+<head data-dir="${_.dir}">
     <title>XYZ | Registration</title>
-    <link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="${_.dir}/icons/favicon.ico" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://www.google.com/recaptcha/api.js?render=${captcha}"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=${_.captcha}"></script>
 
-    <script src="${dir}/views/register.js" async defer></script>
+    <script src="${_.dir}/views/register.js" async defer></script>
 
     <style>
         body {
@@ -149,11 +151,11 @@
             background-position: center;
             background-size: contain;
             -webkit-background-size: contain;
-            background-image: url("${dir}/icons/icon-checkbox-unchecked.svg");
+            background-image: url("${_.dir}/icons/icon-checkbox-unchecked.svg");
         }
 
         input:checked+div {
-            background-image: url("${dir}/icons/icon-checkbox-checked.svg");
+            background-image: url("${_.dir}/icons/icon-checkbox-checked.svg");
         }
 
         #btnRegister {
@@ -163,7 +165,7 @@
     </style>
 </head>
 
-<body class="register_form" data-captcha=${captcha}>
+<body class="register_form" data-captcha=${_.captcha}>
     <form method="post">
 
         <div class="input-group">
@@ -233,9 +235,10 @@
         <p>After verification, a site administrator will approve new accounts. You will receive a further email once
             your account has been approved.</p>
 
-        <a class="switch" href="${dir}/?login">Already registered? Login.</a>
+        <a class="switch" href="${_.dir}/?login">Already registered? Login.</a>
     </form>
 
 </body>
 
 </html>
+`}

@@ -1,15 +1,17 @@
+module.exports = {
+render: _ => `
 <!DOCTYPE html>
 <html>
 
-<head data-dir="${dir}">
+<head data-dir="${_.dir}">
     <title>XYZ | User Administration</title>
-    <link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="${_.dir}/icons/favicon.ico" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="${dir}/tabulator/tabulator.css">
-    <script src="${dir}/tabulator/tabulator.js"></script>
-    <script src="${dir}/views/user.js" async></script>
+    <link rel="stylesheet" href="${_.dir}/tabulator/tabulator.css">
+    <script src="${_.dir}/tabulator/tabulator.js"></script>
+    <script src="${_.dir}/views/user.js" async></script>
 
     <style>
 
@@ -29,39 +31,39 @@
         }
 
         .icon-face {
-            background-image: url("${dir}/icons/icon-face.svg");
+            background-image: url("${_.dir}/icons/icon-face.svg");
         }
 
         .icon-logout {
-            background-image: url("${dir}/icons/icon-logout.svg");
+            background-image: url("${_.dir}/icons/icon-logout.svg");
         }
 
         .icon-tick-done {
-            background-image: url("${dir}/icons/icon-tick-done.svg");
+            background-image: url("${_.dir}/icons/icon-tick-done.svg");
         }
 
         .icon-tick-done-all {
-            background-image: url("${dir}/icons/icon-tick-done-all.svg");
+            background-image: url("${_.dir}/icons/icon-tick-done-all.svg");
         }
 
         .icon-warning {
-            background-image: url("${dir}/icons/icon-warning.svg");
+            background-image: url("${_.dir}/icons/icon-warning.svg");
         }
 
         .icon-supervisor-account {
-            background-image: url("${dir}/icons/icon-supervisor-account.svg");
+            background-image: url("${_.dir}/icons/icon-supervisor-account.svg");
         }
 
         .icon-settings {
-            background-image: url("${dir}/icons/icon-settings.svg");
+            background-image: url("${_.dir}/icons/icon-settings.svg");
         }
 
         .icon-key {
-            background-image: url("${dir}/icons/icon-key.svg");
+            background-image: url("${_.dir}/icons/icon-key.svg");
         }
 
         .icon-lock-closed {
-            background-image: url("${dir}/icons/icon-lock-closed.svg");
+            background-image: url("${_.dir}/icons/icon-lock-closed.svg");
             height:40px;
             width:30px;
         }
@@ -76,7 +78,7 @@
     
 </head>
 
-<body data-token=${token}>
+<body data-token=${_.token}>
 
     <h1>Account admin</h1>
 
@@ -85,3 +87,4 @@
 </body>
 
 </html>
+`}

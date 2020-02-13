@@ -28,6 +28,12 @@ const desktop = require('./views/desktop')
 
 const login = require('./views/login')
 
+const register = require('./views/register')
+
+const admin_user = require('./views/admin_user')
+
+const admin_workspace = require('./views/admin_workspace')
+
 module.exports = async _workspace => {
 
     const workspace = await _workspace
@@ -38,6 +44,9 @@ module.exports = async _workspace => {
         _desktop: desktop,
         _mobile: mobile,
         _login: login,
+        _register: register,
+        _admin_user: admin_user,
+        _admin_workspace: admin_workspace,
 
         //queries
         mvt_cache: mvt_cache,

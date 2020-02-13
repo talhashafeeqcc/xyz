@@ -1,20 +1,22 @@
+module.exports = {
+render: _ => `
 <!DOCTYPE html>
 <html lang="en">
 
-<head data-dir="${dir}">
+<head data-dir="${_.dir}">
     <title>XYZ Workspace Administration</title>
-    <link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="${_.dir}/icons/favicon.ico" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="${dir}/codemirror/codemirror.css">
-    <script src="${dir}/codemirror/codemirror.js" defer></script>
-    <script src="${dir}/codemirror/javascript.js" defer></script>
-    <script src="${dir}/codemirror/jsonlint.js" defer></script>
-    <script src="${dir}/codemirror/lint.js" defer></script>
-    <script src="${dir}/codemirror/lintjson.js" defer></script>
+    <link rel="stylesheet" href="${_.dir}/codemirror/codemirror.css">
+    <script src="${_.dir}/codemirror/codemirror.js" defer></script>
+    <script src="${_.dir}/codemirror/javascript.js" defer></script>
+    <script src="${_.dir}/codemirror/jsonlint.js" defer></script>
+    <script src="${_.dir}/codemirror/lint.js" defer></script>
+    <script src="${_.dir}/codemirror/lintjson.js" defer></script>
 
-    <script src="${dir}/views/workspace.js" defer></script>
+    <script src="${_.dir}/views/workspace.js" defer></script>
 
     <style>
         body {
@@ -41,16 +43,16 @@
         }
 
         .icon-backup {
-            background-image: url("${dir}/icons/icon-backup.svg");
+            background-image: url("${_.dir}/icons/icon-backup.svg");
         }
 
         .icon-description {
-            background-image: url("${dir}/icons/icon-description.svg");
+            background-image: url("${_.dir}/icons/icon-description.svg");
         }        
     </style>
 </head>
 
-<body data-token=${token} style="display: grid; grid-template-columns: 50px 1fr;">
+<body data-token=${_.token} style="display: grid; grid-template-columns: 50px 1fr;">
 
     <div style="grid-column: 1;">
 
@@ -70,3 +72,4 @@
 </body>
 
 </html>
+`}
