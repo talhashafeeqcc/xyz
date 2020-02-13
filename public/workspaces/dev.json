@@ -11,7 +11,7 @@
             },
             "layers": {
                 "OSM": {
-                    "group": "Base Layer",
+                    "group": "Maps",
                     "meta": "<p>Test paragraph for meta in group</p>",
                     "format": "tiles",
                     "attribution": {
@@ -20,7 +20,7 @@
                     "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 },
                 "Mapbox Base": {
-                    "group": "Base Layer",
+                    "group": "Maps",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
@@ -28,7 +28,7 @@
                     "format": "tiles",
                     "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 },
-                "COUNTRIES": {
+                "Countries": {
                     "display": true,
                     "attribution": {
                         "Made with Natural Earth.": "https://www.naturalearthdata.com/"
@@ -373,7 +373,7 @@
                         }
                     }
                 },
-                "TILES": {
+                "Tiles": {
                     "format": "mvt",
                     "dbs": "XYZ",
                     "table": "dev.natural_earth_countries__mvts",
@@ -446,7 +446,7 @@
                     ]
                 },
                 "Mapbox Label": {
-                    "group": "Base Layer",
+                    "group": "Maps",
                     "format": "tiles",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -487,7 +487,7 @@
             },
             "layers": {
                 "OSM": {
-                    "group": "Base Layer",
+                    "group": "Maps",
                     "format": "tiles",
                     "attribution": {
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
@@ -495,7 +495,7 @@
                     "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 },
                 "OS Zoomstack": {
-                    "group": "Base Layer",
+                    "group": "Maps",
                     "meta": "<p>Test paragraph for meta in group</p>",
                     "attribution": {
                         "© Ordanance Survey": "https://ordnancesurvey.co.uk"
@@ -504,7 +504,7 @@
                     "URI": "https://api.ordnancesurvey.co.uk/mapping_api/v1/service/zxy/EPSG%3A3857/Light%203857/{z}/{x}/{y}.png?key=4vmpYY1uFdimsAkyGwuaFbbHEyfvA5Gy"
                 },
                 "Mapbox Base": {
-                    "group": "Base Layer",
+                    "group": "Maps",
                     "display": true,
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -793,7 +793,7 @@
                         {
                             "label": "RP Count",
                             "field": "rp_count",
-                            "fieldfx": "(SELECT sum(1) FROM dev.retailpoints, dev.scratch WHERE st_intersects(dev.retailpoints.geom, st_transform(dev.scratch.geom_3857, 4326)) AND dev.scratch.id = $1)"
+                            "fieldfx": "(SELECT sum(1) FROM dev.retailpoints, dev.scratch WHERE st_intersects(dev.retailpoints.geom, st_transform(dev.scratch.geom_3857, 4326)) AND dev.scratch.id = ${id})"
                         },
                         {
                             "label": "something",
@@ -1324,7 +1324,6 @@
                         {
                             "label": "RP Type",
                             "field": "rp_type",
-                            "type": "text",
                             "filter": {
                                 "in": [
                                     "Major City Centre",
@@ -1347,13 +1346,8 @@
                         {
                             "label": "OA pop_11",
                             "field": "pop__11",
-                            "type": "integer",
-                            "lookup": {
-                                "table": "dev_oa",
-                                "geom": "geom",
-                                "condition": "ST_INTERSECTS",
-                                "function": "AVG"
-                            }
+                            "fieldfx": "SELECT AVG(a.pop__11) FROM dev.retailplaces a, dev.oa b WHERE ST_INTERSECTS(a.geom, b.geom) AND a.tid = ${id}",
+                            "type": "integer"
                         },
                         {
                             "label": "Population",
@@ -1402,26 +1396,38 @@
                             "type": "integer"
                         },
                         {
+                            "type": "dataview",
                             "label": "Profile",
-                            "type": "group",
-                            "expanded": true,
+                            "query": "RP_Profile",
                             "chart": {
                                 "type": "horizontalBar",
-                                "backgroundColor": [
-                                    "#FFA630",
-                                    "#C6DEA6",
-                                    "#7EBDC3",
-                                    "#7A6263",
-                                    "#CED097"
-                                ],
-                                "borderColor": [
-                                    "#FFA630",
-                                    "#C6DEA6",
-                                    "#7EBDC3",
-                                    "#7A6263",
-                                    "#CED097"
-                                ]
-                            }
+                                "yAxesWidth": 80
+                            },
+                            "labels": ["Comparison", "Convenience", "F/B/L", "Services", "Class/Brass"],
+                            "datasets": [
+                                {
+                                    "fields": ["comparison", "conv", "fbl", "services", "classbrass"],
+                                    "backgroundColor": [
+                                        "#FFA630",
+                                        "#C6DEA6",
+                                        "#7EBDC3",
+                                        "#7A6263",
+                                        "#CED097"
+                                    ],
+                                    "borderColor": [
+                                        "#FFA630",
+                                        "#C6DEA6",
+                                        "#7EBDC3",
+                                        "#7A6263",
+                                        "#CED097"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "label": "Profile",
+                            "type": "group",
+                            "expanded": true
                         },
                         {
                             "group": "Profile",
@@ -1703,7 +1709,6 @@
                         {
                             "label": "ID",
                             "field": "retailpoint_id",
-                            "type": "text",
                             "inline": true
                         },
                         {
@@ -1735,12 +1740,10 @@
                         },
                         {
                             "field": "locality",
-                            "type": "text",
                             "level": 1
                         },
                         {
                             "field": "town",
-                            "type": "text",
                             "level": 1
                         },
                         {
@@ -1986,7 +1989,7 @@
                     }
                 },
                 "Mapbox Label": {
-                    "group": "Base Layer",
+                    "group": "Maps",
                     "format": "tiles",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -2019,6 +2022,13 @@
                                 "template": "/views/report_location.html"
                             },
                             "class": "_report"
+                        },
+                        {
+                            "type": "report",
+                            "report": {
+                                "name": "Report hosted with GitHub",
+                                "template": "Dev sites report"
+                            }
                         },
                         {
                             "field": "id",
@@ -2134,408 +2144,136 @@
                         },
                         {
                             "label": "Random data series",
-                            "type": "group",
-                            "dashboard": "Dashboard",
-                            "dashboard_id": "chart_1",
-                            "class": "_report",
+                            "type": "dataview",
+                            "query": "Random Data Series",
                             "chart": {
                                 "height": 300,
-                                "width": 500,
+                                "width": 290,
                                 "type": "mixed",
                                 "title": true,
                                 "legend": true,
                                 "legendPosition": "bottom",
-                                "responsive": true,
-                                "backgroundColor": [
-                                    "rgba(192, 117, 205, 0.3)",
-                                    "rgba(255, 167, 38, 0.3)"
-                                ],
-                                "borderColor": [
-                                    "#4a148c",
-                                    "#e65100"
-                                ]
-                            }
+                                "responsive": true
+                            },
+                            "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
+                            "datasets": [
+                                {
+                                    "fields": ["random1", "random2", "random3", "random4", "random5"],
+                                    "label": "Serie 1",
+                                    "backgroundColor": "rgba(192, 117, 205, 0.3)",
+                                    "borderColor": "#4a148c",
+                                    "datalabels": {}
+                                },
+                                {
+                                    "fields": ["rev_random1", "rev_random2", "rev_random3", "rev_random4", "rev_random5"],
+                                    "label": "Serie 2",
+                                    "type": "line",
+                                    "backgroundColor": "rgba(255, 167, 38, 0.3)",
+                                    "borderColor": "#e65100"
+                                }
+                            ]
                         },
                         {
-                            "group": "Random data series",
-                            "label": "Random 1",
-                            "field": "random1",
-                            "type": "integer",
-                            "dataset": "Serie 1",
-                            "chartType": "line"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 2",
-                            "field": "random2",
-                            "type": "integer",
-                            "dataset": "Serie 1",
-                            "chartType": "line"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 3",
-                            "field": "random3",
-                            "type": "integer",
-                            "dataset": "Serie 1",
-                            "chartType": "line"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 4",
-                            "field": "random4",
-                            "type": "integer",
-                            "dataset": "Serie 1",
-                            "chartType": "line"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 5",
-                            "field": "random5",
-                            "type": "integer",
-                            "dataset": "Serie 1",
-                            "chartType": "line"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 1",
-                            "field": "rev_random1",
-                            "fieldfx": "random5",
-                            "type": "integer",
-                            "dataset": "Serie 2"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 2",
-                            "field": "rev_random2",
-                            "fieldfx": "random4",
-                            "type": "integer",
-                            "dataset": "Serie 2"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 3",
-                            "field": "rev_random3",
-                            "fieldfx": "random3",
-                            "type": "integer",
-                            "dataset": "Serie 2"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 4",
-                            "field": "rev_random4",
-                            "fieldfx": "random2",
-                            "type": "integer",
-                            "dataset": "Serie 2"
-                        },
-                        {
-                            "group": "Random data series",
-                            "label": "Random 5",
-                            "field": "rev_random5",
-                            "fieldfx": "random1",
-                            "type": "integer",
-                            "dataset": "Serie 2"
-                        },
-                        {
-                            "label": "Doughnut Chart",
-                            "type": "group",
-                            "dashboard": "Dashboard",
-                            "class": "_report",
+                            "label": "Doughnut or Radar Chart",
+                            "type": "dataview",
+                            "query": "Random Data Series",
                             "chart": {
                                 "title": false,
                                 "legend": true,
-                                "type": "doughnut",
-                                "cutoutPercentage": 36,
-                                "backgroundColor": [
-                                    "rgba(229, 99 , 153, 0.4)",
-                                    "rgba(0, 167, 225, 0.4)",
-                                    "rgba(237, 222, 164, 0.4)",
-                                    "rgba(247, 160 ,114, 0.4)",
-                                    "rgba(255, 155, 66, 0.4)"
-                                ],
-                                "borderColor": "#C0B4A7"
-                            }
-                        },
-                        {
-                            "group": "Doughnut Chart",
-                            "label": "Random 1",
-                            "field": "bubble_random1",
-                            "fieldfx": "random1",
-                            "type": "integer"
-                        },
-                        {
-                            "group": "Doughnut Chart",
-                            "label": "Random 2",
-                            "field": "bubble_random2",
-                            "fieldfx": "random2",
-                            "type": "integer"
-                        },
-                        {
-                            "group": "Doughnut Chart",
-                            "label": "Random 3",
-                            "field": "bubble_random3",
-                            "fieldfx": "random3",
-                            "type": "integer"
-                        },
-                        {
-                            "group": "Doughnut Chart",
-                            "label": "Random 4",
-                            "field": "bubble_random4",
-                            "fieldfx": "random4",
-                            "type": "integer"
-                        },
-                        {
-                            "group": "Doughnut Chart",
-                            "label": "Random 5",
-                            "field": "bubble_random5",
-                            "fieldfx": "random5",
-                            "type": "integer"
+                                "type": "radar",
+                                "cutoutPercentage": 36
+                            },
+                            "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
+                            "datasets": [
+                                {
+                                    "fields": ["random1", "random2", "random3", "random4", "random5"],
+                                    "backgroundColor": "rgba(192, 117, 205, 0.3)",
+                                    "borderColor": "#4a148c",
+                                    "backgroundColor": [
+                                        "rgba(229, 99 , 153, 0.4)",
+                                        "rgba(0, 167, 225, 0.4)",
+                                        "rgba(237, 222, 164, 0.4)",
+                                        "rgba(247, 160 ,114, 0.4)",
+                                        "rgba(255, 155, 66, 0.4)"
+                                    ],
+                                    "label": "Serie 1",
+                                    "borderColor": "#C0B4A7",
+                                    "spanGaps": true,
+                                    "lineTension": 0.5
+                                }
+                            ]
                         },
                         {
                             "label": "Stacked Chart",
-                            "type": "group",
-                            "dashboard": "Dashboard",
-                            "class": "_report",
+                            "type": "dataview",
+                            "query": "Stacked Data",
                             "chart": {
                                 "type": "stackedHorizontalBar",
                                 "title": true,
                                 "legend": true,
-                                "legendPosition": "right",
-                                "fill": true,
-                                "backgroundColor": [
-                                    "#FFA630",
-                                    "#C6DEA6",
-                                    "#0B9800",
-                                    "#EC8394"
-                                ],
-                                "borderColor": [
-                                    "#FFA630",
-                                    "#C6DEA6",
-                                    "#0B9800",
-                                    "#EC8394"
-                                ]
-                            }
+                                "legendPosition": "right"
+                            },
+                            "labels": ["Actual Sales", "Model Sales"],
+                            "datasets": [
+                                {
+                                    "label": "Activity 1",
+                                    "fields": ["actual_sales_activity1", "model_sales_activity1"],
+                                    "backgroundColor": "#FFA630",
+                                    "borderColor": "#FFA630"
+                                },
+                                {
+                                    "label": "Activity 2",
+                                    "fields": ["actual_sales_activity2", "model_sales_activity2"],
+                                    "backgroundColor": "#0B9800",
+                                    "borderColor": "#0B9800"
+                                },
+                                {
+                                    "label": "Activity 3",
+                                    "fields": ["actual_sales_activity3", "model_sales_activity3"],
+                                    "backgroundColor": "#C6DEA6",
+                                    "borderColor": "#C6DEA6"
+                                },
+                                {
+                                    "label": "Activity 4",
+                                    "fields": ["actual_sales_activity4", "model_sales_activity4"],
+                                    "backgroundColor": "#EC8394",
+                                    "borderColor": "#EC8394"
+                                }
+                            ]
                         },
                         {
-                            "group": "Stacked Chart",
-                            "label": "Activity 1",
-                            "field": "actual_sales_activity1",
-                            "type": "integer",
-                            "stack": "Actual sales"
-                        },
-                        {
-                            "group": "Stacked Chart",
-                            "label": "Activity 2",
-                            "field": "actual_sales_activity2",
-                            "type": "integer",
-                            "stack": "Actual sales"
-                        },
-                        {
-                            "group": "Stacked Chart",
-                            "label": "Activity 3",
-                            "field": "actual_sales_activity3",
-                            "type": "integer",
-                            "stack": "Actual sales"
-                        },
-                        {
-                            "group": "Stacked Chart",
-                            "label": "Activity 4",
-                            "field": "actual_sales_activity4",
-                            "type": "integer",
-                            "stack": "Actual sales"
-                        },
-                        {
-                            "group": "Stacked Chart",
-                            "label": "Activity 1",
-                            "field": "model_sales_activity1",
-                            "type": "integer",
-                            "stack": "Model sales"
-                        },
-                        {
-                            "group": "Stacked Chart",
-                            "label": "Activity 2",
-                            "field": "model_sales_activity2",
-                            "type": "integer",
-                            "stack": "Model sales"
-                        },
-                        {
-                            "group": "Stacked Chart",
-                            "label": "Activity 3",
-                            "field": "model_sales_activity3",
-                            "type": "integer",
-                            "stack": "Model sales"
-                        },
-                        {
-                            "group": "Stacked Chart",
-                            "label": "Activity 4",
-                            "field": "model_sales_activity4",
-                            "type": "integer",
-                            "stack": "Model sales"
-                        },
-                        {
-                            "label": "Radar Chart",
+                            "label": "Random data series",
                             "type": "group",
-                            "dashboard": "Dashboard",
-                            "class": "_report",
-                            "chart": {
-                                "width": 400,
-                                "height": 400,
-                                "title": true,
-                                "legend": true,
-                                "legendPosition": "bottom",
-                                "type": "radar",
-                                "backgroundColor": [
-                                    "rgba(233, 30, 99, 0.3)",
-                                    "rgba(3, 169, 244, 0.3)"
-                                ],
-                                "fillOpacity": 0.3,
-                                "borderColor": [
-                                    "rgba(233, 30, 99, 0.7)",
-                                    "rgba(3, 169, 244, 0.7)"
-                                ]
-                            }
+                            "expanded": true
                         },
                         {
-                            "group": "Radar Chart",
-                            "field": "actual_sales_activity1_radar",
-                            "fieldfx": "actual_sales_activity1",
-                            "type": "integer",
-                            "label": "Activity 1",
-                            "dataset": "Actual"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "actual_sales_activity2_radar",
-                            "fieldfx": "actual_sales_activity2",
-                            "type": "integer",
-                            "label": "Activity 2",
-                            "dataset": "Actual"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "actual_sales_activity3_radar",
-                            "fieldfx": "actual_sales_activity3",
-                            "type": "integer",
-                            "label": "Activity 3",
-                            "dataset": "Actual"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "actual_sales_activity4_radar",
-                            "fieldfx": "actual_sales_activity4",
-                            "type": "integer",
-                            "label": "Activity 4",
-                            "dataset": "Actual"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "actual_sales_activity5_radar",
-                            "fieldfx": "actual_sales_activity5",
-                            "type": "integer",
-                            "label": "Activity 5",
-                            "dataset": "Actual"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "model_sales_activity1_radar",
-                            "fieldfx": "model_sales_activity1",
-                            "type": "integer",
-                            "label": "Activity 1",
-                            "dataset": "Model"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "model_sales_activity2_radar",
-                            "fieldfx": "model_sales_activity2",
-                            "type": "integer",
-                            "label": "Activity 2",
-                            "dataset": "Model"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "model_sales_activity3_radar",
-                            "fieldfx": "model_sales_activity3",
-                            "type": "integer",
-                            "label": "Activity 3",
-                            "dataset": "Model"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "model_sales_activity4_radar",
-                            "fieldfx": "model_sales_activity4",
-                            "type": "integer",
-                            "label": "Activity 4",
-                            "dataset": "Model"
-                        },
-                        {
-                            "group": "Radar Chart",
-                            "field": "model_sales_activity5_radar",
-                            "fieldfx": "model_sales_activity5",
-                            "type": "integer",
-                            "label": "Activity 5",
-                            "dataset": "Model"
-                        },
-                        {
-                            "label": "Polar Area Chart",
-                            "type": "group",
-                            "dashboard": "Dashboard",
-                            "class": "_report",
-                            "level": 2,
-                            "chart": {
-                                "title": false,
-                                "width": 400,
-                                "height": 400,
-                                "legend": true,
-                                "type": "polarArea",
-                                "backgroundColor": [
-                                    "rgba(229, 99, 153, 0.3)",
-                                    "rgba(0, 167, 225, 0.3)",
-                                    "rgba(237, 222, 164, 0.3)",
-                                    "rgba(247, 160, 114, 0.3)",
-                                    "rgba(255, 155, 66, 0.3)"
-                                ],
-                                "borderColor": [
-                                    "rgba(229, 99, 153, 0.3)",
-                                    "rgba(0, 167, 225, 0.3)",
-                                    "rgba(237, 222, 164, 0.3)",
-                                    "rgba(247, 160, 114, 0.3)",
-                                    "rgba(255, 155, 66, 0.3)"
-                                ]
-                            }
-                        },
-                        {
-                            "group": "Polar Area Chart",
-                            "label": "Random 1",
-                            "field": "polar_random1",
-                            "fieldfx": "random1",
+                            "group": "Random data series",
+                            "label": "Rand 1",
+                            "field": "random1",
                             "type": "integer"
                         },
                         {
-                            "group": "Polar Area Chart",
-                            "label": "Random 2",
-                            "field": "polar_random2",
-                            "fieldfx": "random2",
+                            "group": "Random data series",
+                            "label": "Rand 2",
+                            "field": "random2",
                             "type": "integer"
                         },
                         {
-                            "group": "Polar Area Chart",
-                            "label": "Random 3",
-                            "field": "polar_random3",
-                            "fieldfx": "random3",
+                            "group": "Random data series",
+                            "label": "Rand 3",
+                            "field": "random3",
                             "type": "integer"
                         },
                         {
-                            "group": "Polar Area Chart",
-                            "label": "Random 4",
-                            "field": "polar_random4",
-                            "fieldfx": "random4",
+                            "group": "Random data series",
+                            "label": "Rand 4",
+                            "field": "random4",
                             "type": "integer"
                         },
                         {
-                            "group": "Polar Area Chart",
-                            "label": "Random 5",
-                            "field": "polar_random5",
-                            "fieldfx": "random5",
+                            "group": "Random data series",
+                            "label": "Rand 5",
+                            "field": "random5",
                             "type": "integer"
                         },
                         {
@@ -2569,8 +2307,7 @@
                             "title": "Population Summary",
                             "display": true,
                             "target_id": "xyz_table1",
-                            "pgQuery": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/population_summary.txt",
-                            "example__pgQuery": "WITH min5 AS (SELECT (SUM(b.pop__17))::integer AS pop__17,(SUM(b.pop__11))::integer AS pop__11,(SUM(b.pop__17 - b.pop__11) * 100 / SUM(b.pop__11))::integer AS pop_growth FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE ST_INTERSECTS(a.isoline_5min, b.geom_p_4326) AND a.id = $1), min10 AS (SELECT (SUM(b.pop__17))::integer AS pop__17,(SUM(b.pop__11))::integer AS pop__11,(SUM(b.pop__17 - b.pop__11) * 100 / SUM(b.pop__11))::integer AS pop_growth FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE ST_INTERSECTS(a.isoline_10min, b.geom_p_4326) AND a.id = $1) SELECT UNNEST(ARRAY['Current Population','Population 2011','Population Growth']) AS rows,UNNEST(ARRAY[min5.pop__17,min5.pop__11,min5.pop_growth]) AS min5,UNNEST(ARRAY[min10.pop__17,min10.pop__11,min10.pop_growth]) AS min10 FROM min5,min10;",
+                            "query": "Population Summary Sites",
                             "class": "_report",
                             "layout": "fitColumns",
                             "toolbars": {},
@@ -2613,7 +2350,7 @@
                             "class": "_report",
                             "target_id": "xyz_table8",
                             "layout": "fitColumns",
-                            "pgQuery": "WITH workers AS (SELECT (SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=250 then b.workers else 0 end))::integer AS workers_250,(SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=500 then b.workers else 0 end))::integer AS workers_500 FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE a.id = $1 AND ST_INTERSECTS(a.isoline_15min, b.geom_p_4326)) SELECT UNNEST(ARRAY['Workers 250m','Workers 500m']) AS rows,UNNEST(ARRAY[workers.workers_250,workers.workers_500]) AS workers FROM workers;",
+                            "query": "Worker Summary Sites",
                             "columns": [
                                 { 
                                     "field": "rows", 
@@ -2640,7 +2377,7 @@
                             "target_id": "xyz_table3",
                             "layout": "fitColumns",
                             "class": "_report",
-                            "pgQuery": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/oac_profile.txt",
+                            "query": "OAC Profile Sites",
                             "columns": [
                                 { 
                                     "field": "rows", 
@@ -2714,56 +2451,14 @@
                                         }
                                     ]
                                 }
-                            ],
-                            "chart": {
-                                "title": {
-                                    "display": true,
-                                    "position": "top",
-                                    "text": "OAC Profile",
-                                    "fontSize": 12,
-                                    "fontStyle": "bold"
-                                },
-                                "layout": {
-                                    "padding": {
-                                        "left": 50,
-                                        "right": 50
-                                    }
-                                },
-                                "responsive": true,
-                                "width": 500,
-                                "height": 300,
-                                "maxRotationX": 90,
-                                "minRotationX": 90,
-                                "type": "bar",
-                                "backgroundColor": [
-                                    "#FBDBB6",
-                                    "#FAD2A4",
-                                    "#F9C991",
-                                    "#F8C07F",
-                                    "#F7B76D",
-                                    "#F6AE5B",
-                                    "#F5A549",
-                                    "#F49D37"
-                                ],
-                                "borderColor": [
-                                    "#FBDBB6",
-                                    "#FAD2A4",
-                                    "#F9C991",
-                                    "#F8C07F",
-                                    "#F7B76D",
-                                    "#F6AE5B",
-                                    "#F5A549",
-                                    "#F49D37"
-                                ],
-                                "field": "min10"
-                            }
+                            ]
                         },
                         {
                             "type": "tableDefinition",
                             "title": "Age Profile",
                             "display": false,
                             "class": "_report",
-                            "pgQuery": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/age_profile.txt",
+                            "query": "Age Profile Sites",
                             "target_id": "xyz_table2",
                             "layout": "fitColumns",
                             "columns": [
@@ -2806,7 +2501,7 @@
                             "type": "tableDefinition",
                             "title": "Social Grade",
                             "display": false,
-                            "pgQuery": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/social_grade.txt",
+                            "query": "Social Grade Sites",
                             "target_id": "xyz_table4",
                             "class": "_report",
                             "layout": "fitColumns",
@@ -2892,7 +2587,7 @@
                             "class": "_report",
                             "target_id": "xyz_table5",
                             "layout": "fitColumns",
-                            "pgQuery": "SELECT (ROUND(((ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857))/1000)::numeric, 2))::text AS dist,(b.fascia)::text AS fascia,(b.postcode)::text AS postcode FROM dev.uk_glx_sites a, geodata.uk_glx_open_retail_points b WHERE a.id = $1 ORDER BY ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857) NULLS LAST LIMIT 5;",
+                            "query": "Nearest competitors Sites",
                             "columns": [
                                 {
                                     "title": "Distance",
@@ -3054,7 +2749,7 @@
                                 } 
                             },
                             "field": "all_catchments",
-                            "fieldfx": "SELECT jsonb_build_object('type', 'FeatureCollection','features', b.features) AS collection FROM (SELECT jsonb_build_array(jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'primary', 'id', id),'geometry', ST_AsGeoJson(catchment_primary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'secondary', 'id', id),'geometry', ST_AsGeoJson(catchment_secondary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'tertiary', 'id', id),'geometry', ST_AsGeoJson(catchment_tertiary)::jsonb)) AS features FROM (SELECT * FROM dev.storelist_1507__19 where id = $1) a) b"
+                            "fieldfx": "SELECT jsonb_build_object('type', 'FeatureCollection','features', b.features) AS collection FROM (SELECT jsonb_build_array(jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'primary', 'id', id),'geometry', ST_AsGeoJson(catchment_primary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'secondary', 'id', id),'geometry', ST_AsGeoJson(catchment_secondary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'tertiary', 'id', id),'geometry', ST_AsGeoJson(catchment_tertiary)::jsonb)) AS features FROM (SELECT * FROM dev.storelist_1507__19 where id = ${id}) a) b"
                         }
                     ],
                     "style": {
@@ -3077,6 +2772,51 @@
                     }
                 }
             }
+        }
+    },
+    "templates": {
+        "RP_Profile": {
+            "template": "SELECT ROUND(comparison::numeric, 2) AS comparison, ROUND(conv::numeric, 2) AS conv, ROUND(fbl::numeric, 2) AS fbl, ROUND(services::numeric, 2) AS services, ROUND(classbrass::numeric, 2) AS classbrass FROM dev.retailplaces WHERE tid = ${id};",
+            "dbs": "XYZ"
+        },
+        "Random Data Series": {
+            "template": "SELECT id AS id, random1 AS random1, random2 AS random2, random3 AS random3, random4 AS random4, random5 AS random5, random5 AS rev_random1, random4 AS rev_random2, random3 AS rev_random3, random2 AS rev_random4, random1 AS rev_random5 FROM dev.uk_glx_sites WHERE id = ${id};",
+            "dbs": "XYZ"
+        },
+        "Stacked Data": {
+            "template": "SELECT actual_sales_activity1, actual_sales_activity2, actual_sales_activity3, actual_sales_activity4, model_sales_activity1, model_sales_activity2, model_sales_activity3, model_sales_activity4 FROM dev.uk_glx_sites WHERE id = ${id};",
+            "dbs": "XYZ"
+        },
+        "OAC Profile": {
+            "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/oac_profile.txt",
+            "dbs": "XYZ"
+        },
+        "Population Summary Sites": {
+            "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/population_summary.txt",
+            "dbs": "XYZ" 
+        },
+        "Worker Summary Sites": {
+            "template": "WITH workers AS (SELECT (SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=250 then b.workers else 0 end))::integer AS workers_250,(SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=500 then b.workers else 0 end))::integer AS workers_500 FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE a.id = ${id} AND ST_INTERSECTS(a.isoline_15min, b.geom_p_4326)) SELECT UNNEST(ARRAY['Workers 250m','Workers 500m']) AS rows,UNNEST(ARRAY[workers.workers_250,workers.workers_500]) AS workers FROM workers;",
+            "dbs": "XYZ"
+        },
+        "OAC Profile Sites": {
+            "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/oac_profile.txt",
+            "dbs": "XYZ"
+        },
+        "Age Profile Sites": {
+            "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/age_profile.txt",
+            "dbs": "XYZ"
+        },
+        "Social Grade Sites": {
+            "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/social_grade.txt",
+            "dbs": "XYZ"
+        },
+        "Nearest competitors Sites": {
+            "template": "SELECT (ROUND(((ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857))/1000)::numeric, 2))::text AS dist,(b.fascia)::text AS fascia,(b.postcode)::text AS postcode FROM dev.uk_glx_sites a, geodata.uk_glx_open_retail_points b WHERE a.id = ${id} ORDER BY ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857) NULLS LAST LIMIT 5;",
+            "dbs": "XYZ"
+        },
+        "Dev sites report": {
+            "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/report_sites/sites.html"
         }
     }
 }

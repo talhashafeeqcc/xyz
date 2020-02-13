@@ -16,27 +16,11 @@ export default _xyz => entry => {
     _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
   }
 
-  const labels = entry.fields.map(field => field.label);
-
-  const data = entry.fields.map(field => (field.type === 'integer' ? parseInt(field.value) : field.value));
-
-  const displayValues = entry.fields.map(field => field.displayValue);
-
-  const datasets = [];
-
-  datasets[0] = {
-    label: entry.label,
-    backgroundColor: entry.chart.backgroundColor || _xyz.dataview.charts.fallbackStyle.backgroundColor,
-    borderColor: entry.chart.borderColor || _xyz.dataview.charts.fallbackStyle.borderColor,
-    data: data,
-    spanGaps: true
-  };
-
   new _xyz.utils.Chart(canvas, {
     	type: 'polarArea',
     	data: {
-    		labels: labels,
-    		datasets: datasets  		
+    		labels: entry.labels,
+    		datasets: entry.datasets  		
     	},
     	options: {
     		layout: {

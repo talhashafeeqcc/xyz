@@ -29,7 +29,7 @@ export default _xyz => entry => {
     entry.target = _xyz.dataview.node && _xyz.dataview.node.querySelector('.table') ||
       document.getElementById(entry.target_id);
 
-    if (entry.target) _xyz.dataview.locationTable(entry, tableChart);
+    if (entry.target) _xyz.dataview.locationTable(entry);
   }
 
   function removeTab() {
@@ -42,34 +42,6 @@ export default _xyz => entry => {
 
     _xyz.dataview.removeTab(entry);
 
-  }
-
-  function tableChart(data) {
-
-    if (!entry.chart) return;
-
-    entry.target.innerHTML = '';
-
-    const fields = data.map(field => ({
-      label: field.rows,
-      field: entry.chart.field,
-      value: field[entry.chart.field],
-      displayValue: field[entry.chart.field]
-    }));
-
-    const values = Object.values(fields).filter(field => { if(field.value) return field.value });
-
-    if(!values.length) return entry.target.appendChild(_xyz.utils.wire()`<div style="text-align: center;">No information to show here.`);
-
-    if (fields.length && fields.some(field => field.displayValue)) {
-
-      entry.target.appendChild(_xyz.dataview.charts.create({
-        label: entry.title,
-        fields: fields,
-        chart: entry.chart
-      }));
-
-    }
   }
 
 };
