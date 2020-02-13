@@ -156,17 +156,19 @@ export default _xyz => {
 
     const xhr = new XMLHttpRequest();
 
+    const range = entry.edit.isoline_here.rangetype === 'time' ?
+    (entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes || 10) * 60 || 600 :
+    entry.edit.isoline_here.rangetype === 'distance' ?
+      (entry.edit.isoline_here._distance || 1) * 1000 || 1000 :
+      600
+
     xhr.open('GET', _xyz.host + '/api/provider/here?' +
       _xyz.utils.paramString({
         url: 'isoline.route.api.here.com/routing/7.2/calculateisoline.json?',
-        mode: entry.edit.isoline_here.mode || 'car',
-        type: entry.edit.isoline_here.type || 'fastest',
-        coordinates: origin.join(','),
-        
-        type: entry.edit.isoline_here.type,
-        rangetype: entry.edit.isoline_here.rangetype,
-        minutes: entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes,
-        distance: entry.edit.isoline_here._distance,
+        mode: `${entry.edit.isoline_here.type || 'fastest'};${entry.edit.isoline_here.mode || 'car'};traffic:disabled`,
+        start: `geo!${origin.join(',')}`,
+        range: range,
+        rangetype: entry.edit.isoline_here.rangetype || 'time',
         token: _xyz.token
       }));
 
@@ -175,15 +177,15 @@ export default _xyz => {
 
     xhr.onload = e => {
 
-      if (e.target.status === 406) {
-        entry.location.view && entry.location.view.classList.remove('disabled');
-        return alert(e.target.responseText);
-      }
-
-      if (e.target.status !== 200) {
+      if (e.target.status !== 200 || !e.target.response.response) {
         entry.location.view && entry.location.view.classList.remove('disabled');
         console.log(e.target.response);
         return alert('No route found. Try alternative set up.');
+      }
+
+      const geojson = {
+        'type': 'Polygon',
+        'coordinates': [e.target.response.response.isoline[0].component[0].shape.map(el => el.split(',').reverse())]
       }
 
       const xhr_save = new XMLHttpRequest();
@@ -225,14 +227,7 @@ export default _xyz => {
         //entry.location.flyTo();
       }
 
-      console.log({
-        mode: entry.edit.isoline_here.mode,
-        rangetype: entry.edit.isoline_here.rangetype,
-        type: entry.edit.isoline_here.type,
-        minutes: entry.edit.isoline_here.minutes,
-        distance: entry.edit.isoline_here.distance,
-        isoline: e.target.response
-      });
+      
 
       xhr_save.send(JSON.stringify({
         mode: entry.edit.isoline_here.mode,
@@ -240,7 +235,7 @@ export default _xyz => {
         type: entry.edit.isoline_here.type,
         minutes: entry.edit.isoline_here._minutes,
         distance: entry.edit.isoline_here._distance,
-        isoline: e.target.response
+        isoline: geojson
       }));
 
     };

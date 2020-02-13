@@ -168,31 +168,37 @@ container.appendChild(_xyz.utils.wire()`
 
                     const xhr = new XMLHttpRequest();
 
-                    xhr.open('GET', _xyz.host +
-                        '/api/location/edit/isoline/here?' +
-                        _xyz.utils.paramString({
-                            locale: _xyz.workspace.locale.key,
-                            coordinates: origin.reverse().join(','),
-                            mode: layer.edit.isoline_here.mode,
-                            type: layer.edit.isoline_here.type,
-                            rangetype: layer.edit.isoline_here.rangetype,
-                            minutes: layer.edit.isoline_here.minutes,
-                            distance: layer.edit.isoline_here.distance,
-                            token: _xyz.token
-                        }));
+                    const range = layer.edit.isoline_here.rangetype === 'time' ?
+                    (layer.edit.isoline_here.minutes || 10) * 60 || 600 :
+                    layer.edit.isoline_here.rangetype === 'distance' ?
+                      (layer.edit.isoline_here.distance || 1) * 1000 || 1000 :
+                      600
+
+                      xhr.open('GET', _xyz.host + '/api/provider/here?' +
+                          _xyz.utils.paramString({
+                              url: 'isoline.route.api.here.com/routing/7.2/calculateisoline.json?',
+                              mode: `${layer.edit.isoline_here.type || 'fastest'};${layer.edit.isoline_here.mode || 'car'};traffic:disabled`,
+                              start: `geo!${origin.reverse().join(',')}`,
+                              range: range,
+                              rangetype: layer.edit.isoline_here.rangetype || 'time',
+                              token: _xyz.token
+                          }));
 
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.responseType = 'json';
 
                     xhr.onload = e => {
                     
-                        if (e.target.status !== 200) return alert('No route found. Try a longer travel time or alternative setup.');
+                        if (e.target.status !== 200 || !e.target.response.response) return alert('No route found. Try a longer travel time or alternative setup.');
 
                         const geoJSON = new _xyz.mapview.lib.format.GeoJSON();
 
                         const feature = geoJSON.readFeature({
                             type: 'Feature',
-                            geometry: e.target.response
+                            geometry: {
+                                'type': 'Polygon',
+                                'coordinates': [e.target.response.response.isoline[0].component[0].shape.map(el => el.split(',').reverse())]
+                              }
                         },{ 
                             dataProjection: 'EPSG:4326',
                             featureProjection:'EPSG:' + _xyz.mapview.srid
