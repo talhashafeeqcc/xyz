@@ -2,7 +2,7 @@ export default _xyz => entry => {
 
   if (!entry.report.template) return;
 
-  const href = _xyz.host + '/api/report?' + _xyz.utils.paramString(
+  const href = _xyz.host + '/view/' + encodeURIComponent(entry.report.template) + '?' + _xyz.utils.paramString(
     Object.assign(
       entry.report,
       {
