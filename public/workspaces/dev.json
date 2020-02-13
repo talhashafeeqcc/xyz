@@ -1346,7 +1346,7 @@
                         {
                             "label": "OA pop_11",
                             "field": "pop__11",
-                            "fieldfx": "SELECT AVG(a.pop__11) FROM dev.retailplaces a, dev.oa b WHERE ST_INTERSECTS(a.geom, b.geom) AND a.tid = ${id}",
+                            "fieldfx": "SELECT AVG(a.pop__11) FROM dev.retailplaces a, dev.oa b WHERE ST_INTERSECTS(a.geom, b.geom) AND a.id = $1",
                             "type": "integer"
                         },
                         {
