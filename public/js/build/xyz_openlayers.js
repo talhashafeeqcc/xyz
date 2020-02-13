@@ -122447,7 +122447,7 @@ function panel(layer) {
 
     Object.entries(layer.report.templates).forEach(entry => {
 
-      const href = _xyz.host + '/api/view/?' + _xyz.utils.paramString(
+      const href = _xyz.host + '/api/report?' + _xyz.utils.paramString(
         Object.assign(
           entry[1],
           {
@@ -124034,7 +124034,7 @@ function panel(layer) {
 
   if (!entry.report.template) return;
 
-  const href = _xyz.host + '/api/view/' +  + '?' + _xyz.utils.paramString(
+  const href = _xyz.host + '/api/report?' + _xyz.utils.paramString(
     Object.assign(
       entry.report,
       {
