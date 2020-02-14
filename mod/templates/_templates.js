@@ -6,10 +6,6 @@ const mvt_cache = require('./queries/mvt_cache')
 
 const get_nnearest = require('./queries/get_nnearest')
 
-const get_intersect = require('./queries/get_intersects')
-
-const get_contains = require('./queries/get_contains')
-
 const field_stats = require('./queries/field_stats')
 
 const infotip = require('./queries/infotip')
@@ -55,8 +51,6 @@ module.exports = async _workspace => {
         //queries
         mvt_cache: mvt_cache,
         get_nnearest: get_nnearest,
-        get_intersect: get_intersect,
-        get_contains: get_contains,
         field_stats: field_stats,
         infotip: infotip,
         count_locations: count_locations,
@@ -68,29 +62,15 @@ module.exports = async _workspace => {
 
     for (key of Object.keys(workspace.templates || {})) {
 
-        if (workspace.templates[key].template.toLowerCase().includes('api.github')) {
-
-            const template = await provider.github(workspace.templates[key].template)
-
-           
-            templates[key] = {
-                render: params => template.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || ''),
-                dbs: workspace.templates[key].dbs || null,
-                roles: workspace.templates[key].roles || null,
-                admin_workspace: workspace.templates[key].admin_workspace || null,
-                admin_user: workspace.templates[key].admin_user || null,
-                template: template
-            }
-
-        } else {
-            const template = workspace.templates[key].template
-            templates[key] = {
-                render: params => template.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || ''),
-                dbs: workspace.templates[key].dbs || null,
-                roles: workspace.templates[key].roles || null,
-                admin_workspace: workspace.templates[key].admin_workspace || null,
-                template: template
-            }
+        const template = workspace.templates[key].template.toLowerCase().includes('api.github') && await provider.github(workspace.templates[key].template) || workspace.templates[key].template
+        
+        templates[key] = {
+            render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),
+            dbs: workspace.templates[key].dbs || null,
+            roles: workspace.templates[key].roles || null,
+            admin_workspace: workspace.templates[key].admin_workspace || null,
+            admin_user: workspace.templates[key].admin_user || null,
+            template: template
         }
 
     }

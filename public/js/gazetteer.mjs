@@ -108,8 +108,7 @@ export default _xyz => {
     gazetteer.xhr = new XMLHttpRequest();
   
     // Send gazetteer query to backend.
-    gazetteer.xhr.open('GET', _xyz.host +
-      '/api/gazetteer?' +
+    gazetteer.xhr.open('GET', _xyz.host + '/api/gazetteer?' +
       _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         q: encodeURIComponent(term),

@@ -3,7 +3,7 @@ export default _xyz => layer => {
   // Augment request with token if proxied through backend.
   // Otherwise requests will be sent directly to the URI and may not pass through the XYZ backend.  
   const url = layer.URI.indexOf('provider') > 0 ?
-    _xyz.host + '/api/proxy/request?' + _xyz.utils.paramString({
+    _xyz.host + '/api/proxy?' + _xyz.utils.paramString({
       uri: layer.URI,
       token: _xyz.token
     }) :

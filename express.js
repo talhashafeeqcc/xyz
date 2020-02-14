@@ -13,7 +13,7 @@ app.use(process.env.DIR||'', express.static('public'))
 
 const proxy = require('express-http-proxy');
 
-app.use(`${process.env.DIR || ''}/api/proxy/request`, proxy(
+app.use(`${process.env.DIR || ''}/api/proxy`, proxy(
     req => req.query.host,
     {
         https: true,
