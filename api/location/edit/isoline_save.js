@@ -1,10 +1,10 @@
-const requestBearer = require('../../../../mod/requestBearer')
+const requestBearer = require('../../../mod/requestBearer')
 
-const layer = require('../../../../mod/layer')
+const layer = require('../../../mod/layer')
 
-const dbs = require('../../../../mod/pg/dbs')()
+const dbs = require('../../../mod/pg/dbs')()
 
-const infoj_values = require('../../../../mod/infoj_values.js')
+const infoj_values = require('../../../mod/infoj_values.js')
 
 module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
 	public: true

@@ -102,13 +102,12 @@ container.appendChild(_xyz.utils.wire()`
 
                     const xhr = new XMLHttpRequest();
 
-                    xhr.open('GET', _xyz.host +
-                        '/api/location/edit/isoline/mapbox?' +
+                    xhr.open('GET', _xyz.host + '/api/provider/mapbox?' +
                         _xyz.utils.paramString({
-                            locale: _xyz.workspace.locale.key,
-                            coordinates: origin.join(','),
-                            minutes: layer.edit.isoline_mapbox.minutes,
-                            profile: layer.edit.isoline_mapbox.profile,
+                            url: `api.mapbox.com/isochrone/v1/mapbox/${layer.edit.isoline_mapbox.profile || 'driving'}/${origin.join(',')}?`,
+                            contours_minutes: layer.edit.isoline_mapbox.minutes,
+                            generalize: layer.edit.isoline_mapbox.minutes,
+                            polygons: true,
                             token: _xyz.token
                         }));
 
@@ -117,13 +116,13 @@ container.appendChild(_xyz.utils.wire()`
 
                     xhr.onload = e => {
                     
-                        if (e.target.status !== 200) return alert('No route found. Try a longer travel time or alternative setup.');
+                        if (e.target.status !== 200 || !e.target.response.features) return alert('No route found. Try a longer travel time or alternative setup.');
 
                         const geoJSON = new _xyz.mapview.lib.format.GeoJSON();
 
                         const feature = geoJSON.readFeature({
                             type: 'Feature',
-                            geometry: e.target.response
+                            geometry: e.target.response.features[0].geometry
                         },{ 
                             dataProjection: 'EPSG:4326',
                             featureProjection:'EPSG:' + _xyz.mapview.srid

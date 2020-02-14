@@ -102,17 +102,21 @@ export default _xyz => {
         token: _xyz.token
       }));
 
+    xhr.open('GET', _xyz.host + '/api/provider/mapbox?' +
+      _xyz.utils.paramString({
+        url: `api.mapbox.com/isochrone/v1/mapbox/${entry.edit.isoline_mapbox.profile || 'driving'}/${origin.join(',')}?`,
+        contours_minutes: entry.edit.isoline_mapbox._minutes || entry.edit.isoline_mapbox.minutes,
+        generalize: entry.edit.isoline_mapbox._minutes || entry.edit.isoline_mapbox.minutes,
+        polygons: true,
+        token: _xyz.token
+      }));
+
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = 'json';
 
     xhr.onload = e => {
 
-      if (e.target.status === 406) {
-        entry.location.view && entry.location.view.classList.remove('disabled');
-        return alert(e.target.responseText);
-      }
-
-      if (e.target.status !== 200) {
+      if (e.target.status !== 200 || !e.target.response.features) {
         entry.location.view && entry.location.view.classList.remove('disabled');
         console.log(e.target.response);
         return alert('No route found. Try alternative set up.');
@@ -121,7 +125,7 @@ export default _xyz => {
       const xhr_save = new XMLHttpRequest();
 
       xhr_save.open('POST', _xyz.host +
-      '/api/location/edit/isoline/save?' +
+      '/api/location/edit/isoline_save?' +
       _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         layer: entry.location.layer.key,
@@ -160,7 +164,7 @@ export default _xyz => {
       xhr_save.send(JSON.stringify({
         profile: entry.edit.isoline_mapbox.profile,
         minutes: entry.edit.isoline_mapbox._minutes,
-        isoline: e.target.response
+        isoline: e.target.response.features[0].geometry
       }));
 
     };

@@ -4,7 +4,10 @@ module.exports = {
 
   github: async params => await github(params),
 
-  here: async params => await here(params)
+  here: async params => await here(params),
+
+  mapbox: async params => await mapbox(params),
+
 
 }
 
@@ -23,6 +26,14 @@ async function github(url) {
 async function here(url) {
 
   const response = await fetch(`https://${url}&${process.env.KEY_HERE}`)
+
+  return await response.json()
+
+}
+
+async function mapbox(url) {
+
+  const response = await fetch(`https://${url}&${process.env.KEY_MAPBOX}`.replace(/\&provider=mapbox/,''))
 
   return await response.json()
 

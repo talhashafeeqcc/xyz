@@ -97,9 +97,7 @@ app.get(`${process.env.DIR||''}/api/location/edit/delete`, (req, res) => require
 
 app.get(`${process.env.DIR||''}/api/location/edit/setnull`, (req, res) => require('./api/location/edit/setnull')(req, res))
 
-app.get(`${process.env.DIR||''}/api/location/edit/isoline/mapbox`, (req, res) => require('./api/location/edit/isoline/mapbox')(req, res))
-
-app.post(`${process.env.DIR||''}/api/location/edit/isoline/save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline/save')(req, res))
+app.post(`${process.env.DIR||''}/api/location/edit/isoline_save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline_save')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (req, res) => require('./api/location/edit/draw')(req, res))
 
