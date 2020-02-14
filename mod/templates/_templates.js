@@ -20,6 +20,8 @@ const user_list = require('./queries/user_list')
 
 const user_log = require('./queries/user_log')
 
+const set_field_array = require('./queries/set_field_array')
+
 //views
 
 const mobile = require('./views/mobile')
@@ -58,6 +60,7 @@ module.exports = async _workspace => {
         layer_extent: layer_extent,
         user_list: user_list,
         user_log: user_log,
+        set_field_array: set_field_array,
     }
 
     for (key of Object.keys(workspace.templates || {})) {

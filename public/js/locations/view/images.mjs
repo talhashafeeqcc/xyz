@@ -82,46 +82,55 @@ export default _xyz => entry => {
 
           const xhr = new XMLHttpRequest();
 
-          /*xhr.open('POST', _xyz.host +
-            '/api/location/edit/cloudinary_upload?' + _xyz.utils.paramString({
-              locale: _xyz.workspace.locale.key,
-              layer: entry.location.layer.key,
-              table: entry.location.table,
-              field: entry.field,
-              id: entry.location.id,
+          xhr.open('POST', _xyz.host + '/api/provider/cloudinary?' +
+            _xyz.utils.paramString({
               resource_type: 'image',
-              token: _xyz.token
-            }));*/
-
-          xhr.open('POST', _xyz.host +
-            '/api/location/edit/cloudinary?' + _xyz.utils.paramString({
-              locale: _xyz.workspace.locale.key,
-              layer: entry.location.layer.key,
-              table: entry.location.table,
-              field: entry.field,
-              id: entry.location.id,
-              resource_type: 'image',
-              token: _xyz.token
+              token: _xyz.token,
             }));
 
           xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+          xhr.responseType = 'json';
 
           xhr.onload = e => {
 
-            if (e.target.status !== 200) return console.error('image upload failed');
+            if (e.target.status > 202) return console.error('image upload failed');
 
-            const json = JSON.parse(e.target.responseText);
+            const secure_url = e.target.response.secure_url;
+            const public_id = e.target.response.public_id.replace(/.*\//, '').replace(/\.([\w-]{3})/, '');
 
-            _xyz.utils.bind(placeholder)`
-            <div class="item">
-            <img src=${json.secure_url}>
-            ${(entry.edit) && _xyz.utils.wire()`
-            <button
-              class="xyz-icon icon-trash img-remove"
-              data-name=${json.public_id}
-              data-src=${json.secure_url}
-              onclick=${e => removeDocument(e)}>
-            </button>`}`
+            const _xhr = new XMLHttpRequest();
+
+            _xhr.open('GET', _xyz.host + '/api/query?' +
+            _xyz.utils.paramString({
+              template: 'set_field_array',
+              locale: _xyz.workspace.locale.key,
+              layer: entry.location.layer.key,
+              table: entry.location.table,
+              action: 'append',
+              field: entry.field,
+              secure_url: secure_url,
+              id: entry.location.id,
+              token: _xyz.token
+            }));
+            _xhr.setRequestHeader('Content-Type', 'application/json');
+            _xhr.responseType = 'json';
+            _xhr.onload = _e => {
+          
+              if (_e.target.status > 202) return;
+          
+              _xyz.utils.bind(placeholder)`
+              <div class="item">
+              <img src=${secure_url}>
+              ${(entry.edit) && _xyz.utils.wire()`
+              <button
+                class="xyz-icon icon-trash img-remove"
+                data-name=${public_id}
+                data-src=${secure_url}
+                onclick=${e => removeDocument(e)}>
+              </button>`}`
+          
+            };
+            _xhr.send();
 
           };
 
@@ -145,34 +154,41 @@ export default _xyz => entry => {
 
     const xhr = new XMLHttpRequest();
 
-    /*xhr.open('GET', _xyz.host +
-      '/api/location/edit/cloudinary_delete?' + _xyz.utils.paramString({
-        locale: _xyz.workspace.locale.key,
-        layer: entry.location.layer.key,
-        table: entry.location.table,
-        field: entry.field,
-        id: entry.location.id,
+    xhr.open('GET', _xyz.host + '/api/provider/cloudinary?' +
+      _xyz.utils.paramString({
+        destroy: true,
         public_id: img.dataset.name,
-        secure_url: encodeURIComponent(img.dataset.src),
-        token: _xyz.token
-      }));*/
-
-    xhr.open('POST', _xyz.host +
-      '/api/location/edit/cloudinary?' + _xyz.utils.paramString({
-        locale: _xyz.workspace.locale.key,
-        layer: entry.location.layer.key,
-        table: entry.location.table,
-        field: entry.field,
-        id: entry.location.id,
-        public_id: img.dataset.name,
-        delete: true,
-        secure_url: encodeURIComponent(img.dataset.src),
-        token: _xyz.token
+        token: _xyz.token,
       }));
 
     xhr.onload = e => {
-      if (e.target.status !== 200) return;
-      img.parentNode.remove();
+      if (e.target.status > 202) return;
+
+      const _xhr = new XMLHttpRequest();
+
+      _xhr.open('GET', _xyz.host + '/api/query?' +
+      _xyz.utils.paramString({
+        template: 'set_field_array',
+        locale: _xyz.workspace.locale.key,
+        layer: entry.location.layer.key,
+        table: entry.location.table,
+        action: 'remove',
+        field: entry.field,
+        secure_url: img.dataset.src,
+        id: entry.location.id,
+        token: _xyz.token
+      }));
+      _xhr.setRequestHeader('Content-Type', 'application/json');
+      _xhr.responseType = 'json';
+      _xhr.onload = _e => {
+    
+        if (_e.target.status > 202) return;
+    
+        img.parentNode.remove();
+    
+      };
+      _xhr.send();
+      
     }
 
     xhr.send()

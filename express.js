@@ -103,8 +103,6 @@ app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (re
 
 app.post(`${process.env.DIR||''}/api/location/edit/geom_update`, bodyParser.json(), (req, res) => require('./api/location/edit/geom_update')(req, res))
 
-app.post(`${process.env.DIR||''}/api/location/edit/cloudinary`, bodyParser.json(), (req, res) => require('./api/services/cloudinary')(req, res))
-
 app.get(`${process.env.DIR||''}/api/gazetteer`, (req, res) => require('./api/gazetteer')(req, res))
 
 app.listen(process.env.PORT || 3000)

@@ -582,44 +582,44 @@ function(t){return t.join(Z).replace(dt,ft).replace(ut,ht)})(e),i=t.transform;i&
         data-name=${n.replace(/.*\//,"").replace(/\.([\w-]{3})/,"")}
         data-src=${n}
         onclick=${t=>o(t)}>
-      </button>`}`);function o(n){if(!confirm("Remove image?"))return;const i=n.target,o=new XMLHttpRequest;o.open("POST",t.host+"/api/location/edit/cloudinary?"+t.utils.paramString({locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,field:e.field,id:e.location.id,public_id:i.dataset.name,delete:!0,secure_url:encodeURIComponent(i.dataset.src),token:t.token})),o.onload=t=>{200===t.target.status&&i.parentNode.remove()},o.send()}e.edit&&i.appendChild(t.utils.wire()`
+      </button>`}`);function o(n){if(!confirm("Remove image?"))return;const i=n.target,o=new XMLHttpRequest;o.open("GET",t.host+"/api/provider/cloudinary?"+t.utils.paramString({destroy:!0,public_id:i.dataset.name,token:t.token})),o.onload=n=>{if(n.target.status>202)return;const o=new XMLHttpRequest;o.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"remove",field:e.field,secure_url:i.dataset.src,id:e.location.id,token:t.token})),o.setRequestHeader("Content-Type","application/json"),o.responseType="json",o.onload=t=>{t.target.status>202||i.parentNode.remove()},o.send()},o.send()}e.edit&&i.appendChild(t.utils.wire()`
 	<div class="add xyz-icon icon-add-photo off-black-filter">
 	<input
     type="file"
     accept="image/*;capture=camera"
-    onchange=${n=>{const r=new FileReader,a=n.target.files[0];if(!a)return;const s=t.utils.wire()`<div class="item"><div class="xyz-icon loader">`;i.insertBefore(s,i.childNodes[i.childNodes.length-1]),r.onload=n=>{const i=new Image;i.onload=()=>{let n=t.utils.wire()`<canvas>`,r=i.width,a=i.height;r>a&&r>1024?(a*=1024/r,r=1024):a>1024&&(r*=1024/a,a=1024),n.width=r,n.height=a,n.getContext("2d").drawImage(i,0,0,r,a);const l=n.toDataURL("image/jpeg",.5),u=new XMLHttpRequest;u.open("POST",t.host+"/api/location/edit/cloudinary?"+t.utils.paramString({locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,field:e.field,id:e.location.id,resource_type:"image",token:t.token})),u.setRequestHeader("Content-Type","application/octet-stream"),u.onload=n=>{if(200!==n.target.status)return console.error("image upload failed");const i=JSON.parse(n.target.responseText);t.utils.bind(s)`
-            <div class="item">
-            <img src=${i.secure_url}>
-            ${e.edit&&t.utils.wire()`
-            <button
-              class="xyz-icon icon-trash img-remove"
-              data-name=${i.public_id}
-              data-src=${i.secure_url}
-              onclick=${t=>o(t)}>
-            </button>`}`},u.send(t.utils.dataURLtoBlob(l))},i.src=n.target.result},r.readAsDataURL(a),n.target.value=""}}>`)},zh=t=>e=>{if(!e.value.length&&!e.edit)return e.row.remove();e.label_td?e.label_td.colSpan="2":e.row.remove();let n=t.utils.wire()`<tr colSpan=2>`;e.listview.appendChild(n);let i=t.utils.wire()`<td colSpan=2 class="list">`;n.appendChild(i);for(let n of e.value)i.appendChild(t.utils.wire()`
+    onchange=${n=>{const r=new FileReader,a=n.target.files[0];if(!a)return;const s=t.utils.wire()`<div class="item"><div class="xyz-icon loader">`;i.insertBefore(s,i.childNodes[i.childNodes.length-1]),r.onload=n=>{const i=new Image;i.onload=()=>{let n=t.utils.wire()`<canvas>`,r=i.width,a=i.height;r>a&&r>1024?(a*=1024/r,r=1024):a>1024&&(r*=1024/a,a=1024),n.width=r,n.height=a,n.getContext("2d").drawImage(i,0,0,r,a);const l=n.toDataURL("image/jpeg",.5),u=new XMLHttpRequest;u.open("POST",t.host+"/api/provider/cloudinary?"+t.utils.paramString({resource_type:"image",token:t.token})),u.setRequestHeader("Content-Type","application/octet-stream"),u.responseType="json",u.onload=n=>{if(n.target.status>202)return console.error("image upload failed");const i=n.target.response.secure_url,r=n.target.response.public_id.replace(/.*\//,"").replace(/\.([\w-]{3})/,""),a=new XMLHttpRequest;a.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"append",field:e.field,secure_url:i,id:e.location.id,token:t.token})),a.setRequestHeader("Content-Type","application/json"),a.responseType="json",a.onload=n=>{n.target.status>202||t.utils.bind(s)`
+              <div class="item">
+              <img src=${i}>
+              ${e.edit&&t.utils.wire()`
+              <button
+                class="xyz-icon icon-trash img-remove"
+                data-name=${r}
+                data-src=${i}
+                onclick=${t=>o(t)}>
+              </button>`}`},a.send()},u.send(t.utils.dataURLtoBlob(l))},i.src=n.target.result},r.readAsDataURL(a),n.target.value=""}}>`)},zh=t=>e=>{if(!e.value.length&&!e.edit)return e.row.remove();e.label_td?e.label_td.colSpan="2":e.row.remove();let n=t.utils.wire()`<tr colSpan=2>`;e.listview.appendChild(n);let i=t.utils.wire()`<td colSpan=2 class="list">`;n.appendChild(i);for(let n of e.value)i.appendChild(t.utils.wire()`
 		<div class="item">
 		${e.edit&&t.utils.wire()`
 		<button
 			class="xyz-icon icon-trash link-remove"
-			data-name=${n.replace(/^.*[\\\/]/,"")}
+			data-name=${n.replace(/.*\//,"").replace(/\.([\w-]{3})/,"")}
 			data-href=${n}
 			onclick=${t=>o(t)}>
 		</button>`}		
-		<a href=${n}>${decodeURIComponent(decodeURIComponent(n.split("/").pop()))}`);function o(n){if(!confirm("Remove document link?"))return;const i=n.target,o=new XMLHttpRequest;o.open("POST",t.host+"/api/location/edit/cloudinary?"+t.utils.paramString({locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,field:e.field,id:e.location.id,public_id:i.dataset.name,secure_url:encodeURIComponent(i.dataset.href),delete:!0,token:t.token})),o.onload=t=>{200===t.target.status&&i.parentNode.remove()},o.send()}e.edit&&i.appendChild(t.utils.wire()`
+		<a href=${n}>${decodeURIComponent(decodeURIComponent(n.split("/").pop()))}`);function o(n){if(!confirm("Remove document link?"))return;const i=n.target,o=new XMLHttpRequest;o.open("GET",t.host+"/api/provider/cloudinary?"+t.utils.paramString({destroy:!0,public_id:i.dataset.name,token:t.token})),o.onload=n=>{if(n.target.status>202)return;const o=new XMLHttpRequest;o.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"remove",field:e.field,secure_url:img.dataset.src,id:e.location.id,token:t.token})),o.setRequestHeader("Content-Type","application/json"),o.responseType="json",o.onload=t=>{t.target.status>202||i.parentNode.remove()},o.send()},o.send()}e.edit&&i.appendChild(t.utils.wire()`
 	<div class="add xyz-icon icon-cloud-upload off-black-filter">
 	<input
 	type="file"
 	accept=".txt,.pdf,.doc,.docx,.xls,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document;"
-	onchange=${n=>{const r=new FileReader,a=n.target.files[0];if(!a)return;const s=t.utils.wire()`<div class="item"><div class="xyz-icon loader">`;i.insertBefore(s,i.childNodes[i.childNodes.length-1]),r.onload=n=>{const i=new XMLHttpRequest;i.open("POST",t.host+"/api/location/edit/cloudinary?"+t.utils.paramString({locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,field:e.field,id:e.location.id,public_id:a.name,resource_type:"raw",token:t.token})),i.setRequestHeader("Content-Type","application/octet-stream"),i.onload=n=>{if(200!==n.target.status)return console.log("document_upload failed");const i=JSON.parse(n.target.responseText);t.utils.bind(s)`
+	onchange=${n=>{const r=new FileReader,a=n.target.files[0];if(!a)return;const s=t.utils.wire()`<div class="item"><div class="xyz-icon loader">`;i.insertBefore(s,i.childNodes[i.childNodes.length-1]),r.onload=n=>{const i=new XMLHttpRequest;i.open("POST",t.host+"/api/provider/cloudinary?"+t.utils.paramString({resource_type:"raw",token:t.token})),i.setRequestHeader("Content-Type","application/octet-stream"),i.responseType="json",i.onload=n=>{if(n.target.status>202)return console.log("document_upload failed");const i=n.target.response.secure_url,r=n.target.response.public_id.replace(/.*\//,"").replace(/\.([\w-]{3})/,""),a=new XMLHttpRequest;a.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"append",field:e.field,secure_url:i,id:e.location.id,token:t.token})),a.setRequestHeader("Content-Type","application/json"),a.responseType="json",a.onload=n=>{n.target.status>202||t.utils.bind(s)`
 				<div class="item">
 				${e.edit&&t.utils.wire()`
 				<button
 					class="xyz-icon icon-trash link-remove"
-					data-name=${i.public_id.replace(/^.*[\\\/]/,"")}
-					data-href=${i.secure_url}
+					data-name=${r}
+					data-href=${i}
 					onclick=${t=>o(t)}>
 				</button>`}
-				<a href=${i.secure_url}>${i.public_id.split("/").pop()}`},i.send(n.target.result)},r.readAsDataURL(a),n.target.value=""}}>`)},Gh=t=>e=>{if(!e.value)return;e.row=t.utils.wire()`<tr>`,e.listview.appendChild(e.row);let n=t.utils.wire()`<td colSpan=2>`;e.row.appendChild(n);let i=t.utils.wire()`<div>`;n.appendChild(i);let o=t.utils.wire()`
+				<a href=${i} target="_blank">${r}`},a.send()},i.send(n.target.result)},r.readAsDataURL(a),n.target.value=""}}>`)},Gh=t=>e=>{if(!e.value)return;e.row=t.utils.wire()`<tr>`,e.listview.appendChild(e.row);let n=t.utils.wire()`<td colSpan=2>`;e.row.appendChild(n);let i=t.utils.wire()`<div>`;n.appendChild(i);let o=t.utils.wire()`
    <table
    style="width: 100%; padding: 6px; margin-top: 2px; 
    color: #666; border-radius: 4px; background-color: linen;">`;i.appendChild(o),Object.entries(e.value).map(e=>{let n=t.utils.wire()`<tr>`;o.appendChild(n),e.map(e=>{let i=t.utils.wire()`<td>${e}`;n.appendChild(i)})})},Wh=t=>e=>{function n(){t.dataview.node&&!t.dataview.node.querySelector(".table")&&t.dataview.node.querySelector(".tab-content").appendChild(t.utils.wire()`<div class="table">`),e.location.tables.push(e),e.target=t.dataview.node&&t.dataview.node.querySelector(".table")||document.getElementById(e.target_id),e.target&&t.dataview.locationTable(e)}(t.dataview.node||document.getElementById(e.target_id))&&(e.row.appendChild(t.utils.wire()`
