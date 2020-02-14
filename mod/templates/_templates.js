@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+const provider = require('../provider')
 
 //queries
 
@@ -69,13 +69,10 @@ module.exports = async _workspace => {
     for (key of Object.keys(workspace.templates || {})) {
 
         if (workspace.templates[key].template.toLowerCase().includes('api.github')) {
-            const response = await fetch(
-                workspace.templates[key].template,
-                { headers: new fetch.Headers({ Authorization: `token ${process.env.KEY_GITHUB}` }) })
-    
-            const b64 = await response.json()
-            const buff = await Buffer.from(b64.content, 'base64')
-            const template = await buff.toString('utf8')
+
+            const template = await provider.github(workspace.templates[key].template)
+
+           
             templates[key] = {
                 render: params => template.replace(/\$\{(.*?)\}/g, matched=>params[matched.replace(/\$|\{|\}/g,'')] || ''),
                 dbs: workspace.templates[key].dbs || null,

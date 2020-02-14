@@ -6,7 +6,7 @@ const dbs = require('../../mod/pg/dbs')()
 
 //const fetch = require('node-fetch')
 
-const github = require('../../mod/github/get');
+const provider = require('../../mod/provider');
 
 module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
 	public: true
@@ -20,7 +20,7 @@ async function handler(req, res) {
 
 	if(decodeURIComponent(req.query.pgquery).toLowerCase().includes('api.github')) {
 
-		query = await github({uri: decodeURIComponent(req.query.pgquery)});
+		query = await provider.github(decodeURIComponent(req.query.pgquery));
 	
 	} else {
 

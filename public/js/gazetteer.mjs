@@ -109,7 +109,7 @@ export default _xyz => {
   
     // Send gazetteer query to backend.
     gazetteer.xhr.open('GET', _xyz.host +
-      '/api/gazetteer/autocomplete?' +
+      '/api/gazetteer?' +
       _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
         q: encodeURIComponent(term),
@@ -218,23 +218,25 @@ export default _xyz => {
     // Get the geometry from the gazetteer database.
     const xhr = new XMLHttpRequest();
   
-    xhr.open('GET', _xyz.host +
-      '/api/gazetteer/googleplaces?' +
-      _xyz.utils.paramString({
-        id: record.id,
-        token: _xyz.token
-      }));
+    xhr.open('GET', `${_xyz.host}/api/provider/google?url=maps.googleapis.com/maps/api/place/details/json?placeid=${record.id}${_xyz.token && '&token=' + _xyz.token}`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = 'json';
     xhr.onload = e => {
       
       // Send results to createFeature
-      if (e.target.status === 200) gazetteer.createFeature(e.target.response);
+      if (e.target.status !== 200 || !e.target.response.result) return
 
-      if (gazetteer.callback) return gazetteer.callback(e.target.response);
+      let feature = {
+        type: 'Point',
+        coordinates: [e.target.response.result.geometry.location.lng, e.target.response.result.geometry.location.lat]
+      }
+      
+      gazetteer.createFeature(feature);
+
+      if (gazetteer.callback) return gazetteer.callback(feature);
     
-      record.callback && record.callback(e.target.response);
+      record.callback && record.callback(feature);
     };
     
     xhr.send();

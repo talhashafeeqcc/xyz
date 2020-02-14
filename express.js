@@ -105,8 +105,6 @@ app.post(`${process.env.DIR||''}/api/location/edit/geom_update`, bodyParser.json
 
 app.post(`${process.env.DIR||''}/api/location/edit/cloudinary`, bodyParser.json(), (req, res) => require('./api/services/cloudinary')(req, res))
 
-app.get(`${process.env.DIR||''}/api/gazetteer/autocomplete`, (req, res) => require('./api/gazetteer/autocomplete')(req, res))
-
-app.get(`${process.env.DIR||''}/api/gazetteer/googleplaces`, (req, res) => require('./api/gazetteer/googleplaces')(req, res))
+app.get(`${process.env.DIR||''}/api/gazetteer`, (req, res) => require('./api/gazetteer')(req, res))
 
 app.listen(process.env.PORT || 3000)

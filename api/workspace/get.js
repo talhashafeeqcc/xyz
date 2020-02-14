@@ -18,7 +18,7 @@ async function handler(req, res) {
 
   if (JSON.stringify(workspace) !== JSON.stringify(newWorkspace)) {
     await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
-    workspace = newWorkspace
+    _workspace = newWorkspace
   }
 
   const locales = JSON.parse(JSON.stringify(workspace.locales));

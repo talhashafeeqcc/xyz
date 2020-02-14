@@ -14,24 +14,6 @@ async function handler(req, res) {
 
 	const layer = req.params.layer
 
-	// // here
-	// if (req.query.meta) meta_json = {
-	// 	'Recent isoline': 'Here',
-	// 	'Mode': req.body.mode || 'car',
-	// 	'Range type': req.body.rangetype || 'time',
-	// 	'Type': req.body.type || 'fastest',
-	// 	'Range': req.body.minutes || req.body.distance,
-	// 	'Created': date()
-	// }
-
-	// //mapbox
-	// if (req.query.meta) meta_json = {
-	// 	'Recent isoline': 'Mapbox',
-	// 	'Mode': req.body.profile || 'driving',
-	// 	'Minutes': req.body.minutes || 10,
-	// 	'Created': date()
-	// }
-
 	var q = `
     UPDATE ${req.query.table}
     SET ${req.query.field} = ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('${JSON.stringify(req.body.isoline)}'), 4326), ${layer.srid})

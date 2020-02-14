@@ -2,7 +2,7 @@ const requestBearer = require('../mod/requestBearer')
 
 const fetch = require('node-fetch')
 
-const github = require('../mod/github/get')
+const provider = require('../mod/provider')
 
 module.exports = (req, res) => requestBearer(req, res, [ handler ], {
   public: true,
@@ -15,7 +15,7 @@ async function handler(req, res){
 
   if (req.query.template.toLowerCase().includes('api.github')) {
 
-    tmpl = await github({uri: req.query.template});
+    tmpl = await provider(req.query.template);
 
   } else {
 

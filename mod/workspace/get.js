@@ -6,6 +6,8 @@ const { Pool } = require('pg');
 
 const assignDefaults = require('./assignDefaults')
 
+const provider = require('../provider')
+
 module.exports = async () => await assignDefaults(await get(process.env.WORKSPACE))
 
 async function get(ref) {
@@ -30,16 +32,7 @@ async function file(ref) {
 }
 
 async function github(ref){
-
-  const response = await fetch(
-    `https:${ref}`,
-    { headers: new fetch.Headers({Authorization: `token ${process.env.KEY_GITHUB}`}) })   
-
-  const b64 = await response.json()
-  const buff = await Buffer.from(b64.content, 'base64')
-  const utf8 = await buff.toString('utf8')
-
-  return JSON.parse(utf8)
+  return JSON.parse(await provider.github(ref))
 }
 
 async function postgres(ref) {

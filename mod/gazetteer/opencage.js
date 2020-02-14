@@ -1,17 +1,12 @@
-const fetch = require('node-fetch')
+const provider = require('../provider')
 
 module.exports = async (term, gazetteer) => {
 
-	const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(term)}`
+	const results = await provider.opencage(`api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(term)}`
 		+ `${gazetteer.code ? `&countrycode=${gazetteer.code}` : ''}`
-		+ `${gazetteer.bounds ? '&bounds=' + decodeURIComponent(gazetteer.bounds) : ''}`
-		+ `&key=${process.env.KEY_OPENCAGE}`;
+		+ `${gazetteer.bounds ? '&bounds=' + decodeURIComponent(gazetteer.bounds) : ''}`)
 
-	const fetched = await fetch(url)
-
-	const opencage = await fetched.json()
-
-	return await opencage.results.map(f => ({
+	return results.results.map(f => ({
 		id: f.annotations.geohash,
 		label: f.formatted,
 		marker: [f.geometry.lng, f.geometry.lat],
