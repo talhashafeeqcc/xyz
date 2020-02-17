@@ -2,6 +2,8 @@ export default _xyz => table => {
 
   if (!table) return;
 
+  if(!table.query) return;
+
   if (table.key) {
     if (!table.layer.dataview[table.key]) return;
     Object.assign(table, table.layer.dataview[table.key]);
@@ -36,15 +38,13 @@ export default _xyz => table => {
 
     // Create filter from legend and current filter.
     const filter = table.layer.filter && Object.assign({}, table.layer.filter.legend, table.layer.filter.current);
-      
-    xhr.open('GET', _xyz.host + '/api/layer/table?' + _xyz.utils.paramString({
+
+    xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
       srid: _xyz.mapview.srid,
       layer: table.layer.key,
       table: table.key,
-      viewport: table.viewport,
-      orderby: table.orderby,
-      order: table.order,
+      template: table.query,
       filter: JSON.stringify(filter),
       south: bounds && bounds.south,
       west: bounds && bounds.west,
@@ -71,11 +71,11 @@ export default _xyz => table => {
   };
   
 
-  let stopHammertime = false;
+  //let stopHammertime = false;
 
   table.activate = () => {
 
-    if (_xyz.dataview && _xyz.dataview.btn && _xyz.dataview.btn.dataViewport) {
+    /*if (_xyz.dataview && _xyz.dataview.btn && _xyz.dataview.btn.dataViewport) {
 
       if (table.viewport) {
         _xyz.dataview.btn.dataViewport.classList.add('active');
@@ -84,8 +84,8 @@ export default _xyz => table => {
         _xyz.dataview.btn.dataViewport.classList.remove('active');
       }
 
-      //_xyz.dataview.btn.dataViewport.style.display = 'block'; // not showing until design resolved
-    }
+      _xyz.dataview.btn.dataViewport.style.display = 'block'; // not showing until design resolved
+    }*/
 
     table.target = document.getElementById(table.target_id) || _xyz.dataview.tableContainer(table.toolbars);
 
@@ -96,7 +96,7 @@ export default _xyz => table => {
         //placeholder: 'No Data Available',
         tooltipsHeader: true,
         columnHeaderVertAlign: 'center',
-        columns: _xyz.dataview.groupColumns(table),//table.columns,
+        columns: table.columns,
         layout: table.layout || 'fitDataFill',
         autoResize: true,
         height: _xyz.dataview.height || 'auto',
@@ -106,22 +106,18 @@ export default _xyz => table => {
         groupToggleElement: typeof(table.groupToggleElement) === undefined ? 'arrow' : table.groupToggleElement,
         dataSorting: sorters => {
 
-          if (!sorters[0]) return;
+          /*if (!sorters[0]) return;
             
           if (table.orderby === sorters[0].field
               && table.order === sorters[0].dir) return;
 
           stopHammertime = false;
 
-          table.orderby = sorters[0].field;
-
-          table.order = sorters[0].dir;
-
-          if (!stopHammertime) table.update();
+          if (!stopHammertime) table.update();*/
           
         },
         dataSorted: (sorters, rows) => {
-          stopHammertime = true;
+          //stopHammertime = true;
         },
         rowClick: table.rowClick || rowClick,
         groupClick: table.groupClick || null

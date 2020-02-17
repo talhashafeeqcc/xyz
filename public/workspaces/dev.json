@@ -45,7 +45,7 @@
                     "dataview": {
                         "table1": {
                             "title": "Population / GDP",
-                            "from": "dev.natural_earth_countries",
+                            "query": "NE Countries table1",
                             "columns": [
                                 {
                                     "field": "name",
@@ -62,8 +62,8 @@
                         },
                         "GDP / Population": {
                             "display": true,
+                            "query": "NE GDP/Population Layer Table",
                             "layout": "fitColumns",
-                            "from": "dev.natural_earth_countries",
                             "columns": [
                                 {
                                     "field": "name"
@@ -1017,8 +1017,8 @@
                     "dataview": {
                         "Retail Places": {
                             "viewport": true,
-                            "from": "dev.retailplaces",
                             "layout": "fitColumns",
+                            "query": "UK Retail Places Layer Table",
                             "columns": [
                                 {
                                     "title": "ID",
@@ -1031,19 +1031,21 @@
                                     "field": "rp_type"
                                 },
                                 {
-                                    "field": "comp_strgh",
-                                    "title": "Competition strength",
-                                    "group": "Characteristics"
-                                },
-                                {
-                                    "field": "est_units",
-                                    "title": "Estimate units",
-                                    "group": "Characteristics"
-                                },
-                                {
-                                    "field": "est_brands",
-                                    "title": "Estimate brands",
-                                    "group": "Characteristics"
+                                    "title": "Characteristics",
+                                    "columns": [
+                                        {
+                                            "field": "comp_strgh",
+                                            "title": "Competition strength"
+                                        },
+                                        {
+                                            "field": "est_units",
+                                            "title": "Estimate units"
+                                        },
+                                        {
+                                            "field": "est_brands",
+                                            "title": "Estimate brands"
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -1481,7 +1483,7 @@
                     "dataview": {
                         "Retail Points": {
                             "display": true,
-                            "from": "dev.retailpoints",
+                            "query": "UK Retail Points Layer Table",
                             "columns": [
                                 {
                                     "title": "ID",
@@ -2817,6 +2819,22 @@
         },
         "Dev sites report": {
             "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/report_sites/sites.html"
+        },
+        "UK Retail Places Layer Table": {
+            "template": "SELECT tid AS qID, id, dev_date ,rp_type, comp_strgh, est_units, est_brands FROM dev.retailplaces WHERE ST_DWithin(ST_Transform(ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, 3857), 3857), geom_3857, 0.00001) ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
+            "dbs": "XYZ"
+        },
+        "UK Retail Points Layer Table": {
+            "template": "SELECT id AS qID, retailpoint_id, retailer, fascia FROM dev.retailpoints ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+            "dbs": "XYZ"
+        },
+        "NE GDP/Population Layer Table": {
+            "template": "SELECT id AS qID, name, gdp_md_est, pop_est FROM dev.natural_earth_countries ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+            "dbs": "XYZ"
+        },
+        "NE Countries table1": {
+            "template": "SELECT id AS qID, name, pop_est, gdp_md_est FROM dev.natural_earth_countries ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+            "dbs": "XYZ"
         }
     }
 }
