@@ -71342,7 +71342,7 @@ module.exports = function(module) {
 
 /***/ "./public/js/index.mjs":
 /*!*******************************************!*\
-  !*** ./public/js/index.mjs + 351 modules ***!
+  !*** ./public/js/index.mjs + 352 modules ***!
   \*******************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/kinks/index.js (<- Module is not an ECMAScript module) */
@@ -125595,33 +125595,20 @@ function panel(layer) {
     _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
   }
 
-  let data = [];
+  let data = entry.fields.map(d => {
 
-  let labels = Object.values(entry.columns).map(column => column.title),
-	    columns = Object.values(entry.columns).map(column => column.field);
-
-  let _label = columns[3],
-	    _x = columns[0],
-	    _y = columns[1],
-	    _r = columns[2];
-
-  entry.fields.map(d => {
-
-    data.push({
-      label: d[_label] || d.qid,
+    return {
+      label: d[entry.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || random_rgba(),
       data: [{
-        x: d[_x],
-        y: d[_y],
-        r: d[_r]
+        x: d[entry.labels.x],
+        y: d[entry.labels.y],
+        r: d[entry.labels.r]
       }]
-    });
+    };
 
   });
-
-  console.log(labels);
-  console.log(data);
 
   let chart = new _xyz.utils.Chart(canvas, { 
     type: 'bubble',
@@ -125642,13 +125629,13 @@ function panel(layer) {
     			xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: labels[0]
+            labelString: entry.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: labels[1]
+                		labelString: entry.labels.y
                 	}
         }]
       },
@@ -125686,7 +125673,6 @@ function panel(layer) {
 
 function random_rgba() {
   var o = Math.round, r = Math.random, s = 255;
-  //return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
   return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ', 0.3)';
 }
 // CONCATENATED MODULE: ./public/js/dataview/charts/cakeChart.mjs
@@ -125877,19 +125863,10 @@ function random_rgba() {
     _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
   }
 
-  let data = [];
+  let data = entry.fields.map(d => {
 
-  let labels = Object.values(entry.columns).map(column => column.title),
-	    columns = Object.values(entry.columns).map(column => column.field);
-
-  let _label = columns[2],
-	    _x = columns[0],
-	    _y = columns[1];
-
-  entry.fields.map(d => {
-
-    data.push({
-      label: d[_label] || d.qid,
+    return {
+      label: d[entry.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || 'rgba(70, 99, 98, 0.3)',
       borderColor: entry.chart.borderColor || 'rgba(70, 99, 98, 0.3)',
@@ -125897,11 +125874,10 @@ function random_rgba() {
       radius: entry.chart.radius,
       pointHoverRadius: entry.chart.pointHoverRadius ? entry.chart.pointHoverRadius : entry.chart.radius ? parseInt(entry.chart.radius)+2 : null,
       data: [{
-        x: d[_x],
-        y: d[_y]
+        x: d[entry.labels.x],
+        y: d[entry.labels.y]
       }]
-    });
-
+    }
   });
 
   let chart = new _xyz.utils.Chart(canvas, {
@@ -125923,13 +125899,13 @@ function random_rgba() {
         xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: labels[0]
+            labelString: entry.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: labels[1]
+                		labelString: entry.labels.y
                 	}
         }]
       },
@@ -126817,13 +126793,11 @@ function random_rgba() {
     // Create filter from legend and current filter.
     const filter = chart.layer.filter && Object.assign({}, chart.layer.filter.legend, chart.layer.filter.current);
 
-    xhr.open('GET', _xyz.host + '/api/layer/chart?' + _xyz.utils.paramString({
+    xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
       layer: chart.layer.key,
       chart: chart.key,
-      viewport: chart.viewport,
-      orderby: chart.orderby,
-      order: chart.order,
+      template: chart.query,
       filter: JSON.stringify(filter),
       srid: _xyz.mapview.srid,
       west: bounds && bounds.west,
@@ -126843,6 +126817,7 @@ function random_rgba() {
       let chartElem = _xyz.dataview.charts.create({
         label: chart.key, 
         columns: chart.columns,
+        labels: chart.labels,
         fields: e.target.response, 
         chart: chart.chart
       });
@@ -126858,7 +126833,7 @@ function random_rgba() {
 
   chart.activate = () => {
 
-    if (_xyz.dataview && _xyz.dataview.btn && _xyz.dataview.btn.dataViewport) {
+    /*if (_xyz.dataview && _xyz.dataview.btn && _xyz.dataview.btn.dataViewport) {
 
       if (chart.viewport) {
         _xyz.dataview.btn.dataViewport.classList.add('active');
@@ -126867,8 +126842,8 @@ function random_rgba() {
         _xyz.dataview.btn.dataViewport.classList.remove('active');
       }
 
-      //_xyz.dataview.btn.dataViewport.style.display = 'block'; // not showing until design resolved
-    }
+      _xyz.dataview.btn.dataViewport.style.display = 'block'; // not showing until design resolved
+    }*/
 
     chart.update();
 
@@ -127017,8 +126992,55 @@ function random_rgba() {
     }
   }
 });
+// CONCATENATED MODULE: ./public/js/dataview/pgFunction.mjs
+/* harmony default export */ var pgFunction = (_xyz => param => {
+
+  if (!param.entry || !param.entry.location) return;
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('GET', _xyz.host + '/api/location/pgfunction?' + _xyz.utils.paramString({
+    locale: _xyz.workspace.locale.key,
+    layer: param.entry.location.layer.key,
+    id: param.entry.location.id,
+    pgFunction: param.entry.pgFunction,
+    token: _xyz.token
+  }));
+
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.responseType = 'json';
+
+  xhr.onprogress = e => {
+    // put a spinner here or something?
+  }
+
+  xhr.onload = e => {
+
+    if (e.target.status !== 200) return;
+
+    param.entry.fields = e.target.response;
+  
+    if(param.entry.chart){
+
+      let chartElem = _xyz.dataview.charts.create(param.entry);
+
+      if(!chartElem || !chartElem.style) return;
+
+      param.container.appendChild(chartElem);
+    
+    } else {
+
+      console.log("Content not displayed in DOM");
+      console.log(param.entry);
+    }
+  
+  }
+
+  xhr.send();
+
+});
+
 // CONCATENATED MODULE: ./public/js/dataview/_dataview.mjs
-!(function webpackMissingModule() { var e = new Error("Cannot find module './pgFunction.mjs'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
 
@@ -127067,7 +127089,7 @@ function random_rgba() {
 
     resizeObserve: resizeObserve(_xyz),
 
-    pgFunction: !(function webpackMissingModule() { var e = new Error("Cannot find module './pgFunction.mjs'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(_xyz)
+    pgFunction: pgFunction(_xyz)
 
   };
     

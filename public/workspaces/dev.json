@@ -1054,54 +1054,27 @@
                             "chart": {
                                 "type": "bubble"
                             },
-                            "from": "dev.retailplaces",
-                            "columns": [
-                                {
-                                    "title": "Units",
-                                    "field": "est_units",
-                                    "type": "integer"
-                                },
-                                {
-                                    "title": "Brands",
-                                    "field": "est_brands",
-                                    "type": "integer"
-                                },
-                                {
-                                    "title": "Strength",
-                                    "field": "comp_strgh",
-                                    "fieldfx": "(comp_strgh/1000000)",
-                                    "type": "integer"
-                                },
-                                {
-                                    "title": "Name",
-                                    "field": "rp_name"
-                                }
-                            ]
+                            "labels": {
+                                "x": "est_units",
+                                "y": "est_brands",
+                                "r": "comp_strgh",
+                                "label": "rp_name"
+                            },
+                            "query": "UK RP Retail Strength Layer Chart"
                         },
                         "Services share": {
-                            "display": false,
+                            "display": true,
                             "chart": {
                                 "type": "scatter",
                                 "pointStyle": "triangle",
                                 "radius": 10
                             },
-                            "from": "dev.retailplaces",
-                            "columns": [
-                                {
-                                    "field": "fbl",
-                                    "title": "Food / Beverage / Leaisure",
-                                    "type": "numeric"
-                                },
-                                {
-                                    "field": "services",
-                                    "title": "Services",
-                                    "type": "numeric"
-                                },
-                                {
-                                    "title": "Name",
-                                    "field": "rp_name"
-                                }
-                            ]
+                            "labels": {
+                                "x": "fbl",
+                                "y": "services",
+                                "label": "rp_name"
+                            },
+                            "query": "UK RP Services share Layer Chart"
                         }
                     },
                     "__mvt_cache": "dev.retailplaces__mvts",
@@ -2834,6 +2807,14 @@
         },
         "NE Countries table1": {
             "template": "SELECT id AS qID, name, pop_est, gdp_md_est FROM dev.natural_earth_countries ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+            "dbs": "XYZ"
+        },
+        "UK RP Retail Strength Layer Chart": {
+            "template": "SELECT tid AS qID, est_units, est_brands, (comp_strgh/1000000) AS comp_strgh, rp_name FROM dev.retailplaces ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
+            "dbs": "XYZ"
+        },
+        "UK RP Services share Layer Chart": {
+            "template": "SELECT tid AS qID, fbl, services, rp_name FROM dev.retailplaces ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
             "dbs": "XYZ"
         }
     }

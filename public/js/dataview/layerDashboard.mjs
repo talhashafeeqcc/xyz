@@ -17,13 +17,11 @@ export default _xyz => chart => {
     // Create filter from legend and current filter.
     const filter = chart.layer.filter && Object.assign({}, chart.layer.filter.legend, chart.layer.filter.current);
 
-    xhr.open('GET', _xyz.host + '/api/layer/chart?' + _xyz.utils.paramString({
+    xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
       layer: chart.layer.key,
       chart: chart.key,
-      viewport: chart.viewport,
-      orderby: chart.orderby,
-      order: chart.order,
+      template: chart.query,
       filter: JSON.stringify(filter),
       srid: _xyz.mapview.srid,
       west: bounds && bounds.west,
@@ -43,6 +41,7 @@ export default _xyz => chart => {
       let chartElem = _xyz.dataview.charts.create({
         label: chart.key, 
         columns: chart.columns,
+        labels: chart.labels,
         fields: e.target.response, 
         chart: chart.chart
       });
@@ -58,7 +57,7 @@ export default _xyz => chart => {
 
   chart.activate = () => {
 
-    if (_xyz.dataview && _xyz.dataview.btn && _xyz.dataview.btn.dataViewport) {
+    /*if (_xyz.dataview && _xyz.dataview.btn && _xyz.dataview.btn.dataViewport) {
 
       if (chart.viewport) {
         _xyz.dataview.btn.dataViewport.classList.add('active');
@@ -67,8 +66,8 @@ export default _xyz => chart => {
         _xyz.dataview.btn.dataViewport.classList.remove('active');
       }
 
-      //_xyz.dataview.btn.dataViewport.style.display = 'block'; // not showing until design resolved
-    }
+      _xyz.dataview.btn.dataViewport.style.display = 'block'; // not showing until design resolved
+    }*/
 
     chart.update();
 

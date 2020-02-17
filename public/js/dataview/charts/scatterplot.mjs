@@ -16,19 +16,10 @@ export default _xyz => entry => {
     _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
   }
 
-  let data = [];
+  let data = entry.fields.map(d => {
 
-  let labels = Object.values(entry.columns).map(column => column.title),
-	    columns = Object.values(entry.columns).map(column => column.field);
-
-  let _label = columns[2],
-	    _x = columns[0],
-	    _y = columns[1];
-
-  entry.fields.map(d => {
-
-    data.push({
-      label: d[_label] || d.qid,
+    return {
+      label: d[entry.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || 'rgba(70, 99, 98, 0.3)',
       borderColor: entry.chart.borderColor || 'rgba(70, 99, 98, 0.3)',
@@ -36,11 +27,10 @@ export default _xyz => entry => {
       radius: entry.chart.radius,
       pointHoverRadius: entry.chart.pointHoverRadius ? entry.chart.pointHoverRadius : entry.chart.radius ? parseInt(entry.chart.radius)+2 : null,
       data: [{
-        x: d[_x],
-        y: d[_y]
+        x: d[entry.labels.x],
+        y: d[entry.labels.y]
       }]
-    });
-
+    }
   });
 
   let chart = new _xyz.utils.Chart(canvas, {
@@ -62,13 +52,13 @@ export default _xyz => entry => {
         xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: labels[0]
+            labelString: entry.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: labels[1]
+                		labelString: entry.labels.y
                 	}
         }]
       },

@@ -16,28 +16,18 @@ export default _xyz => entry => {
     _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
   }
 
-  let data = [];
+  let data = entry.fields.map(d => {
 
-  let labels = Object.values(entry.columns).map(column => column.title),
-	    columns = Object.values(entry.columns).map(column => column.field);
-
-  let _label = columns[3],
-	    _x = columns[0],
-	    _y = columns[1],
-	    _r = columns[2];
-
-  entry.fields.map(d => {
-
-    data.push({
-      label: d[_label] || d.qid,
+    return {
+      label: d[entry.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || random_rgba(),
       data: [{
-        x: d[_x],
-        y: d[_y],
-        r: d[_r]
+        x: d[entry.labels.x],
+        y: d[entry.labels.y],
+        r: d[entry.labels.r]
       }]
-    });
+    };
 
   });
 
@@ -60,13 +50,13 @@ export default _xyz => entry => {
     			xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: labels[0]
+            labelString: entry.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: labels[1]
+                		labelString: entry.labels.y
                 	}
         }]
       },
@@ -104,6 +94,5 @@ export default _xyz => entry => {
 
 function random_rgba() {
   var o = Math.round, r = Math.random, s = 255;
-  //return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
   return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ', 0.3)';
 }
