@@ -10,44 +10,30 @@ export default _xyz => (entry, callback) => {
 
   entry.update = () => {
 
-    if(!document.getElementById(entry.target_id)) entry.target.innerHTML = '';
+    entry.target.innerHTML = '';
+    // this destroys html in the app before refresh but shouldn't happen in report.
+    //if(!document.getElementById(entry.target_id)) entry.target.innerHTML = ''; 
 
-    let flex_container = _xyz.utils.wire()`<div 
-    style="display: flex; flex-wrap: wrap; position: relative; padding: 20px;">`;
+    Object.values(entry.dataviews || []).map(dataview => {
 
-    entry.target.appendChild(flex_container);
-
-    Object.values(entry.location.infoj).map(val => {
-
-      if(val.type === 'group' && val.chart && val.dashboard && entry.title === val.dashboard){
-
-        entry.group = val;
-
-        entry.group.fields = entry.location.infoj.filter(_entry => _entry.group === entry.group.label);
-
-        let chartElem = _xyz.dataview.charts.create(entry.group);
-
-        if(!chartElem || !chartElem.style) return;
-
-        flex_container.appendChild(chartElem);
-
-      }
-
-      if(val.type === 'pgFunction' && val.dashboard && entry.title === val.dashboard) {
-
-       _xyz.dataview.pgFunction({
-          entry: val, 
-          container: document.getElementById(entry.target_id) || flex_container
-        });
+      dataview.dataview = _xyz.utils.wire()`<div>`;
       
-      }
+      _xyz.locations.view.dataview(Object.assign({
+        location: {
+          layer: {
+            key: entry.location.layer.key
+          },
+          id: entry.location.id
+        }
+      }, dataview));
+
+      document.querySelector('.tab-content').appendChild(dataview.dataview);
+    
     });
 
   };
 
   entry.activate = () => {
-
-    console.log('activate dashboard');
 
     entry.update();
 

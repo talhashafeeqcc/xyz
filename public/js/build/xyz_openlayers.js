@@ -123289,63 +123289,30 @@ function panel(layer) {
       continue
     }
 
-        // Create a new info group.
     if (entry.type === 'dataview') {
 
-      //location.groups[entry.label] = entry;
       entry.td = _xyz.utils.wire()`<td colSpan=2>`;
 
-      entry.row.appendChild(entry.td);
+      entry.dataview = _xyz.utils.wire()`<div>`;
 
       _xyz.locations.view.dataview(entry);
+
+      entry.td.appendChild(entry.dataview);
+
+      entry.row.appendChild(entry.td);
             
       listview.appendChild(entry.row);
       
       continue
     }
 
-    // Create a new info group.
-    if (entry.type === 'group') {
-
-      location.groups[entry.label] = entry;
-
-      _xyz.locations.view.group(entry);
-            
-      listview.appendChild(location.groups[entry.label].row);
-      continue
-    }
-
     // Create entry.row inside previously created group.
     if (entry.group && location.groups[entry.group]){ 
-
-      if(entry.dataset || entry.stack){
-
-        let
-          dataset_row = _xyz.utils.wire()`<tr class=${'lv-' + (entry.level || 0) + ' ' + (entry.class || '')}>`,
-          dataset_label = _xyz.utils.wire()`<td class="label" colspan=2 style="color: #777;">`;
-
-        if(entry.dataset && entry.dataset !== dataset){
-          if(entry.skip) continue
-          dataset_label.textContent = entry.dataset;
-          dataset_row.appendChild(dataset_label);
-          location.groups[entry.group].table.appendChild(dataset_row);
-          dataset = entry.dataset;
-        }
-
-        if(entry.stack && entry.stack !== dataset){
-          dataset_label.textContent = entry.stack;
-          dataset_row.appendChild(dataset_label);
-          location.groups[entry.group].table.appendChild(dataset_row);
-          dataset = entry.stack;
-        }
-
-      }
 
       if(location.groups[entry.group].table) location.groups[entry.group].table.appendChild(entry.row);
       if(location.groups[entry.group].div) location.groups[entry.group].div.style.display = 'block';
 
     }
-
 
     // Create new table cell for the entry label and append to table.
     if (entry.label) {
@@ -123436,10 +123403,10 @@ function panel(layer) {
       continue
     }
 
-    /*if (entry.type === 'dashboard') {
+    if (entry.type === 'dashboard') {
       _xyz.locations.view.dashboard(entry);
       continue
-    }*/
+    }
 
 
     // prevent clusterArea from firing if layer is not cluster
@@ -124945,21 +124912,38 @@ function panel(layer) {
 
         if (e.target.status !== 200) return;
 
-        // get data from response based on fields setup
-        Object.values(entry.datasets).map(dataset => {
+        if(entry.chart) {        
+            // get data from response based on fields setup
+            Object.values(entry.chart.datasets || []).map(dataset => {
 
-          dataset.data = [];
-            
-            dataset.fields
-            .map(f => { 
-              Array.isArray(e.target.response[f]) ? dataset.data = e.target.response[f] : dataset.data.push(Number(e.target.response[f]));
+                dataset.data = [];
+
+                dataset.fields
+                .map(f => { 
+                    Array.isArray(e.target.response[f]) ? dataset.data = e.target.response[f] : dataset.data.push(Number(e.target.response[f]));
+                });
             });
 
-        });
+            const dataview = _xyz.dataview.charts.create(entry);
 
-        entry.dataview = _xyz.dataview.charts.create(entry);
+            entry.dataview.appendChild(dataview);
+        }
 
-        entry.td.appendChild(entry.dataview);
+        if(entry.columns) {
+
+            entry.Tabulator = new _xyz.utils.Tabulator(entry.dataview, {
+                invalidOptionWarnings: false,
+                tooltipsHeader: true,
+                columnHeaderVertAlign: 'center',
+                columns: entry.columns,
+                layout: entry.layout || 'fitDataFill',
+                height: 'auto'
+            });
+
+            entry.Tabulator.setData(e.target.response);
+            entry.Tabulator.redraw(true);
+
+        }
 
         return entry;
     }
@@ -125598,13 +125582,13 @@ function panel(layer) {
   let data = entry.fields.map(d => {
 
     return {
-      label: d[entry.labels.label] || d.qid,
+      label: d[entry.chart.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || random_rgba(),
       data: [{
-        x: d[entry.labels.x],
-        y: d[entry.labels.y],
-        r: d[entry.labels.r]
+        x: d[entry.chart.labels.x],
+        y: d[entry.chart.labels.y],
+        r: d[entry.chart.labels.r]
       }]
     };
 
@@ -125629,13 +125613,13 @@ function panel(layer) {
     			xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: entry.labels.x
+            labelString: entry.chart.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: entry.labels.y
+                		labelString: entry.chart.labels.y
                 	}
         }]
       },
@@ -125697,8 +125681,8 @@ function random_rgba() {
   new _xyz.utils.Chart(canvas, {
     	type: entry.chart.type,
     	data: {
-    		labels: entry.labels,
-    		datasets: entry.datasets  		
+    		labels: entry.chart.labels,
+    		datasets: entry.chart.datasets  		
     	},
     	options: {
     		cutoutPercentage: entry.chart.type === 'doughnut' ? (entry.chart.cutoutPercentage || 50) : null,
@@ -125755,8 +125739,8 @@ function random_rgba() {
   new _xyz.utils.Chart(canvas, {
     type: 'radar',
     data: {
-      labels: entry.labels,
-      datasets: entry.datasets
+      labels: entry.chart.labels,
+      datasets: entry.chart.datasets
     },
     options: {
       title: {
@@ -125801,8 +125785,8 @@ function random_rgba() {
   new _xyz.utils.Chart(canvas, {
     	type: 'polarArea',
     	data: {
-    		labels: entry.labels,
-    		datasets: entry.datasets  		
+    		labels: entry.chart.labels,
+    		datasets: entry.chart.datasets  		
     	},
     	options: {
     		layout: {
@@ -125866,7 +125850,7 @@ function random_rgba() {
   let data = entry.fields.map(d => {
 
     return {
-      label: d[entry.labels.label] || d.qid,
+      label: d[entry.chart.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || 'rgba(70, 99, 98, 0.3)',
       borderColor: entry.chart.borderColor || 'rgba(70, 99, 98, 0.3)',
@@ -125874,8 +125858,8 @@ function random_rgba() {
       radius: entry.chart.radius,
       pointHoverRadius: entry.chart.pointHoverRadius ? entry.chart.pointHoverRadius : entry.chart.radius ? parseInt(entry.chart.radius)+2 : null,
       data: [{
-        x: d[entry.labels.x],
-        y: d[entry.labels.y]
+        x: d[entry.chart.labels.x],
+        y: d[entry.chart.labels.y]
       }]
     }
   });
@@ -125899,13 +125883,13 @@ function random_rgba() {
         xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: entry.labels.x
+            labelString: entry.chart.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: entry.labels.y
+                		labelString: entry.chart.labels.y
                 	}
         }]
       },
@@ -125963,7 +125947,7 @@ function random_rgba() {
     }
 
     //Apply offsetX
-    entry.datasets && entry.chart.offsetX && entry.datasets.map(dataset => {
+    entry.chart.datasets && entry.chart.offsetX && entry.chart.datasets.map(dataset => {
       dataset.data = dataset.data.map(d => { return d + (entry.chart.offsetX || 0) });
     });
 
@@ -125973,7 +125957,7 @@ function random_rgba() {
         let bgColors = [],
             bdColors = [];
 
-        Object.values(entry.datasets).map(dataset => {
+        Object.values(entry.chart.datasets).map(dataset => {
 
             dataset.data.map(d => {
                 d > 0 ? bgColors.push(entry.chart.backgroundColor || _xyz.dataview.charts.fallbackStyle.backgroundColor) : bgColors.push(entry.chart.negativeBackgroundColor || _xyz.dataview.charts.fallbackStyle.borderColor);
@@ -125992,7 +125976,7 @@ function random_rgba() {
 
         _xyz.utils.Chart.defaults.global.plugins.datalabels.display = true;
 
-        Object.values(entry.datasets).map(dataset => {
+        Object.values(entry.chart.datasets).map(dataset => {
 
             dataset.datalabels = {
                 align: 'right',
@@ -126015,8 +125999,8 @@ function random_rgba() {
     new _xyz.utils.Chart(canvas, {
         type: entry.chart.type,
         data: {
-            labels: entry.labels || [],
-            datasets: entry.datasets
+            labels: entry.chart.labels || [],
+            datasets: entry.chart.datasets
         },
         options: {
             layout: entry.chart.layout ? entry.chart.layout : null,
@@ -126101,8 +126085,8 @@ function random_rgba() {
   new _xyz.utils.Chart(canvas, {
     	type: chartType,
     	data: {
-    		labels: entry.labels,
-    		datasets: entry.datasets
+    		labels: entry.chart.labels,
+    		datasets: entry.chart.datasets
     	},
     	options: {
     		title: {
@@ -126573,44 +126557,30 @@ function random_rgba() {
 
   entry.update = () => {
 
-    if(!document.getElementById(entry.target_id)) entry.target.innerHTML = '';
+    entry.target.innerHTML = '';
+    // this destroys html in the app before refresh but shouldn't happen in report.
+    //if(!document.getElementById(entry.target_id)) entry.target.innerHTML = ''; 
 
-    let flex_container = _xyz.utils.wire()`<div 
-    style="display: flex; flex-wrap: wrap; position: relative; padding: 20px;">`;
+    Object.values(entry.dataviews || []).map(dataview => {
 
-    entry.target.appendChild(flex_container);
-
-    Object.values(entry.location.infoj).map(val => {
-
-      if(val.type === 'group' && val.chart && val.dashboard && entry.title === val.dashboard){
-
-        entry.group = val;
-
-        entry.group.fields = entry.location.infoj.filter(_entry => _entry.group === entry.group.label);
-
-        let chartElem = _xyz.dataview.charts.create(entry.group);
-
-        if(!chartElem || !chartElem.style) return;
-
-        flex_container.appendChild(chartElem);
-
-      }
-
-      if(val.type === 'pgFunction' && val.dashboard && entry.title === val.dashboard) {
-
-       _xyz.dataview.pgFunction({
-          entry: val, 
-          container: document.getElementById(entry.target_id) || flex_container
-        });
+      dataview.dataview = _xyz.utils.wire()`<div>`;
       
-      }
+      _xyz.locations.view.dataview(Object.assign({
+        location: {
+          layer: {
+            key: entry.location.layer.key
+          },
+          id: entry.location.id
+        }
+      }, dataview));
+
+      document.querySelector('.tab-content').appendChild(dataview.dataview);
+    
     });
 
   };
 
   entry.activate = () => {
-
-    console.log('activate dashboard');
 
     entry.update();
 

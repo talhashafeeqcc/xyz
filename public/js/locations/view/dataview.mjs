@@ -21,21 +21,38 @@ export default _xyz => entry => {
 
         if (e.target.status !== 200) return;
 
-        // get data from response based on fields setup
-        Object.values(entry.chart.datasets || []).map(dataset => {
+        if(entry.chart) {        
+            // get data from response based on fields setup
+            Object.values(entry.chart.datasets || []).map(dataset => {
 
-          dataset.data = [];
-            
-            dataset.fields
-            .map(f => { 
-              Array.isArray(e.target.response[f]) ? dataset.data = e.target.response[f] : dataset.data.push(Number(e.target.response[f]));
+                dataset.data = [];
+
+                dataset.fields
+                .map(f => { 
+                    Array.isArray(e.target.response[f]) ? dataset.data = e.target.response[f] : dataset.data.push(Number(e.target.response[f]));
+                });
             });
 
-        });
+            const dataview = _xyz.dataview.charts.create(entry);
 
-        const dataview = _xyz.dataview.charts.create(entry);
+            entry.dataview.appendChild(dataview);
+        }
 
-        entry.dataview.appendChild(dataview);
+        if(entry.columns) {
+
+            entry.Tabulator = new _xyz.utils.Tabulator(entry.dataview, {
+                invalidOptionWarnings: false,
+                tooltipsHeader: true,
+                columnHeaderVertAlign: 'center',
+                columns: entry.columns,
+                layout: entry.layout || 'fitDataFill',
+                height: 'auto'
+            });
+
+            entry.Tabulator.setData(e.target.response);
+            entry.Tabulator.redraw(true);
+
+        }
 
         return entry;
     }
