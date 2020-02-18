@@ -22,7 +22,7 @@ export default _xyz => entry => {
         if (e.target.status !== 200) return;
 
         // get data from response based on fields setup
-        Object.values(entry.datasets).map(dataset => {
+        Object.values(entry.chart.datasets).map(dataset => {
 
           dataset.data = [];
             
@@ -33,9 +33,9 @@ export default _xyz => entry => {
 
         });
 
-        entry.dataview = _xyz.dataview.charts.create(entry);
+        const dataview = _xyz.dataview.charts.create(entry);
 
-        entry.td.appendChild(entry.dataview);
+        entry.dataview.appendChild(dataview);
 
         return entry;
     }
