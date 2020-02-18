@@ -22,7 +22,7 @@ export default _xyz => entry => {
         if (e.target.status !== 200) return;
 
         // get data from response based on fields setup
-        Object.values(entry.chart.datasets).map(dataset => {
+        Object.values(entry.chart.datasets || []).map(dataset => {
 
           dataset.data = [];
             
