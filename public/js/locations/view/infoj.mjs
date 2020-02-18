@@ -64,63 +64,30 @@ export default _xyz => location => {
       continue
     }
 
-        // Create a new info group.
     if (entry.type === 'dataview') {
 
-      //location.groups[entry.label] = entry;
       entry.td = _xyz.utils.wire()`<td colSpan=2>`;
 
-      entry.row.appendChild(entry.td);
+      entry.dataview = _xyz.utils.wire()`<div>`;
 
       _xyz.locations.view.dataview(entry);
+
+      entry.td.appendChild(entry.dataview);
+
+      entry.row.appendChild(entry.td);
             
       listview.appendChild(entry.row);
       
       continue
     }
 
-    // Create a new info group.
-    if (entry.type === 'group') {
-
-      location.groups[entry.label] = entry;
-
-      _xyz.locations.view.group(entry);
-            
-      listview.appendChild(location.groups[entry.label].row);
-      continue
-    }
-
     // Create entry.row inside previously created group.
     if (entry.group && location.groups[entry.group]){ 
-
-      if(entry.dataset || entry.stack){
-
-        let
-          dataset_row = _xyz.utils.wire()`<tr class=${'lv-' + (entry.level || 0) + ' ' + (entry.class || '')}>`,
-          dataset_label = _xyz.utils.wire()`<td class="label" colspan=2 style="color: #777;">`;
-
-        if(entry.dataset && entry.dataset !== dataset){
-          if(entry.skip) continue
-          dataset_label.textContent = entry.dataset;
-          dataset_row.appendChild(dataset_label);
-          location.groups[entry.group].table.appendChild(dataset_row);
-          dataset = entry.dataset;
-        }
-
-        if(entry.stack && entry.stack !== dataset){
-          dataset_label.textContent = entry.stack;
-          dataset_row.appendChild(dataset_label);
-          location.groups[entry.group].table.appendChild(dataset_row);
-          dataset = entry.stack;
-        }
-
-      }
 
       if(location.groups[entry.group].table) location.groups[entry.group].table.appendChild(entry.row);
       if(location.groups[entry.group].div) location.groups[entry.group].div.style.display = 'block';
 
     }
-
 
     // Create new table cell for the entry label and append to table.
     if (entry.label) {
@@ -211,10 +178,10 @@ export default _xyz => location => {
       continue
     }
 
-    /*if (entry.type === 'dashboard') {
+    if (entry.type === 'dashboard') {
       _xyz.locations.view.dashboard(entry);
       continue
-    }*/
+    }
 
 
     // prevent clusterArea from firing if layer is not cluster
