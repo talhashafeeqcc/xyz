@@ -19,13 +19,13 @@ export default _xyz => entry => {
   let data = entry.fields.map(d => {
 
     return {
-      label: d[entry.labels.label] || d.qid,
+      label: d[entry.chart.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || random_rgba(),
       data: [{
-        x: d[entry.labels.x],
-        y: d[entry.labels.y],
-        r: d[entry.labels.r]
+        x: d[entry.chart.labels.x],
+        y: d[entry.chart.labels.y],
+        r: d[entry.chart.labels.r]
       }]
     };
 
@@ -50,13 +50,13 @@ export default _xyz => entry => {
     			xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: entry.labels.x
+            labelString: entry.chart.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: entry.labels.y
+                		labelString: entry.chart.labels.y
                 	}
         }]
       },

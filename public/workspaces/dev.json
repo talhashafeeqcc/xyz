@@ -1052,13 +1052,13 @@
                         "Retail strength": {
                             "display": false,
                             "chart": {
-                                "type": "bubble"
-                            },
-                            "labels": {
-                                "x": "est_units",
-                                "y": "est_brands",
-                                "r": "comp_strgh",
-                                "label": "rp_name"
+                                "type": "bubble",
+                                "labels": {
+                                    "x": "est_units",
+                                    "y": "est_brands",
+                                    "r": "comp_strgh",
+                                    "label": "rp_name"
+                                }
                             },
                             "query": "UK RP Retail Strength Layer Chart"
                         },
@@ -1067,12 +1067,12 @@
                             "chart": {
                                 "type": "scatter",
                                 "pointStyle": "triangle",
-                                "radius": 10
-                            },
-                            "labels": {
-                                "x": "fbl",
-                                "y": "services",
-                                "label": "rp_name"
+                                "radius": 10,
+                                "labels": {
+                                    "x": "fbl",
+                                    "y": "services",
+                                    "label": "rp_name"
+                                }
                             },
                             "query": "UK RP Services share Layer Chart"
                         }

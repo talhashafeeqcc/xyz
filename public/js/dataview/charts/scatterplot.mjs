@@ -19,7 +19,7 @@ export default _xyz => entry => {
   let data = entry.fields.map(d => {
 
     return {
-      label: d[entry.labels.label] || d.qid,
+      label: d[entry.chart.labels.label] || d.qid,
       id: d.qid,
       backgroundColor: entry.chart.backgroundColor || 'rgba(70, 99, 98, 0.3)',
       borderColor: entry.chart.borderColor || 'rgba(70, 99, 98, 0.3)',
@@ -27,8 +27,8 @@ export default _xyz => entry => {
       radius: entry.chart.radius,
       pointHoverRadius: entry.chart.pointHoverRadius ? entry.chart.pointHoverRadius : entry.chart.radius ? parseInt(entry.chart.radius)+2 : null,
       data: [{
-        x: d[entry.labels.x],
-        y: d[entry.labels.y]
+        x: d[entry.chart.labels.x],
+        y: d[entry.chart.labels.y]
       }]
     }
   });
@@ -52,13 +52,13 @@ export default _xyz => entry => {
         xAxes: [{
     				scaleLabel: {
     					display: true,
-            labelString: entry.labels.x
+            labelString: entry.chart.labels.x
           }
         }],
         yAxes: [{
                 	scaleLabel: {
                 		display: true,
-                		labelString: entry.labels.y
+                		labelString: entry.chart.labels.y
                 	}
         }]
       },
