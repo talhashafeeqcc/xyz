@@ -1376,28 +1376,28 @@
                             "query": "RP_Profile",
                             "chart": {
                                 "type": "horizontalBar",
-                                "yAxesWidth": 80
-                            },
-                            "labels": ["Comparison", "Convenience", "F/B/L", "Services", "Class/Brass"],
-                            "datasets": [
-                                {
-                                    "fields": ["comparison", "conv", "fbl", "services", "classbrass"],
-                                    "backgroundColor": [
-                                        "#FFA630",
-                                        "#C6DEA6",
-                                        "#7EBDC3",
-                                        "#7A6263",
-                                        "#CED097"
-                                    ],
-                                    "borderColor": [
-                                        "#FFA630",
-                                        "#C6DEA6",
-                                        "#7EBDC3",
-                                        "#7A6263",
-                                        "#CED097"
-                                    ]
-                                }
-                            ]
+                                "yAxesWidth": 80,
+                                "labels": ["Comparison", "Convenience", "F/B/L", "Services", "Class/Brass"],
+                                "datasets": [
+                                    {
+                                        "fields": ["comparison", "conv", "fbl", "services", "classbrass"],
+                                        "backgroundColor": [
+                                            "#FFA630",
+                                            "#C6DEA6",
+                                            "#7EBDC3",
+                                            "#7A6263",
+                                            "#CED097"
+                                        ],
+                                        "borderColor": [
+                                            "#FFA630",
+                                            "#C6DEA6",
+                                            "#7EBDC3",
+                                            "#7A6263",
+                                            "#CED097"
+                                        ]
+                                    }
+                                ]
+                            }
                         },
                         {
                             "label": "Profile",
@@ -2128,25 +2128,25 @@
                                 "title": true,
                                 "legend": true,
                                 "legendPosition": "bottom",
-                                "responsive": true
-                            },
-                            "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
-                            "datasets": [
-                                {
-                                    "fields": ["random1", "random2", "random3", "random4", "random5"],
-                                    "label": "Serie 1",
-                                    "backgroundColor": "rgba(192, 117, 205, 0.3)",
-                                    "borderColor": "#4a148c",
-                                    "datalabels": {}
-                                },
-                                {
-                                    "fields": ["rev_random1", "rev_random2", "rev_random3", "rev_random4", "rev_random5"],
-                                    "label": "Serie 2",
-                                    "type": "line",
-                                    "backgroundColor": "rgba(255, 167, 38, 0.3)",
-                                    "borderColor": "#e65100"
-                                }
-                            ]
+                                "responsive": true,
+                                "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
+                                "datasets": [
+                                    {
+                                        "fields": ["random1", "random2", "random3", "random4", "random5"],
+                                        "label": "Serie 1",
+                                        "backgroundColor": "rgba(192, 117, 205, 0.3)",
+                                        "borderColor": "#4a148c",
+                                        "datalabels": {}
+                                    },
+                                    {
+                                        "fields": ["rev_random1", "rev_random2", "rev_random3", "rev_random4", "rev_random5"],
+                                        "label": "Serie 2",
+                                        "type": "line",
+                                        "backgroundColor": "rgba(255, 167, 38, 0.3)",
+                                        "borderColor": "#e65100"
+                                    }
+                                ]
+                            }
                         },
                         {
                             "label": "Doughnut or Radar Chart",
@@ -2156,27 +2156,27 @@
                                 "title": false,
                                 "legend": true,
                                 "type": "radar",
-                                "cutoutPercentage": 36
-                            },
-                            "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
-                            "datasets": [
-                                {
-                                    "fields": ["random1", "random2", "random3", "random4", "random5"],
-                                    "backgroundColor": "rgba(192, 117, 205, 0.3)",
-                                    "borderColor": "#4a148c",
-                                    "backgroundColor": [
-                                        "rgba(229, 99 , 153, 0.4)",
-                                        "rgba(0, 167, 225, 0.4)",
-                                        "rgba(237, 222, 164, 0.4)",
-                                        "rgba(247, 160 ,114, 0.4)",
-                                        "rgba(255, 155, 66, 0.4)"
-                                    ],
-                                    "label": "Serie 1",
-                                    "borderColor": "#C0B4A7",
-                                    "spanGaps": true,
-                                    "lineTension": 0.5
-                                }
-                            ]
+                                "cutoutPercentage": 36,
+                                "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
+                                "datasets": [
+                                    {
+                                        "fields": ["random1", "random2", "random3", "random4", "random5"],
+                                        "backgroundColor": "rgba(192, 117, 205, 0.3)",
+                                        "borderColor": "#4a148c",
+                                        "backgroundColor": [
+                                            "rgba(229, 99 , 153, 0.4)",
+                                            "rgba(0, 167, 225, 0.4)",
+                                            "rgba(237, 222, 164, 0.4)",
+                                            "rgba(247, 160 ,114, 0.4)",
+                                            "rgba(255, 155, 66, 0.4)"
+                                        ],
+                                        "label": "Serie 1",
+                                        "borderColor": "#C0B4A7",
+                                        "spanGaps": true,
+                                        "lineTension": 0.5
+                                    }
+                                ]
+                            }
                         },
                         {
                             "label": "Stacked Chart",
@@ -2186,35 +2186,35 @@
                                 "type": "stackedHorizontalBar",
                                 "title": true,
                                 "legend": true,
-                                "legendPosition": "right"
-                            },
-                            "labels": ["Actual Sales", "Model Sales"],
-                            "datasets": [
-                                {
-                                    "label": "Activity 1",
-                                    "fields": ["actual_sales_activity1", "model_sales_activity1"],
-                                    "backgroundColor": "#FFA630",
-                                    "borderColor": "#FFA630"
-                                },
-                                {
-                                    "label": "Activity 2",
-                                    "fields": ["actual_sales_activity2", "model_sales_activity2"],
-                                    "backgroundColor": "#0B9800",
-                                    "borderColor": "#0B9800"
-                                },
-                                {
-                                    "label": "Activity 3",
-                                    "fields": ["actual_sales_activity3", "model_sales_activity3"],
-                                    "backgroundColor": "#C6DEA6",
-                                    "borderColor": "#C6DEA6"
-                                },
-                                {
-                                    "label": "Activity 4",
-                                    "fields": ["actual_sales_activity4", "model_sales_activity4"],
-                                    "backgroundColor": "#EC8394",
-                                    "borderColor": "#EC8394"
-                                }
-                            ]
+                                "legendPosition": "right",
+                                "labels": ["Actual Sales", "Model Sales"],
+                                "datasets": [
+                                    {
+                                        "label": "Activity 1",
+                                        "fields": ["actual_sales_activity1", "model_sales_activity1"],
+                                        "backgroundColor": "#FFA630",
+                                        "borderColor": "#FFA630"
+                                    },
+                                    {
+                                        "label": "Activity 2",
+                                        "fields": ["actual_sales_activity2", "model_sales_activity2"],
+                                        "backgroundColor": "#0B9800",
+                                        "borderColor": "#0B9800"
+                                    },
+                                    {
+                                        "label": "Activity 3",
+                                        "fields": ["actual_sales_activity3", "model_sales_activity3"],
+                                        "backgroundColor": "#C6DEA6",
+                                        "borderColor": "#C6DEA6"
+                                    },
+                                    {
+                                        "label": "Activity 4",
+                                        "fields": ["actual_sales_activity4", "model_sales_activity4"],
+                                        "backgroundColor": "#EC8394",
+                                        "borderColor": "#EC8394"
+                                    }
+                                ]
+                            }
                         },
                         {
                             "label": "Random data series",

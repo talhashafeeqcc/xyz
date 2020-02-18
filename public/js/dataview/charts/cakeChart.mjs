@@ -19,8 +19,8 @@ export default _xyz => entry => {
   new _xyz.utils.Chart(canvas, {
     	type: entry.chart.type,
     	data: {
-    		labels: entry.labels,
-    		datasets: entry.datasets  		
+    		labels: entry.chart.labels,
+    		datasets: entry.chart.datasets  		
     	},
     	options: {
     		cutoutPercentage: entry.chart.type === 'doughnut' ? (entry.chart.cutoutPercentage || 50) : null,

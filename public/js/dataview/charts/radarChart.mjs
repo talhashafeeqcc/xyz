@@ -19,8 +19,8 @@ export default _xyz => entry => {
   new _xyz.utils.Chart(canvas, {
     type: 'radar',
     data: {
-      labels: entry.labels,
-      datasets: entry.datasets
+      labels: entry.chart.labels,
+      datasets: entry.chart.datasets
     },
     options: {
       title: {
