@@ -123245,9 +123245,6 @@ function panel(layer) {
   // Create object to hold view groups.
   location.groups = {};
 
-  // watch for group/chart data series and stacks
-  let dataset;
-
   // Iterate through info fields and add to info table.
   for (const entry of location.infoj) {
 
@@ -124926,6 +124923,8 @@ function panel(layer) {
 
             const dataview = _xyz.dataview.charts.create(entry);
 
+            entry.dataview.innerHTML = '';
+
             entry.dataview.appendChild(dataview);
         }
 
@@ -126573,6 +126572,8 @@ function random_rgba() {
           id: entry.location.id
         }
       }, dataview));
+
+      console.log('add dataview to dashboard ' + (entry.title || entry.label));
 
       document.querySelector('.tab-content').appendChild(dataview.dataview);
     

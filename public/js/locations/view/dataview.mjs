@@ -35,6 +35,8 @@ export default _xyz => entry => {
 
             const dataview = _xyz.dataview.charts.create(entry);
 
+            entry.dataview.innerHTML = '';
+
             entry.dataview.appendChild(dataview);
         }
 

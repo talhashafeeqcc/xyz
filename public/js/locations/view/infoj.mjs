@@ -20,9 +20,6 @@ export default _xyz => location => {
   // Create object to hold view groups.
   location.groups = {};
 
-  // watch for group/chart data series and stacks
-  let dataset;
-
   // Iterate through info fields and add to info table.
   for (const entry of location.infoj) {
 
