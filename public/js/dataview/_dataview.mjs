@@ -18,8 +18,6 @@ import tableContainer from './tableContainer.mjs';
 
 import resizeObserve from './resizeObserve.mjs';
 
-import pgFunction from './pgFunction.mjs';
-
 export default _xyz => {
 
   return {
@@ -44,9 +42,7 @@ export default _xyz => {
 
     tableContainer: tableContainer(_xyz),
 
-    resizeObserve: resizeObserve(_xyz),
-
-    pgFunction: pgFunction(_xyz)
+    resizeObserve: resizeObserve(_xyz)
 
   };
     
