@@ -71342,7 +71342,7 @@ module.exports = function(module) {
 
 /***/ "./public/js/index.mjs":
 /*!*******************************************!*\
-  !*** ./public/js/index.mjs + 352 modules ***!
+  !*** ./public/js/index.mjs + 351 modules ***!
   \*******************************************/
 /*! exports provided: default */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@turf/kinks/index.js (<- Module is not an ECMAScript module) */
@@ -124412,11 +124412,14 @@ function panel(layer) {
 
     const xhr = new XMLHttpRequest();
 
-    const range = entry.edit.isoline_here.rangetype === 'time' ?
+    const range = entry.edit.isoline_here.rangetype === 'time' || !entry.edit.isoline_here.rangetype ?
     (entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes || 10) * 60 || 600 :
     entry.edit.isoline_here.rangetype === 'distance' ?
       (entry.edit.isoline_here._distance || 1) * 1000 || 1000 :
-      600
+      600;
+
+    console.log(entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes || 10);
+    console.log(range);
 
     xhr.open('GET', _xyz.host + '/api/provider/here?' +
       _xyz.utils.paramString({
@@ -124427,6 +124430,15 @@ function panel(layer) {
         rangetype: entry.edit.isoline_here.rangetype || 'time',
         token: _xyz.token
       }));
+
+    console.log({
+        url: 'isoline.route.api.here.com/routing/7.2/calculateisoline.json?',
+        mode: `${entry.edit.isoline_here.type || 'fastest'};${entry.edit.isoline_here.mode || 'car'};traffic:disabled`,
+        start: `geo!${origin.join(',')}`,
+        range: range,
+        rangetype: entry.edit.isoline_here.rangetype || 'time',
+        token: _xyz.token
+      });
 
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = 'json';
@@ -126573,8 +126585,6 @@ function random_rgba() {
         }
       }, dataview));
 
-      console.log('add dataview to dashboard ' + (entry.title || entry.label));
-
       document.querySelector('.tab-content').appendChild(dataview.dataview);
     
     });
@@ -126963,57 +126973,7 @@ function random_rgba() {
     }
   }
 });
-// CONCATENATED MODULE: ./public/js/dataview/pgFunction.mjs
-/* harmony default export */ var pgFunction = (_xyz => param => {
-
-  if (!param.entry || !param.entry.location) return;
-
-  const xhr = new XMLHttpRequest();
-
-  xhr.open('GET', _xyz.host + '/api/location/pgfunction?' + _xyz.utils.paramString({
-    locale: _xyz.workspace.locale.key,
-    layer: param.entry.location.layer.key,
-    id: param.entry.location.id,
-    pgFunction: param.entry.pgFunction,
-    token: _xyz.token
-  }));
-
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.responseType = 'json';
-
-  xhr.onprogress = e => {
-    // put a spinner here or something?
-  }
-
-  xhr.onload = e => {
-
-    if (e.target.status !== 200) return;
-
-    param.entry.fields = e.target.response;
-  
-    if(param.entry.chart){
-
-      let chartElem = _xyz.dataview.charts.create(param.entry);
-
-      if(!chartElem || !chartElem.style) return;
-
-      param.container.appendChild(chartElem);
-    
-    } else {
-
-      console.log("Content not displayed in DOM");
-      console.log(param.entry);
-    }
-  
-  }
-
-  xhr.send();
-
-});
-
 // CONCATENATED MODULE: ./public/js/dataview/_dataview.mjs
-
-
 
 
 
@@ -127058,9 +127018,7 @@ function random_rgba() {
 
     tableContainer: tableContainer(_xyz),
 
-    resizeObserve: resizeObserve(_xyz),
-
-    pgFunction: pgFunction(_xyz)
+    resizeObserve: resizeObserve(_xyz)
 
   };
     

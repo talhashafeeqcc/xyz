@@ -156,11 +156,11 @@ export default _xyz => {
 
     const xhr = new XMLHttpRequest();
 
-    const range = entry.edit.isoline_here.rangetype === 'time' ?
+    const range = entry.edit.isoline_here.rangetype === 'time' || !entry.edit.isoline_here.rangetype ?
     (entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes || 10) * 60 || 600 :
     entry.edit.isoline_here.rangetype === 'distance' ?
       (entry.edit.isoline_here._distance || 1) * 1000 || 1000 :
-      600
+      600;
 
     xhr.open('GET', _xyz.host + '/api/provider/here?' +
       _xyz.utils.paramString({
