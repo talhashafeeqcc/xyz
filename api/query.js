@@ -36,9 +36,11 @@ async function handler(req, res) {
 
   const params = req.query || {};
 
-  if (template.admin_user && !token) return res.status(401).send('Insuficcient priviliges.')
+  if(!template) console.log(`Template ${req.query.template} not found`);
 
-  if (template.admin_workspace && !token) return res.status(401).send('Insuficcient priviliges.')
+  if (template.admin_user && !token) return res.status(401).send('Insuficient privileges.')
+
+  if (template.admin_workspace && !token) return res.status(401).send('Insuficient privileges.')
 
   if (req.query.locale && req.query.layer) {
 

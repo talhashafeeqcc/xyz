@@ -42,6 +42,8 @@ export default _xyz => entry => {
 
         if(entry.columns) {
 
+            entry.dataview.innerHTML = '';
+
             entry.Tabulator = new _xyz.utils.Tabulator(entry.dataview, {
                 invalidOptionWarnings: false,
                 tooltipsHeader: true,

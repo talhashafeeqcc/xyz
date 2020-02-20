@@ -10,7 +10,7 @@ module.exports = async (req, res, fns, _auth) => {
 
         if (await fn(req, res) instanceof Error) {
           console.error(err)
-          res.status(500).send('RUH ROH')
+          res.status(500).send({"msg": "Content not found.", "err": err})
         }
 
         if (res.finished) return
@@ -18,7 +18,7 @@ module.exports = async (req, res, fns, _auth) => {
     } catch (err) {
 
       console.error(err)
-      res.status(500).send('RUH ROH')
+      res.status(500).send({"msg": "Content not found.", "err": err})
     }
 
   }

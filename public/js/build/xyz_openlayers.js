@@ -124418,9 +124418,6 @@ function panel(layer) {
       (entry.edit.isoline_here._distance || 1) * 1000 || 1000 :
       600;
 
-    console.log(entry.edit.isoline_here._minutes || entry.edit.isoline_here.minutes || 10);
-    console.log(range);
-
     xhr.open('GET', _xyz.host + '/api/provider/here?' +
       _xyz.utils.paramString({
         url: 'isoline.route.api.here.com/routing/7.2/calculateisoline.json?',
@@ -124430,15 +124427,6 @@ function panel(layer) {
         rangetype: entry.edit.isoline_here.rangetype || 'time',
         token: _xyz.token
       }));
-
-    console.log({
-        url: 'isoline.route.api.here.com/routing/7.2/calculateisoline.json?',
-        mode: `${entry.edit.isoline_here.type || 'fastest'};${entry.edit.isoline_here.mode || 'car'};traffic:disabled`,
-        start: `geo!${origin.join(',')}`,
-        range: range,
-        rangetype: entry.edit.isoline_here.rangetype || 'time',
-        token: _xyz.token
-      });
 
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = 'json';
@@ -124941,6 +124929,8 @@ function panel(layer) {
         }
 
         if(entry.columns) {
+
+            entry.dataview.innerHTML = '';
 
             entry.Tabulator = new _xyz.utils.Tabulator(entry.dataview, {
                 invalidOptionWarnings: false,
@@ -126569,25 +126559,70 @@ function random_rgba() {
   entry.update = () => {
 
     entry.target.innerHTML = '';
+
+    if(entry.template) {
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.open('GET', _xyz.host + '/view/' + encodeURIComponent(entry.template) + '?' + _xyz.utils.paramString({
+
+        locale: _xyz.workspace.locale.key,
+        layer: entry.location.layer.key,
+        id: entry.location.id,
+        token: _xyz.token
+
+      }));
+
+      xhr.onload = e => {
+
+        document.querySelector('.tab-content').innerHTML = e.target.response;
+
+        Object.values(entry.dataviews || []).map(dataview => {
+
+          dataview.dataview = _xyz.utils.wire()`<div>`;
+
+          _xyz.locations.view.dataview(Object.assign({
+            location: {
+              layer: {
+                key: entry.location.layer.key
+              },
+              id: entry.location.id
+            }
+          }, dataview));
+
+          let container = dataview.target_id ? document.getElementById(dataview.target_id) : null;
+
+          if(container) container.appendChild(dataview.dataview);
+
+        });
+      
+      }
+
+      xhr.send();
+
+    } else {
+    
+      Object.values(entry.dataviews || []).map(dataview => {
+
+        dataview.dataview = _xyz.utils.wire()`<div>`;
+
+          _xyz.locations.view.dataview(Object.assign({
+            location: {
+              layer: {
+                key: entry.location.layer.key
+              },
+              id: entry.location.id
+            }
+          }, dataview));
+
+          document.querySelector('.tab-content').appendChild(dataview.dataview);
+
+        });
+    
+    }
+
     // this destroys html in the app before refresh but shouldn't happen in report.
     //if(!document.getElementById(entry.target_id)) entry.target.innerHTML = ''; 
-
-    Object.values(entry.dataviews || []).map(dataview => {
-
-      dataview.dataview = _xyz.utils.wire()`<div>`;
-      
-      _xyz.locations.view.dataview(Object.assign({
-        location: {
-          layer: {
-            key: entry.location.layer.key
-          },
-          id: entry.location.id
-        }
-      }, dataview));
-
-      document.querySelector('.tab-content').appendChild(dataview.dataview);
-    
-    });
 
   };
 
