@@ -1,8 +1,7 @@
 export default _xyz => entry => {
 
   entry.listview.appendChild(_xyz.utils.wire()`
-  <tr>
-    <td style="padding-top: 5px;" colSpan=2>
+    <div style="padding-top: 5px; grid-column: 1 / span 2">
       <label class="input-checkbox">
         <input type="checkbox"
           disabled=${!entry.edit}
@@ -12,7 +11,7 @@ export default _xyz => entry => {
               new CustomEvent('valChange', {detail:{
                 input: e.target,
                 entry: entry,
-                newValue: !!e.target.checked,
+                newValue: !!e.target.checked
               }}))
           }}>
         </input>

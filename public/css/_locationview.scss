@@ -23,13 +23,17 @@
             width: 100%;
             padding-left: 10px;
         }
+
+        .location-view-grid {
+            align-items: stretch;
+        }
     }
 
-    >table {
+    /*>table {
         width: 100%;
         text-align: left;
         table-layout: fixed;
-    }
+    }*/
 
     .label {
         padding-top: 5px;

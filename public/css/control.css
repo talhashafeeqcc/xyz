@@ -1431,29 +1431,6 @@ button:disabled {
   font-weight: bold;
 }
 
-.workspace {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 1002;
-  background-color: #fff;
-  grid-column: 3;
-  grid-row: 1;
-  overflow-y: scroll;
-}
-.workspace .btn-column {
-  position: fixed;
-  height: 100%;
-  padding: 4px;
-  background-color: #fff;
-  box-shadow: inset 2px 0 4px -4px #777;
-}
-.workspace .codemirror {
-  position: absolute;
-  right: 0;
-  width: calc(100% - 50px);
-}
-
 .flatpickr-calendar {
   background: transparent;
   opacity: 0;
@@ -2578,6 +2555,11 @@ span.flatpickr-weekday {
 
 .location-view {
   margin: 5px 0;
+  /*>table {
+      width: 100%;
+      text-align: left;
+      table-layout: fixed;
+  }*/
 }
 .location-view.drawer {
   background-color: #fff;
@@ -2597,10 +2579,8 @@ span.flatpickr-weekday {
   width: 100%;
   padding-left: 10px;
 }
-.location-view > table {
-  width: 100%;
-  text-align: left;
-  table-layout: fixed;
+.location-view .drawer.panel .location-view-grid {
+  align-items: stretch;
 }
 .location-view .label {
   padding-top: 5px;

@@ -1,27 +1,13 @@
 export default _xyz => entry => {
 
-	if (!entry.value.length && !entry.edit) return entry.row.remove();
+	if (!entry.value.length && !entry.edit) return entry.label_div.remove();
 
-
-	if (entry.label_td) {
-		entry.label_td.colSpan = '2';
-	} else {
-		entry.row.remove();
-	}
-
-
-	let _tr = _xyz.utils.wire()`<tr colSpan=2>`;
-
-	entry.listview.appendChild(_tr);
-
-	let _td = _xyz.utils.wire()`<td colSpan=2 class="list">`;
-
-	_tr.appendChild(_td);
+	if(entry.label_div) entry.label_div.style.gridColumn = "1 / span 2";
 
 	// Add docs if any
 	for (let doc of entry.value) {
 
-		_td.appendChild(_xyz.utils.wire()`
+	    entry.listview.appendChild(_xyz.utils.wire()`
 		<div class="item">
 		${(entry.edit) && _xyz.utils.wire()`
 		<button
@@ -36,9 +22,8 @@ export default _xyz => entry => {
 
 	if (!entry.edit) return;
 
-	// Add document control.
-	_td.appendChild(_xyz.utils.wire()`
-	<div class="add xyz-icon icon-cloud-upload off-black-filter">
+    entry.listview.appendChild(_xyz.utils.wire()`
+	<div class="add xyz-icon icon-cloud-upload off-black-filter" style="grid-column: 1 / span 2;">
 	<input
 	type="file"
 	accept=".txt,.pdf,.doc,.docx,.xls,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document;"
@@ -52,7 +37,7 @@ export default _xyz => entry => {
 
 			const placeholder = _xyz.utils.wire()`<div class="item"><div class="xyz-icon loader">`;
 
-			_td.insertBefore(placeholder, _td.childNodes[_td.childNodes.length - 1]);
+			entry.__listview.insertBefore(placeholder, entry.__listview.childNodes[entry.__listview.childNodes.length - 1]);
 
 			reader.onload = readerOnload => {
 
