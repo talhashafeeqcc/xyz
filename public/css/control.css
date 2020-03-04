@@ -2555,11 +2555,6 @@ span.flatpickr-weekday {
 
 .location-view {
   margin: 5px 0;
-  /*>table {
-      width: 100%;
-      text-align: left;
-      table-layout: fixed;
-  }*/
 }
 .location-view.drawer {
   background-color: #fff;
@@ -2570,10 +2565,6 @@ span.flatpickr-weekday {
 }
 .location-view .drawer.panel {
   max-height: 30px;
-  /*table {
-      width: 100%;
-      padding-left: 10px;
-  }*/
 }
 .location-view .drawer.panel > .header {
   height: 30px;
