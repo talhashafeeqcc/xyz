@@ -43,7 +43,13 @@ export default _xyz => {
               input: e.target,
               entry: entry,
             }}))
-        }}>`;
+        }}
+        onkeydown=${e => setTimeout(() => {
+          e.target.style.height = 'auto';
+          e.target.style.height = e.target.scrollHeight + 'px';
+        }, 100)
+      }
+        >`;
 
       entry.val.style.gridColumn = "1 / span 2";
 
