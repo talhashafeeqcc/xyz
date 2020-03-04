@@ -23,8 +23,9 @@ export default _xyz => entry => {
 
     // Add document control.
   entry.listview.appendChild(_xyz.utils.wire()`
-  <div class="add xyz-icon icon-add-photo off-black-filter" style="grid-column: 1 / span 2;">
-  <input
+    <div class="list" style="grid-column: 1 / span 2;">
+    <div class="add xyz-icon icon-add-photo off-black-filter">
+    <input
     type="file"
     accept="image/*;capture=camera"
     onchange=${e => {

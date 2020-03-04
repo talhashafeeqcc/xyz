@@ -23,7 +23,8 @@ export default _xyz => entry => {
 	if (!entry.edit) return;
 
     entry.listview.appendChild(_xyz.utils.wire()`
-	<div class="add xyz-icon icon-cloud-upload off-black-filter" style="grid-column: 1 / span 2;">
+    <div class="list" style="grid-column: 1 / span 2;">
+	<div class="add xyz-icon icon-cloud-upload off-black-filter">
 	<input
 	type="file"
 	accept=".txt,.pdf,.doc,.docx,.xls,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document;"
