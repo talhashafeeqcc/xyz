@@ -14,7 +14,7 @@ export default _xyz => location => {
     _xyz.map.removeLayer(geom)
   });
 
-  const listview = _xyz.utils.wire()`<div style="display: grid; grid-gap: 4px;" class="location-view-grid">`;
+  const listview = _xyz.utils.wire()`<div style="display: grid; grid-gap: 4px; grid-template-columns: 1fr 150px;" class="location-view-grid">`;
 
   // Create object to hold view groups.
   location.groups = {};
