@@ -38,7 +38,7 @@ export default _xyz => entry => {
 
 			const placeholder = _xyz.utils.wire()`<div class="item"><div class="xyz-icon loader">`;
 
-			entry.__listview.insertBefore(placeholder, entry.__listview.childNodes[entry.__listview.childNodes.length - 1]);
+			entry.listview.insertBefore(placeholder, entry.listview.childNodes[entry.listview.childNodes.length - 1]);
 
 			reader.onload = readerOnload => {
 

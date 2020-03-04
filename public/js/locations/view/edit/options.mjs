@@ -30,24 +30,23 @@ export default _xyz => entry => {
             value = Object.values(option)[0];
           }
 
-          return _xyz.utils.wire()` <
-        li onclick = $ {
+          return _xyz.utils.wire()`<li onclick=${
             e => {
-                const drop = e.target.closest('.btn-drop');
-                drop.classList.toggle('active');
-                drop.querySelector(':first-child').textContent = key;
-                drop.querySelector(':first-child').value = value;
+              const drop = e.target.closest('.btn-drop');
+              drop.classList.toggle('active');
+              drop.querySelector(':first-child').textContent = key;
+              drop.querySelector(':first-child').value = value;
 
-                entry.location.view.dispatchEvent(
-                    new CustomEvent('valChange', {
-                        detail: {
-                            input: drop.querySelector(':first-child'),
-                            entry: entry
-                        }
-                    }))
+              entry.location.view.dispatchEvent(
+                new CustomEvent('valChange', {
+                  detail: {
+                    input: drop.querySelector(':first-child'),
+                    entry: entry
+                  }
+                }))
             }
-        } > $ { key }
-        `
-        })}`);
+          }>${key}`
+        }
+        )}`);
 
 };
