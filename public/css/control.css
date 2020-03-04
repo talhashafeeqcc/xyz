@@ -2570,17 +2570,18 @@ span.flatpickr-weekday {
 }
 .location-view .drawer.panel {
   max-height: 30px;
+  /*table {
+      width: 100%;
+      padding-left: 10px;
+  }*/
 }
 .location-view .drawer.panel > .header {
   height: 30px;
   padding: 5px 0;
 }
-.location-view .drawer.panel table {
-  width: 100%;
-  padding-left: 10px;
-}
 .location-view .drawer.panel .location-view-grid {
   align-items: stretch;
+  padding-left: 10px;
 }
 .location-view .label {
   padding-top: 5px;

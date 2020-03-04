@@ -16,7 +16,7 @@ export default _xyz => entry => {
   );
 
   entry.listview.appendChild(_xyz.utils.wire()`
-    <div style="grid-column: 1 / span 2;">
+    <div class="${'label lv-0 ' + (entry.class || '')}" style="grid-column: 1 / span 2;">
     <a class="primary-colour" target="_blank" href="${href}">${entry.report.name || 'Location Report'}`);
 
 };
