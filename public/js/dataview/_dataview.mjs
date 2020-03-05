@@ -32,7 +32,7 @@ export default _xyz => {
 
     removeTab: removeTab(_xyz),
 
-    locationTable: locationTable(_xyz),
+    //locationTable: locationTable(_xyz),
 
     dashboard: dashboard(_xyz),
 

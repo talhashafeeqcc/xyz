@@ -8,7 +8,7 @@ export default _xyz => entry => {
 	for (let doc of entry.value) {
 
 	    entry.listview.appendChild(_xyz.utils.wire()`
-		<div class="item">
+		<div class="item" style="grid-column: 1 / span 2;">
 		${(entry.edit) && _xyz.utils.wire()`
 		<button
 			class="xyz-icon icon-trash link-remove"
