@@ -28,7 +28,7 @@ async function http(ref){
 }
 
 async function file(ref) {
-  return await JSON.parse(fs.readFileSync(`./workspaces/${ref}`), 'utf8')
+  return await JSON.parse(fs.readFileSync(`./public/workspaces/${ref}`), 'utf8')
 }
 
 async function github(ref){

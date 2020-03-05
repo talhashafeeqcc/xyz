@@ -17,7 +17,7 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
                     "format": "tiles",
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 },
                 "Offices": {
                     "format": "geojson",
@@ -83,7 +83,7 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     },
                     "format": "tiles",
-                    "URI": "https://api.mapbox.com/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX"
+                    "URI": "/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
                 }
             }
         },
