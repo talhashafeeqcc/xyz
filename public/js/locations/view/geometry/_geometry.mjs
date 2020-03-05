@@ -27,9 +27,12 @@ export default _xyz => {
       entry.style
     );
 
-    let td = _xyz.utils.wire()`<td style="padding-top: 5px; position: relative;" colSpan=2>`;
+    let container = _xyz.utils.wire()`
+    <div 
+    class=${'lv-' + (entry.level || 0) + ' ' + (entry.class || '')}
+    style="grid-column: 1 / span 2; padding-top: 4px; position: relative;">`;
 
-    entry.row.appendChild(td);
+    entry.listview.appendChild(container);
 
     function drawGeom() {
 
@@ -75,9 +78,8 @@ export default _xyz => {
       if (entry.edit.isoline_here) return isoline_here.create(entry);
     }
 
-
-    td.appendChild(_xyz.utils.wire()`
-    <td style="padding-top: 5px;" colSpan=2>
+    container.appendChild(_xyz.utils.wire()`
+    <div>
     <label class="input-checkbox">
     <input type="checkbox"
       checked=${(entry.edit && entry.value) || !!entry.display}
@@ -91,7 +93,7 @@ export default _xyz => {
     </input>
     <div></div><span>${entry.name || 'Geometry'}`);
 
-    !entry.style.theme && td.appendChild(_xyz.utils.wire()`
+    !entry.style.theme && container.appendChild(_xyz.utils.wire()`
     <div class="sample-circle"
       style="${
         'background-color:' + _xyz.utils.Chroma(entry.style.fillColor || entry.style.strokeColor).alpha(entry.style.fillOpacity === undefined ? 1 : (parseFloat(entry.style.fillOpacity) || 0)) + ';' +
@@ -103,11 +105,9 @@ export default _xyz => {
         'top:5px;'
       }">`);
 
+    if (entry.edit && entry.edit.isoline_mapbox) container.appendChild(isoline_mapbox.settings(entry));
 
-
-    if (entry.edit && entry.edit.isoline_mapbox) td.appendChild(isoline_mapbox.settings(entry));
-
-    if (entry.edit && entry.edit.isoline_here) td.appendChild(isoline_here.settings(entry));
+    if (entry.edit && entry.edit.isoline_here) container.appendChild(isoline_here.settings(entry));
 
     if (entry.value && (entry.display || entry.edit)) return drawGeom();
 

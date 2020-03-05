@@ -19,16 +19,10 @@
             padding: 5px 0;
         }
 
-        table {
-            width: 100%;
+        .location-view-grid {
+            align-items: stretch;
             padding-left: 10px;
         }
-    }
-
-    >table {
-        width: 100%;
-        text-align: left;
-        table-layout: fixed;
     }
 
     .label {

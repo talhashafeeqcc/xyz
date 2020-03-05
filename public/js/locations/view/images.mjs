@@ -1,25 +1,13 @@
 export default _xyz => entry => {
 
-  if (!entry.value.length && !entry.edit) return entry.row.remove();
+  if (!entry.value.length && !entry.edit) return entry.label_div.remove();
 
-  if (entry.label_td) {
-    entry.label_td.colSpan = '2';
-  } else {
-    entry.row.remove();
-  }
-
-  let _tr = _xyz.utils.wire()`<tr colSpan=2>`;
-
-  entry.listview.appendChild(_tr);
-
-  let _td = _xyz.utils.wire()`<td colSpan=2 class="list">`;
-
-  _tr.appendChild(_td);
+  if(entry.label_div) entry.label_div.style.gridColumn = "1 / span 2";
 
   // add images if there are any
   for (let image of entry.value) {
 
-    _td.appendChild(_xyz.utils.wire()`
+    entry.listview.appendChild(_xyz.utils.wire()`
       <div class="item">
       <img src=${image}>
       ${(entry.edit) && _xyz.utils.wire()`
@@ -33,10 +21,11 @@ export default _xyz => entry => {
 
   if (!entry.edit) return;
 
-  // Add document control.
-  _td.appendChild(_xyz.utils.wire()`
-	<div class="add xyz-icon icon-add-photo off-black-filter">
-	<input
+    // Add document control.
+  entry.listview.appendChild(_xyz.utils.wire()`
+    <div class="list" style="grid-column: 1 / span 2;">
+    <div class="add xyz-icon icon-add-photo off-black-filter">
+    <input
     type="file"
     accept="image/*;capture=camera"
     onchange=${e => {
@@ -49,8 +38,8 @@ export default _xyz => entry => {
     
       const placeholder = _xyz.utils.wire()`<div class="item"><div class="xyz-icon loader">`;
     
-      _td.insertBefore(placeholder, _td.childNodes[_td.childNodes.length - 1]);
-    
+      entry.listview.insertBefore(placeholder, entry.listview.childNodes[entry.listview.childNodes.length - 1]);
+
       reader.onload = readerOnload => {
         
         const img = new Image();

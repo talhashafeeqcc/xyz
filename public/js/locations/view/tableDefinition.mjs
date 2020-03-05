@@ -2,17 +2,19 @@ export default _xyz => entry => {
 
   if(!_xyz.dataview.node && !document.getElementById(entry.target_id)) return;
 
-  entry.row.appendChild(_xyz.utils.wire()`
-  <td style="padding-top: 5px;" colSpan=2>
-  <label class="input-checkbox">
-  <input type="checkbox"
+  entry.listview.appendChild(_xyz.utils.wire()`
+    <div style="padding-top: 4px; grid-column: 1 / span 2;"
+    class=${'lv-' + (entry.level || 0) + ' ' + (entry.class || '')}>
+    <label class="input-checkbox">
+    <input type="checkbox"
     checked=${!!entry.display}
     onchange=${e => {
       entry.display = e.target.checked;
       entry.display ? showTab() : removeTab();
     }}>
-  </input>
-  <div></div><span>${entry.title || 'Show table'}`);
+    </input>
+    <div></div><span>${entry.title || 'Show table'}
+  `);
 
   if (entry.display) showTab();
 
@@ -30,6 +32,7 @@ export default _xyz => entry => {
       document.getElementById(entry.target_id);
 
     if (entry.target) _xyz.dataview.locationTable(entry);
+  
   }
 
   function removeTab() {

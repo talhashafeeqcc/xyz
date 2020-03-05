@@ -14,8 +14,6 @@ export default _xyz => entry => {
     enableTime: entry.type === 'datetime' ? true : false,
     callback: dateStr => {
 
-
-
       input.value = dateStr;
       
       const date_unix = _xyz.utils.meltDateStr(dateStr);

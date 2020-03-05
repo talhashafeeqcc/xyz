@@ -36,14 +36,22 @@ export default _xyz => {
     // Create a 3 line textarea for textarea type entry.
     if (entry.type === 'textarea') {
       let textArea = _xyz.utils.wire()`
-      <textarea value=${entry.value || ''} rows=3
+      <textarea value=${entry.value || ''}
         onkeyup=${e => {
           entry.location.view.dispatchEvent(
             new CustomEvent('valChange', {detail:{
               input: e.target,
               entry: entry,
             }}))
-        }}>`;
+        }}
+        onkeydown=${e => setTimeout(() => {
+          e.target.style.height = 'auto';
+          e.target.style.height = e.target.scrollHeight + 'px';
+        }, 100)
+      }
+        >`;
+
+      entry.val.style.gridColumn = "1 / span 2";
 
       entry.val.appendChild(textArea);
 

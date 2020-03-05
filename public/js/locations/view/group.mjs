@@ -8,34 +8,21 @@ export default _xyz => group => {
 
     if (!values.length) return; // break when no data to show
 
-    group.td = _xyz.utils.wire()
-    `<td colSpan=2>`;
-
-    group.row.appendChild(group.td);
-
     group.div = _xyz.utils.wire()
     `
-  <div style="display: none;" class="drawer panel expandable">`;
+  <div style="display: none; grid-column: 1 / span 2" class="drawer panel expandable aga-group">`;
 
     group.expanded && group.div.classList.add('expanded');
-
-    group.td.appendChild(group.div);
 
     group.header = _xyz.utils.wire()
     `
   <div
     class="header primary-colour"
-    style="text-align: left;"
+    style="text-align: left; grid-column: 1 / span 2;"
     onclick=${ e => {
-      _xyz.utils.toggleExpanderParent(e.target, true);
+        _xyz.utils.toggleExpanderParent(e.target, true);
     }}><span>${group.label}`;
 
     group.div.appendChild(group.header);
-
-    // Add table
-    group.table = _xyz.utils.wire()
-    `<table>`;
-
-    group.div.appendChild(group.table);
 
 };

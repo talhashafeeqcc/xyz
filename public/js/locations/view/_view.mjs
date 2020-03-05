@@ -215,7 +215,7 @@ export default _xyz => {
         location.remove();
         _xyz.map.updateSize();
       }}>`);
-
+  
 
     location.infoj && location.view.appendChild(_xyz.locations.view.infoj(location));
 

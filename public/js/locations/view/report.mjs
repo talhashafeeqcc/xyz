@@ -15,9 +15,8 @@ export default _xyz => entry => {
     )
   );
 
-  entry.row.appendChild(_xyz.utils.wire()`
-    <td style="padding: 10px 0;" colSpan=2>
-    <a class="primary-colour" target="_blank" href="${href}">${entry.report.name || 'Location Report'}</a>
-    </td>`);
+  entry.listview.appendChild(_xyz.utils.wire()`
+    <div class="${'label lv-0 ' + (entry.class || '')}" style="grid-column: 1 / span 2;">
+    <a class="primary-colour" target="_blank" href="${href}">${entry.report.name || 'Location Report'}`);
 
 };
