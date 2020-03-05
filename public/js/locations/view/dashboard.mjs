@@ -11,6 +11,7 @@ export default _xyz => entry => {
     onchange=${e => {
       entry.display = e.target.checked;
       entry.display ? showTab() : removeTab();
+      if(!_xyz.dataview.tables.length) _xyz.mapview.node.dispatchEvent(new CustomEvent('updatesize'));
     }}>
   </input>
   <div></div><span>${entry.title || 'Show dashboard'}`);
@@ -35,6 +36,7 @@ export default _xyz => entry => {
     entry.location.tables.splice(idx, 1);
 
     _xyz.dataview.removeTab(entry);
+
   }
 
 };
