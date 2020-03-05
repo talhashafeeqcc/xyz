@@ -146,7 +146,7 @@ export default _xyz => location => {
     }
 
     if (entry.type === 'tableDefinition') {
-      _xyz.locations.view.tableDefinition(entry);
+      //_xyz.locations.view.tableDefinition(entry);
       continue
     }
 
