@@ -2,22 +2,22 @@ export default _xyz => entry => {
 
     if (!entry.query) return;
 
-    const xhr = new XMLHttpRequest();
+    entry.xhr = new XMLHttpRequest();
 
-    xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
+    entry.xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
 
         locale: _xyz.workspace.locale.key,
         layer: entry.location.layer.key,
         id: entry.location.id,
-        template: entry.query,
+        template: encodeURIComponent(entry.query),
         token: _xyz.token
 
     }));
 
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.responseType = 'json';
+    entry.xhr.setRequestHeader('Content-Type', 'application/json');
+    entry.xhr.responseType = 'json';
 
-    xhr.onload = e => {
+    entry.xhr.onload = e => {
 
         if (e.target.status !== 200) return;
 
@@ -50,17 +50,36 @@ export default _xyz => entry => {
                 columnHeaderVertAlign: 'center',
                 columns: entry.columns,
                 layout: entry.layout || 'fitDataFill',
-                height: 'auto'
+                height: entry.height || 'auto'
             });
+
+            if(entry.toolbars) {
+
+                const toolbar = _xyz.utils.wire()`<ul style="text-align: end; border: 1px solid #DDD; border-top: none;">`;
+
+                toolbar.appendChild(_xyz.utils.wire()`<li 
+                    class="off-white-hover primary-colour" 
+                    title="Download as CSV"
+                    style="display: inline; margin-right: 4px;" 
+                    onclick=${() => entry.Tabulator.download('csv', `${entry.title}.csv`)}>CSV</li>`);
+                
+                toolbar.appendChild(_xyz.utils.wire()`<li 
+                    class="off-white-hover primary-colour" 
+                    title="Download as JSON"
+                    style="display: inline; margin-right: 4px;" 
+                    onclick=${() => entry.Tabulator.download('json', `${entry.title}.json`) }>JSON</li>`);
+
+                entry.dataview.insertBefore(_xyz.utils.wire()`<div>${toolbar}`, entry.dataview.querySelector('.tabulator-header'));
+
+            }
 
             entry.Tabulator.setData(e.target.response);
             entry.Tabulator.redraw(true);
 
         }
 
-        return entry;
     }
 
-    xhr.send();
+    entry.xhr.send();
 
 };
