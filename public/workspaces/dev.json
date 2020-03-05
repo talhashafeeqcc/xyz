@@ -46,8 +46,7 @@
                         "table1": {
                             "title": "Population / GDP",
                             "query": "NE Countries table1",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "field": "name",
                                     "title": "Name"
                                 },
@@ -64,8 +63,7 @@
                             "display": true,
                             "query": "NE GDP/Population Layer Table",
                             "layout": "fitColumns",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "field": "name"
                                 },
                                 {
@@ -94,8 +92,7 @@
                     "hover": {
                         "field": "name"
                     },
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -153,8 +150,7 @@
                             "Population": {
                                 "type": "graduated",
                                 "field": "pop_est_edit",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0 to 10000",
                                         "style": {
@@ -208,8 +204,7 @@
                             "GDP": {
                                 "type": "graduated",
                                 "field": "gdp_md_est",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0",
                                         "style": {
@@ -264,8 +259,7 @@
                                 "type": "graduated",
                                 "field": "gdp_pp",
                                 "fieldfx": "gdp_md_est_edit::numeric / (pop_est_edit::numeric + 1) * 1000",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 1,
                                         "label": "1",
                                         "style": {
@@ -320,8 +314,7 @@
                                 "type": "graduated",
                                 "fieldfx": "(pop_est_edit / st_area(geom_3857)) * 1000",
                                 "field": "pop_dens",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0",
                                         "style": {
@@ -434,8 +427,7 @@
                         "field": "address"
                     },
                     "qID": "id",
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -477,13 +469,11 @@
                 "provider": "GOOGLE",
                 "code": "GB",
                 "placeholder": "e.g. London",
-                "datasets": [
-                    {
-                        "layer": "Retail Points",
-                        "table": "dev.retailpoints",
-                        "label": "store"
-                    }
-                ]
+                "datasets": [{
+                    "layer": "Retail Points",
+                    "table": "dev.retailpoints",
+                    "label": "store"
+                }]
             },
             "layers": {
                 "OSM": {
@@ -552,8 +542,7 @@
                         "delete": true
                     },
                     "qID": "id",
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -661,6 +650,11 @@
                             "type": "meta"
                         },
                         {
+                            "label": "something",
+                            "field": "chk",
+                            "type": "boolean"
+                        },
+                        {
                             "label": "Images",
                             "field": "images",
                             "type": "images",
@@ -739,8 +733,7 @@
                             }
                         }
                     },
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -782,8 +775,7 @@
                         "isoline_here": true,
                         "delete": true
                     },
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -846,8 +838,7 @@
                             "field": "dev_options",
                             "inline": true,
                             "edit": {
-                                "options": [
-                                    {
+                                "options": [{
                                         "Open": "1"
                                     },
                                     {
@@ -920,8 +911,7 @@
                             "Population 2011": {
                                 "type": "graduated",
                                 "field": "pop_11",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0 to 100",
                                         "style": {
@@ -975,8 +965,7 @@
                         }
                     },
                     "qID": "id",
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -1019,8 +1008,7 @@
                             "viewport": true,
                             "layout": "fitColumns",
                             "query": "UK Retail Places Layer Table",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "title": "ID",
                                     "field": "id"
                                 },
@@ -1032,8 +1020,7 @@
                                 },
                                 {
                                     "title": "Characteristics",
-                                    "columns": [
-                                        {
+                                    "columns": [{
                                             "field": "comp_strgh",
                                             "title": "Competition strength"
                                         },
@@ -1209,8 +1196,7 @@
                             "Population '11": {
                                 "type": "graduated",
                                 "field": "pop__11",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0 to 10000",
                                         "style": {
@@ -1265,18 +1251,15 @@
                     },
                     "qID": "tid",
                     "filter": {
-                        "infoj": [
-                            {
-                                "label": "ID count",
-                                "field": "id_count",
-                                "type": "integer",
-                                "inline": true,
-                                "fieldfx": "count(id)"
-                            }
-                        ]
+                        "infoj": [{
+                            "label": "ID count",
+                            "field": "id_count",
+                            "type": "integer",
+                            "inline": true,
+                            "fieldfx": "count(id)"
+                        }]
                     },
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -1378,25 +1361,23 @@
                                 "type": "horizontalBar",
                                 "yAxesWidth": 80,
                                 "labels": ["Comparison", "Convenience", "F/B/L", "Services", "Class/Brass"],
-                                "datasets": [
-                                    {
-                                        "fields": ["comparison", "conv", "fbl", "services", "classbrass"],
-                                        "backgroundColor": [
-                                            "#FFA630",
-                                            "#C6DEA6",
-                                            "#7EBDC3",
-                                            "#7A6263",
-                                            "#CED097"
-                                        ],
-                                        "borderColor": [
-                                            "#FFA630",
-                                            "#C6DEA6",
-                                            "#7EBDC3",
-                                            "#7A6263",
-                                            "#CED097"
-                                        ]
-                                    }
-                                ]
+                                "datasets": [{
+                                    "fields": ["comparison", "conv", "fbl", "services", "classbrass"],
+                                    "backgroundColor": [
+                                        "#FFA630",
+                                        "#C6DEA6",
+                                        "#7EBDC3",
+                                        "#7A6263",
+                                        "#CED097"
+                                    ],
+                                    "borderColor": [
+                                        "#FFA630",
+                                        "#C6DEA6",
+                                        "#7EBDC3",
+                                        "#7A6263",
+                                        "#CED097"
+                                    ]
+                                }]
                             }
                         },
                         {
@@ -1457,8 +1438,7 @@
                         "Retail Points": {
                             "display": true,
                             "query": "UK Retail Points Layer Table",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "title": "ID",
                                     "field": "retailpoint_id"
                                 },
@@ -1474,15 +1454,13 @@
                         }
                     },
                     "filter": {
-                        "infoj": [
-                            {
-                                "label": "ID count",
-                                "field": "id_count",
-                                "type": "integer",
-                                "inline": true,
-                                "fieldfx": "count(retailpoint_id)"
-                            }
-                        ]
+                        "infoj": [{
+                            "label": "ID count",
+                            "field": "id_count",
+                            "type": "integer",
+                            "inline": true,
+                            "fieldfx": "count(retailpoint_id)"
+                        }]
                     },
                     "style": {
                         "label": {
@@ -1545,8 +1523,7 @@
                             "Households": {
                                 "type": "graduated",
                                 "field": "hhdooc_11",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0 to 100",
                                         "style": {
@@ -1601,8 +1578,7 @@
                                 "type": "graduated",
                                 "field": "hhdooc_11",
                                 "size": "hhdooc_11",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0 to 100",
                                         "style": {
@@ -1674,8 +1650,7 @@
                             }
                         }
                     },
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "streetview"
                         },
                         {
@@ -1777,8 +1752,7 @@
                     "cluster_label": "poi_name",
                     "cluster_kmeans": 0.1,
                     "cluster_dbscan": 0.01,
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key"
                         },
                         {
@@ -1893,13 +1867,11 @@
                     "srid": "3857",
                     "cluster_hexresolution": 0.1,
                     "qID": "id",
-                    "infoj": [
-                        {
-                            "field": "trans_date_bigint",
-                            "type": "date",
-                            "filter": "date"
-                        }
-                    ],
+                    "infoj": [{
+                        "field": "trans_date_bigint",
+                        "type": "date",
+                        "filter": "date"
+                    }],
                     "style": {
                         "markerMin": 10,
                         "markerMax": 30,
@@ -1908,8 +1880,7 @@
                                 "type": "graduated",
                                 "field": "price_paid",
                                 "aggregate": "avg",
-                                "cat_arr": [
-                                    {
+                                "cat_arr": [{
                                         "value": 0,
                                         "label": "0",
                                         "style": {
@@ -1987,7 +1958,9 @@
                     "table": "dev.uk_glx_sites",
                     "cluster_kmeans": 0.1,
                     "cluster_label": "site_name",
-                    "infoj": [
+                    "infoj": [{
+                            "type": "streetview"
+                        },
                         {
                             "type": "key",
                             "class": "_report"
@@ -2124,16 +2097,14 @@
                             "display": true,
                             "class": "_report",
                             "template": "Sites Population Dashboard",
-                            "dataviews": [
-                                {
+                            "dataviews": [{
                                     "title": "Population Summary",
                                     "target_id": "xyz_sites_pop",
                                     "query": "Population Summary Sites",
                                     "class": "_report",
                                     "layout": "fitColumns",
                                     "toolbars": {},
-                                    "columns": [
-                                        {
+                                    "columns": [{
                                             "field": "rows",
                                             "title": "Population Summary",
                                             "headerSort": false,
@@ -2169,8 +2140,7 @@
                                     "query": "Age Profile Sites",
                                     "target_id": "xyz_sites_age",
                                     "layout": "fitColumns",
-                                    "columns": [
-                                        {
+                                    "columns": [{
                                             "field": "rows",
                                             "title": "Age Profile",
                                             "headerSort": false,
@@ -2211,8 +2181,7 @@
                                     "target_id": "xyz_sites_socialgrade",
                                     "class": "_report",
                                     "layout": "fitColumns",
-                                    "columns": [
-                                        {
+                                    "columns": [{
                                             "field": "rows",
                                             "title": "Social Grade",
                                             "headerSort": false,
@@ -2288,8 +2257,7 @@
                                     "layout": "fitColumns",
                                     "class": "_report",
                                     "query": "OAC Profile Sites",
-                                    "columns": [
-                                        {
+                                    "columns": [{
                                             "field": "rows",
                                             "title": "OAC Profile",
                                             "headerSort": false,
@@ -2324,8 +2292,7 @@
                                         },
                                         {
                                             "title": "Index",
-                                            "columns": [
-                                                {
+                                            "columns": [{
                                                     "title": "% with 15 min",
                                                     "field": "share15",
                                                     "formatter": "money",
@@ -2370,13 +2337,11 @@
                             "title": "Dashboard with Charts",
                             "display": false,
                             "class": "_report",
-                            "dataviews": [
-                                {
+                            "dataviews": [{
                                     "title": "Worker Summary",
                                     "layout": "fitColumns",
                                     "query": "Worker Summary Sites",
-                                    "columns": [
-                                        {
+                                    "columns": [{
                                             "field": "rows",
                                             "title": "Worker Summary",
                                             "headerSort": false,
@@ -2402,8 +2367,7 @@
                                         "legend": true,
                                         "legendPosition": "right",
                                         "labels": ["Actual Sales", "Model Sales"],
-                                        "datasets": [
-                                            {
+                                        "datasets": [{
                                                 "label": "Activity 1",
                                                 "fields": ["actual_sales_activity1", "model_sales_activity1"],
                                                 "backgroundColor": "#FFA630",
@@ -2439,8 +2403,7 @@
                                         "type": "radar",
                                         "cutoutPercentage": 36,
                                         "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
-                                        "datasets": [
-                                            {
+                                        "datasets": [{
                                                 "fields": ["random1", "random2", "random3", "random4", "random5"],
                                                 "backgroundColor": [
                                                     "rgba(229, 99 , 153, 0.4)",
@@ -2469,8 +2432,7 @@
                                     "query": "Population Summary Sites",
                                     "layout": "fitColumns",
                                     "toolbars": {},
-                                    "columns": [
-                                        {
+                                    "columns": [{
                                             "field": "rows",
                                             "title": "Population Summary",
                                             "headerSort": false,
@@ -2620,16 +2582,14 @@
                             "class": "_report"
                         },
                         {
-                            "type": "__tableDefinition",
+                            "type": "dataview",
                             "title": "Population Summary",
-                            "display": true,
                             "target_id": "xyz_sites_pop",
                             "query": "Population Summary Sites",
                             "class": "_report",
-                            "layout": "fitColumns",
                             "toolbars": {},
-                            "columns": [
-                                {
+                            "layout": "fitColumns",
+                            "columns": [{
                                     "field": "rows",
                                     "title": "Population Summary",
                                     "headerSort": false,
@@ -2660,15 +2620,53 @@
                             ]
                         },
                         {
-                            "type": "__tableDefinition",
+                            "type": "tableDefinition",
+                            "title": "Population Summary",
+                            "display": false,
+                            "target_id": "xyz_sites_pop",
+                            "query": "Population Summary Sites",
+                            "class": "_report",
+                            "layout": "fitColumns",
+                            "toolbars": {},
+                            "columns": [{
+                                    "field": "rows",
+                                    "title": "Population Summary",
+                                    "headerSort": false,
+                                    "align": "left"
+                                },
+                                {
+                                    "title": "Grouped columns",
+                                    "columns": [{
+                                            "title": "0-5 mins",
+                                            "field": "min5",
+                                            "formatter": "money",
+                                            "formatterParams": {
+                                                "precision": 0
+                                            },
+                                            "align": "center"
+                                        },
+                                        {
+                                            "title": "0-10 mins",
+                                            "field": "min10",
+                                            "formatter": "money",
+                                            "formatterParams": {
+                                                "precision": 0
+                                            },
+                                            "align": "center"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "tableDefinition",
                             "title": "Worker Summary",
-                            "display": true,
+                            "display": false,
                             "class": "_report",
                             "target_id": "xyz_sites_workers",
                             "layout": "fitColumns",
                             "query": "Worker Summary Sites",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "field": "rows",
                                     "title": "Worker Summary",
                                     "headerSort": false,
@@ -2686,16 +2684,15 @@
                             ]
                         },
                         {
-                            "type": "__tableDefinition",
+                            "type": "tableDefinition",
                             "title": "OAC Profile",
-                            "display": true,
+                            "display": false,
                             "toolbars": {},
                             "target_id": "xyz_sites_oac",
                             "layout": "fitColumns",
                             "class": "_report",
-                            "__query": "OAC Profile Sites",
-                            "columns": [
-                                {
+                            "query": "OAC Profile Sites",
+                            "columns": [{
                                     "field": "rows",
                                     "title": "OAC Profile",
                                     "headerSort": false,
@@ -2769,15 +2766,14 @@
                             ]
                         },
                         {
-                            "type": "__tableDefinition",
+                            "type": "tableDefinition",
                             "title": "Age Profile",
                             "class": "_report",
-                            "display": true,
+                            "display": false,
                             "query": "Age Profile Sites",
                             "target_id": "xyz_sites_age",
                             "layout": "fitColumns",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "field": "rows",
                                     "title": "Age Profile",
                                     "headerSort": false,
@@ -2813,15 +2809,14 @@
                             ]
                         },
                         {
-                            "type": "__tableDefinition",
+                            "type": "tableDefinition",
                             "title": "Social Grade",
-                            "_query": "Social Grade Sites",
-                            "display": true,
+                            "query": "Social Grade Sites",
+                            "display": false,
                             "target_id": "xyz_sites_socialgrade",
                             "class": "_report",
                             "layout": "fitColumns",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "field": "rows",
                                     "title": "Social Grade",
                                     "headerSort": false,
@@ -2902,8 +2897,7 @@
                             "target_id": "xyz_sites_nearestcomp",
                             "layout": "fitColumns",
                             "query": "Nearest competitors Sites",
-                            "columns": [
-                                {
+                            "columns": [{
                                     "title": "Distance",
                                     "field": "dist",
                                     "align": "center",
@@ -2938,8 +2932,7 @@
                     "cluster_label": "id",
                     "cluster_dbscan": 0.001,
                     "cluster_kmeans": 0.01,
-                    "infoj": [
-                        {
+                    "infoj": [{
                             "type": "key",
                             "class": "_report"
                         },
@@ -3035,7 +3028,7 @@
                                             }
                                         }
                                     }
-                                } 
+                                }
                             },
                             "field": "all_catchments",
                             "fieldfx": "SELECT jsonb_build_object('type', 'FeatureCollection','features', b.features) AS collection FROM (SELECT jsonb_build_array(jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'primary', 'id', id),'geometry', ST_AsGeoJson(catchment_primary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'secondary', 'id', id),'geometry', ST_AsGeoJson(catchment_secondary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'tertiary', 'id', id),'geometry', ST_AsGeoJson(catchment_tertiary)::jsonb)) AS features FROM (SELECT * FROM dev.storelist_1507__19 where id = ${id}) a) b"
@@ -3082,7 +3075,7 @@
         },
         "Population Summary Sites": {
             "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/population_summary.txt",
-            "dbs": "XYZ" 
+            "dbs": "XYZ"
         },
         "Worker Summary Sites": {
             "template": "WITH workers AS (SELECT (SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=250 then b.workers else 0 end))::integer AS workers_250,(SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=500 then b.workers else 0 end))::integer AS workers_500 FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE a.id = ${id} AND ST_INTERSECTS(a.isoline_15min, b.geom_p_4326)) SELECT UNNEST(ARRAY['Workers 250m','Workers 500m']) AS rows,UNNEST(ARRAY[workers.workers_250,workers.workers_500]) AS workers FROM workers;",
@@ -3130,9 +3123,6 @@
         "UK RP Services share Layer Chart": {
             "template": "SELECT tid AS qID, fbl, services, rp_name FROM dev.retailplaces ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
             "dbs": "XYZ"
-        },
-        "Dev sites report": {
-            "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/report_sites/sites.html"
         },
         "Sites Local Report": {
             "template": "/views/report_location.html"
