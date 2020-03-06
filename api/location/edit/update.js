@@ -10,8 +10,6 @@ let layers
 
 const sql_fields = require('../../../mod/pg/sql_fields')
 
-const sql_infoj = require('../../../mod/pg/sql_infoj')
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
@@ -22,7 +20,26 @@ module.exports = async (req, res) => {
 
   const layer = layers[req.params.layer]
 
-  var fields = await sql_infoj(req.body.infoj)
+  var fields = ''
+  
+  await req.body.infoj.forEach(entry => {
+        
+    if (!entry.field) return
+        
+    if (fields.length > 0) fields += ', '
+        
+    if (entry.type === 'integer') {
+      let parsed = parseInt(entry.newValue)
+      return fields += `${entry.field} = ${ parsed || parsed === 0 ? parsed : null }`
+    }
+        
+    if (entry.type === 'date' || entry.type === 'datetime') return fields += `${entry.field} = ${entry.newValue}`
+
+    if (entry.type === 'boolean') return fields += `${entry.field} = ${entry.newValue}`
+        
+    fields += `${entry.field} = '${entry.newValue.replace(/'/g, '\'\'')}'`
+  })
+    
 
   var q = `UPDATE ${req.query.table} SET ${fields} WHERE ${layer.qID} = $1;`
 
@@ -45,7 +62,7 @@ module.exports = async (req, res) => {
   const infoj = JSON.parse(JSON.stringify(layer.infoj))
 
   // The fields array stores all fields to be queried for the location info.
-  var fields = await sql_fields([], infoj, layer.qID)
+  var fields = await sql_fields([], infoj)
 
   var q = `
   SELECT ${fields.join()}
