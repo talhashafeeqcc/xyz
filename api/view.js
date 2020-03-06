@@ -1,29 +1,23 @@
-const requestBearer = require('../mod/requestBearer')
-
-const getWorkspace = require('../mod/workspace/get')
-
-let workspace = getWorkspace()
-
-const getTemplates = require('../mod/templates/_templates')
-
-let _templates = getTemplates(workspace)
-
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
+const auth = require('../mod/auth/handler')({
   public: true,
   login: true
 })
 
-async function handler(req, res){
+const _templates = require('../mod/workspace/templates')
 
-  if (req.query.clear_cache) {
-    workspace = getWorkspace()
-    _templates = getTemplates(workspace)
-    return res.end()
-  }
+let templates
 
-  const templates = await _templates
+module.exports = async (req, res) => {
 
-  const template = templates[req.params.template];
+  await auth(req, res)
+
+  templates = await _templates(req, res)
+
+  if (res.finished) return
+
+  const template = templates[req.params.template]
+
+  if (!template) return res.status(400).send('View template not found.')
 
   const token = req.params.token || {};
 

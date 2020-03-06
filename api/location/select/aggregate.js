@@ -1,20 +1,24 @@
-const requestBearer = require('../../../mod/requestBearer')
-
-const layer = require('../../../mod/layer')
-
-const dbs = require('../../../mod/pg/dbs')()
-
-const sql_filter = require('../../../mod/pg/sql_filter')
-
-const sql_fields = require('../../../mod/pg/sql_fields')
-
-module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
+const auth = require('../../../mod/auth/handler')({
   public: true
 })
 
-async function handler(req, res) {
+const dbs = require('../../../mod/pg/dbs')()
 
-  const layer = req.params.layer
+const _layers = require('../../../mod/workspace/layers')
+
+let layers
+
+const sql_fields = require('../../../mod/pg/sql_fields')
+
+module.exports = async (req, res) => {
+
+  await auth(req, res)
+
+  layers = await _layers(req, res)
+
+  if (res.finished) return
+
+  const layer = layers[req.params.layer]
 
   const geom_extent = `ST_Transform(ST_SetSRID(ST_Extent(${layer.geom}), ${layer.srid}), 4326)`
 

@@ -1,15 +1,17 @@
-const requestBearer = require('../../mod/requestBearer');
+const auth = require('../../mod/auth/handler')({
+  admin_user: true,
+  login: true
+})
 
-const acl = require('../../mod/auth/acl')();
+const acl = require('../../mod/auth/acl')()
 
-const mailer = require('../../mod/mailer');
+const mailer = require('../../mod/mailer')
 
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
-  login: true,
-  admin_user: true
-});
+module.exports = async (req, res) => {
 
-async function handler(req, res) {
+  await auth(req, res)
+
+  if (res.finished) return
 
   var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`, [req.query.approvaltoken]);
 

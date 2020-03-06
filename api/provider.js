@@ -1,22 +1,22 @@
-const requestBearer = require('../mod/requestBearer')
-
-const provider = require('../mod/provider')
-
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
+const auth = require('../mod/auth/handler')({
   public: true
 })
 
-async function handler(req, res){
+const provider = require('../mod/provider')
 
- const fetch = provider[req.params.provider]
+module.exports = async (req, res) => {
 
- req.body = req.body && await bodyData(req) || null
+  await auth(req, res)
 
- const content = await fetch(req)
+  const fetch = provider[req.params.provider]
 
- if (req.query.content_type) res.setHeader('content-type', req.query.content_type)
+  req.body = req.body && await bodyData(req) || null
 
- res.send(content)
+  const content = await fetch(req)
+
+  if (req.query.content_type) res.setHeader('content-type', req.query.content_type)
+
+  res.send(content)
 
 }
 
@@ -27,7 +27,7 @@ function bodyData(req) {
     const chunks = []
 
     req.on('data', chunk => chunks.push(chunk))
-  
+
     req.on('end', () => resolve(Buffer.concat(chunks)))
 
   });

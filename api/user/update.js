@@ -1,14 +1,16 @@
-const requestBearer = require('../../mod/requestBearer');
+const auth = require('../../mod/auth/handler')({
+  admin_user: true
+})
 
 const acl = require('../../mod/auth/acl')();
 
 const mailer = require('../../mod/mailer');
 
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
-  admin_user: true
-});
+module.exports = async (req, res) => {
 
-async function handler(req, res) {
+  await auth(req, res)
+
+  if (res.finished) return
 
   // Remove spaces from email.
   const email = req.query.email.replace(/\s+/g, '');

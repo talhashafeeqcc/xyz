@@ -1,12 +1,14 @@
-const requestBearer = require('../../mod/requestBearer');
-
-const { Pool } = require('pg');
-
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
+const auth = require('../../mod/auth/handler')({
   admin_workspace: true
-});
+})
 
-async function handler(req, res) {
+const { Pool } = require('pg')
+
+module.exports = async (req, res) => {
+
+  await auth(req, res)
+
+  if (res.finished) return
 
   try {
     const pool = new Pool({

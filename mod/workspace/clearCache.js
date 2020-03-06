@@ -4,7 +4,7 @@ module.exports = async (host, token) => {
 
   await fetch(`${host}?clear_cache=true&token=${token || ''}`)
 
-  await fetch(`${host}/view?clear_cache=true&token=${token || ''}`)
+  await fetch(`${host}/view/foo?clear_cache=true&token=${token || ''}`)
 
   await fetch(`${host}/query?clear_cache=true&token=${token || ''}`)
 

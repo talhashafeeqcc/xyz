@@ -1,16 +1,22 @@
-const requestBearer = require('../../mod/requestBearer')
-
-const layer = require('../../mod/layer')
+const auth = require('../../mod/auth/handler')({
+  public: true
+})
 
 const dbs = require('../../mod/pg/dbs')()
 
-module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
-  public: true
-});
+const _layers = require('../../mod/workspace/layers')
 
-async function handler(req, res) {
+let layers
 
-  const layer = req.params.layer
+module.exports = async (req, res) => {
+
+  await auth(req, res)
+
+  layers = await _layers(req, res)
+
+  if (res.finished) return
+
+  const layer = layers[req.params.layer]
 
   let
     table = req.query.table,

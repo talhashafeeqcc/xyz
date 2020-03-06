@@ -1,20 +1,8 @@
-const getWorkspace = require('../../mod/workspace/get')
-
-let workspace = getWorkspace()
-
-const getTemplates = require('../../mod/templates/_templates')
-
-let _templates = getTemplates(workspace)
+const _templates = require('../mod/workspace/templates')
 
 module.exports = async (req, res) => {
 
   if (req.body) return register(req, res)
-
-  if (req.query.clear_cache) {
-    workspace = getWorkspace()
-    _templates = getTemplates(workspace)
-    return res.end()
-  }
 
   const templates = await _templates
 

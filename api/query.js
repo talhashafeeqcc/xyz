@@ -1,12 +1,6 @@
-const requestBearer = require('../mod/requestBearer')
-
-const getWorkspace = require('../mod/workspace/get')
-
-let _workspace = getWorkspace()
-
-const getTemplates = require('../mod/templates/_templates')
-
-let _templates = getTemplates(_workspace)
+const auth = require('../mod/auth/handler')({
+  public: true
+})
 
 const dbs = require('../mod/pg/dbs')()
 
@@ -14,29 +8,31 @@ const acl = require('../mod/auth/acl')()
 
 const sql_filter = require('../mod/pg/sql_filter')
 
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
-  public: true
-})
+const _layers = require('../mod/workspace/layers')
 
-async function handler(req, res) {
+let layers
 
-  if (req.query.clear_cache) {
-    _workspace = getWorkspace()
-    _templates = getTemplates(_workspace)
-    return res.end()
-  }
+const _templates = require('../mod/workspace/templates')
 
-  const workspace = await _workspace
+let templates
 
-  const templates = await _templates
+module.exports = async (req, res) => {
 
-  const template = templates[req.query.template];
+  await auth(req, res)
 
-  const token = req.params.token || {};
+  layers = await _layers(req, res)
 
-  const params = req.query || {};
+  templates = await _templates(req, res)
 
-  if(!template) console.log(`Template ${req.query.template} not found`);
+  if (res.finished) return
+
+  const template = templates[req.query.template]
+
+  const token = req.params.token || {}
+
+  const params = req.query || {}
+
+  if(!template) console.log(`Template ${req.query.template} not found`)
 
   if (template.admin_user && !token) return res.status(401).send('Insuficient privileges.')
 
@@ -44,9 +40,7 @@ async function handler(req, res) {
 
   if (req.query.locale && req.query.layer) {
 
-    const locale = workspace.locales[req.query.locale]
-
-    const layer = locale.layers[req.query.layer]
+    const layer = layers[req.query.layer]
 
     const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
       role => layer.roles[role]).map(
@@ -63,8 +57,8 @@ async function handler(req, res) {
   const q = template.render(params)
 
   const rows = template.admin_user && token && token.admin_user ?
-  await acl(q) :
-  await dbs[template.dbs || params.dbs || params.layer.dbs](q)
+    await acl(q) :
+    await dbs[template.dbs || params.dbs || params.layer.dbs](q)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

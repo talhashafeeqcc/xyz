@@ -1,4 +1,6 @@
-const requestBearer = require('../../mod/requestBearer')
+const auth = require('../../mod/auth/handler')({
+  public: true
+})
 
 const getWorkspace = require('../../mod/workspace/get')
 
@@ -6,11 +8,9 @@ let _workspace = getWorkspace()
 
 const clearCache = require('../../mod/workspace/clearCache')
 
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
-  public: true
-})
+module.exports = async (req, res) => {
 
-async function handler(req, res) {
+  await auth(req, res)
 
   let workspace = await _workspace
 

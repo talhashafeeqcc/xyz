@@ -1,15 +1,17 @@
-const requestBearer = require('../mod/requestBearer')
-
-const fetch = require('node-fetch')
-
-const provider = require('../mod/provider')
-
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
+const auth = require('../mod/auth/handler')({
   public: true,
   login: true
 })
 
-async function handler(req, res){
+const provider = require('../mod/provider')
+
+const fetch = require('node-fetch')
+
+module.exports = async (req, res) => {
+
+  await auth(req, res)
+
+  if (res.finished) return
 
   let tmpl
 

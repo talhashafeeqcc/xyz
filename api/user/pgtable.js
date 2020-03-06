@@ -1,14 +1,16 @@
-const requestBearer = require('../../mod/requestBearer')
+const auth = require('../../mod/auth/handler')({
+  admin_user: true
+})
 
 const acl = require('../../mod/auth/acl')()
 
 const bcrypt = require('bcryptjs')
 
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
-  admin_user: true
-})
+module.exports = async (req, res) => {
 
-async function handler(req, res){
+  await auth(req, res)
+
+  if (res.finished) return
 
   var rows = await acl(`
   CREATE TABLE acl_schema.acl_table (
@@ -43,4 +45,4 @@ async function handler(req, res){
 
   res.send('New ACL has been created.')
 
-};
+}

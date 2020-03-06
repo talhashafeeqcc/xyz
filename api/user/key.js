@@ -1,26 +1,28 @@
-const requestBearer = require('../../mod/requestBearer');
+const auth = require('../../mod/auth/handler')({
+  key: true,
+  login: true
+})
 
 const acl = require('../../mod/auth/acl')();
 
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
-  key: true,
-  login: true
-});
+module.exports = async (req, res) => {
 
-async function handler(req, res){
+  await auth(req, res)
+
+  if (res.finished) return
 
   // Get user from ACL.
   var rows = await acl(`
     SELECT * FROM acl_schema.acl_table
-    WHERE lower(email) = lower($1);`, [req.params.token.email]);
+    WHERE lower(email) = lower($1);`, [req.params.token.email])
     
-  if (rows instanceof Error) return res.status(500).send('Bad config.');
+  if (rows instanceof Error) return res.status(500).send('Bad config.')
   
-  const user = rows[0];
+  const user = rows[0]
   
-  if (!user || !user.api || user.api === 'false' || !user.verified || !user.approved || user.blocked) return res.status(401).send('Invalid token.');
+  if (!user || !user.api || user.api === 'false' || !user.verified || !user.approved || user.blocked) return res.status(401).send('Invalid token.')
   
   // Create signed api_token
   const api_token = {
@@ -34,17 +36,17 @@ async function handler(req, res){
     process.env.SECRET,
     {
       expiresIn: '8h'
-    });
+    })
  
   
   // Store api_token in ACL.
   var rows = await acl(`
     UPDATE acl_schema.acl_table SET api = '${api_token.signed}'
-    WHERE lower(email) = lower($1);`, [user.email]);
+    WHERE lower(email) = lower($1);`, [user.email])
     
-  if (rows instanceof Error) return res.status(500).send('Bad config.');
+  if (rows instanceof Error) return res.status(500).send('Bad config.')
   
   // Send ACL token.
-  res.send(api_token.signed);
+  res.send(api_token.signed)
 
 }

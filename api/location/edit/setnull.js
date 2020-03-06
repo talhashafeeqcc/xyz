@@ -1,18 +1,24 @@
-const requestBearer = require('../../../mod/requestBearer')
-
-const layer = require('../../../mod/layer')
-
-const dbs = require('../../../mod/pg/dbs')()
-
-const infoj_values = require('../../../mod/infoj_values.js')
-
-module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
+const auth = require('../../../mod/auth/handler')({
   public: true
 })
 
-async function handler(req, res) {
+const dbs = require('../../../mod/pg/dbs')()
 
-  const layer = req.params.layer
+const _layers = require('../../../mod/workspace/layers')
+
+let layers
+
+const infoj_values = require('../../../mod/infoj_values.js')
+
+module.exports = async (req, res) => {
+
+  await auth(req, res)
+
+  layers = await _layers(req, res)
+
+  if (res.finished) return
+
+  const layer = layers[req.params.layer]
 
   const fields = req.query.fields.split(',').filter(f => !!f).map(f => `${f}=NULL`)
 

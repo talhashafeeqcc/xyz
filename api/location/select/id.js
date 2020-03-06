@@ -1,16 +1,22 @@
-const requestBearer = require('../../../mod/requestBearer')
-
-const infoj_values = require('../../../mod/infoj_values.js')
-
-const layer = require('../../../mod/layer')
-
-module.exports = (req, res) => requestBearer(req, res, [ layer, handler ], {
+const auth = require('../../../mod/auth/handler')({
   public: true
 })
 
-async function handler(req, res) {
+const _layers = require('../../../mod/workspace/layers')
 
-  const layer = req.params.layer
+let layers
+
+const infoj_values = require('../../../mod/infoj_values.js')
+
+module.exports = async (req, res) => {
+
+  await auth(req, res)
+
+  layers = await _layers(req, res)
+
+  if (res.finished) return
+
+  const layer = layers[req.params.layer]
 
   const rows = await infoj_values({
     layer: layer,

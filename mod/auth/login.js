@@ -1,10 +1,4 @@
-const getWorkspace = require('../workspace/get')
-
-let workspace = getWorkspace()
-
-const getTemplates = require('../templates/_templates')
-
-let _templates = getTemplates(workspace)
+const _templates = require('../workspace/templates')
 
 module.exports = async (req, res, msg) => {
 

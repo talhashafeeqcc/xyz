@@ -1,29 +1,21 @@
-const requestBearer = require('../mod/requestBearer')
-
-const Md = require('mobile-detect')
-
-const getWorkspace = require('../mod/workspace/get')
-
-let workspace = getWorkspace()
-
-const getTemplates = require('../mod/templates/_templates')
-
-let _templates = getTemplates(workspace)
-
-module.exports = (req, res) => requestBearer(req, res, [ handler ], {
+const auth = require('../mod/auth/handler')({
   public: true,
   login: true
 })
 
-async function handler(req, res){
+const Md = require('mobile-detect')
 
-  if (req.query.clear_cache) {
-    workspace = getWorkspace()
-    _templates = getTemplates(workspace)
-    return res.end()
-  }
+const _templates = require('../mod/workspace/templates')
 
-  const templates = await _templates
+let templates
+
+module.exports = async (req, res) => {
+
+  await auth(req, res)
+
+  templates = await _templates(req, res)
+
+  if (res.finished) return
 
   const md = new Md(req.headers['user-agent'])
 
