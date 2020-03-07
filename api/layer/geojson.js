@@ -8,13 +8,13 @@ const sql_filter = require('../../mod/pg/sql_filter')
 
 const _layers = require('../../mod/workspace/layers')
 
-let layers
+const layers = []
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  Object.assign(layers, [], await _layers(req, res))
 
   if (res.finished) return
 
