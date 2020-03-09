@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  const template = templates[req.query.template]
+  const template = templates[decodeURIComponent(req.query.template)]
 
   const token = req.params.token || {}
 
