@@ -5,17 +5,15 @@ const auth = require('../mod/auth/handler')({
 
 const _templates = require('../mod/workspace/templates')
 
-let templates
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  templates = await _templates(req, res)
+  const templates = await _templates(req, res)
 
   if (res.finished) return
 
-  const template = templates[decodeURIComponent(req.params.template)]
+  const template = templates[req.params.template]
 
   if (!template) return res.status(400).send('View template not found.')
 
@@ -35,7 +33,7 @@ module.exports = async (req, res) => {
   const html = template.render(Object.assign({
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
     dir: process.env.DIR || '',
-    token: req.query.token || req.params.token.signed || '""',
+    token: req.params.token && req.params.token.signed || '""',
   }, req.query))
 
   //Build the template with jsrender and send to client.

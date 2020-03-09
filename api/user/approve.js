@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`, [req.query.approvaltoken])
+  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`, [req.params.approvaltoken])
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

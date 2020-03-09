@@ -8,20 +8,18 @@ const sql_filter = require('../../mod/pg/sql_filter')
 
 const _layers = require('../../mod/workspace/layers')
 
-let layers
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
   const layer = layers[req.params.layer]
 
   let
-    table = req.query.table,
+    table = req.params.table,
     id = layer.qID || null,
     x = parseInt(req.params.x),
     y = parseInt(req.params.y),
@@ -35,7 +33,7 @@ module.exports = async (req, res) => {
 
   const filter = await sql_filter(Object.assign(
     {},
-    req.query.filter && JSON.parse(req.query.filter) || {},
+    req.params.filter && JSON.parse(req.params.filter) || {},
     roles.length && Object.assign(...roles) || {}))
 
   if (!filter && layer.mvt_cache) {
@@ -68,7 +66,7 @@ module.exports = async (req, res) => {
         ${ m - (y * r)},
         ${-m + (x * r) + r},
         ${ m - (y * r) - r},
-        ${req.query.srid || 3857}
+        ${req.params.srid || 3857}
       ) tile
 
     FROM (
@@ -83,7 +81,7 @@ module.exports = async (req, res) => {
             ${ m - (y * r)},
             ${-m + (x * r) + r},
             ${ m - (y * r) - r},
-            ${req.query.srid || 3857}
+            ${req.params.srid || 3857}
           ),
           4096,
           256,
@@ -99,7 +97,7 @@ module.exports = async (req, res) => {
             ${ m - (y * r)},
             ${-m + (x * r) + r},
             ${ m - (y * r) - r},
-            ${req.query.srid || 3857}
+            ${req.params.srid || 3857}
           ),
           ${layer.geom},
           ${r / 4}

@@ -6,13 +6,11 @@ const dbs = require('../../../mod/pg/dbs')()
 
 const _layers = require('../../../mod/workspace/layers')
 
-let layers
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -23,7 +21,7 @@ module.exports = async (req, res) => {
   const properties = req.body.properties
 
   var q = `
-  INSERT INTO ${req.query.table} (${layer.geom}${properties ? ',' + Object.keys(properties)[0] : ''})
+  INSERT INTO ${req.params.table} (${layer.geom}${properties ? ',' + Object.keys(properties)[0] : ''})
   SELECT
     ST_SetSRID(ST_GeomFromGeoJSON('${geometry}'), ${layer.srid})
     ${properties ? ',\'' + Object.values(properties)[0] + '\'' : ''}
@@ -39,7 +37,7 @@ module.exports = async (req, res) => {
       DELETE FROM ${layer.mvt_cache} 
       WHERE
         ST_Intersects(tile, 
-          (SELECT ${layer.geom} FROM ${req.query.table} WHERE ${layer.qID} = $1));`
+          (SELECT ${layer.geom} FROM ${req.params.table} WHERE ${layer.qID} = $1));`
 
     await dbs[layer.dbs](q, [rows[0].id])
   }

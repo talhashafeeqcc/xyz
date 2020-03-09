@@ -4,15 +4,13 @@ const auth = require('../../../mod/auth/handler')({
 
 const _layers = require('../../../mod/workspace/layers')
 
-let layers
-
 const infoj_values = require('../../../mod/infoj_values.js')
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -20,8 +18,8 @@ module.exports = async (req, res) => {
 
   const rows = await infoj_values({
     layer: layer,
-    table: req.query.table,
-    id: req.query.id,
+    table: req.params.table,
+    id: req.params.id,
     roles: req.params.token.roles || []
   })
 

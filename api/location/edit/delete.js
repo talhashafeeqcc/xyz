@@ -6,13 +6,11 @@ const dbs = require('../../../mod/pg/dbs')()
 
 const _layers = require('../../../mod/workspace/layers')
 
-let layers
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -25,13 +23,13 @@ module.exports = async (req, res) => {
     WHERE
       ST_Intersects(
         tile, 
-        (SELECT ${layer.geom} FROM ${req.query.table} WHERE ${layer.qID} = $1));`;
+        (SELECT ${layer.geom} FROM ${req.params.table} WHERE ${layer.qID} = $1));`;
 
-    await dbs[layer.dbs](q, [req.query.id])
+    await dbs[layer.dbs](q, [req.params.id])
 
   }
 
-  var rows = await dbs[layer.dbs](`DELETE FROM ${req.query.table} WHERE ${layer.qID} = $1;`, [req.query.id])
+  var rows = await dbs[layer.dbs](`DELETE FROM ${req.params.table} WHERE ${layer.qID} = $1;`, [req.params.id])
 
   if (rows instanceof Error) return res.status(500).send('PostgreSQL query error - please check backend logs.')
 

@@ -7,7 +7,7 @@ const acl = require('../../mod/auth/acl')()
 module.exports = async (req, res) => {
 
   // Find user account in ACL from matching token.
-  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE verificationtoken = $1;`, [req.query.verificationtoken])
+  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE verificationtoken = $1;`, [req.params.verificationtoken])
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

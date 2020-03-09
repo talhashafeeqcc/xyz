@@ -8,13 +8,11 @@ const sql_filter = require('../../mod/pg/sql_filter')
 
 const _layers = require('../../mod/workspace/layers')
 
-const layers = {}
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  Object.assign(layers, {}, await _layers(req, res))
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -22,18 +20,18 @@ module.exports = async (req, res) => {
 
   let
     geom = layer.geom,
-    style_theme = layer.style.themes[decodeURIComponent(req.query.theme)],
+    style_theme = layer.style.themes[req.params.theme],
     cat = style_theme && (style_theme.fieldfx || style_theme.field) || null,
     size = style_theme && style_theme.size || 1,
     theme = style_theme && style_theme.type,
-    label = req.query.label,
-    pixelRatio = parseFloat(req.query.pixelRatio),
-    kmeans = parseInt(1 / req.query.kmeans),
-    dbscan = parseFloat(req.query.dbscan),
-    west = parseFloat(req.query.west),
-    south = parseFloat(req.query.south),
-    east = parseFloat(req.query.east),
-    north = parseFloat(req.query.north)
+    label = req.params.label,
+    pixelRatio = parseFloat(req.params.pixelRatio),
+    kmeans = parseInt(1 / req.params.kmeans),
+    dbscan = parseFloat(req.params.dbscan),
+    west = parseFloat(req.params.west),
+    south = parseFloat(req.params.south),
+    east = parseFloat(req.params.east),
+    north = parseFloat(req.params.north)
 
   const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
     role => layer.roles[role]).map(
@@ -41,7 +39,7 @@ module.exports = async (req, res) => {
 
   const filter = await sql_filter(Object.assign(
     {},
-    req.query.filter && JSON.parse(req.query.filter) || {},
+    req.params.filter && JSON.parse(req.params.filter) || {},
     roles.length && Object.assign(...roles) || {}))
 
   // Combine filter with envelope
@@ -61,7 +59,7 @@ module.exports = async (req, res) => {
         ST_Point(${west}, ${south}),
         ST_Point(${east}, ${north})
       ) AS xdistance
-    FROM ${req.query.table} ${where_sql}`
+    FROM ${req.params.table} ${where_sql}`
 
     var rows = await dbs[layer.dbs](q)
 
@@ -82,7 +80,7 @@ module.exports = async (req, res) => {
       ${label && label !== 'count' ? label + ' AS label,' : ''}
       ST_ClusterKMeans(${geom}, ${kmeans}
     ) OVER () kmeans_cid
-    FROM ${req.query.table} ${where_sql}) kmeans`
+    FROM ${req.params.table} ${where_sql}) kmeans`
 
 
     // Apply nested DBScan cluster algorithm.
@@ -105,7 +103,7 @@ module.exports = async (req, res) => {
 
     if (theme === 'categorized') var cat_sql = `array_agg(cat) cat,`
 
-    if (theme === 'graduated') var cat_sql = `${req.query.aggregate || 'sum'}(cat) cat,`
+    if (theme === 'graduated') var cat_sql = `${req.params.aggregate || 'sum'}(cat) cat,`
 
     var q = `
     SELECT
@@ -145,7 +143,7 @@ module.exports = async (req, res) => {
   // Apply grid aggregation if KMeans is not defined.
   } else {
 
-    let r = parseInt(40075016.68 / Math.pow(2, req.query.z) * (layer.cluster_resolution || layer.cluster_hexresolution || 0.1));
+    let r = parseInt(40075016.68 / Math.pow(2, req.params.z) * (layer.cluster_resolution || layer.cluster_hexresolution || 0.1));
 
     if (layer.cluster_hexresolution) {
 
@@ -177,7 +175,7 @@ module.exports = async (req, res) => {
 
             END p0                
 
-          FROM ${req.query.table} ${where_sql}
+          FROM ${req.params.table} ${where_sql}
 
         ), second as (
           
@@ -268,7 +266,7 @@ module.exports = async (req, res) => {
           round(ST_X(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) / ${r}) * ${r} x_round,
           round(ST_Y(${layer.srid == 3857 && geom || 'ST_Transform(' + geom + ', 3857)'}) / ${r}) * ${r} y_round
             
-        FROM ${req.query.table} ${where_sql}) agg_sql GROUP BY x_round, y_round ${label && label !== 'count' ? ', label' : ''};`
+        FROM ${req.params.table} ${where_sql}) agg_sql GROUP BY x_round, y_round ${label && label !== 'count' ? ', label' : ''};`
 
       var xy_sql = `
         percentile_disc(0.5) WITHIN GROUP (ORDER BY x) x,
@@ -277,7 +275,7 @@ module.exports = async (req, res) => {
 
     if (theme === 'categorized') var cat_sql = `array_agg(cat) cat,`
 
-    if (theme === 'graduated') var cat_sql = `${req.query.aggregate || 'sum'}(cat) cat,`
+    if (theme === 'graduated') var cat_sql = `${req.params.aggregate || 'sum'}(cat) cat,`
 
     var q = `
     ${with_sql || ''}

@@ -8,13 +8,11 @@ const sql_filter = require('../../mod/pg/sql_filter')
 
 const _layers = require('../../mod/workspace/layers')
 
-const layers = {}
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  Object.assign(layers, {}, await _layers(req, res))
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -26,15 +24,15 @@ module.exports = async (req, res) => {
 
   const filter = await sql_filter(Object.assign(
     {},
-    req.query.filter && JSON.parse(req.query.filter) || {},
+    req.params.filter && JSON.parse(req.params.filter) || {},
     roles.length && Object.assign(...roles) || {}))
 
   var q = `
   SELECT
     ${layer.qID || null} AS id,
-    ${req.query.cat || null} AS cat,
+    ${req.params.cat || null} AS cat,
     ST_asGeoJson(${layer.geom}) AS geomj
-  FROM ${req.query.table}
+  FROM ${req.params.table}
   WHERE true ${filter};`
 
   var rows = await dbs[layer.dbs](q)

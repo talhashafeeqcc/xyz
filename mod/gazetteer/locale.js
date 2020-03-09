@@ -15,7 +15,7 @@ module.exports = async (req, locale) => {
   
     const filter = await sql_filter(Object.assign(
       {},
-      req.query.filter && JSON.parse(req.query.filter) || {},
+      req.params.filter && JSON.parse(req.params.filter) || {},
       roles.length && Object.assign(...roles) || {}))
 
     // Build PostgreSQL query to fetch gazetteer results.
@@ -32,7 +32,7 @@ module.exports = async (req, locale) => {
       LIMIT 10`
 
     // Get gazetteer results from dataset table.
-    var rows = await dbs[layer.dbs](q, [`${dataset.leading_wildcard ? '%': ''}${decodeURIComponent(req.query.q)}%`])
+    var rows = await dbs[layer.dbs](q, [`${dataset.leading_wildcard ? '%': ''}${decodeURIComponent(req.params.q)}%`])
 
     if (rows instanceof Error) return {err: 'Error fetching gazetteer results.'}
 

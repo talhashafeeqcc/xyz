@@ -6,15 +6,13 @@ const dbs = require('../../../mod/pg/dbs')()
 
 const _layers = require('../../../mod/workspace/layers')
 
-let layers
-
 const sql_fields = require('../../../mod/pg/sql_fields')
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -28,7 +26,7 @@ module.exports = async (req, res) => {
 
   const filter = await sql_filter(Object.assign(
     {},
-    req.query.filter && JSON.parse(req.query.filter) || {},
+    req.params.filter && JSON.parse(req.params.filter) || {},
     roles.length && Object.assign(...roles) || {}))
 
   const infoj = layer.filter.infoj
@@ -67,7 +65,7 @@ module.exports = async (req, res) => {
       3857),
     ${layer.srid})) AS geomj,
     ${fields.join()}
-  FROM ${req.query.table}
+  FROM ${req.params.table}
   WHERE true ${filter};`
 
   var rows = await dbs[layer.dbs](q)

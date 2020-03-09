@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
   const content = await fetch(req)
 
-  if (req.query.content_type) res.setHeader('content-type', req.query.content_type)
+  req.params.content_type && res.setHeader('content-type', req.params.content_type)
 
   res.send(content)
 

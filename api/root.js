@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
   const html = template.render({
     dir: process.env.DIR || '',
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
-    token: req.query.token || req.params.token.signed || '""',
+    token: req.params.token && req.params.token.signed || '""',
     log: process.env.LOG_LEVEL || '""',
     login: (process.env.PRIVATE || process.env.PUBLIC) && 'true' || '""',
   })

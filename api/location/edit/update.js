@@ -6,15 +6,13 @@ const dbs = require('../../../mod/pg/dbs')()
 
 const _layers = require('../../../mod/workspace/layers')
 
-let layers
-
 const sql_fields = require('../../../mod/pg/sql_fields')
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -41,9 +39,9 @@ module.exports = async (req, res) => {
   })
     
 
-  var q = `UPDATE ${req.query.table} SET ${fields} WHERE ${layer.qID} = $1;`
+  var q = `UPDATE ${req.params.table} SET ${fields} WHERE ${layer.qID} = $1;`
 
-  var rows = await dbs[layer.dbs](q, [req.query.id])
+  var rows = await dbs[layer.dbs](q, [req.params.id])
 
   if (rows instanceof Error) return res.status(500).send('PostgreSQL query error - please check backend logs.')
 
@@ -53,9 +51,9 @@ module.exports = async (req, res) => {
       DELETE FROM ${layer.mvt_cache}
       WHERE ST_Intersects(tile, (
         SELECT ${layer.geom}
-        FROM ${req.query.table}
+        FROM ${req.params.table}
         WHERE ${layer.qID} = $1));`,
-        [req.query.id])
+        [req.params.id])
   }
 
   // Query field for updated infoj
@@ -66,10 +64,10 @@ module.exports = async (req, res) => {
 
   var q = `
   SELECT ${fields.join()}
-  FROM ${req.query.table}
+  FROM ${req.params.table}
   WHERE ${layer.qID} = $1;`
 
-  var rows = await dbs[layer.dbs](q, [req.query.id])
+  var rows = await dbs[layer.dbs](q, [req.params.id])
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

@@ -6,13 +6,11 @@ const dbs = require('../../../mod/pg/dbs')()
 
 const _layers = require('../../../mod/workspace/layers')
 
-let layers
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
@@ -24,15 +22,15 @@ module.exports = async (req, res) => {
     DELETE FROM ${layer.mvt_cache} 
     WHERE ST_Intersects(
       tile,
-      (SELECT ${layer.geom} FROM ${req.query.table} WHERE ${layer.qID} = $1));`
+      (SELECT ${layer.geom} FROM ${req.params.table} WHERE ${layer.qID} = $1));`
 
-    await dbs[layer.dbs](q, [req.query.id])
+    await dbs[layer.dbs](q, [req.params.id])
   }
 
   var q = `
-  UPDATE ${req.query.table}
+  UPDATE ${req.params.table}
   SET ${layer.geom} = ST_SetSRID(ST_GeomFromGeoJSON('${JSON.stringify(req.body)}'),${layer.srid})
-  WHERE ${layer.qID} = ${req.query.id};`
+  WHERE ${layer.qID} = ${req.params.id};`
 
   var rows = await dbs[layer.dbs](q)
 
@@ -44,9 +42,9 @@ module.exports = async (req, res) => {
     DELETE FROM ${layer.mvt_cache} 
     WHERE ST_Intersects(
       tile,
-      (SELECT ${layer.geom} FROM ${req.query.table} WHERE ${layer.qID} = $1));`
+      (SELECT ${layer.geom} FROM ${req.params.table} WHERE ${layer.qID} = $1));`
 
-    await dbs[layer.dbs](q, [req.query.id])
+    await dbs[layer.dbs](q, [req.params.id])
   }
 
   res.send()

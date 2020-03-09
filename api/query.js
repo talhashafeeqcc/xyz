@@ -10,19 +10,15 @@ const sql_filter = require('../mod/pg/sql_filter')
 
 const _layers = require('../mod/workspace/layers')
 
-const layers = {}
-
 const _templates = require('../mod/workspace/templates')
-
-const templates = {}
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  Object.assign(layers, {}, await _layers(req, res))
+  const layers = await _layers(req, res)
 
-  Object.assign(templates, {}, await _templates(req, res))
+  const templates = await _templates(req, res)
 
   if (res.finished) return
 
@@ -48,7 +44,7 @@ module.exports = async (req, res) => {
 
     const filter = await sql_filter(Object.assign(
       {},
-      req.query.filter && JSON.parse(req.query.filter) || {},
+      req.params.filter && JSON.parse(req.params.filter) || {},
       roles.length && Object.assign(...roles) || {}))
 
     Object.assign(params, {layer: layer, filter: filter})

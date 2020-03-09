@@ -37,10 +37,6 @@ app.get(`${process.env.DIR||''}/api/provider/:provider`, (req, res) => require('
 
 app.post(`${process.env.DIR||''}/api/provider/:provider`, bodyParser.json(), (req, res) => require('./api/provider')(req, res))
 
-app.get(`${process.env.DIR||''}/api/report`, (req, res) => require('./api/report')(req, res))
-
-app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/report')(req, res))
-
 app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
 
 app.get(`${process.env.DIR||''}/api/workspace/get/:key`, (req, res) => require('./api/workspace/get')(req, res))

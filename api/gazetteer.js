@@ -33,11 +33,11 @@ module.exports = async (req, res) => {
   // Create an empty results object to be populated with the results from the different gazetteer methods.
   let results = [];
 
-  if (req.query.source) {
+  if (req.params.source) {
 
-    if (req.query.source === 'GOOGLE') {
+    if (req.params.source === 'GOOGLE') {
 
-      results = await gaz_google(req.query.q, locale.gazetteer);
+      results = await gaz_google(req.params.q, locale.gazetteer);
 
       // Return error message _err if an error occured.
       if (results._err) return res.status(500).send(results._err);
@@ -61,19 +61,19 @@ module.exports = async (req, res) => {
 
   // Query Google Maps API
   if (locale.gazetteer.provider === 'GOOGLE') {
-    results = await gaz_google(req.query.q, locale.gazetteer);
+    results = await gaz_google(req.params.q, locale.gazetteer);
 
     // Return error message _err if an error occured.
     if (results._err) return res.status(500).send(results._err);
   }
 
   if (locale.gazetteer.provider === 'OPENCAGE') {
-    results = await gaz_opencage(req.query.q, locale.gazetteer);
+    results = await gaz_opencage(req.params.q, locale.gazetteer);
   }
 
   // Query Mapbox Geocoder API
   if (locale.gazetteer.provider === 'MAPBOX') {
-    results = await gaz_mapbox(req.query.q, locale.gazetteer);
+    results = await gaz_mapbox(req.params.q, locale.gazetteer);
 
     // Return error message _err if an error occured.
     if (results._err) return res.status(500).send(results._err);

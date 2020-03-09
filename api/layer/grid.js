@@ -6,28 +6,26 @@ const dbs = require('../../mod/pg/dbs')()
 
 const _layers = require('../../mod/workspace/layers')
 
-let layers
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  const layers = await _layers(req, res)
 
   if (res.finished) return
 
   const layer = layers[req.params.layer]
 
   let
-    table = req.query.table,
+    table = req.params.table,
     geom = layer.geom,
-    size = req.query.size,
-    color = req.query.color,
+    size = req.params.size,
+    color = req.params.color,
     srid = layer.srid,
-    west = parseFloat(req.query.west),
-    south = parseFloat(req.query.south),
-    east = parseFloat(req.query.east),
-    north = parseFloat(req.query.north)
+    west = parseFloat(req.params.west),
+    south = parseFloat(req.params.south),
+    east = parseFloat(req.params.east),
+    north = parseFloat(req.params.north)
 
   var q = `
   SELECT

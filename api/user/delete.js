@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  const email = req.query.email.replace(/\s+/g, '')
+  const email = req.params.email.replace(/\s+/g, '')
 
   // Delete user account in ACL.
   var rows = await acl(`
