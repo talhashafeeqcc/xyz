@@ -23,7 +23,7 @@ const templates = {
   set_field_array: require('./queries/set_field_array'),
 }
 
-const getWorkspace = require('./get')
+const getWorkspace = require('./_workspace')
 
 let _workspace = getWorkspace()
 

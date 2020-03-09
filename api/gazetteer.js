@@ -1,12 +1,12 @@
-const gaz_locale = require('../mod/gazetteer/locale');
+const gaz_locale = require('../mod/gazetteer/locale')
 
-const gaz_google = require('../mod/gazetteer/google');
+const gaz_google = require('../mod/gazetteer/google')
 
-const gaz_mapbox = require('../mod/gazetteer/mapbox');
+const gaz_mapbox = require('../mod/gazetteer/mapbox')
 
-const gaz_opencage = require('../mod/gazetteer/opencage');
+const gaz_opencage = require('../mod/gazetteer/opencage')
 
-const getWorkspace = require('../mod/workspace/get')
+const getWorkspace = require('../mod/workspace/_workspace')
 
 let _workspace = getWorkspace()
 

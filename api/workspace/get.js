@@ -2,7 +2,7 @@ const auth = require('../../mod/auth/handler')({
   public: true
 })
 
-const getWorkspace = require('../../mod/workspace/get')
+const getWorkspace = require('../../mod/workspace/_workspace')
 
 let _workspace = getWorkspace()
 

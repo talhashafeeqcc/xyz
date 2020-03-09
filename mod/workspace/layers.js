@@ -1,4 +1,4 @@
-const getWorkspace = require('./get')
+const getWorkspace = require('./_workspace')
 
 let _workspace = getWorkspace()
 
