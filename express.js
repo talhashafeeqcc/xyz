@@ -43,7 +43,7 @@ app.post(`${process.env.DIR||''}/api/report`, bodyParser.urlencoded({extended: t
 
 app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
 
-app.get(`${process.env.DIR||''}/api/workspace/get`, (req, res) => require('./api/workspace/get')(req, res))
+app.get(`${process.env.DIR||''}/api/workspace/get/:key`, (req, res) => require('./api/workspace/get')(req, res))
 
 app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5mb'}), (req, res) => require('./api/workspace/set')(req, res))
 

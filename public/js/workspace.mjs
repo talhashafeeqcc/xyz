@@ -1,31 +1,28 @@
 export default _xyz => {
 
   return {
-    fetchWS: fetchWS,
-    setWS: setWS,
+    fetchLocales: fetchLocales,
+    getLocales: getLocales,
   };
 
-  async function fetchWS() {
+  async function fetchLocales() {
 
     const promise = await fetch(
       _xyz.host +
-      '/api/workspace/get?' +
+      '/api/workspace/get/locales?' +
       _xyz.utils.paramString({
         token: _xyz.token
       }));
 
-    // Assign workspace.
-    const workspace = await promise.json();
-
-    _xyz.workspace.locales = workspace.locales;
+    _xyz.workspace.locales = await promise.json();
   };
 
-  function setWS(callback) {
+  function getLocales(callback) {
 
     // XHR to retrieve workspace from host backend.
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', _xyz.host + '/api/workspace/get?' + _xyz.utils.paramString({
+    xhr.open('GET', _xyz.host + '/api/workspace/get/locales?' + _xyz.utils.paramString({
       token: _xyz.token
     }));
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -34,7 +31,7 @@ export default _xyz => {
 
       if (e.target.status !== 200) return console.error('Failed to retrieve workspace from XYZ host!');
 
-      _xyz.workspace.locales = e.target.response.locales;
+      _xyz.workspace.locales = e.target.response;
 
       loadLocale(callback);
     };
@@ -44,12 +41,28 @@ export default _xyz => {
 
   function loadLocale(callback) {
 
-    _xyz.locale = _xyz.locale || (_xyz.hooks && _xyz.hooks.current.locale) || Object.keys(_xyz.workspace.locales)[0];
+    _xyz.locale = _xyz.locale || (_xyz.hooks && _xyz.hooks.current.locale) || _xyz.workspace.locales[0];
 
-    // Assigne workspace locales from locales list and input params.
-    _xyz.workspace.locale = Object.assign({ key: _xyz.locale }, _xyz.workspace.locales[_xyz.locale]);
+    // XHR to retrieve workspace from host backend.
+    const xhr = new XMLHttpRequest();
 
-    loadScripts(callback)
+    xhr.open('GET', _xyz.host + '/api/workspace/get/locales?' + _xyz.utils.paramString({
+      locale: _xyz.locale,
+      token: _xyz.token
+    }));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.responseType = 'json';
+    xhr.onload = e => {
+
+      if (e.target.status !== 200) return console.error('Failed to retrieve workspace from XYZ host!');
+
+      _xyz.workspace.locale = Object.assign({ key: _xyz.locale }, e.target.response);
+
+      loadScripts(callback);
+    };
+
+    xhr.send();
+
   };
 
   function loadScripts(callback) {

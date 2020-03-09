@@ -149,7 +149,7 @@ function init(_xyz) {
   }
 
   // Create locales dropdown if length of locales array is > 1.
-  if (Object.keys(_xyz.workspace.locales).length > 1) {
+  if (_xyz.workspace.locales.length > 1) {
 
     const localeDropdown = _xyz.utils.wire()`
     <div>
@@ -167,13 +167,11 @@ function init(_xyz) {
           <span>${_xyz.workspace.locale.key}</span>
           <div class="icon"></div>
         </div>
-        <ul>${Object.values(_xyz.workspace.locales).map(
-          locale => _xyz.utils.wire()`<li><a href="${_xyz.host + '?locale=' + locale.key}">${locale.key}`
+        <ul>${_xyz.workspace.locales.map(
+          locale => _xyz.utils.wire()`<li><a href="${_xyz.host + '?locale=' + locale}">${locale}`
         )}`
 
-
         layers.parentElement.insertBefore(localeDropdown, layers.parentElement.firstChild);
-
   }
 
   // Select locations from hooks.

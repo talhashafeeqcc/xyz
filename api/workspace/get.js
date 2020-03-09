@@ -22,6 +22,20 @@ module.exports = async (req, res) => {
     Object.assign(workspace, {}, newWorkspace)
   }
 
+  if (req.params.key === 'templates' && req.params.template) return res.send(workspace.templates[req.params.template])
+
+  if (req.params.key === 'templates') return res.send(Object.keys(workspace.templates))
+
+  if (req.params.key === 'locales' && req.params.locale) return res.send(await locales(req, res, req.params.locale))
+
+  if (req.params.key === 'locales') return res.send(Object.keys(workspace.locales))
+
+  res.send(workspace)
+ 
+}
+
+async function locales(req, res, locale){
+
   const locales = JSON.parse(JSON.stringify(workspace.locales));
 
   (function objectEval(o, parent, key) {
@@ -34,20 +48,18 @@ module.exports = async (req, res) => {
     )) {
 
       // if the parent is an array splice the key index.
-      if (parent.length > 0) return parent.splice(parseInt(key), 1);
+      if (parent.length > 0) return parent.splice(parseInt(key), 1)
 
       // if the parent is an object delete the key from the parent.
-      return delete parent[key];
+      return delete parent[key]
     }
 
     // iterate through the object tree.
     Object.keys(o).forEach((key) => {
-      if (o[key] && typeof o[key] === 'object') objectEval(o[key], o, key);
+      if (o[key] && typeof o[key] === 'object') objectEval(o[key], o, key)
     });
 
-  })(locales);
+  })(locales)
 
-  // Send workspace
-  res.send({ locales: locales })
-
+  return locales[locale] || {}
 }

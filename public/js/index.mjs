@@ -72,10 +72,10 @@ async function _xyz(params) {
 
   // Get workspace from XYZ host.
   // Proceed with init from callback.
-  if (params.callback) return _xyz.workspace.setWS(params.callback);
+  if (params.callback) return _xyz.workspace.getLocales(params.callback);
 
   // Fetch workspace if no callback is provided.
-  await _xyz.workspace.fetchWS();
+  await _xyz.workspace.fetchLocales();
 
   return _xyz;
 };
