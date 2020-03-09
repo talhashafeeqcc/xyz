@@ -20,16 +20,20 @@ export default _xyz => (entry, callback) => {
 
         locale: _xyz.workspace.locale.key,
         layer: entry.location.layer.key,
+        table: entry.location.table,
         id: entry.location.id,
-        token: _xyz.token
+        token: _xyz.token,
+        template: encodeURIComponent(entry.template)
 
       }));
 
       xhr.onload = e => {
 
+        if (e.target.status !== 200) return;
+
         document.querySelector('.tab-content').innerHTML = e.target.response;
 
-        Object.values(entry.dataviews || []).map(dataview => {
+        Object.values(entry.dataviews || []).forEach(dataview => {
 
           dataview.dataview = _xyz.utils.wire()`<div>`;
 

@@ -25,6 +25,8 @@ export default _xyz => entry => {
             // get data from response based on fields setup
             Object.values(entry.chart.datasets || []).map(dataset => {
 
+                if(!dataset.fields) return;
+
                 dataset.data = [];
 
                 dataset.fields
@@ -32,6 +34,8 @@ export default _xyz => entry => {
                     Array.isArray(e.target.response[f]) ? dataset.data = e.target.response[f] : dataset.data.push(Number(e.target.response[f]));
                 });
             });
+
+            if(!entry.chart.datasets) entry.fields = e.target.response;
 
             const dataview = _xyz.dataview.charts.create(entry);
 
