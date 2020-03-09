@@ -44,46 +44,55 @@
                     "srid": "3857",
                     "dataview": {
                         "table1": {
-                            "title": "Population / GDP",
-                            "query": "NE Countries table1",
-                            "columns": [{
-                                    "field": "name",
-                                    "title": "Name"
-                                },
-                                {
-                                    "title": "Population Est",
-                                    "field": "pop_est"
-                                },
-                                {
-                                    "field": "gdp_md_est"
+                            "dataviews": [
+                                {   "title": "Population / GDP",
+                                    "query": "NE Countries table1",
+                                    "columns": [
+                                        {
+                                            "field": "name",
+                                            "title": "Name"
+                                        },
+                                        {
+                                            "title": "Population Est",
+                                            "field": "pop_est"
+                                        },
+                                        {
+                                            "field": "gdp_md_est"
+                                        }
+                                    ]
                                 }
                             ]
                         },
                         "GDP / Population": {
                             "display": true,
-                            "query": "NE GDP/Population Layer Table",
-                            "layout": "fitColumns",
-                            "columns": [{
-                                    "field": "name"
-                                },
+                            "dataviews": [
                                 {
-                                    "field": "gdp_md_est",
-                                    "formatter": "money",
-                                    "align": "right",
-                                    "formatterParams": {
-                                        "symbol": " dollars",
-                                        "symbolAfter": true,
-                                        "precision": false
-                                    }
-                                },
-                                {
-                                    "title": "Population Est",
-                                    "field": "pop_est",
-                                    "formatter": "money",
-                                    "align": "center",
-                                    "formatterParams": {
-                                        "precision": false
-                                    }
+                                    "query": "NE GDP/Population Layer Table",
+                                    "layout": "fitColumns",
+                                    "columns": [
+                                        {
+                                            "field": "name"
+                                        },
+                                        {
+                                            "field": "gdp_md_est",
+                                            "formatter": "money",
+                                            "align": "right",
+                                            "formatterParams": {
+                                                "symbol": " dollars",
+                                                "symbolAfter": true,
+                                                "precision": false
+                                            }
+                                        },
+                                        {
+                                            "title": "Population Est",
+                                            "field": "pop_est",
+                                            "formatter": "money",
+                                            "align": "center",
+                                            "formatterParams": {
+                                                "precision": false
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -542,7 +551,8 @@
                         "delete": true
                     },
                     "qID": "id",
-                    "infoj": [{
+                    "infoj": [
+                        {
                             "type": "key"
                         },
                         {
@@ -775,7 +785,8 @@
                         "isoline_here": true,
                         "delete": true
                     },
-                    "infoj": [{
+                    "infoj": [
+                        {
                             "type": "key"
                         },
                         {
@@ -965,7 +976,8 @@
                         }
                     },
                     "qID": "id",
-                    "infoj": [{
+                    "infoj": [
+                        {
                             "type": "key"
                         },
                         {
@@ -1005,64 +1017,76 @@
                     },
                     "dataview": {
                         "Retail Places": {
-                            "viewport": true,
-                            "layout": "fitColumns",
-                            "query": "UK Retail Places Layer Table",
-                            "columns": [{
-                                    "title": "ID",
-                                    "field": "id"
-                                },
+                            "dataviews": [
                                 {
-                                    "field": "dev_date"
-                                },
-                                {
-                                    "field": "rp_type"
-                                },
-                                {
-                                    "title": "Characteristics",
-                                    "columns": [{
-                                            "field": "comp_strgh",
-                                            "title": "Competition strength"
+                                    "title": "Retail Places",
+                                    "toolbars": {},
+                                    "layout": "fitColumns",
+                                    "query": "UK Retail Places Layer Table",
+                                    "columns": [
+                                        {
+                                            "title": "ID",
+                                            "field": "id"
                                         },
                                         {
-                                            "field": "est_units",
-                                            "title": "Estimate units"
+                                            "field": "dev_date"
                                         },
                                         {
-                                            "field": "est_brands",
-                                            "title": "Estimate brands"
+                                            "field": "rp_type"
+                                        },
+                                        {
+                                            "title": "Characteristics",
+                                            "columns": [
+                                                {
+                                                    "field": "comp_strgh",
+                                                    "title": "Competition strength"
+                                                },
+                                                {
+                                                    "field": "est_units",
+                                                    "title": "Estimate units"
+                                                },
+                                                {
+                                                    "field": "est_brands",
+                                                    "title": "Estimate brands"
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
                             ]
                         },
-                        "Retail strength": {
+                        "Retail Overview": {
                             "display": false,
-                            "chart": {
-                                "type": "bubble",
-                                "labels": {
-                                    "x": "est_units",
-                                    "y": "est_brands",
-                                    "r": "comp_strgh",
-                                    "label": "rp_name"
+                            "dataviews": [
+                                {
+                                    "label": "Retail strength",
+                                    "query": "UK RP Retail Strength Layer Chart",
+                                    "chart": {
+                                        "type": "bubble",
+                                        "labels": {
+                                            "x": "est_units",
+                                            "y": "est_brands",
+                                            "r": "comp_strgh",
+                                            "label": "rp_name"
+                                        }
+                                    }    
+                                },
+                                {
+                                    "label": "Services share",
+                                    "query": "UK RP Services share Layer Chart",
+                                    "chart": {
+                                        "type": "scatter",
+                                        "pointStyle": "triangle",
+                                        "radius": 10,
+                                        "labels": {
+                                            "x": "fbl",
+                                            "y": "services",
+                                            "label": "rp_name"
+                                        }
+                                    }
                                 }
-                            },
-                            "query": "UK RP Retail Strength Layer Chart"
-                        },
-                        "Services share": {
-                            "display": true,
-                            "chart": {
-                                "type": "scatter",
-                                "pointStyle": "triangle",
-                                "radius": 10,
-                                "labels": {
-                                    "x": "fbl",
-                                    "y": "services",
-                                    "label": "rp_name"
-                                }
-                            },
-                            "query": "UK RP Services share Layer Chart"
-                        }
+                            ]
+                        }  
                     },
                     "__mvt_cache": "dev.retailplaces__mvts",
                     "style": {
@@ -1259,7 +1283,8 @@
                             "fieldfx": "count(id)"
                         }]
                     },
-                    "infoj": [{
+                    "infoj": [
+                        {
                             "type": "key"
                         },
                         {
@@ -1437,18 +1462,24 @@
                     "dataview": {
                         "Retail Points": {
                             "display": true,
-                            "query": "UK Retail Points Layer Table",
-                            "columns": [{
-                                    "title": "ID",
-                                    "field": "retailpoint_id"
-                                },
+                            "dataviews": [
                                 {
-                                    "title": "Retailer",
-                                    "field": "retailer"
-                                },
-                                {
-                                    "title": "Fascia",
-                                    "field": "fascia"
+                                    "title": "Retail Points",
+                                    "query": "UK Retail Points Layer Table",
+                                    "columns": [
+                                        {
+                                            "title": "ID",
+                                            "field": "retailpoint_id"
+                                        },
+                                        {
+                                            "title": "Retailer",
+                                            "field": "retailer"
+                                        },
+                                        {
+                                            "title": "Fascia",
+                                            "field": "fascia"
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -1752,7 +1783,8 @@
                     "cluster_label": "poi_name",
                     "cluster_kmeans": 0.1,
                     "cluster_dbscan": 0.01,
-                    "infoj": [{
+                    "infoj": [
+                        {
                             "type": "key"
                         },
                         {
@@ -1958,7 +1990,8 @@
                     "table": "dev.uk_glx_sites",
                     "cluster_kmeans": 0.1,
                     "cluster_label": "site_name",
-                    "infoj": [{
+                    "infoj": [
+                        {
                             "type": "streetview"
                         },
                         {
@@ -2661,7 +2694,8 @@
                     "cluster_label": "id",
                     "cluster_dbscan": 0.001,
                     "cluster_kmeans": 0.01,
-                    "infoj": [{
+                    "infoj": [
+                        {
                             "type": "key",
                             "class": "_report"
                         },
