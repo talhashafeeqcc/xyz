@@ -10,6 +10,10 @@ module.exports = access => async (req, res) => {
 
   req.params = Object.assign(req.params || {}, req.query || {}, { token: {} })
 
+  Object.entries(req.params).filter(entry => typeof entry[1] === 'string').forEach(entry => {
+    req.params[entry[0]] = decodeURIComponent(entry[1])
+  })
+
   if (!req.body && typeof req.query.login !== 'undefined') return login(req, res)
 
   if (req.body && access.login) {

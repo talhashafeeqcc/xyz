@@ -3,9 +3,9 @@ const auth = require('../../mod/auth/handler')({
   login: true
 })
 
-const acl = require('../../mod/auth/acl')();
+const acl = require('../../mod/auth/acl')()
 
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 
 module.exports = async (req, res) => {
 

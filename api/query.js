@@ -10,37 +10,37 @@ const sql_filter = require('../mod/pg/sql_filter')
 
 const _layers = require('../mod/workspace/layers')
 
-let layers
+const layers = {}
 
 const _templates = require('../mod/workspace/templates')
 
-let templates
+const templates = {}
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  layers = await _layers(req, res)
+  Object.assign(layers, {}, await _layers(req, res))
 
-  templates = await _templates(req, res)
+  Object.assign(templates, {}, await _templates(req, res))
 
   if (res.finished) return
 
-  const template = templates[req.query.template]
+  const template = templates[req.params.template]
+
+  if(!template) return res.status(500).send('Template not found')
 
   const token = req.params.token || {}
 
   const params = req.query || {}
 
-  if(!template) console.log(`Template ${req.query.template} not found`)
-
   if (template.admin_user && !token) return res.status(401).send('Insuficient privileges.')
 
   if (template.admin_workspace && !token) return res.status(401).send('Insuficient privileges.')
 
-  if (req.query.locale && req.query.layer) {
+  if (req.params.locale && req.params.layer) {
 
-    const layer = layers[req.query.layer]
+    const layer = layers[req.params.layer]
 
     const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
       role => layer.roles[role]).map(

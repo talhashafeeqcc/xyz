@@ -1,19 +1,23 @@
-const getWorkspace = require('./_workspace')
+let _workspace = require('./_workspace')()
 
-let _workspace = getWorkspace()
+const workspace = {}
 
 module.exports = async (req, res) => {
 
   if (req.query.clear_cache) {
-    _workspace = getWorkspace()
+    _workspace = require('./_workspace')()
     return res.end()
   }
 
-  const workspace = await _workspace
+  //const t = process.hrtime()
 
-  if (!req.query.locale) return []
+  Object.assign(workspace, {}, await _workspace)
 
-  const locale = workspace.locales[req.query.locale]
+  //console.log(process.hrtime(t))
+
+  if (!req.params.locale || !workspace.locales[req.params.locale]) return {}
+
+  const locale = workspace.locales[req.params.locale]
 
   return locale.layers
 

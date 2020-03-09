@@ -2,9 +2,9 @@ const auth = require('../../mod/auth/handler')({
   public: true
 })
 
-const getWorkspace = require('../../mod/workspace/_workspace')
+let _workspace = require('../../mod/workspace/_workspace')()
 
-let _workspace = getWorkspace()
+const workspace = {}
 
 const clearCache = require('../../mod/workspace/clearCache')
 
@@ -12,13 +12,14 @@ module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  let workspace = await _workspace
+  Object.assign(workspace, {}, await _workspace)
 
-  const newWorkspace = await getWorkspace()
+  const newWorkspace = await require('../../mod/workspace/_workspace')()
 
   if (JSON.stringify(workspace) !== JSON.stringify(newWorkspace)) {
     await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
-    _workspace = newWorkspace
+    _workspace = require('../../mod/workspace/_workspace')()
+    Object.assign(workspace, {}, newWorkspace)
   }
 
   const locales = JSON.parse(JSON.stringify(workspace.locales));

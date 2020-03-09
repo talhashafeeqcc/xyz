@@ -46,7 +46,7 @@ async function register(req, res) {
 
   const verificationtoken = crypto.randomBytes(20).toString('hex')
 
-  const date = transformDate();
+  const date = transformDate()
 
   if (user) {
 

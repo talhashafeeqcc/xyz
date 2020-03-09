@@ -1,5 +1,9 @@
 const provider = require('../provider')
 
+let _workspace = require('./_workspace')()
+
+const workspace = {}
+
 const templates = {
 
   //views
@@ -23,18 +27,14 @@ const templates = {
   set_field_array: require('./queries/set_field_array'),
 }
 
-const getWorkspace = require('./_workspace')
-
-let _workspace = getWorkspace()
-
 module.exports = async (req, res) => {
 
   if (req.query.clear_cache) {
-    _workspace = getWorkspace()
+    _workspace = require('./_workspace')()
     return res.end()
   }
 
-  const workspace = await _workspace
+  Object.assign(workspace, {}, await _workspace)
 
   for (key of Object.keys(workspace.templates || {})) {
 

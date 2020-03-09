@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
   if (rows instanceof Error) return res.status(500).send('Failed to update PostGIS table.')
 
   var rows = await infoj_values({
-    locale: req.query.locale,
+    locale: req.params.locale,
     layer: layer,
     table: req.query.table,
     id: req.query.id,

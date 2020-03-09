@@ -6,26 +6,26 @@ const gaz_mapbox = require('../mod/gazetteer/mapbox')
 
 const gaz_opencage = require('../mod/gazetteer/opencage')
 
-const getWorkspace = require('../mod/workspace/_workspace')
-
-let _workspace = getWorkspace()
-
 const auth = require('../mod/auth/handler')({
   public: true
 })
+
+let _workspace = require('../mod/workspace/_workspace')()
+
+const workspace = {}
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
   if (req.query.clear_cache) {
-    _workspace = getWorkspace()
-    return
+    _workspace = require('../mod/workspace/_workspace')()
+    return res.end()
   }
 
-  const workspace = await _workspace
+  Object.assign(workspace, {}, await _workspace)
 
-  const locale = workspace.locales[req.query.locale]
+  const locale = workspace.locales[req.params.locale]
 
   // Return 406 is gazetteer is not found in locale.
   if (!locale.gazetteer) return res.status(400).send(new Error('Gazetteer not defined for locale.'));
