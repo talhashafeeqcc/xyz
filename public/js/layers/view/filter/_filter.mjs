@@ -181,7 +181,7 @@ export default _xyz => {
         const xhr = new XMLHttpRequest();
             
         xhr.open('GET', _xyz.host +
-          '/api/location/select/aggregate?' +
+          '/api/location/aggregate?' +
           _xyz.utils.paramString({
             locale: _xyz.workspace.locale.key,
             layer: layer.key,

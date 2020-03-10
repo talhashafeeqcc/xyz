@@ -18,17 +18,19 @@ module.exports = async (req, res) => {
 
   const layer = layers[req.params.layer]
 
-  // Clone the infoj from the memory workspace layer.
-  const infoj = layer.infoj && JSON.parse(JSON.stringify(layer.infoj))
-
-  // The fields array stores all fields to be queried for the location info.    
-  const fields = (infoj && await sql_fields([], infoj)) || []
-
-  // Push JSON geometry field into fields array.
-  fields.push(` ST_asGeoJson(${layer.geom}, 4) AS geomj`)
+  const fields = layer.infoj
+    .filter(entry => !entry.query)
+    .filter(entry => entry.type !== 'key')
+    .filter(entry => entry.field)
+    .map(entry => {
+      if (entry.labelfx) return `${entry.labelfx} AS ${entry.field}_label`
+      if (entry.field) return `(${entry.fieldfx || entry.field}) AS ${entry.field}`
+    })
 
   var q = `
-  SELECT ${fields.join()}
+  SELECT 
+    ST_asGeoJson(${layer.geom}, 4) AS geomj,
+    ${fields.join()}
   FROM ${req.params.table}
   WHERE ${layer.qID} = $1`
 

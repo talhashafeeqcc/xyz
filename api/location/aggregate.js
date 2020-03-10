@@ -1,12 +1,12 @@
-const auth = require('../../../mod/auth/handler')({
+const auth = require('../../mod/auth/handler')({
   public: true
 })
 
-const dbs = require('../../../mod/pg/dbs')()
+const dbs = require('../../mod/pg/dbs')()
 
-const _layers = require('../../../mod/workspace/layers')
+const _layers = require('../../mod/workspace/layers')
 
-const sql_fields = require('../../../mod/pg/sql_fields')
+const sql_fields = require('../../mod/pg/sql_fields')
 
 module.exports = async (req, res) => {
 

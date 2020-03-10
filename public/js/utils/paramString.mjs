@@ -1,18 +1,6 @@
 // Create param string for XHR request.
-export function paramString(param) {
-
-  const arr = [];
-
-  Object.keys(param).forEach(key => {
-    if (param[key]
-      && (param[key].length > 0 || typeof(param[key]) === 'number')
-      && param[key] !== '{}'
-      || param[key] === true
-      || param[key] === 0) {
-      arr.push(encodeURI(key + '=' + param[key]));
-    }
-  });
-
-  return arr.join('&');
-
-}
+export default params => Object.entries(params)
+  .filter(entry => entry[1] === 0 || !!entry[1])
+  .filter(entry => entry[1].length > 0 || typeof entry[1] !== 'object')
+  .map(entry => encodeURI(`${entry[0]}=${entry[1]}`))
+  .join('&');

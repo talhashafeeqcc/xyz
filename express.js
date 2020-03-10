@@ -84,7 +84,7 @@ app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/u
 app.get(`${process.env.DIR||''}/api/location/get`, (req, res) => require('./api/location/get')(req, res))
 
 
-app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => require('./api/location/select/aggregate')(req, res))
+app.get(`${process.env.DIR||''}/api/location/aggregate`, (req, res) => require('./api/location/aggregate')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
 

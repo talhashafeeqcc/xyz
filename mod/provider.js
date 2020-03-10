@@ -19,9 +19,7 @@ module.exports = {
 
 async function github(req) {
 
-  const url = req.url && req.url.split('url=').pop() || req
-
-  const response = await fetch(`https://${url.replace(/https:/,'').replace(/\/\//,'')}`, {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+  const response = await fetch(`https://${getURL(req).replace(/https:/,'').replace(/\/\//,'')}`, {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
 
   const b64 = await response.json()
 
@@ -32,31 +30,21 @@ async function github(req) {
 
 async function here(req) {
 
-  const url = req.url && req.url.split('url=').pop() || req
-
-  console.log(req.url)
-
-  //console.log(`https://${decodeURIComponent(url)}&${process.env.KEY_HERE}`)
-
-  const response = await fetch(`https://${decodeURIComponent(url)}&${process.env.KEY_HERE}`)
+  const response = await fetch(`https://${getURL(req)}&${process.env.KEY_HERE}`)
 
   return await response.json()
 }
 
 async function mapbox(req) {
 
-  const url = req.url && req.url.split('url=').pop() || req
-
-  const response = await fetch(`https://${url}&${process.env.KEY_MAPBOX}`.replace(/\&provider=mapbox/,''))
+  const response = await fetch(`https://${getURL(req)}&${process.env.KEY_MAPBOX}`.replace(/\&provider=mapbox/,''))
 
   return await response.json()
 }
 
 async function opencage(req) {
 
-  const url = req.url && req.url.split('url=').pop() || req
-
-  const response = await fetch(`https://${url}&key=${process.env.KEY_OPENCAGE}`)
+  const response = await fetch(`https://${getURL(req)}&key=${process.env.KEY_OPENCAGE}`)
 
   return await response.json()
 }
@@ -88,4 +76,17 @@ async function cloudinary(req) {
       public_id: `${process.env.CLOUDINARY.split(' ')[3]}/${Date.now()}`,
       overwrite: true,
     })
+}
+
+function getURL(req) {
+
+  if (!req.params || !req.params.url) return req
+
+  return req.params.url + Object.entries(req.params)
+    .filter(entry => entry[0] !== 'url')
+    .filter(entry => entry[1] === 0 || !!entry[1])
+    .filter(entry => entry[1].length > 0 || typeof entry[1] !== 'object')
+    .map(entry => encodeURI(`${entry[0]}=${entry[1]}`))
+    .join('&')
+
 }
