@@ -123394,16 +123394,10 @@ function panel(layer) {
     // Create val table cell in a new line.
     if (!entry.inline && !(entry.type === 'integer' ^ entry.type === 'numeric' ^ entry.type === 'date')) {
 
-      console.log(entry.inline);
-      console.log(entry.type);
-
       if(entry.label_div) entry.label_div.style.gridColumn = "1 / span 2";
 
       // Create new row and append to table.
       entry.val = _xyz.utils.wire()`<div class="val" style="grid-column: 1;">`;
-
-      console.log(entry.val);
-      console.log(entry);
 
       entry.listview.appendChild(entry.val);
 
@@ -124473,6 +124467,17 @@ function panel(layer) {
 	entry.location.geometries.push(entry.location.geometryCollection);
     entry.display = true;
 
+  //console.log(entry);
+
+  //entry.legend = _xyz.utils.wire()`<div class="legend">Hello I am a legend`;
+
+  //entry.container.appendChild(entry.legend);
+
+  entry.container.appendChild(_xyz.layers.view.style.legend({
+    format: 'mvt',
+    style: entry.style
+  }));
+
 });
 // CONCATENATED MODULE: ./public/js/locations/view/geometry/_geometry.mjs
 
@@ -124504,12 +124509,12 @@ function panel(layer) {
       entry.style
     );
 
-    let container = _xyz.utils.wire()`
+    entry.container = _xyz.utils.wire()`
     <div 
     class=${'lv-' + (entry.level || 0) + ' ' + (entry.class || '')}
     style="grid-column: 1 / span 2; padding-top: 4px; position: relative;">`;
 
-    entry.listview.appendChild(container);
+    entry.listview.appendChild(entry.container);
 
     function drawGeom() {
 
@@ -124555,7 +124560,7 @@ function panel(layer) {
       if (entry.edit.isoline_here) return isoline_here.create(entry);
     }
 
-    container.appendChild(_xyz.utils.wire()`
+    entry.container.appendChild(_xyz.utils.wire()`
     <div>
     <label class="input-checkbox">
     <input type="checkbox"
@@ -124570,7 +124575,7 @@ function panel(layer) {
     </input>
     <div></div><span>${entry.name || 'Geometry'}`);
 
-    !entry.style.theme && container.appendChild(_xyz.utils.wire()`
+    !entry.style.theme && entry.container.appendChild(_xyz.utils.wire()`
     <div class="sample-circle"
       style="${
         'background-color:' + _xyz.utils.Chroma(entry.style.fillColor || entry.style.strokeColor).alpha(entry.style.fillOpacity === undefined ? 1 : (parseFloat(entry.style.fillOpacity) || 0)) + ';' +
@@ -124582,9 +124587,9 @@ function panel(layer) {
         'top:5px;'
       }">`);
 
-    if (entry.edit && entry.edit.isoline_mapbox) container.appendChild(isoline_mapbox.settings(entry));
+    if (entry.edit && entry.edit.isoline_mapbox) entry.container.appendChild(isoline_mapbox.settings(entry));
 
-    if (entry.edit && entry.edit.isoline_here) container.appendChild(isoline_here.settings(entry));
+    if (entry.edit && entry.edit.isoline_here) entry.container.appendChild(isoline_here.settings(entry));
 
     if (entry.value && (entry.display || entry.edit)) return drawGeom();
 
