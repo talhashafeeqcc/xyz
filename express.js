@@ -39,9 +39,13 @@ app.post(`${process.env.DIR||''}/api/provider/:provider`, bodyParser.json(), (re
 
 app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
 
+app.get(`${process.env.DIR||''}/api/gazetteer`, (req, res) => require('./api/gazetteer')(req, res))
+
+
 app.get(`${process.env.DIR||''}/api/workspace/get/:key`, (req, res) => require('./api/workspace/get')(req, res))
 
 app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5mb'}), (req, res) => require('./api/workspace/set')(req, res))
+
 
 app.get(`${process.env.DIR||''}/api/layer/mvt/:z/:x/:y`, (req, res) => require('./api/layer/mvt')(req, res))
 
@@ -50,6 +54,7 @@ app.get(`${process.env.DIR||''}/api/layer/grid`, (req, res) => require('./api/la
 app.get(`${process.env.DIR||''}/api/layer/cluster`, (req, res) => require('./api/layer/cluster')(req, res))
 
 app.get(`${process.env.DIR||''}/api/layer/geojson`, (req, res) => require('./api/layer/geojson')(req, res))
+
 
 app.get(`${process.env.DIR||''}/api/user/key`, (req, res) => require('./api/user/key')(req, res))
 
@@ -75,7 +80,9 @@ app.get(`${process.env.DIR||''}/api/user/update`, (req, res) => require('./api/u
 
 app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/user/delete')(req, res))
 
-app.get(`${process.env.DIR||''}/api/location/select/id`, (req, res) => require('./api/location/select/id')(req, res))
+
+app.get(`${process.env.DIR||''}/api/location/get`, (req, res) => require('./api/location/get')(req, res))
+
 
 app.get(`${process.env.DIR||''}/api/location/select/aggregate`, (req, res) => require('./api/location/select/aggregate')(req, res))
 
@@ -91,6 +98,5 @@ app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (re
 
 app.post(`${process.env.DIR||''}/api/location/edit/geom_update`, bodyParser.json(), (req, res) => require('./api/location/edit/geom_update')(req, res))
 
-app.get(`${process.env.DIR||''}/api/gazetteer`, (req, res) => require('./api/gazetteer')(req, res))
 
 app.listen(process.env.PORT || 3000)

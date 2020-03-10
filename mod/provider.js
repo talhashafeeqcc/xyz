@@ -34,6 +34,8 @@ async function here(req) {
 
   const url = req.url && req.url.split('url=').pop() || req
 
+  console.log(`https://${decodeURIComponent(url)}&${process.env.KEY_HERE}`)
+
   const response = await fetch(`https://${decodeURIComponent(url)}&${process.env.KEY_HERE}`)
 
   return await response.json()

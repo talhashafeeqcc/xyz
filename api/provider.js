@@ -8,8 +8,6 @@ module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  console.log(req.params)
-
   const fetch = provider[req.params.provider]
 
   req.body = req.body && await bodyData(req) || null
