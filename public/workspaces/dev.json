@@ -1017,9 +1017,11 @@
                     },
                     "dataview": {
                         "Retail Places": {
+                            "template": "Sites Population Dashboard",
                             "dataviews": [
                                 {
                                     "title": "Retail Places",
+                                    "target_id": "xyz_sites_oac",
                                     "toolbars": {},
                                     "layout": "fitColumns",
                                     "query": "UK Retail Places Layer Table",
@@ -2704,10 +2706,14 @@
                             "type": "label"
                         },
                         {
-                            "field": "town"
+                            "field": "town",
+                            "label": "Town",
+                            "inline": true
                         },
                         {
-                            "field": "county"
+                            "field": "county",
+                            "label": "County",
+                            "inline": true
                         },
                         {
                             "label": "Customer catchments",
@@ -2770,6 +2776,7 @@
                                     "field": "catchment",
                                     "cat": {
                                         "primary": {
+                                            "label": "Primary",
                                             "style": {
                                                 "strokeColor": "#5E08E4",
                                                 "fillOpacity": 0.7,
@@ -2777,6 +2784,7 @@
                                             }
                                         },
                                         "secondary": {
+                                            "label": "Secondary",
                                             "style": {
                                                 "strokeColor": "#D15CF1",
                                                 "fillOpacity": 0.7,
@@ -2784,6 +2792,7 @@
                                             }
                                         },
                                         "tertiary": {
+                                            "label": "Tertiary",
                                             "style": {
                                                 "strokeColor": "#FFB9F2",
                                                 "fillOpacity": 0.7,
@@ -2794,7 +2803,13 @@
                                 }
                             },
                             "field": "all_catchments",
-                            "fieldfx": "SELECT jsonb_build_object('type', 'FeatureCollection','features', b.features) AS collection FROM (SELECT jsonb_build_array(jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'primary', 'id', id),'geometry', ST_AsGeoJson(catchment_primary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'secondary', 'id', id),'geometry', ST_AsGeoJson(catchment_secondary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'tertiary', 'id', id),'geometry', ST_AsGeoJson(catchment_tertiary)::jsonb)) AS features FROM (SELECT * FROM dev.storelist_1507__19 where id = ${id}) a) b"
+                            "fieldfx": "SELECT jsonb_build_object('type', 'FeatureCollection','features', b.features) AS collection FROM (SELECT jsonb_build_array(jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'primary', 'id', id),'geometry', ST_AsGeoJson(catchment_primary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'secondary', 'id', id),'geometry', ST_AsGeoJson(catchment_secondary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'tertiary', 'id', id),'geometry', ST_AsGeoJson(catchment_tertiary)::jsonb)) AS features FROM (SELECT * FROM dev.storelist_1507__19 where id = $1) a) b"
+                        },
+                        {
+                            "field": "county2",
+                            "fieldfx": "county",
+                            "label": "County 2",
+                            "inline": true
                         }
                     ],
                     "style": {
