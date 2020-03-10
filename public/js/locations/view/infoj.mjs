@@ -145,11 +145,6 @@ export default _xyz => location => {
       continue
     }
 
-    if (entry.type === 'tableDefinition') {
-      //_xyz.locations.view.tableDefinition(entry);
-      continue
-    }
-
     if (entry.type === 'dashboard') {
       _xyz.locations.view.dashboard(entry);
       continue

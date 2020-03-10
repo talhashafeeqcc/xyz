@@ -1,81 +1,43 @@
-export default _xyz => chart => {
+export default _xyz => dashboard => {
 
-  if (!chart) return;
+	if(!dashboard || !dashboard.dataviews) return;
 
-  if (_xyz.dataview.node)  document.body.style.gridTemplateRows = 'minmax(0, 1fr) 40px';
+	if (_xyz.dataview.node) document.body.style.gridTemplateRows = 'minmax(0, 1fr) 40px';
 
-  if (_xyz.dataview.tables.indexOf(chart) < 0) _xyz.dataview.tables.push(chart);
+	if (_xyz.dataview.tables.indexOf(dataview) < 0) _xyz.dataview.tables.push(dashboard);
 
-  if (_xyz.dataview.nav_bar) _xyz.dataview.addTab(chart);
+	if (_xyz.dataview.nav_bar) _xyz.dataview.addTab(dashboard);
 
-  chart.update = () => {
+	dashboard.update = () => {
 
-    const xhr = new XMLHttpRequest();
+		document.querySelector('.tab-content').innerHTML = '';
 
-    const bounds = _xyz.mapview && _xyz.mapview.getBounds();
+		if(dashboard.template) {
 
-    // Create filter from legend and current filter.
-    const filter = chart.layer.filter && Object.assign({}, chart.layer.filter.legend, chart.layer.filter.current);
+			// here dashboard from template
 
-    xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
-      locale: _xyz.workspace.locale.key,
-      layer: chart.layer.key,
-      chart: chart.key,
-      template: chart.query,
-      filter: JSON.stringify(filter),
-      srid: _xyz.mapview.srid,
-      west: bounds && bounds.west,
-      south: bounds && bounds.south,
-      east: bounds && bounds.east,
-      north: bounds && bounds.north,
-      token: _xyz.token
-    }));
+		} else {
 
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.responseType = 'json';
+			Object.values(dashboard.dataviews || []).map(dataview => {
 
-    xhr.onload = e => {
+				dataview.dataview = _xyz.utils.wire()`<div>`;
 
-      _xyz.dataview.node.querySelector('.tab-content').innerHTML = '';
+				_xyz.dataview.layerDataview(Object.assign({}, dataview, {layer: dashboard.layer}));
 
-      let chartElem = _xyz.dataview.charts.create({
-        label: chart.key, 
-        columns: chart.columns,
-        labels: chart.labels,
-        fields: e.target.response, 
-        chart: chart.chart
-      });
+				document.querySelector('.tab-content').appendChild(dataview.dataview);
+			
+			});
+		}
 
-      _xyz.dataview.node.querySelector('.tab-content').appendChild(chartElem);
+	}
 
-    };
+	dashboard.activate = () => {
 
-    xhr.send();
+		dashboard.update();
 
-  };
+		_xyz.dataview.current_table = dashboard;
+	}
 
+	if(!dashboard.tab || !dashboard.tab.classList.contains('folded')) dashboard.activate();
 
-  chart.activate = () => {
-
-    /*if (_xyz.dataview && _xyz.dataview.btn && _xyz.dataview.btn.dataViewport) {
-
-      if (chart.viewport) {
-        _xyz.dataview.btn.dataViewport.classList.add('active');
-
-      } else {
-        _xyz.dataview.btn.dataViewport.classList.remove('active');
-      }
-
-      _xyz.dataview.btn.dataViewport.style.display = 'block'; // not showing until design resolved
-    }*/
-
-    chart.update();
-
-    _xyz.dataview.current_table = chart;
-
-  };
-
-  // active only if displayed in the navbar 
-  if(!chart.tab || !chart.tab.classList.contains('folded')) chart.activate();
-
-};
+}

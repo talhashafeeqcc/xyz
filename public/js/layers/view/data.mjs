@@ -34,10 +34,10 @@ export default _xyz => {
         tab.layer = layer;
         tab.title = tab.title || key;
 
-        tab.target = _xyz.dataview.node.querySelector('.table') || _xyz.dataview.tableContainer();
+        tab.target = _xyz.dataview.node.querySelector('.table');
 
-        tab.show = () => tab.chart ? _xyz.dataview.layerDashboard(tab) : _xyz.dataview.layerTable(tab);
-        tab.remove = () => tab.chart ? _xyz.dataview.removeTab(tab) : _xyz.dataview.removeTab(tab);
+        tab.show = () => _xyz.dataview.layerDashboard(tab);
+        tab.remove = () => _xyz.dataview.removeTab(tab);
 
         // Create checkbox to toggle whether table is in tabs list.
         panel.appendChild(_xyz.utils.wire()`
