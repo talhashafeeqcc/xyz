@@ -75,7 +75,7 @@ export default _xyz => location => {
     if (entry.label) {
 
       entry.label_div = _xyz.utils.wire()`
-      <div class="${'label lv-' + (entry.level || 0)}"
+      <div class="${'label lv-' + (entry.level || 0)}" style="grid-column: 1;"
       title="${entry.title || null}">${entry.label}`;
 
       entry.group ? location.groups[entry.group].div.appendChild(entry.label_div) : entry.listview.appendChild(entry.label_div);
@@ -159,7 +159,7 @@ export default _xyz => location => {
       if(entry.label_div) entry.label_div.style.gridColumn = "1 / span 2";
 
       // Create new row and append to table.
-      entry.val = _xyz.utils.wire()`<div class="val" style="grid-column: 2;">`;
+      entry.val = _xyz.utils.wire()`<div class="val" style="grid-column: 1;">`;
 
       entry.listview.appendChild(entry.val);
 
