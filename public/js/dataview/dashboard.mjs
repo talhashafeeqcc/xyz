@@ -20,11 +20,8 @@ export default _xyz => (entry, callback) => {
 
         locale: _xyz.workspace.locale.key,
         layer: entry.location.layer.key,
-        table: entry.location.table,
         id: entry.location.id,
-        token: _xyz.token,
-        template: encodeURIComponent(entry.template)
-
+        token: _xyz.token
       }));
 
       xhr.onload = e => {
@@ -34,6 +31,8 @@ export default _xyz => (entry, callback) => {
         document.querySelector('.tab-content').innerHTML = e.target.response;
 
         Object.values(entry.dataviews || []).forEach(dataview => {
+
+          if(!dataview.target_id) return;
 
           dataview.dataview = _xyz.utils.wire()`<div>`;
 

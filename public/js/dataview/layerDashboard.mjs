@@ -15,6 +15,37 @@ export default _xyz => dashboard => {
 		if(dashboard.template) {
 
 			// here dashboard from template
+			const xhr = new XMLHttpRequest();
+
+			xhr.open('GET', _xyz.host + '/view/' + encodeURIComponent(dashboard.template) + '?' + _xyz.utils.paramString({
+				locale: _xyz.workspace.locale.key,
+				layer: dashboard.layer.key,
+				token: _xyz.token
+			}));
+
+			xhr.onload = e => {
+
+				if (e.target.status !== 200) return;
+
+				document.querySelector('.tab-content').innerHTML = e.target.response;
+
+				Object.values(dashboard.dataviews || []).forEach(dataview => {
+
+					if(!dataview.target_id) return;
+
+					dataview.dataview = _xyz.utils.wire()`<div>`;
+
+					_xyz.dataview.layerDataview(Object.assign({}, dataview, {layer: dashboard.layer}));
+
+					let container = dataview.target_id ? document.getElementById(dataview.target_id) : null;
+
+					if(container) container.appendChild(dataview.dataview);
+				
+				});
+			
+			}
+
+			xhr.send();
 
 		} else {
 
