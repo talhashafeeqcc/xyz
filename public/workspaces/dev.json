@@ -1017,9 +1017,11 @@
                     },
                     "dataview": {
                         "Retail Places": {
+                            "template": "Sites Population Dashboard",
                             "dataviews": [
                                 {
                                     "title": "Retail Places",
+                                    "target_id": "xyz_sites_oac",
                                     "toolbars": {},
                                     "layout": "fitColumns",
                                     "query": "UK Retail Places Layer Table",
