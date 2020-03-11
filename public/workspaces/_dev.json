@@ -6,7 +6,7 @@
           "dbs": "XYZ"
       },
       "table_view": {
-        "template": "http://localhost:3000/views/table_view"
+        "template": "http://localhost:3000/views/table_view.html"
       }
   },
   "locales": {

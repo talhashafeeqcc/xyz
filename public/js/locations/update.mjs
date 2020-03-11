@@ -20,7 +20,7 @@ export default _xyz => function (callback) {
   const xhr = new XMLHttpRequest();
 
   xhr.open('POST', _xyz.host + 
-    '/api/location/edit/update?' +
+    '/api/location/update?' +
     _xyz.utils.paramString({
       locale: _xyz.workspace.locale.key,
       layer: location.layer.key,

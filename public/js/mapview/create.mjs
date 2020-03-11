@@ -1,12 +1,5 @@
 export default _xyz => params => {
-
-  // Remove existing Leaflet map object.
-  if (_xyz.map) {
-    _xyz.map.setTarget(null);
-    _xyz.map = null;
-  }
-    
-  // Return if no target has been defined for the leaflet map control.
+   
   if (!params.target) return console.log('No target for mapview!');
 
   _xyz.mapview.node = params.target;
@@ -20,8 +13,6 @@ export default _xyz => params => {
     parseFloat((params.view && params.view.lat) || _xyz.workspace.locale.view.lat || 0),
   ]);
 
-     
-  // Create Leaflet map object.
   _xyz.map = new _xyz.mapview.lib.Map({
     target: _xyz.mapview.node,
     interactions: _xyz.mapview.lib.interaction.defaults({ 

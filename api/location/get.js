@@ -6,8 +6,6 @@ const _layers = require('../../mod/workspace/layers')
 
 const dbs = require('../../mod/pg/dbs')()
 
-const sql_fields = require('../../mod/pg/sql_fields')
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
