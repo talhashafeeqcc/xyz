@@ -4,6 +4,8 @@ import draw from './draw.mjs';
 
 import edit from './edit.mjs';
 
+import zoomToArea from './zoomToArea.mjs'
+
 export default _xyz => ({
 
   current: {},
@@ -13,5 +15,7 @@ export default _xyz => ({
   draw : draw(_xyz),
 
   edit: edit(_xyz),
+
+  zoomToArea: zoomToArea(_xyz)
 
 });
