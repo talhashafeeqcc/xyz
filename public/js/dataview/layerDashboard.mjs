@@ -4,13 +4,13 @@ export default _xyz => dashboard => {
 
 	if (_xyz.dataview.node) document.body.style.gridTemplateRows = 'minmax(0, 1fr) 40px';
 
-	if (_xyz.dataview.tables.indexOf(dataview) < 0) _xyz.dataview.tables.push(dashboard);
+	if (_xyz.dataview.tables.indexOf(dashboard) < 0) _xyz.dataview.tables.push(dashboard);
 
 	if (_xyz.dataview.nav_bar) _xyz.dataview.addTab(dashboard);
 
 	dashboard.update = () => {
 
-		document.querySelector('.tab-content').innerHTML = '';
+		if(document.querySelector('.tab-content')) document.querySelector('.tab-content').innerHTML = '';
 
 		if(dashboard.template) {
 
@@ -27,7 +27,7 @@ export default _xyz => dashboard => {
 
 				if (e.target.status !== 200) return;
 
-				document.querySelector('.tab-content').innerHTML = e.target.response;
+				if(document.querySelector('.tab-content')) document.querySelector('.tab-content').innerHTML = e.target.response;
 
 				Object.values(dashboard.dataviews || []).forEach(dataview => {
 
@@ -55,7 +55,9 @@ export default _xyz => dashboard => {
 
 				_xyz.dataview.layerDataview(Object.assign({}, dataview, {layer: dashboard.layer}));
 
-				document.querySelector('.tab-content').appendChild(dataview.dataview);
+				let container = dataview.target_id && document.getElementById(dataview.target_id) || document.querySelector('.tab-content');
+
+				if(container) container.appendChild(dataview.dataview);
 			
 			});
 		}
