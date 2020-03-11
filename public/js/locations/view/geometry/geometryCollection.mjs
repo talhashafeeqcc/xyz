@@ -39,7 +39,11 @@ export default _xyz => entry => {
 	entry.location.geometries.push(entry.location.geometryCollection);
     entry.display = true;
 
-  entry.container.appendChild(_xyz.layers.view.style.legend({
+  entry.legend = _xyz.utils.wire()`<div class="legend lv-1">`;
+
+  entry.container.appendChild(entry.legend);
+
+  entry.legend.appendChild(_xyz.layers.view.style.legend({
     format: 'mvt',
     style: entry.style
   }));
