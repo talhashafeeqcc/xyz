@@ -38,7 +38,9 @@ module.exports = async (req, res) => {
 
   for (key of Object.keys(workspace.templates || {})) {
 
-    const template = workspace.templates[key].template.toLowerCase().includes('api.github') && await provider.github(workspace.templates[key].template) || workspace.templates[key].template
+    const template = workspace.templates[key].template.toLowerCase().includes('api.github') && await provider.github(workspace.templates[key].template)
+      || workspace.templates[key].template.startsWith('http') && await provider.http(workspace.templates[key].template)
+      || workspace.templates[key].template
 
     templates[key] = {
       render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),

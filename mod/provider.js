@@ -15,6 +15,15 @@ module.exports = {
   google: async req => await google(req),
 
   cloudinary: async req => await cloudinary(req),
+
+  http: async req => await http(req),
+}
+
+async function http(req) {
+
+  const response = await fetch(req)
+
+  return await response.text()
 }
 
 async function github(req) {
