@@ -149,24 +149,23 @@ function init(_xyz) {
       e.target.disabled = (z <= _xyz.workspace.locale.minZoom);
     }}><div class="xyz-icon icon-remove">`;
 
-  document.querySelector('.btn-column').appendChild(btnZoomOut);  
+  document.querySelector('.btn-column').appendChild(btnZoomOut); 
+
+  const btnZoomToArea = _xyz.utils.wire()`
+   <button
+   class="enabled"
+   title="Zoom to area"
+   onclick=${ e => _xyz.mapview.interaction.zoomToArea(e) }
+   ><div class="xyz-icon icon-area">`;
+
+  document.querySelector('.btn-column').appendChild(btnZoomToArea);
+ 
 
   _xyz.mapview.node.addEventListener('changeEnd', () => {
     const z = _xyz.map.getView().getZoom();
     btnZoomIn.disabled = z >= _xyz.workspace.locale.maxZoom;
     btnZoomOut.disabled = z <= _xyz.workspace.locale.minZoom;
   });
-
-  // const btnZoomToArea = _xyz.utils.wire()`
-  // <button
-  // disabled=${_xyz.map.getView().getZoom() >= _xyz.workspace.locale.maxZoom}
-  // class="enabled"
-  // title="Zoom to area"
-  // onclick=${ e => _xyz.mapview.interaction.zoomToArea(e) }
-  // ><div class="xyz-icon icon-area">`;
-
-  // document.querySelector('.btn-column').appendChild(btnZoomToArea);  
-
 
   if(_xyz.workspace.locale.locate) {
 

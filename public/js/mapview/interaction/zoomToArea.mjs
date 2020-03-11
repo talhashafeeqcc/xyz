@@ -1,6 +1,6 @@
 export default _xyz => e => {
 
-		e.preventDefault();
+		//e.preventDefault();
 		e.stopPropagation();
 
 		_xyz.mapview.node.style.cursor = 'crosshair';
@@ -23,7 +23,7 @@ export default _xyz => e => {
 
 		_xyz.mapview.interaction.zoom.interaction.on('drawstart', e => {
 
-			e.preventDefault();
+			//e.preventDefault();
 			e.stopPropagation();
 
 			e.feature.setStyle(
