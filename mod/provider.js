@@ -19,7 +19,8 @@ module.exports = {
 
 async function github(req) {
 
-  const response = await fetch(`https://${getURL(req).replace(/https:/,'').replace(/\/\//,'')}`, {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+  const response = await fetch(`https://${getURL(req).replace(/https:/,'').replace(/\/\//,'')}`,
+    process.env.KEY_GITHUB && {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
 
   const b64 = await response.json()
 

@@ -7,15 +7,13 @@ const Md = require('mobile-detect')
 
 const _templates = require('../mod/workspace/templates')
 
-const templates = {}
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  Object.assign(templates, await _templates(req, res))
-
   if (res.finished) return
+
+  const templates = await _templates(req, res)
 
   const md = new Md(req.headers['user-agent'])
 
