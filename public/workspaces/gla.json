@@ -6,6 +6,13 @@
         },
         "mobile": {
             "template": "https://cdn.jsdelivr.net/gh/GEOLYTIX/gla/mobile.html"
+        },
+        "gla_organisation": {
+            "template": "SELECT organisation_short FROM gla.gla ORDER BY organisation_short;",
+            "dbs": "XYZ"
+        },
+        "table_view": {
+            "template": "http://localhost:3000/views/table_view.html"
         }
     },
     "locales": {
@@ -347,11 +354,11 @@
                     ],
                     "dataview": {
                         "Locations": {
-                            "template": false,
                             "display": true,
                             "dataviews": [
                                 {
                                     "query": "gla_organisation",
+                                    "target_id": "Table",
                                     "layout": null,
                                     "columns": [
                                         {
@@ -734,12 +741,6 @@
                     ]
                 }
             }
-        }
-    },
-    "templates": {
-        "gla_organisation": {
-            "template": "SELECT organisation_short FROM gla.gla ORDER BY organisation_short;",
-            "dbs": "XYZ"
         }
     }
 }

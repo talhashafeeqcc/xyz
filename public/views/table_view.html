@@ -59,24 +59,21 @@
 
     _xyz({
       host: "http://localhost:3000",
-      locale: "UK",
+      locale: "London",
       callback: function (_xyz) {
         _xyz.mapview.create({
           target: document.getElementById("Map")
         });
 
-        // const layer = _xyz.layers.list["Advice Center"];
+        const layer = _xyz.layers.list["Advice Center"];
 
-        // const dataview = layer.dataview["Locations"];
+        const params = layer.dataview["Locations"];
 
-        // console.log(dataview);
+        params.layer = layer;
 
-        // dataview.layer = layer;
-
-        // dataview.dataview = document.getElementById("Table");
-
-        // _xyz.dataview.layerDataview(dataview);
+        _xyz.dataview.layerDashboard(params);
       }
+      
     });
 
 
