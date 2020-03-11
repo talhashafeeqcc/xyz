@@ -4,6 +4,9 @@
       "population_summary": {
           "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/_population_summary",
           "dbs": "XYZ"
+      },
+      "table_view": {
+        "template": "http://localhost:3000/views/table_view"
       }
   },
   "locales": {
