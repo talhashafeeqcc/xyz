@@ -15,8 +15,6 @@ export default _xyz => function (callback) {
 
   location.view && location.view.classList.add('disabled');
 
-  // location.tables.forEach(table => _xyz.dataview.removeTab(table));
-
   const xhr = new XMLHttpRequest();
 
   xhr.open('POST', _xyz.host + 
@@ -36,10 +34,11 @@ export default _xyz => function (callback) {
 
     if (e.target.status !== 200) return console.log(e.target.response);
 
-    location.infoj = location.layer.infoj.map(entry => {
-      entry.label = e.target.response[entry.field + '_label'] || entry.label;
-      entry.value = e.target.response[entry.field];
-      return entry;
+    location.infoj
+    .filter(entry => typeof entry.newValue !== 'undefined')
+    .forEach(entry => {
+      entry.value = entry.newValue
+      delete entry.newValue
     });
 
     // Recreate existing location view.
@@ -49,6 +48,7 @@ export default _xyz => function (callback) {
     location.layer.reload();
 
     if (callback) callback();
+
   };
 
   xhr.send(JSON.stringify({

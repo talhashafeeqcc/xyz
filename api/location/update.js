@@ -6,8 +6,6 @@ const dbs = require('../../mod/pg/dbs')()
 
 const _layers = require('../../mod/workspace/layers')
 
-const sql_fields = require('../../mod/pg/sql_fields')
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
@@ -37,8 +35,7 @@ module.exports = async (req, res) => {
         
     fields += `${entry.field} = '${entry.newValue.replace(/'/g, '\'\'')}'`
   })
-    
-
+  
   var q = `UPDATE ${req.params.table} SET ${fields} WHERE ${layer.qID} = $1;`
 
   var rows = await dbs[layer.dbs](q, [req.params.id])
@@ -46,32 +43,16 @@ module.exports = async (req, res) => {
   if (rows instanceof Error) return res.status(500).send('PostgreSQL query error - please check backend logs.')
 
   // Remove tiles from mvt_cache.
-  if (layer.mvt_cache) {
-    await dbs[layer.dbs](`
+  if (layer.mvt_cache) await dbs[layer.dbs](`
       DELETE FROM ${layer.mvt_cache}
       WHERE ST_Intersects(tile, (
         SELECT ${layer.geom}
         FROM ${req.params.table}
         WHERE ${layer.qID} = $1));`,
         [req.params.id])
-  }
 
-  // Query field for updated infoj
-  const infoj = JSON.parse(JSON.stringify(layer.infoj))
+  res.send('This is fine.')
 
-  // The fields array stores all fields to be queried for the location info.
-  var fields = await sql_fields([], infoj)
-
-  var q = `
-  SELECT ${fields.join()}
-  FROM ${req.params.table}
-  WHERE ${layer.qID} = $1;`
-
-  var rows = await dbs[layer.dbs](q, [req.params.id])
-
-  if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
-
-  // Send the infoj object with values back to the client.
-  res.send(rows[0])
+  //return res.redirect(`${process.env.DIR||''}/api/location/get`)
 
 }
