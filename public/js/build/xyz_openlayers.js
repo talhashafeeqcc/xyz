@@ -123438,7 +123438,7 @@ function panel(layer) {
       if(entry.label_div) entry.label_div.style.gridColumn = "1 / span 2";
 
       // Create new row and append to table.
-      entry.val = _xyz.utils.wire()`<div class="val" style="grid-column: 1;">`;
+      entry.val = _xyz.utils.wire()`<div class="val" style="grid-column: 1 / span 2;">`;
 
       entry.listview.appendChild(entry.val);
 
