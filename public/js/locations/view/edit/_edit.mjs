@@ -4,6 +4,8 @@ import options from './options.mjs';
 
 import date from './date.mjs';
 
+import textarea from './textarea.mjs';
+
 export default _xyz => {
   
   const edit = {
@@ -15,6 +17,8 @@ export default _xyz => {
     date: date(_xyz),
 
     options: options(_xyz),
+
+    textarea: textarea(_xyz)
 
   };
 
@@ -33,30 +37,8 @@ export default _xyz => {
     // Create select input for options.
     if (entry.edit.options) return edit.options(entry);
 
-    // Create a 3 line textarea for textarea type entry.
-    if (entry.type === 'textarea') {
-      let textArea = _xyz.utils.wire()`
-      <textarea value=${entry.value || ''}
-        onkeyup=${e => {
-          entry.location.view.dispatchEvent(
-            new CustomEvent('valChange', {detail:{
-              input: e.target,
-              entry: entry,
-            }}))
-        }}
-        onkeydown=${e => setTimeout(() => {
-          e.target.style.height = 'auto';
-          e.target.style.height = e.target.scrollHeight + 'px';
-        }, 100)
-      }
-        >`;
-
-      entry.val.style.gridColumn = "1 / span 2";
-
-      entry.val.appendChild(textArea);
-
-      return textArea;
-    }
+    if (entry.type === 'textarea' || entry.type === 'html') return edit.textarea(entry);
+    
 
     // Create a text input if no other rule applies.
     entry.val.appendChild(_xyz.utils.wire()`

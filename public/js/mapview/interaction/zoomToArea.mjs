@@ -23,7 +23,6 @@ export default _xyz => e => {
 
 		_xyz.mapview.interaction.zoom.interaction.on('drawstart', e => {
 
-			//e.preventDefault();
 			e.stopPropagation();
 
 			e.feature.setStyle(

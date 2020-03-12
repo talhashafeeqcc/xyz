@@ -175,6 +175,7 @@ export default _xyz => location => {
 
     // Create controls for editable fields.
     if (entry.edit && !entry.fieldfx) {
+      console.log('edit');
       _xyz.locations.view.edit.input(entry);
       continue
     }
@@ -182,6 +183,7 @@ export default _xyz => location => {
     if (entry.type === 'html') {
 
       // Directly set the HTML if raw HTML was specified
+      entry.val.style="grid-column: 1 / span 2;";
       entry.val.innerHTML = entry.value;
       continue
 
