@@ -2,16 +2,22 @@ export default _xyz => function (callback) {
 
   const location = this;
 
-  const newValues = location.infoj
+  const newValues = {};
+  
+  location.infoj
     .filter(entry => typeof entry.newValue !== 'undefined')
-    .map(entry => ({
-        field: entry.field,
-        newValue: entry.newValue,
-        type: entry.type
-    }));
+    .forEach(entry => Object.assign(newValues, { [entry.field] : entry.newValue }));
 
-  if (!newValues.length) return;
+  // const newValues = {
+  //   boo: true,
+  //   foo: false,
+  //   tex: 'foo',
+  //   num: 123,
+  //   dec: 1.23,
+  //   obj: {test:true}
+  // }
 
+  if (!Object.keys(newValues).length) return;
 
   location.view && location.view.classList.add('disabled');
 
@@ -51,8 +57,6 @@ export default _xyz => function (callback) {
 
   };
 
-  xhr.send(JSON.stringify({
-    infoj: newValues
-  }));
+  xhr.send(JSON.stringify(newValues));
 
 };

@@ -86,6 +86,7 @@ app.get(`${process.env.DIR||''}/api/location/get`, (req, res) => require('./api/
 app.post(`${process.env.DIR||''}/api/location/update`, bodyParser.json(), (req, res) => require('./api/location/update')(req, res))
 
 
+
 app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (req, res) => require('./api/location/edit/draw')(req, res))
 
 

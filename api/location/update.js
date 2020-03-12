@@ -16,27 +16,34 @@ module.exports = async (req, res) => {
 
   const layer = layers[req.params.layer]
 
-  var fields = ''
-  
-  await req.body.infoj.forEach(entry => {
-        
-    if (!entry.field) return
-        
-    if (fields.length > 0) fields += ', '
-        
-    if (entry.type === 'integer') {
-      let parsed = parseInt(entry.newValue)
-      return fields += `${entry.field} = ${ parsed || parsed === 0 ? parsed : null }`
-    }
-        
-    if (entry.type === 'date' || entry.type === 'datetime') return fields += `${entry.field} = ${entry.newValue}`
+  const fields = Object.entries(req.body)
+    .map(entry => {
+      if (typeof entry[1] === 'string') return ` ${entry[0]} = '${entry[1]}'`
+      if (typeof entry[1] === 'object') return ` ${entry[0]} = '${JSON.stringify(entry[1])}'`
+      if (typeof entry[1] === 'boolean' || typeof entry[1] === 'number') return ` ${entry[0]} = ${entry[1]}`
+    })
 
-    if (entry.type === 'boolean') return fields += `${entry.field} = ${entry.newValue}`
-        
-    fields += `${entry.field} = '${entry.newValue.replace(/'/g, '\'\'')}'`
-  })
+  // var fields = ''
   
-  var q = `UPDATE ${req.params.table} SET ${fields} WHERE ${layer.qID} = $1;`
+  // await req.body.infoj.forEach(entry => {
+        
+  //   if (!entry.field) return
+        
+  //   if (fields.length > 0) fields += ', '
+        
+  //   if (entry.type === 'integer') {
+  //     let parsed = parseInt(entry.newValue)
+  //     return fields += `${entry.field} = ${ parsed || parsed === 0 ? parsed : null }`
+  //   }
+        
+  //   if (entry.type === 'date' || entry.type === 'datetime') return fields += `${entry.field} = ${entry.newValue}`
+
+  //   if (entry.type === 'boolean') return fields += `${entry.field} = ${entry.newValue}`
+        
+  //   fields += `${entry.field} = '${entry.newValue.replace(/'/g, '\'\'')}'`
+  // })
+  
+  var q = `UPDATE ${req.params.table} SET ${fields.join()} WHERE ${layer.qID} = $1;`
 
   var rows = await dbs[layer.dbs](q, [req.params.id])
 
