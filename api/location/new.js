@@ -2,7 +2,7 @@ const auth = require('../../mod/auth/handler')({
   public: true
 })
 
-const dbs = require('../../mod/pg/dbs')()
+const dbs = require('../../mod/dbs')()
 
 const _layers = require('../../mod/workspace/layers')
 

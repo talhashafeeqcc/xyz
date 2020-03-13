@@ -4,7 +4,7 @@ const auth = require('../../mod/auth/handler')({
 
 const _layers = require('../../mod/workspace/layers')
 
-const dbs = require('../../mod/pg/dbs')()
+const dbs = require('../../mod/dbs')()
 
 module.exports = async (req, res) => {
 

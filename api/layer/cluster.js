@@ -2,9 +2,9 @@ const auth = require('../../mod/auth/handler')({
   public: true
 })
 
-const dbs = require('../../mod/pg/dbs')()
+const dbs = require('../../mod/dbs')()
 
-const sql_filter = require('../../mod/pg/sql_filter')
+const sql_filter = require('../../mod/sql_filter')
 
 const _layers = require('../../mod/workspace/layers')
 

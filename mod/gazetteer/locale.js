@@ -1,6 +1,6 @@
-const dbs = require('../pg/dbs')()
+const dbs = require('../dbs')()
 
-const sql_filter = require('../pg/sql_filter')
+const sql_filter = require('../sql_filter')
 
 module.exports = async (req, locale) => {
 
