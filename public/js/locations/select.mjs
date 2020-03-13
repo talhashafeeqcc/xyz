@@ -85,8 +85,8 @@ export default _xyz => location => {
     const infoj = location.layer.infoj.map(_entry => {
 
       const entry = Object.assign({}, _entry);
-      entry.label = e.target.response[entry.field + '_label'] || entry.label;
-      entry.value = e.target.response[entry.field];
+      entry.label = e.target.response.properties[entry.field + '_label'] || entry.label;
+      entry.value = e.target.response.properties[entry.field];
       return entry;
     });
 
@@ -94,13 +94,13 @@ export default _xyz => location => {
       location,
       {
         infoj: infoj,
-        geometry: JSON.parse(e.target.response.geomj),
+        geometry: e.target.response.geometry,
         editable: (location.layer.edit),
         record: record
       });  
 
     location.marker = _xyz.mapview.lib.proj.transform(
-      _xyz.utils.turf.pointOnFeature(JSON.parse(e.target.response.geomj)).geometry.coordinates,
+      _xyz.utils.turf.pointOnFeature(e.target.response.geometry).geometry.coordinates,
       'EPSG:' + location.layer.srid,
       'EPSG:' + _xyz.mapview.srid);
 

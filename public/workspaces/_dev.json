@@ -1144,8 +1144,10 @@
                           }
                       },
                       {
-                          "label": "Recent isoline settings",
-                          "field": "isoline_custom1_meta"
+                        "observe": ["isoline_custom1"],
+                        "label": "area",
+                        "field": "isoline_dependent",
+                        "fieldfx": "st_area(isoline_custom1)"
                       },
                       {
                           "name": "Custom HERE Catchment (2)",
@@ -1166,8 +1168,16 @@
                           }
                       },
                       {
-                          "label": "Recent isoline settings",
-                          "field": "isoline_custom2_meta"
+                        "observe": ["isoline_custom2"],
+                        "label": "area",
+                        "field": "isoline_dependent2",
+                        "fieldfx": "st_area(isoline_custom2)"
+                      },
+                      {
+                        "observe": ["isoline_custom2"],
+                        "label": "length",
+                        "field": "isoline_dependent3",
+                        "fieldfx": "st_area(st_transform(isoline_custom2, 3857))"
                       },
                       {
                           "name": "Custom HERE Catchment (3)",
@@ -1186,10 +1196,6 @@
                               "strokeWidth": 2,
                               "fillOpacity": 0.2
                           }
-                      },
-                      {
-                          "label": "Recent isoline settings",
-                          "field": "isoline_custom3_meta"
                       },
                       {
                           "label": "Available dataviews",

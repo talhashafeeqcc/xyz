@@ -17,6 +17,7 @@ module.exports = async (req, res) => {
   const layer = layers[req.params.layer]
 
   const fields = layer.infoj
+    .filter(entry => !(req.params.fields && req.params.fields.split(',').includes(entry.field)))
     .filter(entry => !entry.query)
     .filter(entry => entry.type !== 'key')
     .filter(entry => entry.field)
@@ -25,9 +26,10 @@ module.exports = async (req, res) => {
       if (entry.field) return `(${entry.fieldfx || entry.field}) AS ${entry.field}`
     })
 
+  !req.params.fields && fields.push(`ST_asGeoJson(${layer.geom}, 4) AS geomj`)
+
   var q = `
-  SELECT 
-    ST_asGeoJson(${layer.geom}, 4) AS geomj,
+  SELECT
     ${fields.join()}
   FROM ${req.params.table}
   WHERE ${layer.qID} = $1`
@@ -39,7 +41,17 @@ module.exports = async (req, res) => {
   // return 204 if no record was returned from database.
   if (rows.length === 0) return res.status(202).send('No rows returned from table.')
 
+  if (req.params.fields) return res.send(rows[0])
+
+  const location = {
+    geometry: JSON.parse(rows[0].geomj)
+  }
+
+  delete rows[0].geomj
+
+  location.properties = rows[0]
+
   // Send the infoj object with values back to the client.
-  res.send(rows[0])
+  res.send(location)
 
 }
