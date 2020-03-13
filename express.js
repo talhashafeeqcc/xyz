@@ -81,18 +81,14 @@ app.get(`${process.env.DIR||''}/api/user/update`, (req, res) => require('./api/u
 app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/user/delete')(req, res))
 
 
+app.post(`${process.env.DIR||''}/api/location/new`, bodyParser.json(), (req, res) => require('./api/location/new')(req, res))
+
 app.get(`${process.env.DIR||''}/api/location/get`, (req, res) => require('./api/location/get')(req, res))
 
 app.post(`${process.env.DIR||''}/api/location/update`, bodyParser.json(), (req, res) => require('./api/location/update')(req, res))
 
 
-
-app.post(`${process.env.DIR||''}/api/location/edit/draw`, bodyParser.json(), (req, res) => require('./api/location/edit/draw')(req, res))
-
-
 app.get(`${process.env.DIR||''}/api/location/aggregate`, (req, res) => require('./api/location/aggregate')(req, res))
-
-app.post(`${process.env.DIR||''}/api/location/edit/update`, bodyParser.json(), (req, res) => require('./api/location/edit/update')(req, res))
 
 app.get(`${process.env.DIR||''}/api/location/edit/delete`, (req, res) => require('./api/location/edit/delete')(req, res))
 
@@ -100,7 +96,6 @@ app.get(`${process.env.DIR||''}/api/location/edit/setnull`, (req, res) => requir
 
 app.post(`${process.env.DIR||''}/api/location/edit/isoline_save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline_save')(req, res))
 
-app.post(`${process.env.DIR||''}/api/location/edit/geom_update`, bodyParser.json(), (req, res) => require('./api/location/edit/geom_update')(req, res))
 
 
 app.listen(process.env.PORT || 3000)

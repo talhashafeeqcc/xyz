@@ -126,16 +126,14 @@ export default _xyz => {
   
     const xhr = new XMLHttpRequest();
   
-    xhr.open(
-      'POST', 
-      _xyz.host + 
-            '/api/location/edit/draw?' +
-            _xyz.utils.paramString({
-              locale: _xyz.workspace.locale.key,
-              layer: _xyz.mapview.interaction.draw.layer.key,
-              table: _xyz.mapview.interaction.draw.layer.table,
-              token: _xyz.token
-            }));
+    xhr.open('POST', _xyz.host +
+      '/api/location/new?' +
+      _xyz.utils.paramString({
+        locale: _xyz.workspace.locale.key,
+        layer: _xyz.mapview.interaction.draw.layer.key,
+        table: _xyz.mapview.interaction.draw.layer.table,
+        token: _xyz.token
+      }));
     
     xhr.setRequestHeader('Content-Type', 'application/json');
             

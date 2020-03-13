@@ -4,7 +4,7 @@ export default _xyz => {
 
     begin: begin,
 
-    //finish: finish,
+    finish: finish,
 
     update: update,
 
@@ -132,62 +132,66 @@ export default _xyz => {
 
     const features = _xyz.mapview.interaction.edit.Source.getFeatures();
 
+    const location = _xyz.mapview.interaction.edit.location;
+
+    const layer = location.layer;
+
     const geoJSON = new _xyz.mapview.lib.format.GeoJSON();
 
     const feature = JSON.parse(
       geoJSON.writeFeature(
         features[0],
         { 
-          dataProjection: 'EPSG:' + _xyz.mapview.interaction.edit.location.layer.srid,
+          dataProjection: 'EPSG:' + layer.srid,
           featureProjection: 'EPSG:' + _xyz.mapview.srid
         })
     );
   
     const xhr = new XMLHttpRequest();
   
-    xhr.open(
-      'POST',
-      _xyz.host + '/api/location/edit/geom_update?' +
+    xhr.open('POST', _xyz.host +
+      '/api/location/update?' +
       _xyz.utils.paramString({
         locale: _xyz.workspace.locale.key,
-        layer: _xyz.mapview.interaction.edit.location.layer.key,
-        table: _xyz.mapview.interaction.edit.location.table,
-        id: _xyz.mapview.interaction.edit.location.id,
+        layer: layer.key,
+        table: location.table,
+        id: location.id,
         token: _xyz.token
       }));
 
     xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.responseType = 'json';
 
     xhr.onload = e => {
 
       if (e.target.status !== 200) return;
 
-      const locationFeature = _xyz.mapview.interaction.edit.location.Layer.getSource().getFeatures()[0];
+      const locationFeature = location.Layer.getSource().getFeatures()[0];
 
       locationFeature.setGeometry(features[0].getGeometry());
 
-      _xyz.map.removeLayer(_xyz.mapview.interaction.edit.location.Marker); // remove Marker from map
+      _xyz.map.removeLayer(location.Marker); // remove Marker from map
 
-      _xyz.mapview.interaction.edit.location.geometry = feature.geometry; // assign new geometry
+      location.geometry = feature.geometry; // assign new geometry
 
       // make new marker
-      _xyz.mapview.interaction.edit.location.marker = _xyz.mapview.lib.proj.transform( 
+      location.marker = _xyz.mapview.lib.proj.transform( 
         _xyz.utils.turf.pointOnFeature(feature.geometry).geometry.coordinates,  
-        'EPSG:' + _xyz.mapview.interaction.edit.location.layer.srid,
+        'EPSG:' + location.layer.srid,
         'EPSG:' + _xyz.mapview.srid);
 
       // draw updated Marker
-      _xyz.mapview.interaction.edit.location.Marker = _xyz.mapview.geoJSON({ 
+      location.Marker = _xyz.mapview.geoJSON({ 
         geometry: {
           type: 'Point',
-          coordinates: _xyz.mapview.interaction.edit.location.marker,
+          coordinates: location.marker,
         },
         zIndex: 2000,
         style: new _xyz.mapview.lib.style.Style({
           image: _xyz.mapview.icon({
             type: 'markerLetter',
-            letter: String.fromCharCode(65 + _xyz.locations.list.indexOf(_xyz.mapview.interaction.edit.location.record)),
-            color: _xyz.mapview.interaction.edit.location.style.strokeColor,
+            letter: String.fromCharCode(65 + _xyz.locations.list.indexOf(location.record)),
+            color: location.style.strokeColor,
             scale: 0.05,
             anchor: [0.5, 1]
           })
@@ -195,12 +199,12 @@ export default _xyz => {
       });
 
       // reload layer
-      _xyz.mapview.interaction.edit.location.layer.reload();
+      layer.reload();
 
     };
 
     // Send path geometry to endpoint.
-    xhr.send(JSON.stringify(feature.geometry));
+    xhr.send(JSON.stringify({[layer.geom]:feature.geometry}));
 
     finish();
   }
