@@ -8,15 +8,6 @@ export default _xyz => function (callback) {
     .filter(entry => typeof entry.newValue !== 'undefined')
     .forEach(entry => Object.assign(newValues, { [entry.field] : entry.newValue }));
 
-  // const newValues = {
-  //   boo: true,
-  //   foo: false,
-  //   tex: 'foo',
-  //   num: 123,
-  //   dec: 1.23,
-  //   obj: {test:true}
-  // }
-
   if (!Object.keys(newValues).length) return;
 
   location.view && location.view.classList.add('disabled');

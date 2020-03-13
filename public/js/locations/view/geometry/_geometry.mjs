@@ -2,8 +2,6 @@ import _isoline_mapbox from './isoline_mapbox.mjs';
 
 import _isoline_here from './isoline_here.mjs';
 
-import _delete_geom from './delete_geom.mjs';
-
 import _geometryCollection from './geometryCollection.mjs';
 
 export default _xyz => {
@@ -11,8 +9,6 @@ export default _xyz => {
   const isoline_here = _isoline_here(_xyz);
 
   const isoline_mapbox = _isoline_mapbox(_xyz);
-
-  const deleteGeom = _delete_geom(_xyz);
 
   const geometryCollection = _geometryCollection(_xyz);
 
@@ -43,7 +39,7 @@ export default _xyz => {
       } else {
 
       entry.geometry = entry.value && _xyz.mapview.geoJSON({
-        geometry: JSON.parse(entry.value),
+        geometry: typeof entry.value === 'object' && entry.value || JSON.parse(entry.value),
         dataProjection: '4326',
         zIndex: entry.location.layer.L.getZIndex()-1,
         style: new _xyz.mapview.lib.style.Style({
@@ -87,7 +83,11 @@ export default _xyz => {
         entry.display = e.target.checked;
         if (entry.display && entry.edit) return createGeom();
         if (entry.display && !entry.edit) return drawGeom();
-        if (!entry.display && entry.edit) return deleteGeom(entry);
+        if (!entry.display && entry.edit) {
+          entry.newValue = null
+          entry.location.update();
+          return
+        };
         if (!entry.display && !entry.edit) return hideGeom();
       }}>
     </input>

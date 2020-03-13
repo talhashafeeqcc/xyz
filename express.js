@@ -87,15 +87,10 @@ app.get(`${process.env.DIR||''}/api/location/get`, (req, res) => require('./api/
 
 app.post(`${process.env.DIR||''}/api/location/update`, bodyParser.json(), (req, res) => require('./api/location/update')(req, res))
 
+app.get(`${process.env.DIR||''}/api/location/delete`, (req, res) => require('./api/location/delete')(req, res))
+
 
 app.get(`${process.env.DIR||''}/api/location/aggregate`, (req, res) => require('./api/location/aggregate')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/edit/delete`, (req, res) => require('./api/location/edit/delete')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/edit/setnull`, (req, res) => require('./api/location/edit/setnull')(req, res))
-
-app.post(`${process.env.DIR||''}/api/location/edit/isoline_save`, bodyParser.json(), (req, res) => require('./api/location/edit/isoline_save')(req, res))
-
 
 
 app.listen(process.env.PORT || 3000)

@@ -122,50 +122,9 @@ export default _xyz => {
         return alert('No route found. Try alternative set up.');
       }
 
-      const xhr_save = new XMLHttpRequest();
+      entry.newValue = e.target.response.features[0].geometry;
 
-      xhr_save.open('POST', _xyz.host +
-      '/api/location/edit/isoline_save?' +
-      _xyz.utils.paramString({
-        locale: _xyz.workspace.locale.key,
-        layer: entry.location.layer.key,
-        table: entry.location.table,
-        field: entry.field,
-        id: entry.location.id,
-        meta: entry.edit.isoline_mapbox.meta || null,
-        token: _xyz.token
-      }));
-
-      xhr_save.setRequestHeader('Content-Type', 'application/json');
-      xhr_save.responseType = 'json';
-
-      xhr_save.onload = _e => {
-
-        if (_e.target.status !== 200) {
-          entry.location.view && entry.location.view.classList.remove('disabled');
-          console.log(_e.target.response);
-          return alert('Something with saving isoline went wrong.');
-        }
-
-        Object.keys(_e.target.response).forEach(key => {
-
-          entry.location.infoj.forEach(entry => {
-            if (entry.field === key) entry.value = _e.target.response[key];
-          });
-
-        });
-
-        // Update the location view.
-        _xyz.locations.view.create(entry.location);
-
-        //entry.location.flyTo();
-      }
-
-      xhr_save.send(JSON.stringify({
-        profile: entry.edit.isoline_mapbox.profile,
-        minutes: entry.edit.isoline_mapbox._minutes,
-        isoline: e.target.response.features[0].geometry
-      }));
+      entry.location.update();
 
     };
 

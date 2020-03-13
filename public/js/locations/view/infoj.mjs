@@ -175,7 +175,6 @@ export default _xyz => location => {
 
     // Create controls for editable fields.
     if (entry.edit && !entry.fieldfx) {
-      console.log('edit');
       _xyz.locations.view.edit.input(entry);
       continue
     }

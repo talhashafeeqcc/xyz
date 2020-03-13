@@ -183,60 +183,12 @@ export default _xyz => {
         return alert('No route found. Try alternative set up.');
       }
 
-      const geojson = {
+      entry.newValue = {
         'type': 'Polygon',
         'coordinates': [e.target.response.response.isoline[0].component[0].shape.map(el => el.split(',').reverse())]
-      }
+      };
 
-      const xhr_save = new XMLHttpRequest();
-
-      xhr_save.open('POST', _xyz.host +
-      '/api/location/edit/isoline_save?' +
-      _xyz.utils.paramString({
-        locale: _xyz.workspace.locale.key,
-        layer: entry.location.layer.key,
-        table: entry.location.table,
-        field: entry.field,
-        id: entry.location.id,
-        meta: entry.edit.isoline_here.meta || null,
-        token: _xyz.token
-      }));
-
-      xhr_save.setRequestHeader('Content-Type', 'application/json');
-      xhr_save.responseType = 'json';
-
-      xhr_save.onload = _e => {
-
-        if (_e.target.status !== 200) {
-          entry.location.view && entry.location.view.classList.remove('disabled');
-          console.log(_e.target.response);
-          return alert('Something with saving isoline went wrong.');
-        }
-
-        Object.keys(_e.target.response).forEach(key => {
-
-          entry.location.infoj.forEach(entry => {
-            if (entry.field === key) entry.value = _e.target.response[key];
-          });
-
-        });
-
-        // Update the location view.
-        _xyz.locations.view.create(entry.location);
-
-        //entry.location.flyTo();
-      }
-
-      
-
-      xhr_save.send(JSON.stringify({
-        mode: entry.edit.isoline_here.mode,
-        rangetype: entry.edit.isoline_here.rangetype,
-        type: entry.edit.isoline_here.type,
-        minutes: entry.edit.isoline_here._minutes,
-        distance: entry.edit.isoline_here._distance,
-        isoline: geojson
-      }));
+      entry.location.update();
 
     };
 

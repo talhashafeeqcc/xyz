@@ -4,13 +4,15 @@ export default _xyz => function() {
 
   const xhr = new XMLHttpRequest();
 
-  xhr.open('GET', _xyz.host + '/api/location/edit/delete?' + _xyz.utils.paramString({
-    locale: _xyz.workspace.locale.key,
-    layer: location.layer.key,
-    table: location.table,
-    id: location.id,
-    token: _xyz.token
-  }));
+  xhr.open('GET', _xyz.host +
+    '/api/location/delete?' +
+    _xyz.utils.paramString({
+      locale: _xyz.workspace.locale.key,
+      layer: location.layer.key,
+      table: location.table,
+      id: location.id,
+      token: _xyz.token
+    }));
 
   xhr.onload = e => {
 
