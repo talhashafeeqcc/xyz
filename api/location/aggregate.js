@@ -4,9 +4,9 @@ const auth = require('../../mod/auth/handler')({
 
 const dbs = require('../../mod/pg/dbs')()
 
-const _layers = require('../../mod/workspace/layers')
+const sql_filter = require('../../mod/pg/sql_filter')
 
-const sql_fields = require('../../mod/pg/sql_fields')
+const _layers = require('../../mod/workspace/layers')
 
 module.exports = async (req, res) => {
 
@@ -32,7 +32,19 @@ module.exports = async (req, res) => {
   const infoj = layer.filter.infoj
 
   // The fields array stores all fields to be queried for the location info.
-  const fields = await sql_fields([], infoj)
+  const fields = []
+
+  await layer.filter.infoj.forEach(entry => {
+
+    if (entry.query) return
+
+    if (entry.type === 'key') return
+
+    if (entry.labelfx) fields.push(`\n   ${entry.labelfx} AS ${entry.field}_label`)
+    
+    if (entry.field) return fields.push(`\n   (${entry.fieldfx || entry.field}) AS ${entry.field}`)
+    
+  })
 
   var q = `
   SELECT
