@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   const layer = layers[req.params.layer]
 
   const fields = layer.infoj
-    .filter(entry => !(req.params.fields && req.params.fields.split(',').includes(entry.field)))
+    .filter(entry => !req.params.fields || (req.params.fields && req.params.fields.split(',').includes(entry.field)))
     .filter(entry => !entry.query)
     .filter(entry => entry.type !== 'key')
     .filter(entry => entry.field)
