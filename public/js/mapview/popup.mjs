@@ -24,7 +24,7 @@ export default _xyz => {
       element: this.node,
       positioning: 'bottom-center',
       autoPan: true,
-      //stopEvent: true,
+      insertFirst: true,
       autoPanAnimation: {
         duration: 250
       }

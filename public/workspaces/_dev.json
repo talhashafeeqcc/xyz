@@ -2063,7 +2063,8 @@
                       "line": true,
                       "isoline_mapbox": true,
                       "isoline_here": true,
-                      "delete": true
+                      "delete": true,
+                      "geometry": true
                   },
                   "infoj": [
                       {
