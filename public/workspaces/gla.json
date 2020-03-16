@@ -1,18 +1,24 @@
 {
     "title": "XYZ GLA",
     "templates": {
-        "desktop": {
+        "__desktop": {
             "template": "https://cdn.jsdelivr.net/gh/GEOLYTIX/gla/desktop.html"
         },
-        "mobile": {
+        "__mobile": {
             "template": "https://cdn.jsdelivr.net/gh/GEOLYTIX/gla/mobile.html"
         },
+        "desktop": {
+          "template": "http://localhost:3000/gla/views/gla_desktop.html"
+        },
+        "mobile": {
+            "template": "http://localhost:3000/gla/views/gla_mobile.html"
+        },
         "gla_organisation": {
-            "template": "SELECT organisation_short FROM gla.gla ORDER BY organisation_short;",
+            "template": "SELECT id, organisation_short FROM gla.gla ORDER BY organisation_short;",
             "dbs": "XYZ"
         },
         "table_view": {
-            "template": "http://localhost:3000/views/table_view.html"
+            "template": "http://localhost:3000/gla/views/table_view.html"
         }
     },
     "locales": {

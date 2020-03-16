@@ -85,8 +85,6 @@ The XYZ middle may consume 3rd party services from Google Maps, Mapbox, MapTiler
 
 [node-fetch](https://github.com/bitinn/node-fetch) - A light-weight module that brings window.fetch to Node.
 
-[request](https://www.npmjs.com/package/request) - Request is designed to be the simplest way possible to make http calls. It supports HTTPS and follows redirects by default.
-
 [mobile-detect.js](https://github.com/hgoebl/mobile-detect.js) - Node device detection from request header.
 
 

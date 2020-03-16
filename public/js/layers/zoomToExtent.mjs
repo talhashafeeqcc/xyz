@@ -6,11 +6,11 @@ export default _xyz => function (params) {
   const xhr = new XMLHttpRequest();
 
   // Create filter from legend and current filter.
-   layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
-    if(Object.keys(layer.filter.legend).includes(key)) {
-      layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
-    }
-  });
+  //  layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
+  //   if(Object.keys(layer.filter.legend).includes(key)) {
+  //     layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
+  //   }
+  // });
 
   const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
 

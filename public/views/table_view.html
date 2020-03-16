@@ -5,15 +5,15 @@
 
   <title>Test for table view</title>
 
-  <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="/css/openlayers.css" />
-  <link rel="stylesheet" href="/css/control.css" />
+  <link rel="stylesheet" href="${dir}/css/openlayers.css" />
+  <link rel="stylesheet" href="${dir}/css/control.css" />
 
-  <script src="/js/build/xyz_openlayers.js" defer></script>
+  <script src="${dir}/js/build/xyz_openlayers.js" defer></script>
 
   <style>
     * {
@@ -58,20 +58,24 @@
   window.addEventListener('DOMContentLoaded', function () {
 
     _xyz({
-      host: "http://localhost:3000",
+      host: "http://localhost:3000/gla",
       locale: "London",
       callback: function (_xyz) {
         _xyz.mapview.create({
           target: document.getElementById("Map")
         });
 
-        const layer = _xyz.layers.list["Advice Center"];
-
-        const params = layer.dataview["Locations"];
-
-        params.layer = layer;
-
-        _xyz.dataview.layerDashboard(params);
+        _xyz.dataview.layerDataview({
+          dataview: document.getElementById('Table'),
+          query: 'gla_organisation',
+          layer: _xyz.layers.list['Advice Center'],
+          columns: [
+            {
+              title: 'Organisation',
+              field: 'organisation_short'
+            }
+          ]
+        })
       }
       
     });
