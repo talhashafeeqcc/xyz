@@ -27,7 +27,7 @@ export default _xyz => {
 
     _xyz.mapview.node.addEventListener('click', select);
 
-    _xyz.mapview.node.addEventListener('touchstart', touchSelect);
+    _xyz.utils.touch() && _xyz.mapview.node.addEventListener('touchstart', touchSelect);
 
     _xyz.mapview.node.addEventListener('mousemove', mouseMove);
 
@@ -148,7 +148,7 @@ export default _xyz => {
 
   function finish() {
     _xyz.mapview.node.removeEventListener('click', select);
-    _xyz.mapview.node.removeEventListener('touchstart', touchSelect);
+    _xyz.utils.touch() && _xyz.mapview.node.removeEventListener('touchstart', touchSelect);
     _xyz.mapview.node.removeEventListener('mousemove', mouseMove);
     _xyz.mapview.node.removeEventListener('mouseout', mouseOut);
   }

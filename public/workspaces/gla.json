@@ -364,8 +364,6 @@
                             "dataviews": [
                                 {
                                     "query": "gla_organisation",
-                                    "target_id": "Table",
-                                    "layout": null,
                                     "columns": [
                                         {
                                             "title": "Organisation",

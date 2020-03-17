@@ -20,6 +20,10 @@ export {deepMerge} from './deepMerge.mjs';
 
 export const compose = (...fns) => p => fns.forEach(f=>f(p));
 
+export const touch = () => ('ontouchstart' in window) ||
+  (navigator.maxTouchPoints > 0) ||
+  (navigator.msMaxTouchPoints > 0); 
+
 export {flatpickr, formatDate, formatDateTime, meltDateStr} from './datePicker.mjs';
 
 export {wire, bind} from 'hyperhtml/esm';

@@ -7,19 +7,20 @@ export default _xyz => dataview => {
   // Create filter from legend and current filter.
   const filter = dataview.layer.filter && Object.assign({}, dataview.layer.filter.legend, dataview.layer.filter.current);
 
-  xhr.open('GET', _xyz.host + '/api/query?' + _xyz.utils.paramString({
-    locale: _xyz.workspace.locale.key,
-    layer: dataview.layer.key,
-    chart: dataview.key,
-    template: encodeURIComponent(dataview.query),
-    filter: JSON.stringify(filter),
-    srid: _xyz.mapview.srid,
-    west: bounds && bounds.west,
-    south: bounds && bounds.south,
-    east: bounds && bounds.east,
-    north: bounds && bounds.north,
-    token: _xyz.token
-  }));
+  xhr.open('GET', _xyz.host + '/api/query?' +
+    _xyz.utils.paramString({
+      locale: _xyz.workspace.locale.key,
+      layer: dataview.layer.key,
+      chart: dataview.key,
+      template: encodeURIComponent(dataview.query),
+      filter: JSON.stringify(filter),
+      srid: _xyz.mapview.srid,
+      west: bounds && bounds.west,
+      south: bounds && bounds.south,
+      east: bounds && bounds.east,
+      north: bounds && bounds.north,
+      token: _xyz.token
+    }));
 
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.responseType = 'json';
@@ -65,13 +66,15 @@ export default _xyz => dataview => {
 
         const toolbar = _xyz.utils.wire()`<ul style="text-align: end; border: 1px solid #DDD; border-top: none;">`;
 
-        toolbar.appendChild(_xyz.utils.wire()`<li 
+        toolbar.appendChild(_xyz.utils.wire()`
+        <li 
           class="off-white-hover primary-colour" 
           title="Download as CSV"
           style="display: inline; margin-right: 4px;" 
           onclick=${() => dataview.Tabulator.download('csv', `${dataview.title}.csv`)}>CSV</li>`);
 
-        toolbar.appendChild(_xyz.utils.wire()`<li 
+        toolbar.appendChild(_xyz.utils.wire()`
+        <li 
           class="off-white-hover primary-colour" 
           title="Download as JSON"
           style="display: inline; margin-right: 4px;" 

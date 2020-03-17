@@ -5,6 +5,7 @@ const desktop = {
   scrolly: document.getElementById('listviews').querySelector('.scrolly'),
   vertDivider: document.getElementById('vertDivider'),
   hozDivider: document.getElementById('hozDivider'),
+  touch: () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
 }
 
 // Reset scrolly height after window resize.
@@ -59,7 +60,7 @@ desktop.hozDivider.addEventListener('mousedown', e => {
 });
 
 // Resize dataview while holding mousedown on resize_bar.
-desktop.hozDivider.addEventListener('touchstart', e => {
+desktop.touch() && desktop.hozDivider.addEventListener('touchstart', e => {
   window.addEventListener('touchmove', resize_y);
   window.addEventListener('touchend', stopResize_y);
 }, { passive: true });
