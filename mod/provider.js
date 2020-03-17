@@ -28,10 +28,12 @@ async function http(req) {
 
 async function github(req) {
 
-  //console.log(`https://${req.params.url.replace(/https:/,'').replace(/\/\//,'')}`);
+  const url = req.params && req.params.url.replace(/https:/,'').replace(/\/\//,'') || req.replace(/https:/,'').replace(/\/\//,'')
 
-  const response = await fetch(`https://${req.params.url.replace(/https:/,'').replace(/\/\//,'')}`,
-  process.env.KEY_GITHUB && {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+  console.log(`https://${url}`);
+
+  const response = await fetch(`https://${url}`, process.env.KEY_GITHUB &&
+    {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
 
   // const response = await fetch(`https://${getURL(req).replace(/https:/,'').replace(/\/\//,'')}`,
   //   process.env.KEY_GITHUB && {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
