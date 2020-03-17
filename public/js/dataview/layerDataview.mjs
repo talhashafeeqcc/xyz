@@ -60,7 +60,7 @@ export default _xyz => dataview => {
         columnHeaderVertAlign: 'center',
         layout: 'fitDataFill',
         height: 'auto'
-      }, dataview));
+      }, dataview, {data: e.target.response.length ? e.target.response : [e.target.response]}));
 
       if (dataview.toolbars) {
 
@@ -84,8 +84,8 @@ export default _xyz => dataview => {
 
       }
 
-      dataview.Tabulator.setData(e.target.response.length ? e.target.response : [e.target.response]);
-      dataview.Tabulator.redraw(true);
+      //dataview.Tabulator.setData(e.target.response.length ? e.target.response : [e.target.response]);
+      //dataview.Tabulator.redraw(true);
 
     }
   }

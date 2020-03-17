@@ -29,6 +29,7 @@
     #Grid {
       display: grid;
       height: 100%;
+      grid-template-columns: 1fr 1fr;
     }
 
     #Map {
@@ -62,10 +63,11 @@
       locale: "London",
       callback: function (_xyz) {
         _xyz.mapview.create({
-          target: document.getElementById("Map")
+          target: document.getElementById("Map"),
+          scrollWheelZoom: true
         });
 
-        _xyz.dataview.layerDataview({
+        const test = _xyz.dataview.layerDataview({
           dataview: document.getElementById('Table'),
           query: 'gla_organisation',
           layer: _xyz.layers.list['Advice Center'],

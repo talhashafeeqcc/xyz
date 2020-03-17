@@ -105,9 +105,11 @@ export default _xyz => {
 
   function finish() {
 
-    delete _xyz.mapview.interaction.edit.finish;
+    // delete _xyz.mapview.interaction.edit.finish;
 
-    _xyz.mapview.interaction.edit.Source && _xyz.mapview.interaction.edit.Source.clear();
+    // _xyz.mapview.interaction.edit.Source && _xyz.mapview.interaction.edit.Source.clear();
+
+    _xyz.mapview.interaction.edit.Source.clear();
 
     _xyz.map.removeLayer(_xyz.mapview.interaction.edit.Layer);
     

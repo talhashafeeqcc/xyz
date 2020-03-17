@@ -2,13 +2,6 @@ export default _xyz => table => {
 
   _xyz.map.updateSize();
 
-  let style = {};
-
-  // Give selection colour if relevant
-  if(table.location && table.location.style && table.location.style.strokeColor) style = {
-    borderTop: `solid 1px ${table.location.style.strokeColor}`
-  };
-
   // Remove current from all tabs.
   Object
     .values(_xyz.dataview.nav_bar.children)
@@ -23,7 +16,7 @@ export default _xyz => table => {
   table.tab = _xyz.utils.wire()`
   <li
     class="Tab"
-    style="${style}"
+    style="${'borderTop: solid 1px ' + table && table.location && table.location.style && table.location.style.strokeColor || '#090'}"
     onclick=${e => {
     Object
       .values(_xyz.dataview.nav_bar.children)
