@@ -28,8 +28,13 @@ async function http(req) {
 
 async function github(req) {
 
-  const response = await fetch(`https://${getURL(req).replace(/https:/,'').replace(/\/\//,'')}`,
-    process.env.KEY_GITHUB && {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+  //console.log(`https://${req.params.url.replace(/https:/,'').replace(/\/\//,'')}`);
+
+  const response = await fetch(`https://${req.params.url.replace(/https:/,'').replace(/\/\//,'')}`,
+  process.env.KEY_GITHUB && {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+
+  // const response = await fetch(`https://${getURL(req).replace(/https:/,'').replace(/\/\//,'')}`,
+  //   process.env.KEY_GITHUB && {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
 
   const b64 = await response.json()
 

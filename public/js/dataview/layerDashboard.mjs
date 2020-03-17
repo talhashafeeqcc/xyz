@@ -17,11 +17,13 @@ export default _xyz => dashboard => {
 			// here dashboard from template
 			const xhr = new XMLHttpRequest();
 
-			xhr.open('GET', _xyz.host + '/view/' + encodeURIComponent(dashboard.template) + '?' + _xyz.utils.paramString({
-				locale: _xyz.workspace.locale.key,
-				layer: dashboard.layer.key,
-				token: _xyz.token
-			}));
+      xhr.open('GET', _xyz.host +
+        '/view/' + encodeURIComponent(dashboard.template) + '?' +
+        _xyz.utils.paramString({
+          locale: _xyz.workspace.locale.key,
+          layer: dashboard.layer.key,
+          token: _xyz.token
+        }));
 
 			xhr.onload = e => {
 
