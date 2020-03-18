@@ -8,7 +8,7 @@ export default _xyz => entry => {
   for (let image of entry.value) {
 
     entry.listview.appendChild(_xyz.utils.wire()`
-      <div class="item">
+      <div class="item ${entry.class || ''}">
       <img src=${image}>
       ${(entry.edit) && _xyz.utils.wire()`
       <button
