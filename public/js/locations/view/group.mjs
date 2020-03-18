@@ -10,7 +10,7 @@ export default _xyz => group => {
 
     group.div = _xyz.utils.wire()
     `
-  <div style="display: none; grid-column: 1 / span 2" class="drawer panel expandable aga-group">`;
+  <div style="display: none; grid-column: 1 / span 2" class="drawer panel expandable ${group.class || ''}">`;
 
     group.expanded && group.div.classList.add('expanded');
 
