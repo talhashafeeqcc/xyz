@@ -9,7 +9,7 @@ export default _xyz => entry => {
 
     entry.listview.appendChild(_xyz.utils.wire()`
       <div class="item ${entry.class || ''}">
-      <img src=${image} style="width:100%;>
+      <img src=${image} style="width:100%;">
       ${(entry.edit) && _xyz.utils.wire()`
       <button
         class="xyz-icon icon-trash img-remove"
