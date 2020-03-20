@@ -13,8 +13,6 @@ export default _xyz => table => {
 
   _xyz.dataview.max_tabs = 6; // max tabs displayed in the panel
 
-  //console.log(`border-top: solid 1px ${table && table.location && table.location.style && table.location.style.strokeColor || '#1f964d'};`);
-
   table.tab = _xyz.utils.wire()`
   <li
     class="Tab"
