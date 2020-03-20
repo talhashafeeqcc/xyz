@@ -59,7 +59,7 @@ export default _xyz => (entry, callback) => {
     
       Object.values(entry.dataviews || []).map(dataview => {
 
-        dataview.target = _xyz.utils.wire()`<div>`;
+        dataview.target = _xyz.utils.wire()`<div style="margin-top: 10px;">`;
 
           _xyz.locations.view.dataview(Object.assign({
             location: {
@@ -70,7 +70,7 @@ export default _xyz => (entry, callback) => {
             }
           }, dataview));
 
-          document.querySelector('.tab-content').appendChild(dataview.target);
+          if(document.querySelector('.tab-content')) document.querySelector('.tab-content').appendChild(dataview.target);
 
         });
     

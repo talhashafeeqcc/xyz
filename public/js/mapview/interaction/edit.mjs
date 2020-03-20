@@ -109,7 +109,7 @@ export default _xyz => {
 
     // _xyz.mapview.interaction.edit.Source && _xyz.mapview.interaction.edit.Source.clear();
 
-    _xyz.mapview.interaction.edit.Source.clear();
+    _xyz.mapview.interaction.edit.Source && _xyz.mapview.interaction.edit.Source.clear();
 
     _xyz.map.removeLayer(_xyz.mapview.interaction.edit.Layer);
     

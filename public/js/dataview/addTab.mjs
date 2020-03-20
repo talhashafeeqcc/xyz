@@ -16,7 +16,7 @@ export default _xyz => table => {
   table.tab = _xyz.utils.wire()`
   <li
     class="Tab"
-    style="${'borderTop: solid 1px ' + table && table.location && table.location.style && table.location.style.strokeColor || '#090'}"
+    style="border-top: solid 1px ${table && table.location && table.location.style && table.location.style.strokeColor || '#1f964d'};"
     onclick=${e => {
     Object
       .values(_xyz.dataview.nav_bar.children)

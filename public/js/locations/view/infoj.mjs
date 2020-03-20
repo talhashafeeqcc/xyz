@@ -58,11 +58,13 @@ export default _xyz => location => {
 
     if (entry.type === 'dataview') {
 
-      entry.dataview =  _xyz.utils.wire()`<div style="grid-column: 1 / span 2;">`;
+      entry.dataview =  _xyz.utils.wire()`<div style="grid-column: 1 / span 2; width: 100%;">`;
 
       _xyz.locations.view.dataview(entry);
 
-      listview.appendChild(entry.dataview);
+      entry.target_id ? (document.getElementById(entry.target_id) ? document.getElementById(entry.target_id).appendChild(entry.dataview) : listview.appendChild(entry.dataview)) : listview.appendChild(entry.dataview);
+
+      //listview.appendChild(entry.dataview);
       
       continue
     }
@@ -75,7 +77,7 @@ export default _xyz => location => {
     if (entry.label) {
 
       entry.label_div = _xyz.utils.wire()`
-      <div class="${'label lv-' + (entry.level || 0)}" style="grid-column: 1;"
+      <div class="${'label lv-' + (entry.level || 0) + ' ' + (entry.class || '')}" style="grid-column: 1;"
       title="${entry.title || null}">${entry.label}`;
 
       entry.group ? location.groups[entry.group].div.appendChild(entry.label_div) : entry.listview.appendChild(entry.label_div);
@@ -85,8 +87,8 @@ export default _xyz => location => {
     // display layer name in location view
     if(entry.type === 'key') {
 
-      listview.appendChild(_xyz.utils.wire()`<div class="${'label lv-0 ' + (entry.class || '')};" style="grid-column: 2;">
-        <span title="Source layer"
+      listview.appendChild(_xyz.utils.wire()`<div class="label lv-0" style="grid-column: 2;">
+        <span title="Source layer" class="${entry.class || ''}"
         style="${'float: right; padding: 3px; cursor: help; border-radius: 2px; background-color: ' + (_xyz.utils.Chroma(location.style.strokeColor).alpha(0.3)) + ';'}"
         >${location.layer.name}
         `);
