@@ -13,10 +13,12 @@ export default _xyz => table => {
 
   _xyz.dataview.max_tabs = 6; // max tabs displayed in the panel
 
+  //console.log(`border-top: solid 1px ${table && table.location && table.location.style && table.location.style.strokeColor || '#1f964d'};`);
+
   table.tab = _xyz.utils.wire()`
   <li
     class="Tab"
-    style="${'borderTop: solid 1px ' + table && table.location && table.location.style && table.location.style.strokeColor || '#090'}"
+    style="border-top: solid 1px ${table && table.location && table.location.style && table.location.style.strokeColor || '#1f964d'};"
     onclick=${e => {
     Object
       .values(_xyz.dataview.nav_bar.children)
