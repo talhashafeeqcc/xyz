@@ -20,7 +20,7 @@ export default _xyz => group => {
     class="header primary-colour"
     style="text-align: left; grid-column: 1 / span 2;"
     onclick=${ e => {
-        _xyz.utils.toggleExpanderParent(e.target, true);
+        _xyz.utils.toggleExpanderParent(e.target);
     }}><span>${group.label}`;
 
     group.div.appendChild(group.header);
