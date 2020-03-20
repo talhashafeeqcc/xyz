@@ -20,7 +20,7 @@ export default _xyz => {
     _xyz.locations.listview.node.innerHTML = '';
 
     _xyz.locations.list = [
-      ['#9c27b0','invert(22%) sepia(80%) saturate(1933%) hue-rotate(272deg) brightness(97%) contrast(104%)'],
+      ['#4227b0','invert(19%) sepia(57%) saturate(4245%) hue-rotate(247deg) brightness(76%) contrast(101%)'],
       ['#2196f3','invert(60%) sepia(94%) saturate(3876%) hue-rotate(184deg) brightness(98%) contrast(94%)'],
       ['#009688','invert(37%) sepia(46%) saturate(1993%) hue-rotate(144deg) brightness(96%) contrast(101%)'],
       ['#cddc39','invert(84%) sepia(82%) saturate(420%) hue-rotate(6deg) brightness(88%) contrast(94%)'],
