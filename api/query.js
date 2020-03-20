@@ -24,15 +24,17 @@ module.exports = async (req, res) => {
 
   const template = templates[decodeURIComponent(req.params.template)]
 
-  if(!template) return res.status(500).send('Template not found')
+  if(!template) return res.status(404).send('Template not found')
+
+  if (template.err) return res.status(500).send(template.err)
 
   const token = req.params.token || {}
 
   const params = req.query || {}
 
-  if (template.admin_user && !token) return res.status(401).send('Insuficient privileges.')
+  if (template.admin_user && !token.admin_user) return res.status(401).send('Insuficient privileges.')
 
-  if (template.admin_workspace && !token) return res.status(401).send('Insuficient privileges.')
+  if (template.admin_workspace && !token.admin_workspace) return res.status(401).send('Insuficient privileges.')
 
   if (req.params.locale && req.params.layer) {
 
@@ -47,10 +49,29 @@ module.exports = async (req, res) => {
       req.params.filter && JSON.parse(req.params.filter) || {},
       roles.length && Object.assign(...roles) || {}))
 
-    Object.assign(params, {layer: layer, filter: filter})
+
+    req.params.viewport = req.params.viewport && req.params.viewport.split(',')
+    
+    const viewport = req.params.viewport && `
+    AND ST_DWithin(
+      ST_MakeEnvelope(
+        ${req.params.viewport[0]},
+        ${req.params.viewport[1]},
+        ${req.params.viewport[2]},
+        ${req.params.viewport[3]},
+        ${parseInt(req.params.viewport[4])}
+      ),
+      ${layer.geom}, 0.00001)` || ''
+
+    Object.assign(params, {layer: layer, filter: filter, viewport: viewport})
   }
 
-  const q = template.render(params)
+  try {
+    var q = template.render(params)
+  } catch(err) {
+    res.status(500).send(err.message)
+    return console.error(err)
+  }
 
   const rows = template.admin_user && token && token.admin_user ?
     await acl(q) :

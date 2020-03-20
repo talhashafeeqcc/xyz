@@ -34,7 +34,7 @@ export default _xyz => (entry, callback) => {
 
           if(!dataview.target_id) return;
 
-          dataview.dataview = _xyz.utils.wire()`<div>`;
+          dataview.target = _xyz.utils.wire()`<div>`;
 
           _xyz.locations.view.dataview(Object.assign({
             location: {
@@ -47,7 +47,7 @@ export default _xyz => (entry, callback) => {
 
           let container = dataview.target_id ? document.getElementById(dataview.target_id) : null;
 
-          if(container) container.appendChild(dataview.dataview);
+          if(container) container.appendChild(dataview.target);
 
         });
       
@@ -59,7 +59,7 @@ export default _xyz => (entry, callback) => {
     
       Object.values(entry.dataviews || []).map(dataview => {
 
-        dataview.dataview = _xyz.utils.wire()`<div>`;
+        dataview.target = _xyz.utils.wire()`<div>`;
 
           _xyz.locations.view.dataview(Object.assign({
             location: {
@@ -70,7 +70,7 @@ export default _xyz => (entry, callback) => {
             }
           }, dataview));
 
-          document.querySelector('.tab-content').appendChild(dataview.dataview);
+          document.querySelector('.tab-content').appendChild(dataview.target);
 
         });
     

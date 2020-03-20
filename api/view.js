@@ -15,7 +15,9 @@ module.exports = async (req, res) => {
 
   const template = templates[req.params.template]
 
-  if (!template) return res.status(400).send('View template not found.')
+  if (!template) return res.status(404).send('View template not found.')
+
+  if (template.err) return res.status(500).send(template.err)
 
   const token = req.params.token || {};
 

@@ -2,7 +2,7 @@ const _templates = require('../workspace/templates')
 
 module.exports = async (req, res, msg) => {
 
-  const templates = await _templates
+  const templates = await _templates(req, res)
 
   const html = templates._login.render({
     dir: process.env.DIR || '',

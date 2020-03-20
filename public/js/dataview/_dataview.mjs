@@ -2,6 +2,8 @@ import charts from './charts/_charts.mjs';
 
 import create from './create.mjs';
 
+import query from './query.mjs';
+
 import addTab from './addTab.mjs';
 
 import removeTab from './removeTab.mjs';
@@ -19,6 +21,8 @@ export default _xyz => {
   return {
 
     tables: [],
+
+    query: query(_xyz),
 
     charts: charts(_xyz),
     

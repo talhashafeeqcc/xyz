@@ -1,7 +1,5 @@
 let _workspace = require('./_workspace')()
 
-const workspace = {}
-
 module.exports = async (req, res) => {
 
   if (req.query.clear_cache) {
@@ -11,7 +9,7 @@ module.exports = async (req, res) => {
 
   //const t = process.hrtime()
 
-  Object.assign(workspace, {}, await _workspace)
+  const workspace = await _workspace
 
   //console.log(process.hrtime(t))
 

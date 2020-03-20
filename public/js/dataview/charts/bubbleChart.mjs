@@ -12,26 +12,22 @@ export default _xyz => entry => {
 
   graph.appendChild(canvas);
 
-  if(!entry.chart.datalabels) {
+  if (!entry.chart.datalabels) {
     _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
   }
 
-  let data = entry.fields.map(d => {
+  let data = entry.fields.map(field => ({
+    label: field[entry.chart.labels.label] || field.qid,
+    id: field.qid,
+    backgroundColor: entry.chart.backgroundColor || random_rgba(),
+    data: [{
+      x: field[entry.chart.labels.x],
+      y: field[entry.chart.labels.y],
+      r: field[entry.chart.labels.r]
+    }]
+  }));
 
-    return {
-      label: d[entry.chart.labels.label] || d.qid,
-      id: d.qid,
-      backgroundColor: entry.chart.backgroundColor || random_rgba(),
-      data: [{
-        x: d[entry.chart.labels.x],
-        y: d[entry.chart.labels.y],
-        r: d[entry.chart.labels.r]
-      }]
-    };
-
-  });
-
-  let chart = new _xyz.utils.Chart(canvas, { 
+  let chart = new _xyz.utils.Chart(canvas, {
     type: 'bubble',
     options: {
       layout: {
@@ -43,49 +39,49 @@ export default _xyz => entry => {
       },
       tooltips: {
         callbacks: {
-    				title: () => ''
-    			}
-    		},
-    		scales: {
-    			xAxes: [{
-    				scaleLabel: {
-    					display: true,
+          title: () => ''
+        }
+      },
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
             labelString: entry.chart.labels.x
           }
         }],
         yAxes: [{
-                	scaleLabel: {
-                		display: true,
-                		labelString: entry.chart.labels.y
-                	}
+          scaleLabel: {
+            display: true,
+            labelString: entry.chart.labels.y
+          }
         }]
       },
-      onClick : (evt, item) => {
-            	let element = chart.getElementAtEvent(evt)[0];
-            	if(element){
-            		let chartData = element['_chart'].config.data;
-            		let idx = element['_datasetIndex'];
+      onClick: (evt, item) => {
+        let element = chart.getElementAtEvent(evt)[0];
+        if (element) {
+          let chartData = element['_chart'].config.data;
+          let idx = element['_datasetIndex'];
 
-            		let label = chartData.datasets[idx].label;
-            		let value = chartData.datasets[idx].data[0];
-            		let id = chartData.datasets[idx].id;
-            		let color = chartData.datasets[idx].backgroundColor;
+          let label = chartData.datasets[idx].label;
+          let value = chartData.datasets[idx].data[0];
+          let id = chartData.datasets[idx].id;
+          let color = chartData.datasets[idx].backgroundColor;
 
-            		let data_point = {
-            			label: label,
-            			id: id, 
-            			color: color,
-            			value: value
-            		};
+          let data_point = {
+            label: label,
+            id: id,
+            color: color,
+            value: value
+          };
 
-            		console.log(data_point);
+          console.log(data_point);
 
-            		alert('Do something with data point \n ' + JSON.stringify(data_point));
-            	}
+          alert('Do something with data point \n ' + JSON.stringify(data_point));
+        }
       }
     },
     data: {
-        	datasets: data
+      datasets: data
     }
   });
 
@@ -94,5 +90,5 @@ export default _xyz => entry => {
 
 function random_rgba() {
   var o = Math.round, r = Math.random, s = 255;
-  return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ', 0.3)';
+  return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ', 0.3)';
 }

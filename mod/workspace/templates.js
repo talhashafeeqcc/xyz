@@ -25,35 +25,50 @@ const templates = {
   set_field_array: require('./queries/set_field_array'),
 }
 
+const promises = []
+
 module.exports = async (req, res) => {
 
   if (req.query.clear_cache) {
     _workspace = require('./_workspace')()
+    Object.assign(promises, [])
     return res.end()
   }
 
   const workspace = await _workspace
 
-  for (key of Object.keys(workspace.templates || {})) {
+  !promises.length && Object.assign(promises, Object.entries(workspace.templates || {}).map(
+    entry => new Promise(resolve => {
 
-    const template =
-    workspace.templates[key].template.toLowerCase().includes('api.github')
-      && await provider.github(workspace.templates[key].template)
-    || workspace.templates[key].template.startsWith('http')
-      && await provider.http(workspace.templates[key].template)
-    || workspace.templates[key].template
+      function _resolve(template) {
+        resolve({
+          [entry[0]]: {
+            render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),
+            dbs: entry[1].dbs || null,
+            roles: entry[1].roles || null,
+            admin_workspace: entry[1].admin_workspace || null,
+            admin_user: entry[1].admin_user || null,
+            template: entry[1].template,
+            err: template.err || null,
+          }
+        })
+      }
 
-    templates[key] = {
-      render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),
-      dbs: workspace.templates[key].dbs || null,
-      roles: workspace.templates[key].roles || null,
-      admin_workspace: workspace.templates[key].admin_workspace || null,
-      admin_user: workspace.templates[key].admin_user || null,
-      template: template
-    }
+      if (entry[1].template.toLowerCase().includes('api.github')) return provider.github(entry[1].template)
+        .then(template => _resolve(template))
 
-  }
+      if (entry[1].template.startsWith('http')) return provider.http(entry[1].template)
+        .then(template => _resolve(template))
 
-  return templates
+      return _resolve(entry[1].template)
+
+    })
+  ))
+
+  return new Promise(resolve => {
+
+    Promise.all(promises).then(arr => resolve(Object.assign(templates, ...arr)))
+
+  })
 
 }

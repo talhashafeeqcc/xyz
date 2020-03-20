@@ -21,28 +21,45 @@ module.exports = {
 
 async function http(req) {
 
-  const response = await fetch(req)
+  try {
 
-  return await response.text()
+    const response = await fetch(req)
+
+    if (response.status >= 300) return {err: response.status}
+
+    return await response.text()
+
+  } catch(err) {
+
+    return {err: err}
+
+  }
+
 }
 
 async function github(req) {
 
-  const url = req.params && req.params.url.replace(/https:/,'').replace(/\/\//,'') || req.replace(/https:/,'').replace(/\/\//,'')
+  try {
 
-  console.log(`https://${url}`);
+    const url = req.params && req.params.url.replace(/https:/,'').replace(/\/\//,'') || req.replace(/https:/,'').replace(/\/\//,'')
 
-  const response = await fetch(`https://${url}`, process.env.KEY_GITHUB &&
-    {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+    // console.log(`https://${url}`);
+  
+    const response = await fetch(`https://${url}`, process.env.KEY_GITHUB &&
+      {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+  
+    const b64 = await response.json()
+  
+    const buff = await Buffer.from(b64.content, 'base64')
+  
+    return await buff.toString('utf8')
 
-  // const response = await fetch(`https://${getURL(req).replace(/https:/,'').replace(/\/\//,'')}`,
-  //   process.env.KEY_GITHUB && {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+  } catch(err) {
 
-  const b64 = await response.json()
+    return {err: err}
 
-  const buff = await Buffer.from(b64.content, 'base64')
+  }
 
-  return await buff.toString('utf8')
 }
 
 async function here(req) {

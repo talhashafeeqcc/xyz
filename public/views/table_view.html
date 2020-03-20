@@ -59,25 +59,40 @@
   window.addEventListener('DOMContentLoaded', function () {
 
     _xyz({
-      host: "http://localhost:3000/gla",
-      locale: "London",
+      host: "http://localhost:3000",
+      locale: "Natural Earth",
       callback: function (_xyz) {
+
+        //_xyz.layers.list['Countries'].filter.current = {pop_est_edit: {gte: 235933369, lte: 1379302771}}
+
         _xyz.mapview.create({
           target: document.getElementById("Map"),
           scrollWheelZoom: true
         });
-
-        const test = _xyz.dataview.layerDataview({
-          dataview: document.getElementById('Table'),
-          query: 'gla_organisation',
-          layer: _xyz.layers.list['Advice Center'],
+       
+        const dataview = _xyz.dataview.layerDataview({
+          target: document.getElementById('Table'),
+          query: 'NE Countries table1',
+          layer: _xyz.layers.list['Countries'],
+          active: true,
+          viewport: true,
           columns: [
             {
-              title: 'Organisation',
-              field: 'organisation_short'
+              field: "name",
+              title: "Name"
+            },
+            {
+              title: "Population Est",
+              field: "pop_est"
+            },
+            {
+              field: "gdp_md_est"
             }
           ]
         })
+
+        console.log(dataview);
+        
       }
       
     });

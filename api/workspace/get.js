@@ -4,25 +4,34 @@ const auth = require('../../mod/auth/handler')({
 
 let _workspace = require('../../mod/workspace/_workspace')()
 
-const workspace = {}
+const fetch = require('node-fetch')
 
-const clearCache = require('../../mod/workspace/clearCache')
+const _layers = require('../../mod/workspace/layers')
+
+const _templates = require('../../mod/workspace/templates')
 
 module.exports = async (req, res) => {
 
   await auth(req, res)
 
-  Object.assign(workspace, {}, await _workspace)
+  if (req.query.clear_cache) {
 
-  const newWorkspace = await require('../../mod/workspace/_workspace')()
-
-  if (JSON.stringify(workspace) !== JSON.stringify(newWorkspace)) {
-    await clearCache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
     _workspace = require('../../mod/workspace/_workspace')()
-    Object.assign(workspace, {}, newWorkspace)
+
+    await clearcache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
   }
 
-  if (req.params.key === 'templates' && req.params.template) return res.send(workspace.templates[req.params.template])
+  const workspace = await _workspace
+
+  const layers = await _layers(req, res)
+
+  const templates = await _templates(req, res)
+
+  if (req.params.key === 'layers' && req.params.layer) return res.send(layers[req.params.layer])
+
+  if (req.params.key === 'layers') return res.send(Object.keys(layers))
+
+  if (req.params.key === 'templates' && req.params.template) return res.send(templates[req.params.template])
 
   if (req.params.key === 'templates') return res.send(Object.keys(workspace.templates))
 
@@ -60,4 +69,22 @@ module.exports = async (req, res) => {
 
   res.send(workspace)
  
+}
+
+function clearcache(host, token) {
+
+  return new Promise(resolve => {
+
+    Promise.all([
+      fetch(`${host}?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/view/foo?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/query?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/gazetteer?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/layer/mvt?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/layer/cluster?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/layer/grid?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/layer/geojson?clear_cache=true&token=${token || ''}`)
+    ]).then(arr => resolve(Object.assign(...arr)))
+
+  })
 }

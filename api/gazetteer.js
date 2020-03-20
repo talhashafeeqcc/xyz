@@ -10,8 +10,6 @@ const sql_filter = require('../mod/sql_filter')
 
 let _workspace = require('../mod/workspace/_workspace')()
 
-const workspace = {}
-
 module.exports = async (req, res) => {
 
   await auth(req, res)
@@ -21,7 +19,7 @@ module.exports = async (req, res) => {
     return res.end()
   }
 
-  Object.assign(workspace, {}, await _workspace)
+  const workspace = await _workspace
 
   const locale = workspace.locales[req.params.locale]
 

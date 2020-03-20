@@ -35,13 +35,13 @@ export default _xyz => dashboard => {
 
 					if(!dataview.target_id) return;
 
-					dataview.dataview = _xyz.utils.wire()`<div>`;
+					dataview.target = _xyz.utils.wire()`<div>`;
 
 					_xyz.dataview.layerDataview(Object.assign({}, dataview, {layer: dashboard.layer}));
 
 					let container = dataview.target_id ? document.getElementById(dataview.target_id) : null;
 
-					if(container) container.appendChild(dataview.dataview);
+					if(container) container.appendChild(dataview.target);
 				
 				});
 			
@@ -53,13 +53,13 @@ export default _xyz => dashboard => {
 
 			Object.values(dashboard.dataviews || []).map(dataview => {
 
-				dataview.dataview = _xyz.utils.wire()`<div>`;
+				dataview.target = _xyz.utils.wire()`<div>`;
 
 				_xyz.dataview.layerDataview(Object.assign({}, dataview, {layer: dashboard.layer}));
 
 				let container = dataview.target_id && document.getElementById(dataview.target_id) || document.querySelector('.tab-content');
 
-				if(container) container.appendChild(dataview.dataview);
+				if(container) container.appendChild(dataview.target);
 			
 			});
 		}
