@@ -29,10 +29,7 @@ export default _xyz => layer => {
         table: tableZ,
         size: layer.grid_size,
         color: layer.grid_color,
-        west: extent[0],
-        south: extent[1],
-        east: extent[2],
-        north: extent[3],
+        viewport: [extent[0], extent[1], extent[2], extent[3]],
         token: _xyz.token
       }));
 

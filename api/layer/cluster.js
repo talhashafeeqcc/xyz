@@ -28,10 +28,7 @@ module.exports = async (req, res) => {
     pixelRatio = parseFloat(req.params.pixelRatio),
     kmeans = parseInt(1 / req.params.kmeans),
     dbscan = parseFloat(req.params.dbscan),
-    west = parseFloat(req.params.west),
-    south = parseFloat(req.params.south),
-    east = parseFloat(req.params.east),
-    north = parseFloat(req.params.north)
+    viewport = req.params.viewport.split(',')
 
   const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
     role => layer.roles[role]).map(
@@ -45,7 +42,7 @@ module.exports = async (req, res) => {
   // Combine filter with envelope
   const where_sql = `
   WHERE ST_DWithin(
-    ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${parseInt(layer.srid)}),
+    ST_MakeEnvelope(${viewport[0]}, ${viewport[1]}, ${viewport[2]}, ${viewport[3]}, ${parseInt(layer.srid)}),
     ${geom}, 0.00001)
     ${filter}`
 
@@ -56,8 +53,8 @@ module.exports = async (req, res) => {
     SELECT
       count(1)::integer,
       ST_Distance(
-        ST_Point(${west}, ${south}),
-        ST_Point(${east}, ${north})
+        ST_Point(${viewport[0]}, ${viewport[1]}),
+        ST_Point(${viewport[2]}, ${viewport[3]})
       ) AS xdistance
     FROM ${req.params.table} ${where_sql}`
 

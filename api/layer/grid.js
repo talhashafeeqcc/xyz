@@ -21,22 +21,18 @@ module.exports = async (req, res) => {
     geom = layer.geom,
     size = req.params.size,
     color = req.params.color,
-    srid = layer.srid,
-    west = parseFloat(req.params.west),
-    south = parseFloat(req.params.south),
-    east = parseFloat(req.params.east),
-    north = parseFloat(req.params.north)
+    viewport = req.params.viewport.split(',')
 
   var q = `
   SELECT
-    ST_X(ST_Transform(${layer.geom},${srid})) x,
-    ST_Y(ST_Transform(${layer.geom},${srid})) y,
+    ST_X(ST_Transform(${layer.geom}, ${layer.srid})) x,
+    ST_Y(ST_Transform(${layer.geom}, ${layer.srid})) y,
     ${size} size,
     ${color} color
   FROM ${table}
   WHERE
     ST_DWithin(
-      ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, ${srid}),
+      ST_MakeEnvelope(${viewport[0]}, ${viewport[1]}, ${viewport[2]}, ${viewport[3]}, ${layer.srid}),
     ${geom}, 0.000001)
     AND ${size} >= 1 LIMIT 10000;`
 

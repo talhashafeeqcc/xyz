@@ -51,10 +51,7 @@ export default _xyz => layer => {
             theme: layer.style.theme && encodeURIComponent(Object.keys(layer.style.themes).find(k => layer.style.themes[k] === layer.style.theme)),
             label: layer.style.label && layer.style.label.field,
             filter: JSON.stringify(filter),
-            west: extent[0],
-            south: extent[1],
-            east: extent[2],
-            north: extent[3],
+            viewport: [extent[0], extent[1], extent[2], extent[3]],
             z: _xyz.mapview.getZoom(),
             token: _xyz.token
           }));
