@@ -58,11 +58,11 @@ export default _xyz => location => {
 
     if (entry.type === 'dataview') {
 
-      entry.dataview =  _xyz.utils.wire()`<div style="grid-column: 1 / span 2; width: 100%;">`;
+      entry.target =  _xyz.utils.wire()`<div style="grid-column: 1 / span 2; width: 100%;">`;
 
       _xyz.locations.view.dataview(entry);
 
-      entry.target_id ? (document.getElementById(entry.target_id) ? document.getElementById(entry.target_id).appendChild(entry.dataview) : listview.appendChild(entry.dataview)) : listview.appendChild(entry.dataview);
+      entry.target_id ? (document.getElementById(entry.target_id) ? document.getElementById(entry.target_id).appendChild(entry.target) : listview.appendChild(entry.target)) : listview.appendChild(entry.target);
 
       //listview.appendChild(entry.dataview);
       

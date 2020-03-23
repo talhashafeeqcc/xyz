@@ -38,16 +38,16 @@ export default _xyz => entry => {
 
       const dataview = _xyz.dataview.charts.create(entry);
 
-      entry.dataview.innerHTML = '';
+      entry.target.innerHTML = '';
 
-      entry.dataview.appendChild(dataview);
+      entry.target.appendChild(dataview);
     }
 
     if (entry.columns) {
 
-      entry.dataview.innerHTML = '';
+      entry.target.innerHTML = '';
 
-      entry.Tabulator = new _xyz.utils.Tabulator(entry.dataview, {
+      entry.Tabulator = new _xyz.utils.Tabulator(entry.target, {
         invalidOptionWarnings: false,
         tooltipsHeader: true,
         columnHeaderVertAlign: 'center',
@@ -74,7 +74,7 @@ export default _xyz => entry => {
           style="display: inline; margin-right: 4px;"
           onclick=${() => entry.Tabulator.download('json', `${entry.title}.json`)}>JSON</li>`);
 
-        entry.dataview.insertBefore(_xyz.utils.wire()`<div>${toolbar}`, entry.dataview.querySelector('.tabulator-header'));
+        entry.target.insertBefore(_xyz.utils.wire()`<div>${toolbar}`, entry.target.querySelector('.tabulator-header'));
 
       }
 
