@@ -10,7 +10,9 @@ export default _xyz => function () {
 
   if (location.Marker) sourceVector.addFeatures(location.Marker.getSource().getFeatures());
 
-  location.geometries.forEach(layer => sourceVector.addFeatures(layer.getSource().getFeatures()));
+  location.geometries.forEach(layer => {
+  	layer.length ? layer.forEach(l => sourceVector.addFeatures(l.getSource().getFeatures())) : sourceVector.addFeatures(layer.getSource().getFeatures());
+  });
 
   _xyz.mapview.flyToBounds(sourceVector.getExtent());
 

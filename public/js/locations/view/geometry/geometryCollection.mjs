@@ -1,5 +1,7 @@
 export default _xyz => entry => {
 
+  if(!entry.value.features) return;
+
     entry.value.features.map(feature => {
 
         let style;
@@ -7,8 +9,6 @@ export default _xyz => entry => {
         if (!entry.style) style = entry.location.style;
 
         if (!entry.style.theme) style = entry.style;
-
-        //console.log(entry);
 
         if (entry.style.theme && entry.style.theme.type === 'categorized') style = entry.style.theme && entry.style.theme.cat[feature.properties[entry.style.theme.field]].style;
 
