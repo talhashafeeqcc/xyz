@@ -47,6 +47,8 @@ export default _xyz => entry => {
 
     if (!entry.style || !entry.style.theme) return;
 
+    if(!entry.style.theme.legend) return;
+
     entry.legend = _xyz.utils.wire()
     `<div class="legend lv-1">`;
 
