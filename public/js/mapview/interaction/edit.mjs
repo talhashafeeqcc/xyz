@@ -76,7 +76,7 @@ export default _xyz => {
 
         if(params.type !== 'Polygon' && params.type === 'LineString') return true;
 
-        return !(_xyz.mapview.interaction.edit.trail && (_xyz.utils.turf.kinks(_xyz.mapview.interaction.edit.trail).features.length > 0));
+        return !(_xyz.mapview.interaction.edit.trail && (_xyz.utils.turf.kinks(_xyz.utils.flatten(_xyz.mapview.interaction.edit.trail)).features.length > 0));
       
       }
 

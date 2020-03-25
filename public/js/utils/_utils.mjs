@@ -42,7 +42,10 @@ import pointOnFeature from '@turf/point-on-feature';
 
 import kinks from '@turf/kinks';
 
+import flatten from '@turf/flatten';
+
 export const turf = {
   pointOnFeature: pointOnFeature,
-  kinks: kinks.default
+  kinks: kinks.default,
+  flatten: flatten
 };
