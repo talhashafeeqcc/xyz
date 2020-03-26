@@ -11,6 +11,8 @@ module.exports = async (req, res) => {
 
   const templates = await _templates(req, res)
 
+  if (req.query.clear_cache) return res.end()
+
   if (res.finished) return
 
   const template = templates[req.params.template]

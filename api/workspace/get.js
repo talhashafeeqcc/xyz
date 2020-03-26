@@ -18,7 +18,9 @@ module.exports = async (req, res) => {
 
     _workspace = require('../../mod/workspace/_workspace')()
 
-    await clearcache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}`, req.params.token.signed)
+    const response = await clearcache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}`, req.params.token.signed)
+
+    //return res.send(response)
   }
 
   const workspace = await _workspace
@@ -84,7 +86,10 @@ function clearcache(host, token) {
       fetch(`${host}/api/layer/cluster?clear_cache=true&token=${token || ''}`),
       fetch(`${host}/api/layer/grid?clear_cache=true&token=${token || ''}`),
       fetch(`${host}/api/layer/geojson?clear_cache=true&token=${token || ''}`)
-    ]).then(arr => resolve(Object.assign(...arr)))
+    ]).then(arr => {
+      //console.log(arr)
+      resolve(Object.assign(...arr))
+    })
 
   })
 }

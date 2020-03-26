@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
   if (req.query.clear_cache) {
     _workspace = require('./_workspace')()
     Object.assign(promises, [])
-    return res.end()
+    return //res.end()
   }
 
   const workspace = await _workspace

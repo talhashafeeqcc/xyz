@@ -15,6 +15,8 @@ module.exports = async (req, res) => {
 
   const templates = await _templates(req, res)
 
+  if (req.query.clear_cache) return res.end()
+
   const md = new Md(req.headers['user-agent'])
 
   const template = templates[(md.mobile() === null || md.tablet() !== null) && '_desktop' || '_mobile'];

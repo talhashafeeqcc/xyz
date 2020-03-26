@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
 
   if (req.query.clear_cache) {
     _workspace = require('./_workspace')()
-    return res.end()
+    return //res.end()
   }
 
   //const t = process.hrtime()
