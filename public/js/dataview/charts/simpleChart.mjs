@@ -120,8 +120,6 @@ export default _xyz => entry => {
                         return Number(entry.chart.offsetX) ? `${item.yLabel}: ${item.xLabel -= entry.chart.offsetX}` : `${item.yLabel}: ${item.xLabel}`;
                     }
                 }
-                /*,
-                          filter: tooltipItem => {}*/
             }
         }
     });

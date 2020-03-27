@@ -19,6 +19,10 @@ export default _xyz => function() {
     _xyz.locations.listview.init()
   }
 
+  location.dataviews.forEach(
+    dataview => dataview.remove()
+  );
+
   // Clear geometries and delete location to free up record.
   location.geometries.forEach(
     geom => _xyz.map.removeLayer(geom)

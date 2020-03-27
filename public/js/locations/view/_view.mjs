@@ -10,8 +10,6 @@ import documents from './documents.mjs';
 
 import meta from './meta.mjs';
 
-import dashboard from './dashboard.mjs';
-
 import report from './report.mjs';
 
 import boolean from './boolean.mjs';
@@ -45,8 +43,6 @@ export default _xyz => {
     edit: edit(_xyz),
 
     boolean: boolean(_xyz),
-
-    dashboard: dashboard(_xyz),
 
     report: report(_xyz),
 

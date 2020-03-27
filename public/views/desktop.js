@@ -89,8 +89,8 @@ function stopResize_y() {
   window.removeEventListener('touchmove', resize_y);
   window.removeEventListener('mouseup', stopResize_y);
   window.removeEventListener('touchend', stopResize_y);
-  desktop.map.dispatchEvent(new CustomEvent('updatesize'));
-  desktop.dataview.dispatchEvent(new CustomEvent('updatesize'));
+  //desktop.map.dispatchEvent(new CustomEvent('updatesize'));
+  //desktop.dataview.dispatchEvent(new CustomEvent('updatesize'));
 }
 
 
@@ -178,13 +178,8 @@ function init(_xyz) {
       }}><div class="xyz-icon icon-gps-not-fixed off-black-filter">`);
   }
 
-
-  _xyz.dataview.create({
-    target: document.getElementById('dataview'),
-    btn: {
-      toggleDataview: document.getElementById('toggleDataview'),
-      dataViewport: document.getElementById('btnDataViewport')
-    }
+  _xyz.dataview.tabview.init({
+    target: document.getElementById('tabview'),
   });
 
   _xyz.layers.listview.init({
@@ -212,7 +207,6 @@ function init(_xyz) {
     _xyz.locations.list
       .filter(record => !!record.location)
       .forEach(record => record.location.remove());
-    if (_xyz.dataview.node) _xyz.map.updateSize();
   };
 
   // Create locales dropdown if length of locales array is > 1.

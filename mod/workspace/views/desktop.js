@@ -51,11 +51,11 @@ data-login=${_.login}>
 
         <div class="btn-column lv1"></div>
 
-        <div id="Map" class="map" ></div>
+        <div id="Map" class="map"></div>
 
     </div>
 
-    <div id="dataview" class="dataview">
+    <div id="tabview" class="dataview">
 
         <div id="hozDivider"></div>
 
@@ -63,12 +63,6 @@ data-login=${_.login}>
 
         <nav class="nav_bar">
             <ul class="nav_bar-nav"></ul>
-            <div class="tab-dropdown-container">
-                <button class="tab-dropdown primary-colour">»</button>
-                <div class="tab-dropdown-content">
-                    <ul></ul>
-                </div>
-            </div>
         </nav>
 
         <div class="tab-content"></div>

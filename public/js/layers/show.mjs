@@ -28,18 +28,13 @@ export default _xyz => function () {
   if (layer.group && _xyz.layers.listview.groups && _xyz.layers.listview.groups[layer.group]) _xyz.layers.listview.groups[layer.group].chkVisibleLayer();
 
   // Iterate through tables and charts to check whether table should be shown.
-  if (layer.dataview && _xyz.dataview.node){
+  if (layer.dataviews && _xyz.dataview.tabview.node){
 
-    Object.keys(layer.dataview).forEach(key => {
-     
-      layer.dataview[key].tab && layer.dataview[key].remove();
+    Object.entries(layer.dataviews).forEach(dataview => {
 
-      _xyz.dataview.nav_dropdown && !_xyz.dataview.nav_dropdown.firstChild && _xyz.map.updateSize();
-
-      layer.dataview[key].display && layer.dataview[key].show();
+      dataview[1].display && _xyz.dataview.tabview.add(dataview[1]);
 
     });
-  
   }
 
 };

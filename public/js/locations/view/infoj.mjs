@@ -147,11 +147,6 @@ export default _xyz => location => {
       continue
     }
 
-    if (entry.type === 'dashboard') {
-      _xyz.locations.view.dashboard(entry);
-      continue
-    }
-
     // Remove empty row which is not editable.
     if (!entry.edit && !entry.displayValue) continue
 

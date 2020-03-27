@@ -42,58 +42,51 @@
           },
           "geom": "geom_3857",
           "srid": "3857",
-          "dataview": {
+          "dataviews": {
             "table1": {
-              "dataviews": [
+              "title": "Population / GDP",
+              "query": "NE Countries table1",
+              "columns": [
                 {
-                  "title": "Population / GDP",
-                  "query": "NE Countries table1",
-                  "columns": [
-                    {
-                      "field": "name",
-                      "title": "Name"
-                    },
-                    {
-                      "title": "Population Est",
-                      "field": "pop_est"
-                    },
-                    {
-                      "field": "gdp_md_est"
-                    }
-                  ]
+                  "field": "name",
+                  "title": "Name"
+                },
+                {
+                  "title": "Population Est",
+                  "field": "pop_est"
+                },
+                {
+                  "field": "gdp_md_est"
                 }
               ]
             },
             "GDP / Population": {
               "display": true,
-              "dataviews": [
+              "query": "NE GDP/Population Layer Table",
+              "viewport": true,
+              "layout": "fitColumns",
+              "columns": [
                 {
-                  "query": "NE GDP/Population Layer Table",
-                  "layout": "fitColumns",
-                  "columns": [
-                    {
-                      "field": "name"
-                    },
-                    {
-                      "field": "gdp_md_est",
-                      "formatter": "money",
-                      "align": "right",
-                      "formatterParams": {
-                        "symbol": " dollars",
-                        "symbolAfter": true,
-                        "precision": false
-                      }
-                    },
-                    {
-                      "title": "Population Est",
-                      "field": "pop_est",
-                      "formatter": "money",
-                      "align": "center",
-                      "formatterParams": {
-                        "precision": false
-                      }
-                    }
-                  ]
+                  "field": "name"
+                },
+                {
+                  "field": "gdp_md_est",
+                  "formatter": "money",
+                  "align": "right",
+                  "formatterParams": {
+                    "symbol": " dollars",
+                    "symbolAfter": true,
+                    "precision": false
+                  }
+                },
+                {
+                  "title": "Population Est",
+                  "field": "pop_est",
+                  "formatter": "money",
+                  "align": "center",
+                  "formatterParams": {
+                    "precision": false
+                  }
                 }
               ]
             }
@@ -1017,79 +1010,43 @@
               }
             }
           },
-          "dataview": {
+          "dataviews": {
             "Retail Places": {
-              "template": "Sites Population Dashboard",
-              "dataviews": [
+              "layout": "fitColumns",
+              "query": "UK Retail Places Layer Table",
+              "viewport": true,
+              "columns": [
                 {
-                  "title": "Retail Places",
-                  "target_id": "xyz_sites_oac",
-                  "toolbars": {},
-                  "layout": "fitColumns",
-                  "query": "UK Retail Places Layer Table",
+                  "title": "ID",
+                  "field": "id"
+                },
+                {
+                  "field": "dev_date"
+                },
+                {
+                  "field": "rp_type"
+                },
+                {
+                  "title": "Characteristics",
                   "columns": [
                     {
-                      "title": "ID",
-                      "field": "id"
+                      "field": "comp_strgh",
+                      "title": "Competition strength"
                     },
                     {
-                      "field": "dev_date"
+                      "field": "est_units",
+                      "title": "Estimate units"
                     },
                     {
-                      "field": "rp_type"
-                    },
-                    {
-                      "title": "Characteristics",
-                      "columns": [
-                        {
-                          "field": "comp_strgh",
-                          "title": "Competition strength"
-                        },
-                        {
-                          "field": "est_units",
-                          "title": "Estimate units"
-                        },
-                        {
-                          "field": "est_brands",
-                          "title": "Estimate brands"
-                        }
-                      ]
+                      "field": "est_brands",
+                      "title": "Estimate brands"
                     }
                   ]
                 }
               ]
             },
-            "Retail Overview": {
-              "display": false,
-              "dataviews": [
-                {
-                  "label": "Retail strength",
-                  "query": "UK RP Retail Strength Layer Chart",
-                  "chart": {
-                    "type": "bubble",
-                    "labels": {
-                      "x": "est_units",
-                      "y": "est_brands",
-                      "r": "comp_strgh",
-                      "label": "rp_name"
-                    }
-                  }
-                },
-                {
-                  "label": "Services share",
-                  "query": "UK RP Services share Layer Chart",
-                  "chart": {
-                    "type": "scatter",
-                    "pointStyle": "triangle",
-                    "radius": 10,
-                    "labels": {
-                      "x": "fbl",
-                      "y": "services",
-                      "label": "rp_name"
-                    }
-                  }
-                }
-              ]
+            "SRC Test": {
+              "src": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/retail_places.js"
             }
           },
           "__mvt_cache": "dev.retailplaces__mvts",
@@ -1480,27 +1437,22 @@
           "hover": {
             "field": "store"
           },
-          "dataview": {
+          "dataviews": {
             "Retail Points": {
               "display": true,
-              "dataviews": [
+              "query": "UK Retail Points Layer Table",
+              "columns": [
                 {
-                  "title": "Retail Points",
-                  "query": "UK Retail Points Layer Table",
-                  "columns": [
-                    {
-                      "title": "ID",
-                      "field": "retailpoint_id"
-                    },
-                    {
-                      "title": "Retailer",
-                      "field": "retailer"
-                    },
-                    {
-                      "title": "Fascia",
-                      "field": "fascia"
-                    }
-                  ]
+                  "title": "ID",
+                  "field": "retailpoint_id"
+                },
+                {
+                  "title": "Retailer",
+                  "field": "retailer"
+                },
+                {
+                  "title": "Fascia",
+                  "field": "fascia"
                 }
               ]
             }
@@ -2549,7 +2501,7 @@
                   }
                 },
                 {
-                  "title": "Population Summary Dataview",
+                  "title": "Population Summary",
                   "query": "Population Summary Sites",
                   "layout": "fitColumns",
                   "toolbars": {},
@@ -2733,7 +2685,7 @@
               "class": "_report"
             },
             {
-              "label": "Available dataviews",
+              "label": "Available dv",
               "type": "label",
               "class": "_report"
             },
@@ -3006,7 +2958,7 @@
       "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/report_sites/sites.html"
     },
     "UK Retail Places Layer Table": {
-      "template": "SELECT tid AS qID, id, dev_date ,rp_type, comp_strgh, est_units, est_brands FROM dev.retailplaces WHERE ST_DWithin(ST_Transform(ST_MakeEnvelope(${west}, ${south}, ${east}, ${north}, 3857), 3857), geom_3857, 0.00001) ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
+      "template": "SELECT tid AS qID, id, dev_date ,rp_type, comp_strgh, est_units, est_brands FROM dev.retailplaces WHERE true ${viewport} ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
       "dbs": "XYZ"
     },
     "UK Retail Points Layer Table": {
@@ -3014,7 +2966,7 @@
       "dbs": "XYZ"
     },
     "NE GDP/Population Layer Table": {
-      "template": "SELECT id AS qID, name, gdp_md_est, pop_est FROM dev.natural_earth_countries ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+      "template": "SELECT id AS qID, name, gdp_md_est, pop_est FROM dev.natural_earth_countries WHERE true ${viewport} ${filter} ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
       "dbs": "XYZ"
     },
     "NE Countries table1": {
@@ -3027,6 +2979,9 @@
     "chart_view": {
       "template": "http://localhost:3000/views/chart_view.html"
     },
+    "template_view": {
+      "template": "http://localhost:3000/views/template_view.html"
+    },
     "foo": {
       "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/foo"
     },
@@ -3034,11 +2989,15 @@
       "template": "http://localhost:3000/views/bar.html"
     },
     "UK RP Retail Strength Layer Chart": {
-      "template": "SELECT tid AS qID, est_units, est_brands, (comp_strgh/1000000) AS comp_strgh, rp_name FROM dev.retailplaces ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
+      "template": "SELECT sum(est_units) as est_units, avg(est_brands) as est_brands, ln(avg(comp_strgh)+1) AS comp_strgh FROM dev.retailplaces WHERE true ${viewport} ${filter} GROUP BY rp_type;",
+      "dbs": "XYZ"
+    },
+    "UK RP Profile Layer Chart": {
+      "template": "SELECT avg(comparison) as comparison, avg(conv) as conv, avg(fbl) as fbl, avg(services) as services FROM dev.retailplaces WHERE true ${viewport} ${filter}",
       "dbs": "XYZ"
     },
     "UK RP Services share Layer Chart": {
-      "template": "SELECT tid AS qID, fbl, services, rp_name FROM dev.retailplaces ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
+      "template": "SELECT tid AS qID, fbl, services, rp_name FROM dev.retailplaces WHERE true ${viewport} ${filter} ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
       "dbs": "XYZ"
     },
     "Sites Local Report": {
@@ -3046,6 +3005,9 @@
     },
     "Sites Population Dashboard": {
       "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/sites_population.html"
+    },
+    "template_test": {
+      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/dashboard_test.html"
     }
   }
 }

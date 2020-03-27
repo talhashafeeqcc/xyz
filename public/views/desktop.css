@@ -61,6 +61,7 @@ body {
 
 .mapview {
     grid-column: 3;
+    grid-row: 1/4;
     position: relative;
 }
 
