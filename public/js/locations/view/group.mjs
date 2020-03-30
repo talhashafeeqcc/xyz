@@ -6,11 +6,12 @@ export default _xyz => group => {
     let values = Object.values(group.location.infoj)
         .filter(field => { if (field.group === group.label) return field.value });
 
-    if (!values.length) return; // break when no data to show
-
     group.div = _xyz.utils.wire()
     `
   <div style="display: none; grid-column: 1 / span 2" class="drawer panel expandable ${group.class || ''}">`;
+
+    if (!values.length) return; // break when no data to show
+
 
     group.expanded && group.div.classList.add('expanded');
 
