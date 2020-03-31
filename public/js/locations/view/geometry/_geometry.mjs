@@ -65,6 +65,8 @@ export default _xyz => {
       entry.location.geometryCollection && entry.location.geometries.splice(entry.location.geometries.indexOf(entry.geometryCollection), 1) && entry.location.geometryCollection.map(f => _xyz.map.removeLayer(f));
 
       entry.display = false;
+
+      if(entry.legend) entry.legend.remove();
     };
 
     function createGeom() {
