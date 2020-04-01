@@ -51,7 +51,7 @@ input[type=number] {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 5px 0;
+    // margin: 5px 0;
 
     >input {
         text-align: right;
@@ -64,7 +64,7 @@ input[type=number] {
     overflow: visible;
     position: relative;
     box-shadow: 1px 1px 3px 0 #ddd;
-    margin: 5px 0;
+    // margin: 5px 0;
 
     &:disabled {
         pointer-events: none;

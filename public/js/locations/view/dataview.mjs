@@ -1,6 +1,6 @@
 export default _xyz => entry => {
 
-  if (!entry.query) return;
+  // if (!entry.query) return;
 
   entry.layer = entry.location.layer;
 

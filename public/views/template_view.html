@@ -74,10 +74,13 @@
         const container = document.getElementById('Container');
 
         document.addEventListener('addDashboard', e => {
-          e.detail(_xyz, {target: container})
+          e.detail(_xyz, {
+            target: container,
+            id: 278,
+            layer: _xyz.layers.list['Sites']})
         }, true);
 
-        container.appendChild(_xyz.utils.wire()`<script src="/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/retail_places.js">`);
+        container.appendChild(_xyz.utils.wire()`<script src="/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/with_charts.js">`);
 
       }
 

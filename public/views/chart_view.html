@@ -77,7 +77,7 @@
           scrollWheelZoom: true
         });
 
-        _xyz.layers.list['Retail Places'].show()
+        _xyz.layers.list['Sites'].show()
 
 
         _xyz.dataview.dataview({
@@ -116,40 +116,40 @@
         })
 
 
-        _xyz.dataview.dataview({
-          target: document.getElementById('Chart2'),
-          layer: _xyz.layers.list['Retail Places'],
-          active: true,
-          viewport: true,
-          query: 'UK RP Profile Layer Chart',
-          chart: {
-            type: 'horizontalBar',
-            labels: [
-              'Comparison',
-              'Convenience',
-              'F/B/L',
-              'Services'
-            ],
-            datasets: [
-              {
-                fields: [
-                  'comparison',
-                  'conv',
-                  'fbl',
-                  'services'
-                ],
-                backgroundColor: [
-                  '#FFA630',
-                  '#C6DEA6',
-                  '#7EBDC3',
-                  '#7A6263'
-                ],
-                borderWidth: 5,
-                //borderColor: '#000'
-              }
-            ]
-          }
-        })
+        // _xyz.dataview.dataview({
+        //   target: document.getElementById('Chart2'),
+        //   layer: _xyz.layers.list['Retail Places'],
+        //   active: true,
+        //   viewport: true,
+        //   query: 'UK RP Profile Layer Chart',
+        //   chart: {
+        //     type: 'horizontalBar',
+        //     labels: [
+        //       'Comparison',
+        //       'Convenience',
+        //       'F/B/L',
+        //       'Services'
+        //     ],
+        //     datasets: [
+        //       {
+        //         fields: [
+        //           'comparison',
+        //           'conv',
+        //           'fbl',
+        //           'services'
+        //         ],
+        //         backgroundColor: [
+        //           '#FFA630',
+        //           '#C6DEA6',
+        //           '#7EBDC3',
+        //           '#7A6263'
+        //         ],
+        //         borderWidth: 5,
+        //         //borderColor: '#000'
+        //       }
+        //     ]
+        //   }
+        // })
 
       }
 

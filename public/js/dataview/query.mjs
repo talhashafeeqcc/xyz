@@ -5,7 +5,7 @@ export default _xyz => params => new Promise((resolve, reject) => {
   const bounds = params.viewport && _xyz.mapview && _xyz.mapview.getBounds();
 
   // Create filter from legend and current filter.
-  const filter = params.layer.filter && Object.assign({}, params.layer.filter.legend, params.layer.filter.current);
+  const filter = params.layer && params.layer.filter && Object.assign({}, params.layer.filter.legend, params.layer.filter.current);
 
   xhr.open('GET', _xyz.host + '/api/query?' +
     _xyz.utils.paramString({

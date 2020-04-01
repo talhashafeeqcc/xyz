@@ -30,7 +30,20 @@ export default _xyz => dataview => {
       tooltipsHeader: true,
       columnHeaderVertAlign: 'center',
       layout: 'fitDataFill',
-      height: 'auto'
+      height: 'auto',
+      selectable: false,
+      rowClick: (e, row) => {
+        const rowData = row.getData();
+        if (!dataview.layer || !rowData.id) return;
+        _xyz.locations.select({
+            locale: _xyz.workspace.locale.key,
+            layer: dataview.layer,
+            table: dataview.layer.tableCurrent(),
+            id: rowData.id,
+            //_flyTo: true,
+        });
+        row.deselect();
+      }
     }, dataview));
 
     dataview.update = () => {

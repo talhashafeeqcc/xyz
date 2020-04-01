@@ -41,14 +41,15 @@ export default _xyz => chart => {
     }
   }
 
-  if (['horizontalBar'].includes(chart.type)) {
+  if (['horizontalBar', 'bar', 'doughnut', 'radar'].includes(chart.type)) {
 
     chart.setData = response => {
 
       chart.ChartJS.data = {
         labels: chart.labels,
         datasets: chart.datasets.map(dataset =>({
-          data: dataset.fields.map(field => response[field]),
+          data: dataset.fields && dataset.fields.map(field => response[field]) || response[dataset.field],
+          fill: dataset.fill,
           backgroundColor: dataset.backgroundColor === 'random' && dataset.fields.map(() => _xyz.utils.Chroma.random().hex()) || dataset.backgroundColor,
           borderWidth: dataset.borderWidth,
           borderColor: dataset.borderColor === 'random' && dataset.fields.map(() => _xyz.utils.Chroma.random().hex()) || dataset.borderColor,

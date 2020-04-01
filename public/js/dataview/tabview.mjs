@@ -19,7 +19,7 @@ export default _xyz => {
 
     tabview.views = [];
 
-    document.body.style.gridTemplateRows = 'minmax(0, 1fr) 80px';
+    // document.body.style.gridTemplateRows = 'minmax(0, 1fr) 80px';
 
   };
 
@@ -79,9 +79,9 @@ export default _xyz => {
 
     tabview.panel.appendChild(dataview.target);
 
-    if (dataview.src) {
+    if (dataview.script) {
 
-      const script = _xyz.utils.wire()`<script src="${dataview.src}">`;
+      const script = _xyz.utils.wire()`<script src="${dataview.script}">`;
 
       function addDashboard(e) {
         e.detail(_xyz, dataview);

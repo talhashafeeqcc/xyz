@@ -64,6 +64,7 @@
               "display": true,
               "query": "NE GDP/Population Layer Table",
               "viewport": true,
+              "selectable": true,
               "layout": "fitColumns",
               "columns": [
                 {
@@ -1045,8 +1046,8 @@
                 }
               ]
             },
-            "SRC Test": {
-              "src": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/retail_places.js"
+            "Script Test": {
+              "script": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/retail_places.js"
             }
           },
           "__mvt_cache": "dev.retailplaces__mvts",
@@ -2116,428 +2117,16 @@
               "class": "_report"
             },
             {
-              "type": "dashboard",
+              "type": "dataview",
               "title": "Population Dashboard",
-              "display": true,
               "class": "_report",
-              "template": "Sites Population Dashboard",
-              "dataviews": [
-                {
-                  "title": "Population Summary",
-                  "target_id": "xyz_sites_pop",
-                  "query": "Population Summary Sites",
-                  "class": "_report",
-                  "layout": "fitColumns",
-                  "toolbars": {},
-                  "columns": [
-                    {
-                      "field": "rows",
-                      "title": "Population Summary",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Grouped columns",
-                      "columns": [
-                        {
-                          "title": "0-5 mins",
-                          "field": "min5",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        },
-                        {
-                          "title": "0-10 mins",
-                          "field": "min10",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "title": "Age Profile",
-                  "class": "_report",
-                  "query": "Age Profile Sites",
-                  "target_id": "xyz_sites_age",
-                  "layout": "fitColumns",
-                  "columns": [
-                    {
-                      "field": "rows",
-                      "title": "Age Profile",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "0-5 mins",
-                      "field": "min5",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "title": "0-10 mins",
-                      "field": "min10",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "title": "0-15 mins",
-                      "field": "min15",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    }
-                  ]
-                },
-                {
-                  "title": "Social Grade",
-                  "query": "Social Grade Sites",
-                  "target_id": "xyz_sites_socialgrade",
-                  "class": "_report",
-                  "layout": "fitColumns",
-                  "columns": [
-                    {
-                      "field": "rows",
-                      "title": "Social Grade",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Drivetimes",
-                      "columns": [
-                        {
-                          "title": "0-5 mins",
-                          "field": "min5",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        },
-                        {
-                          "title": "0-10 mins",
-                          "field": "min10",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        },
-                        {
-                          "title": "0-15 mins",
-                          "field": "min15",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        }
-                      ]
-                    },
-                    {
-                      "field": "share15",
-                      "title": "% with 15 min",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "field": "sg_uk_total",
-                      "title": "UK %",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "field": "sg_index",
-                      "title": "Social Grade Index",
-                      "formatter": "progress",
-                      "formatterParams": {
-                        "color": [
-                          "#2196f3",
-                          "orange",
-                          "red"
-                        ],
-                        "legend": true,
-                        "legendAlign": "center",
-                        "max": 200
-                      },
-                      "width": 200
-                    }
-                  ]
-                },
-                {
-                  "title": "OAC Profile",
-                  "toolbars": {},
-                  "target_id": "xyz_sites_oac",
-                  "layout": "fitColumns",
-                  "class": "_report",
-                  "query": "OAC Profile Sites",
-                  "columns": [
-                    {
-                      "field": "rows",
-                      "title": "OAC Profile",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "0-5 mins",
-                      "field": "min5",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "title": "0-10 mins",
-                      "field": "min10",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "title": "0-15 mins",
-                      "field": "min15",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "title": "Index",
-                      "columns": [
-                        {
-                          "title": "% with 15 min",
-                          "field": "share15",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        },
-                        {
-                          "title": "UK %",
-                          "field": "oac_uk_total",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        },
-                        {
-                          "title": "OAC Profile Index",
-                          "field": "oac_index",
-                          "formatter": "progress",
-                          "formatterParams": {
-                            "color": [
-                              "#2196f3",
-                              "orange",
-                              "red"
-                            ],
-                            "legend": true,
-                            "legendAlign": "center",
-                            "max": 200
-                          },
-                          "width": 200
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+              "script": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/sites_population.js"
             },
             {
-              "type": "dashboard",
+              "type": "dataview",
               "title": "Dashboard with Charts",
-              "display": false,
               "class": "_report",
-              "dataviews": [
-                {
-                  "title": "Worker Summary",
-                  "layout": "fitColumns",
-                  "query": "Worker Summary Sites",
-                  "columns": [
-                    {
-                      "field": "rows",
-                      "title": "Worker Summary",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Total Workers",
-                      "field": "workers",
-                      "align": "center",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      }
-                    }
-                  ]
-                },
-                {
-                  "label": "Stacked Chart",
-                  "query": "Stacked Data",
-                  "chart": {
-                    "type": "stackedHorizontalBar",
-                    "title": true,
-                    "legend": true,
-                    "legendPosition": "right",
-                    "labels": [
-                      "Actual Sales",
-                      "Model Sales"
-                    ],
-                    "datasets": [
-                      {
-                        "label": "Activity 1",
-                        "fields": [
-                          "actual_sales_activity1",
-                          "model_sales_activity1"
-                        ],
-                        "backgroundColor": "#FFA630",
-                        "borderColor": "#FFA630"
-                      },
-                      {
-                        "label": "Activity 2",
-                        "fields": [
-                          "actual_sales_activity2",
-                          "model_sales_activity2"
-                        ],
-                        "backgroundColor": "#0B9800",
-                        "borderColor": "#0B9800"
-                      },
-                      {
-                        "label": "Activity 3",
-                        "fields": [
-                          "actual_sales_activity3",
-                          "model_sales_activity3"
-                        ],
-                        "backgroundColor": "#C6DEA6",
-                        "borderColor": "#C6DEA6"
-                      },
-                      {
-                        "label": "Activity 4",
-                        "fields": [
-                          "actual_sales_activity4",
-                          "model_sales_activity4"
-                        ],
-                        "backgroundColor": "#EC8394",
-                        "borderColor": "#EC8394"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "label": "Doughnut or Radar Chart",
-                  "query": "Random Data Series",
-                  "chart": {
-                    "title": false,
-                    "legend": true,
-                    "type": "radar",
-                    "cutoutPercentage": 36,
-                    "labels": [
-                      "Rand 1",
-                      "Rand 2",
-                      "Rand 3",
-                      "Rand 4",
-                      "Rand 5"
-                    ],
-                    "datasets": [
-                      {
-                        "fields": [
-                          "random1",
-                          "random2",
-                          "random3",
-                          "random4",
-                          "random5"
-                        ],
-                        "backgroundColor": [
-                          "rgba(229, 99 , 153, 0.4)",
-                          "rgba(0, 167, 225, 0.4)",
-                          "rgba(237, 222, 164, 0.4)",
-                          "rgba(247, 160 ,114, 0.4)",
-                          "rgba(255, 155, 66, 0.4)"
-                        ],
-                        "label": "Serie 1",
-                        "borderColor": "#C0B4A7",
-                        "spanGaps": true,
-                        "lineTension": 0.5
-                      },
-                      {
-                        "fields": [
-                          "rev_random1",
-                          "rev_random2",
-                          "rev_random3",
-                          "rev_random4",
-                          "rev_random5"
-                        ],
-                        "label": "Serie 2",
-                        "backgroundColor": "rgba(95, 75, 182, 0.3)",
-                        "borderColor": "#e65100",
-                        "lineTension": 0.5
-                      }
-                    ]
-                  }
-                },
-                {
-                  "title": "Population Summary",
-                  "query": "Population Summary Sites",
-                  "layout": "fitColumns",
-                  "toolbars": {},
-                  "columns": [
-                    {
-                      "field": "rows",
-                      "title": "Population Summary",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Grouped columns",
-                      "columns": [
-                        {
-                          "title": "0-5 mins",
-                          "field": "min5",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        },
-                        {
-                          "title": "0-10 mins",
-                          "field": "min10",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+              "script": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/with_charts.js"
             },
             {
               "label": "Random data series",
@@ -2546,7 +2135,7 @@
               "chart": {
                 "height": 300,
                 "width": 290,
-                "type": "mixed",
+                "type": "bar",
                 "title": true,
                 "legend": true,
                 "legendPosition": "bottom",
@@ -2920,7 +2509,7 @@
       "dbs": "XYZ"
     },
     "Stacked Data": {
-      "template": "SELECT actual_sales_activity1, actual_sales_activity2, actual_sales_activity3, actual_sales_activity4, model_sales_activity1, model_sales_activity2, model_sales_activity3, model_sales_activity4 FROM dev.uk_glx_sites WHERE id = ${id};",
+      "template": "SELECT actual_sales_activity1, actual_sales_activity2, actual_sales_activity3, actual_sales_activity4, ARRAY[model_sales_activity1, model_sales_activity2, model_sales_activity3, model_sales_activity4] as model FROM dev.uk_glx_sites WHERE id = ${id};",
       "dbs": "XYZ"
     },
     "OAC Profile": {
@@ -2966,11 +2555,11 @@
       "dbs": "XYZ"
     },
     "NE GDP/Population Layer Table": {
-      "template": "SELECT id AS qID, name, gdp_md_est, pop_est FROM dev.natural_earth_countries WHERE true ${viewport} ${filter} ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+      "template": "SELECT id, name, gdp_md_est, pop_est FROM dev.natural_earth_countries WHERE true ${viewport} ${filter} ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
       "dbs": "XYZ"
     },
     "NE Countries table1": {
-      "template": "SELECT id AS qID, name, pop_est, gdp_md_est FROM dev.natural_earth_countries WHERE true ${viewport} ${filter} ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+      "template": "SELECT name, pop_est, gdp_md_est FROM dev.natural_earth_countries WHERE true ${viewport} ${filter} ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
       "dbs": "XYZ"
     },
     "table_view": {
@@ -2981,6 +2570,9 @@
     },
     "template_view": {
       "template": "http://localhost:3000/views/template_view.html"
+    },
+    "mixed_view": {
+      "template": "http://localhost:3000/views/mixed_view.html"
     },
     "foo": {
       "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/foo"
@@ -3004,7 +2596,7 @@
       "template": "/views/report_location.html"
     },
     "Sites Population Dashboard": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/sites_population.html"
+      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/sites_population.js"
     },
     "template_test": {
       "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/dashboard_test.html"
