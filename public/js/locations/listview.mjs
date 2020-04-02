@@ -55,13 +55,6 @@ export default _xyz => {
 
     _xyz.locations.listview.node.insertBefore(location.view, _xyz.locations.listview.node.firstChild);
 
-    setTimeout(
-      () => {
-      const scrolly = _xyz.locations.listview.node.closest('.scrolly');
-      scrolly && scrolly.dispatchEvent(new CustomEvent('scrolly'));
-      location.view.style.maxHeight = location.view.querySelector('.header').offsetHeight + 'px';
-      }, 500);
-
     _xyz.locations.listview.callbackAdd && _xyz.locations.listview.callbackAdd();
 
   }

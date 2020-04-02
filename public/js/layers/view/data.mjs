@@ -11,7 +11,7 @@ export default _xyz => {
 
   function panel(layer) {
 
-    if (!layer.dataview || !_xyz.dataview.node) return;
+    if (!layer.dataviews || !_xyz.dataviews.tabview.node) return;
 
     const panel = _xyz.utils.wire()`
     <div class="drawer panel expandable">`;
@@ -26,35 +26,26 @@ export default _xyz => {
       }}><span>Data Views</span><button
       class="btn-header xyz-icon icon-expander primary-colour-filter">`);
 
-      Object.keys(layer.dataview).forEach(key => {
+      Object.entries(layer.dataviews).forEach(dataview => {
 
-        const tab = layer.dataview[key];
-
-        tab.key = key;
-        tab.layer = layer;
-        tab.title = tab.title || key;
-
-        tab.target = _xyz.dataview.node.querySelector('.table');
-
-        tab.show = () => _xyz.dataview.layerDashboard(tab);
-        tab.remove = () => _xyz.dataview.removeTab(tab);
+        dataview[1].key = dataview[0];
+        dataview[1].layer = layer;
 
         // Create checkbox to toggle whether table is in tabs list.
         panel.appendChild(_xyz.utils.wire()`
         <label class="input-checkbox">
         <input
           type="checkbox"
-          checked=${!!tab.display}
+          checked=${!!dataview[1].display}
           onchange=${e => {
-            tab.display = e.target.checked;
-            if (tab.display) return layer.show();
-            tab.remove();
-            if(!_xyz.dataview.tables.length) _xyz.mapview.node.dispatchEvent(new CustomEvent('updatesize'));
+            dataview[1].display = e.target.checked;
+            if (dataview[1].display) return _xyz.dataviews.tabview.add(dataview[1]);
+            dataview[1].remove();
           }}>
         </input>
-        <div></div><span>${tab.title}`);
+        <div></div><span>${dataview[1].title || dataview[0]}`);
 
-        if (tab.display && layer.display) tab.show();
+        if (dataview[1].display && layer.display) _xyz.dataviews.tabview.add(dataview[1]);
       });
 
     return panel;

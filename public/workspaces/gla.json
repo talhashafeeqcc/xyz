@@ -1,20 +1,20 @@
 {
     "title": "XYZ GLA",
     "templates": {
-        "__desktop": {
+        "desktop": {
             "template": "https://cdn.jsdelivr.net/gh/GEOLYTIX/gla/desktop.html"
         },
-        "__mobile": {
+        "mobile": {
             "template": "https://cdn.jsdelivr.net/gh/GEOLYTIX/gla/mobile.html"
         },
-        "desktop": {
+        "__desktop": {
           "template": "http://localhost:3000/gla/views/gla_desktop.html"
         },
-        "mobile": {
+        "__mobile": {
             "template": "http://localhost:3000/gla/views/gla_mobile.html"
         },
         "gla_organisation": {
-            "template": "SELECT id, organisation_short FROM gla.gla ORDER BY organisation_short;",
+            "template": "SELECT id, organisation_short FROM gla.gla  WHERE true ${filter} ORDER BY organisation_short;",
             "dbs": "XYZ"
         },
         "table_view": {
@@ -358,21 +358,19 @@
                             "type": "images"
                         }
                     ],
-                    "dataview": {
-                        "Locations": {
-                            "display": true,
-                            "dataviews": [
-                                {
-                                    "query": "gla_organisation",
-                                    "columns": [
-                                        {
-                                            "title": "Organisation",
-                                            "field": "organisation_short"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
+                    "dataviews": {
+                      "Locations": {
+                        "display": true,
+                        "query": "gla_organisation",
+                        "selectable": true,
+                        "viewport": true,
+                        "columns": [
+                          {
+                            "title": "Organisation",
+                            "field": "organisation_short"
+                          }
+                        ]
+                      }
                     },
                     "hover": {
                         "field": "organisation_short"

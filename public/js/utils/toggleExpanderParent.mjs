@@ -4,13 +4,6 @@ export function toggleExpanderParent(target, accordion) {
 
   if (!closestExpandable) return;
 
-  // Set timeout to update the scrolly element after max-height transition;
-  setTimeout(
-    () => {
-    const scrolly = closestExpandable.closest('.scrolly');
-    scrolly && scrolly.dispatchEvent(new CustomEvent('scrolly'));
-    }, 500);
-
   // If expanded? Remove expanded from closest expandable and return.
   if (closestExpandable.classList.contains('expanded')) {
     return closestExpandable.classList.remove('expanded');

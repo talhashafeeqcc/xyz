@@ -15,13 +15,11 @@
 @import 'button';
 @import 'drawer';
 
-@import 'scrolly';
 @import 'tabulator';
-
 @import 'flatpickr';
 
 @import 'mapview';
-@import 'dataview';
+@import 'tabview';
 @import 'layerview';
 @import 'locationview';
 
@@ -71,4 +69,8 @@ li {
 
 .display-none {
     display: none;
+}
+
+.chartjs-render-monitor {
+  width: 100% !important
 }

@@ -1,21 +1,23 @@
+window.onload = () => {
+
 const desktop = {
   map: document.getElementById('Map'),
-  dataview: document.getElementById('dataview'),
+  tabview: document.getElementById('tabview'),
   listviews: document.getElementById('listviews'),
-  scrolly: document.getElementById('listviews').querySelector('.scrolly'),
   vertDivider: document.getElementById('vertDivider'),
   hozDivider: document.getElementById('hozDivider'),
   touch: () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
 }
 
-// Reset scrolly height after window resize.
+desktop.tabview.addEventListener('click', e => e.stopPropagation());
+
+// Reset map size after window resize.
 window.addEventListener('resize', () => {
   desktop.map.dispatchEvent(new CustomEvent('updatesize'));
-  desktop.dataview.dispatchEvent(new CustomEvent('updatesize'));
-  desktop.scrolly.dispatchEvent(new CustomEvent('scrolly'));
+  // desktop.tabview.dispatchEvent(new CustomEvent('updatesize'));
 });
 
-// Resize dataview while holding mousedown on resize_bar.
+// Resize while holding mousedown on vertDivider.
 desktop.vertDivider.addEventListener('mousedown', e => {
   e.preventDefault();
   document.body.style.cursor = 'grabbing';
@@ -23,13 +25,12 @@ desktop.vertDivider.addEventListener('mousedown', e => {
   window.addEventListener('mouseup', stopResize_x);
 });
 
-// Resize dataview while holding mousedown on resize_bar.
+// Resize while touching vertDivider.
 desktop.vertDivider.addEventListener('touchstart', () => {
   window.addEventListener('touchmove', resize_x);
   window.addEventListener('touchend', stopResize_x);
 }, { passive: true });
 
-// Resize the dataview container
 function resize_x(e) {
   let pageX = (e.touches && e.touches[0].pageX) || e.pageX;
 
@@ -51,15 +52,15 @@ function stopResize_x() {
   window.removeEventListener('touchend', stopResize_x);
 }
 
-// Resize dataview while holding mousedown on resize_bar.
+// Resize tabview while holding mousedown on hozDivider.
 desktop.hozDivider.addEventListener('mousedown', e => {
   e.preventDefault();
   document.body.style.cursor = 'grabbing';
   window.addEventListener('mousemove', resize_y);
   window.addEventListener('mouseup', stopResize_y);
-});
+}, true);
 
-// Resize dataview while holding mousedown on resize_bar.
+// Resize dataview while touching hozDivider.
 desktop.touch() && desktop.hozDivider.addEventListener('touchstart', e => {
   window.addEventListener('touchmove', resize_y);
   window.addEventListener('touchend', stopResize_y);
@@ -79,7 +80,9 @@ function resize_y(e) {
   // Full height snap.
   if (height > (window.innerHeight - 10)) height = window.innerHeight;
 
-  document.body.style.gridTemplateRows = `minmax(0, 1fr) ${height}px`;
+  desktop.tabview.style.maxHeight = height + 'px';
+
+  if (height > 65 && document.querySelector('.attribution')) document.querySelector('.attribution').style.bottom = height + 'px';
 }
 
 // Remove eventListener after resize event.
@@ -89,8 +92,6 @@ function stopResize_y() {
   window.removeEventListener('touchmove', resize_y);
   window.removeEventListener('mouseup', stopResize_y);
   window.removeEventListener('touchend', stopResize_y);
-  desktop.map.dispatchEvent(new CustomEvent('updatesize'));
-  desktop.dataview.dispatchEvent(new CustomEvent('updatesize'));
 }
 
 
@@ -112,11 +113,11 @@ function init(_xyz) {
     target: document.getElementById('Map'),
     attribution: {
       logo: _xyz.utils.wire()`
-          <a
-            class="logo"
-            target="_blank"
-            href="https://geolytix.co.uk"
-            style="background-image: url('https://cdn.jsdelivr.net/gh/GEOLYTIX/geolytix/public/geolytix.svg');">`
+        <a
+          class="logo"
+          target="_blank"
+          href="https://geolytix.co.uk"
+          style="background-image: url('https://cdn.jsdelivr.net/gh/GEOLYTIX/geolytix/public/geolytix.svg');">`
     },
     view: {
       lat: _xyz.hooks.current.lat,
@@ -178,13 +179,8 @@ function init(_xyz) {
       }}><div class="xyz-icon icon-gps-not-fixed off-black-filter">`);
   }
 
-
-  _xyz.dataview.create({
-    target: document.getElementById('dataview'),
-    btn: {
-      toggleDataview: document.getElementById('toggleDataview'),
-      dataViewport: document.getElementById('btnDataViewport')
-    }
+  _xyz.dataviews.tabview.init({
+    target: document.getElementById('tabview'),
   });
 
   _xyz.layers.listview.init({
@@ -198,21 +194,17 @@ function init(_xyz) {
     },
     callbackAdd: () => {
       _xyz.locations.listview.node.parentElement.style.display = 'block';
-      setTimeout(() => {
-        desktop.listviews.scrollTop = desktop.listviews.offsetHeight;
-      }, 500);
+      // setTimeout(() => {
+      //   desktop.listviews.scrollTop = desktop.listviews.offsetHeight;
+      // }, 500);
     }
   });
-
-  // Initialise scrolly on listview element.
-  _xyz.utils.scrolly(desktop.scrolly);
 
   document.getElementById('clear_locations').onclick = e => {
     e.preventDefault();
     _xyz.locations.list
       .filter(record => !!record.location)
       .forEach(record => record.location.remove());
-    if (_xyz.dataview.node) _xyz.map.updateSize();
   };
 
   // Create locales dropdown if length of locales array is > 1.
@@ -223,7 +215,6 @@ function init(_xyz) {
       <div class="listview-title secondary-colour-bg">Locales</div>
       <div>Show layers for the following locale:</div>
       <button
-        style="margin-bottom: 10px;"
         class="btn-drop">
         <div
           class="head"
@@ -238,7 +229,7 @@ function init(_xyz) {
           locale => _xyz.utils.wire()`<li><a href="${_xyz.host + '?locale=' + locale}">${locale}`
         )}`
 
-    desktop.scrolly.insertBefore(localeDropdown, desktop.scrolly.firstChild);
+    desktop.listviews.querySelector('div').insertBefore(localeDropdown, desktop.listviews.querySelector('div').firstChild);
   }
 
   if (_xyz.workspace.locale.gazetteer) {
@@ -250,7 +241,7 @@ function init(_xyz) {
         <input type="text" placeholder="Search places">
         <ul>`
 
-    desktop.scrolly.insertBefore(gazetteer, desktop.scrolly.firstChild);
+    desktop.listviews.querySelector('div').insertBefore(gazetteer, desktop.listviews.querySelector('div').firstChild);
 
     _xyz.gazetteer.init({
       group: gazetteer.querySelector('.input-drop')
@@ -295,4 +286,6 @@ function init(_xyz) {
   }
 
   if (_xyz.log) console.log(_xyz);
+}
+
 }

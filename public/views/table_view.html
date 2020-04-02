@@ -34,12 +34,10 @@
 
     #Map {
       grid-column: 1;
-      grid-row: 1;
     }
 
     #Table {
       grid-column: 2;
-      grid-row: 1;
     }
   </style>
 
@@ -70,7 +68,7 @@
           scrollWheelZoom: true
         });
        
-        const dataview = _xyz.dataview.layerDataview({
+        _xyz.dataviews.dataview({
           target: document.getElementById('Table'),
           query: 'NE Countries table1',
           layer: _xyz.layers.list['Countries'],
@@ -90,8 +88,6 @@
             }
           ]
         })
-
-        console.log(dataview);
         
       }
       

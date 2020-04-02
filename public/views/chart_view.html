@@ -21,7 +21,8 @@
       padding: 0;
     }
 
-    html, body {
+    html,
+    body {
       width: 100%;
       height: 100%;
     }
@@ -34,12 +35,17 @@
 
     #Map {
       grid-column: 1;
+      grid-row: 1/3;
+    }
+
+    #Chart1 {
+      grid-column: 2;
       grid-row: 1;
     }
 
-    #Table {
+    #Chart2 {
       grid-column: 2;
-      grid-row: 1;
+      grid-row: 2;
     }
   </style>
 
@@ -49,7 +55,8 @@
 
   <div id="Grid">
     <div id="Map"></div>
-    <div id="Table"></div>
+    <div id="Chart1"></div>
+    <div id="Chart2"></div>
   </div>
 
 </body>
@@ -59,39 +66,94 @@
   window.addEventListener('DOMContentLoaded', function () {
 
     _xyz({
-      host: "http://localhost:3000",
-      locale: "GB",
+      host: 'http://localhost:3000',
+      locale: 'GB',
       callback: function (_xyz) {
 
         //_xyz.layers.list['Countries'].filter.current = {pop_est_edit: {gte: 235933369, lte: 1379302771}}
 
         _xyz.mapview.create({
-          target: document.getElementById("Map"),
+          target: document.getElementById('Map'),
           scrollWheelZoom: true
         });
 
-        _xyz.layers.list['Retail Places'].show()
+        _xyz.layers.list['Sites'].show()
 
-       
-        const dataview = _xyz.dataview.layerDataview({
-          target: document.getElementById('Table'),
+
+        _xyz.dataviews.dataview({
+          target: document.getElementById('Chart1'),
           layer: _xyz.layers.list['Retail Places'],
-          query: "UK RP Retail Strength Layer Chart",
+          active: true,
+          viewport: true,
+          query: 'UK RP Retail Strength Layer Chart',
           chart: {
-            type: "bubble",
-            labels: {
-              x: "est_units",
-              y: "est_brands",
-              r: "comp_strgh",
-              label: "rp_name"
-            }
+            type: 'bubble',
+            options: {
+              scales: {
+                xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'X'
+                  }
+                }]
+              }
+            },
+            datasets: [
+              {
+                x: 'est_units',
+                y: 'est_brands',
+                r: 'comp_strgh',
+                backgroundColor: 'random',
+                // backgroundColor: [
+                //   '#FFA630',
+                //   '#C6DEA6',
+                //   '#7EBDC3',
+                //   '#7A6263'
+                // ],
+              }
+            ]
           }
         })
-        
-      }
-      
-    });
 
+
+        // _xyz.dataviews.dataview({
+        //   target: document.getElementById('Chart2'),
+        //   layer: _xyz.layers.list['Retail Places'],
+        //   active: true,
+        //   viewport: true,
+        //   query: 'UK RP Profile Layer Chart',
+        //   chart: {
+        //     type: 'horizontalBar',
+        //     labels: [
+        //       'Comparison',
+        //       'Convenience',
+        //       'F/B/L',
+        //       'Services'
+        //     ],
+        //     datasets: [
+        //       {
+        //         fields: [
+        //           'comparison',
+        //           'conv',
+        //           'fbl',
+        //           'services'
+        //         ],
+        //         backgroundColor: [
+        //           '#FFA630',
+        //           '#C6DEA6',
+        //           '#7EBDC3',
+        //           '#7A6263'
+        //         ],
+        //         borderWidth: 5,
+        //         //borderColor: '#000'
+        //       }
+        //     ]
+        //   }
+        // })
+
+      }
+
+    });
 
   })
 

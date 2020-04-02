@@ -1,3 +1,5 @@
+window.onload = () => {
+
 if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
 
 //move map up on document scroll
@@ -207,4 +209,6 @@ function init(_xyz) {
   }
 
   if (_xyz.log) console.log(_xyz);
+}
+
 }

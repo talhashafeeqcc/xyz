@@ -1,5 +1,5 @@
 module.exports = {
-render: _ => `
+  render: _ => `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,66 +26,51 @@ data-log=${_.log}
 data-token=${_.token}
 data-login=${_.login}>
 
-    <div id="listviews">
+  <div id="listviews">
 
-        <div class="scrolly">
-                
-            <div>
-                <div class="listview-title secondary-colour-bg">Layers</div>
-                <div id="layers"></div>
-            </div>
+    <div>
 
-            <div>
-                <div class="listview-title secondary-colour-bg">Locations</div>
-                <button id="clear_locations" class="bold primary-colour">Clear all locations.</button>
-                <div id="locations"></div>
-            </div>
+      <div>
 
-        </div>
+        <div class="listview-title secondary-colour-bg">Layers</div>
 
-    </div>
+        <div id="layers"></div>
 
-    <div id="vertDivider"></div>
+      </div>
 
-    <div class="mapview">
+      <div>
 
-        <div class="btn-column lv1"></div>
+        <div class="listview-title secondary-colour-bg">Locations</div>
 
-        <div id="Map" class="map" ></div>
+        <button id="clear_locations" class="bold primary-colour">Clear all locations.</button>
+
+        <div id="locations"></div>
+
+      </div>
 
     </div>
 
-    <div id="dataview" class="dataview">
+  </div>
 
-        <div id="hozDivider"></div>
+  <div id="vertDivider"></div>
 
-        <div class="resize_bar"></div>
+  <div id="Map" class="mapview map">
 
-        <nav class="nav_bar">
-            <ul class="nav_bar-nav"></ul>
-            <div class="tab-dropdown-container">
-                <button class="tab-dropdown primary-colour">»</button>
-                <div class="tab-dropdown-content">
-                    <ul></ul>
-                </div>
-            </div>
-        </nav>
+    <div class="btn-column"></div>
 
-        <div class="tab-content"></div>
+    <div id="tabview" style="display: none; max-height: 65px;">
 
-        <div class="btn-column lv0">
-        
-            <button style="margin-top: -10px; background: none;" id="toggleDataview" class="enabled">
-                <div class="xyz-icon icon-vertical-align-top"></div>
-            </button>
+      <div id="hozDivider"></div>
 
-            <button id="btnDataViewport" style="display: none;" class="enabled">
-                <div class="xyz-icon icon-fullscreen"></div>            
-            </button>
-                    
-        </div>
+      <nav class="tab-bar">
+        <div></div>
+      </nav>
+
+      <div class="tab-panel"></div>
 
     </div>
+
+  </div>
 
 </body>
 

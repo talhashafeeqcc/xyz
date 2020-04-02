@@ -6,8 +6,6 @@ export {loadScript} from './loadScript.mjs';
 
 export {toggleExpanderParent} from './toggleExpanderParent.mjs';
 
-export {scrolly} from './scrolly.mjs';
-
 export {copyToClipboard} from './copyToClipboard.mjs';
 
 export {createElement} from './createElement.mjs';

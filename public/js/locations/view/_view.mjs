@@ -10,8 +10,6 @@ import documents from './documents.mjs';
 
 import meta from './meta.mjs';
 
-import dashboard from './dashboard.mjs';
-
 import report from './report.mjs';
 
 import boolean from './boolean.mjs';
@@ -46,8 +44,6 @@ export default _xyz => {
 
     boolean: boolean(_xyz),
 
-    dashboard: dashboard(_xyz),
-
     report: report(_xyz),
 
     dataview: dataview(_xyz)
@@ -58,8 +54,6 @@ export default _xyz => {
 
 
   function create(location){
-
-    location.tables.forEach(table => _xyz.dataview.removeTab(table));
 
     if (!location.view) {
       location.view = _xyz.utils.wire()`<div class="drawer location-view expandable expanded">`;

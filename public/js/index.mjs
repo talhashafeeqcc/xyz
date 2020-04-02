@@ -12,7 +12,7 @@ import layers from './layers/_layers.mjs';
 
 import locations from './locations/_locations.mjs';
 
-import dataview from './dataview/_dataview.mjs';
+import dataviews from './dataviews/_dataview.mjs';
 
 import gazetteer from './gazetteer.mjs';
 
@@ -67,7 +67,7 @@ async function _xyz(params) {
 
   _xyz.gazetteer = gazetteer(_xyz);
 
-  _xyz.dataview = dataview(_xyz);
+  _xyz.dataviews = dataviews(_xyz);
 
 
   // Get workspace from XYZ host.

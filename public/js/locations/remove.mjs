@@ -8,16 +8,14 @@ export default _xyz => function() {
 
   if (location.view) location.view.remove();
 
-  _xyz.locations.listview.node && setTimeout(
-    () => {
-    const scrolly = _xyz.locations.listview.node.closest('.scrolly');
-    scrolly && scrolly.dispatchEvent(new CustomEvent('scrolly'));
-    }, 500);
-
   if (_xyz.locations.listview.node
     && _xyz.locations.listview.node.childElementCount === 0) {
     _xyz.locations.listview.init()
   }
+
+  location.dataviews.forEach(
+    dataview => dataview.remove()
+  );
 
   // Clear geometries and delete location to free up record.
   location.geometries.forEach(
@@ -31,8 +29,6 @@ export default _xyz => function() {
   if (location.Layer) _xyz.map.removeLayer(location.Layer);
 
   if (location.Marker) _xyz.map.removeLayer(location.Marker);
-
-  location.tables.forEach(table => _xyz.dataview.removeTab(table));
 
   location.record.location = null;
     

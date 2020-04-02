@@ -23,12 +23,13 @@ export default _xyz => function () {
   if (layer.group && _xyz.layers.listview.groups && _xyz.layers.listview.groups[layer.group]) _xyz.layers.listview.groups[layer.group].chkVisibleLayer();
   
   // Iterate through tables to check whether table should be removed.
-  layer.dataview && Object.keys(layer.dataview).forEach(key => {
+  if (layer.dataviews && _xyz.dataviews.tabview.node){
 
-    layer.dataview[key].tab && layer.dataview[key].remove();
+    Object.entries(layer.dataviews).forEach(dataview => {
 
-    _xyz.dataview.nav_dropdown && !_xyz.dataview.nav_dropdown.firstChild && _xyz.map.updateSize();
+      dataview[1].tab && dataview[1].remove();
 
-  });
+    });
+  }
 
 };

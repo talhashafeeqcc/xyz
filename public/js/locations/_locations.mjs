@@ -67,6 +67,8 @@ export default _xyz => {
 
         tables: [],
 
+        dataviews: [],
+
         geometryCollection: [],
 
         style: Object.assign({
