@@ -28,11 +28,11 @@ export default _xyz => function () {
   if (layer.group && _xyz.layers.listview.groups && _xyz.layers.listview.groups[layer.group]) _xyz.layers.listview.groups[layer.group].chkVisibleLayer();
 
   // Iterate through tables and charts to check whether table should be shown.
-  if (layer.dataviews && _xyz.dataview.tabview.node){
+  if (layer.dataviews && _xyz.dataviews.tabview.node){
 
     Object.entries(layer.dataviews).forEach(dataview => {
 
-      dataview[1].display && _xyz.dataview.tabview.add(dataview[1]);
+      dataview[1].display && _xyz.dataviews.tabview.add(dataview[1]);
 
     });
   }

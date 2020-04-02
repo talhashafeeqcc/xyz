@@ -6,9 +6,9 @@ export default _xyz => location => {
     _xyz.map.removeLayer(geom)
   });
     
-  location.tables = location.tables.filter(table => {
-    _xyz.dataview.removeTab(table)
-  });
+  location.dataviews.forEach(
+    dataview => dataview.remove()
+  );
 
   location.geometryCollection = location.geometryCollection.filter(geom => {
     _xyz.map.removeLayer(geom)

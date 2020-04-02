@@ -1,3 +1,5 @@
+window.onload = () => {
+
 const desktop = {
   map: document.getElementById('Map'),
   tabview: document.getElementById('tabview'),
@@ -6,6 +8,8 @@ const desktop = {
   hozDivider: document.getElementById('hozDivider'),
   touch: () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
 }
+
+desktop.tabview.addEventListener('click', e => e.stopPropagation());
 
 // Reset map size after window resize.
 window.addEventListener('resize', () => {
@@ -27,7 +31,6 @@ desktop.vertDivider.addEventListener('touchstart', () => {
   window.addEventListener('touchend', stopResize_x);
 }, { passive: true });
 
-// Resize the dataview container
 function resize_x(e) {
   let pageX = (e.touches && e.touches[0].pageX) || e.pageX;
 
@@ -49,13 +52,13 @@ function stopResize_x() {
   window.removeEventListener('touchend', stopResize_x);
 }
 
-// Resize dataview while holding mousedown on hozDivider.
+// Resize tabview while holding mousedown on hozDivider.
 desktop.hozDivider.addEventListener('mousedown', e => {
   e.preventDefault();
   document.body.style.cursor = 'grabbing';
   window.addEventListener('mousemove', resize_y);
   window.addEventListener('mouseup', stopResize_y);
-});
+}, true);
 
 // Resize dataview while touching hozDivider.
 desktop.touch() && desktop.hozDivider.addEventListener('touchstart', e => {
@@ -77,9 +80,9 @@ function resize_y(e) {
   // Full height snap.
   if (height > (window.innerHeight - 10)) height = window.innerHeight;
 
-  desktop.tabview.style.height = height + 'px';
+  desktop.tabview.style.maxHeight = height + 'px';
 
-  // document.body.style.gridTemplateRows = `minmax(0, 1fr) ${height}px`;
+  if (height > 65 && document.querySelector('.attribution')) document.querySelector('.attribution').style.bottom = height + 'px';
 }
 
 // Remove eventListener after resize event.
@@ -176,7 +179,7 @@ function init(_xyz) {
       }}><div class="xyz-icon icon-gps-not-fixed off-black-filter">`);
   }
 
-  _xyz.dataview.tabview.init({
+  _xyz.dataviews.tabview.init({
     target: document.getElementById('tabview'),
   });
 
@@ -283,4 +286,6 @@ function init(_xyz) {
   }
 
   if (_xyz.log) console.log(_xyz);
+}
+
 }

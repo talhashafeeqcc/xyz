@@ -34,10 +34,10 @@ function init(_xyz) {
 
   }
 
-   _xyz.dataview.layerTable({
-     layer: layer,
-     target_id: 'report_table',
-     key: 'Retail Places'
-   });
+  // _xyz.dataviews.dataview({
+  //   layer: layer,
+  //   target: 'report_table',
+  //   key: 'Retail Places'
+  // });
 
 }

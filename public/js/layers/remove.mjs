@@ -23,7 +23,7 @@ export default _xyz => function () {
   if (layer.group && _xyz.layers.listview.groups && _xyz.layers.listview.groups[layer.group]) _xyz.layers.listview.groups[layer.group].chkVisibleLayer();
   
   // Iterate through tables to check whether table should be removed.
-  if (layer.dataviews && _xyz.dataview.tabview.node){
+  if (layer.dataviews && _xyz.dataviews.tabview.node){
 
     Object.entries(layer.dataviews).forEach(dataview => {
 

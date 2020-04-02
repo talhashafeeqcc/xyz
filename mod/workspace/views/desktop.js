@@ -58,15 +58,15 @@ data-login=${_.login}>
 
     <div class="btn-column"></div>
 
-    <div id="tabview" class="dataview" style="height: 300px;">
+    <div id="tabview" style="display: none; max-height: 65px;">
 
       <div id="hozDivider"></div>
 
-      <nav class="nav_bar">
-        <ul class="nav_bar-nav"></ul>
+      <nav class="tab-bar">
+        <div></div>
       </nav>
 
-      <div class="tab-content"></div>
+      <div class="tab-panel"></div>
 
     </div>
 

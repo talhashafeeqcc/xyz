@@ -46,6 +46,7 @@
             "table1": {
               "title": "Population / GDP",
               "query": "NE Countries table1",
+              "viewport": true,
               "columns": [
                 {
                   "field": "name",
@@ -2284,7 +2285,6 @@
               "target_id": "xyz_sites_pop",
               "query": "Population Summary Sites",
               "class": "_report",
-              "toolbars": {},
               "layout": "fitColumns",
               "columns": [
                 {
@@ -2551,7 +2551,7 @@
       "dbs": "XYZ"
     },
     "UK Retail Points Layer Table": {
-      "template": "SELECT id AS qID, retailpoint_id, retailer, fascia FROM dev.retailpoints ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+      "template": "SELECT id, retailpoint_id, retailer, fascia FROM dev.retailpoints ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
       "dbs": "XYZ"
     },
     "NE GDP/Population Layer Table": {
@@ -2581,7 +2581,7 @@
       "template": "http://localhost:3000/views/bar.html"
     },
     "UK RP Retail Strength Layer Chart": {
-      "template": "SELECT sum(est_units) as est_units, avg(est_brands) as est_brands, ln(avg(comp_strgh)+1) AS comp_strgh FROM dev.retailplaces WHERE true ${viewport} ${filter} GROUP BY rp_type;",
+      "template": "SELECT sum(est_units) as x, avg(est_brands) as y, ln(avg(comp_strgh)+1) AS r FROM dev.retailplaces WHERE true ${viewport} ${filter} GROUP BY rp_type;",
       "dbs": "XYZ"
     },
     "UK RP Profile Layer Chart": {
