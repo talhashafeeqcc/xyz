@@ -80,7 +80,8 @@ function panel(layer) {
 
 
     layer.edit.isoline_here && panel.appendChild(draw.isoline_here(layer));
-  
+
+    if (panel.children.length < 2) return;
   
     return panel;
   
