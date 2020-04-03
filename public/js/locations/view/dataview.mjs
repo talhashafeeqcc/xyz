@@ -20,6 +20,8 @@ export default _xyz => entry => {
   // dataview can be added to a designated target (e.g. on report)
   if (document.getElementById(entry.target)) {
 
+    entry.target = document.getElementById(entry.target);
+
     _xyz.dataviews.dataview(entry);
 
     return;
