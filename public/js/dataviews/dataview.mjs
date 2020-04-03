@@ -1,6 +1,6 @@
 export default _xyz => dataview => {
 
-  dataview.target = dataview.target || _xyz.utils.wire()`<div>`;
+  dataview.target = dataview.target instanceof HTMLElement && dataview.target || _xyz.utils.wire()`<div>`;
 
   const toolbar = _xyz.utils.wire()`<div class="toolbar">`;
 
