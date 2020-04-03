@@ -1346,6 +1346,7 @@
             },
             {
               "type": "dataview",
+              "target": "location",
               "label": "Profile",
               "query": "RP_Profile",
               "chart": {
