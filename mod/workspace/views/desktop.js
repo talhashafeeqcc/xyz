@@ -62,12 +62,6 @@ data-login=${_.login}>
 
       <div id="hozDivider"></div>
 
-      <nav class="tab-bar">
-        <div></div>
-      </nav>
-
-      <div class="tab-panel"></div>
-
     </div>
 
   </div>

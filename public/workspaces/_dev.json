@@ -2572,6 +2572,9 @@
     "template_view": {
       "template": "http://localhost:3000/views/template_view.html"
     },
+    "tabview": {
+      "template": "http://localhost:3000/views/tabview.html"
+    },
     "mixed_view": {
       "template": "http://localhost:3000/views/mixed_view.html"
     },
