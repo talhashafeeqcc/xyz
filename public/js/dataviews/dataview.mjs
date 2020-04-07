@@ -7,7 +7,8 @@ export default _xyz => {
     dataview.dataviews.forEach(_dataview => {
       _dataview.layer = dataview.layer;
       _dataview.id = dataview.id;
-      _dataview.target = dataview.target;
+      _dataview.target = _xyz.utils.wire()`<div style="${_dataview.style || ''}">`;
+      dataview.target.appendChild(_dataview.target);
       create(_dataview);
     });
 
@@ -16,7 +17,8 @@ export default _xyz => {
 
   function create(dataview) {
 
-    dataview.target = dataview.target instanceof HTMLElement && dataview.target || _xyz.utils.wire()`<div>`;
+    dataview.target = dataview.target instanceof HTMLElement && dataview.target
+    || _xyz.utils.wire()`<div style="${dataview.style || ''}">`;
 
     if (dataview.dataviews) return array(dataview);
 

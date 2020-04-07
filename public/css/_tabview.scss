@@ -42,7 +42,7 @@
   }
 
   .tab-panel {
-    height: 100%;
+    height: calc(100% - 65px);
     overflow-x: auto;
   }
 

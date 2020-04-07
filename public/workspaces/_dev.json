@@ -2129,6 +2129,7 @@
               "type": "dataview",
               "dataviews": [
                 {
+                  "style": "border: 2px solid red; padding: 50px",
                   "query": "Random Data Series",
                   "chart": {
                     "type": "radar",

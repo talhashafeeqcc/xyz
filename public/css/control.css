@@ -2033,7 +2033,7 @@ span.flatpickr-weekday {
         background-color: #fff;
         font-weight: bold; }
   #tabview .tab-panel {
-    height: 100%;
+    height: calc(100% - 65px);
     overflow-x: auto; }
   #tabview .toolbar button {
     margin: 10px; }
