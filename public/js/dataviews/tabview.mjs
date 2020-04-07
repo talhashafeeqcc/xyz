@@ -85,7 +85,7 @@ export default _xyz => {
       tabview.bar.appendChild(dataview.tab);
 
 
-      dataview.target = document.getElementById(dataview.target) || _xyz.utils.wire()`<div>`;
+      dataview.target = _xyz.utils.wire()`<div>`;
 
       tabview.panel.appendChild(dataview.target);
 

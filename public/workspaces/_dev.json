@@ -2125,23 +2125,90 @@
               "script": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/sites_population.js"
             },
             {
+              "label": "dataviews array",
               "type": "dataview",
-              "title": "Dashboard with Charts",
-              "class": "_report",
-              "script": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/with_charts.js"
+              "dataviews": [
+                {
+                  "query": "Random Data Series",
+                  "chart": {
+                    "type": "radar",
+                    "labels": [
+                      "Rand 1",
+                      "Rand 2",
+                      "Rand 3",
+                      "Rand 4",
+                      "Rand 5"
+                    ],
+                    "datasets": [
+                      {
+                        "fields": [
+                          "random1",
+                          "random2",
+                          "random3",
+                          "random4",
+                          "random5"
+                        ],
+                        "label": "Serie 1",
+                        "backgroundColor": "rgba(192, 117, 205, 0.3)",
+                        "borderColor": "#4a148c"
+                      },
+                      {
+                        "fields": [
+                          "rev_random1",
+                          "rev_random2",
+                          "rev_random3",
+                          "rev_random4",
+                          "rev_random5"
+                        ],
+                        "label": "Serie 2",
+                        "type": "line",
+                        "backgroundColor": "rgba(255, 167, 38, 0.3)",
+                        "borderColor": "#e65100"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "query": "Random Data Series",
+                  "chart": {
+                    "type": "doughnut",
+                    "labels": [
+                      "Rand 1",
+                      "Rand 2",
+                      "Rand 3",
+                      "Rand 4",
+                      "Rand 5"
+                    ],
+                    "datasets": [
+                      {
+                        "fields": [
+                          "random1",
+                          "random2",
+                          "random3",
+                          "random4",
+                          "random5"
+                        ],
+                        "backgroundColor": [
+                          "rgba(229, 99 , 153, 0.4)",
+                          "rgba(0, 167, 225, 0.4)",
+                          "rgba(237, 222, 164, 0.4)",
+                          "rgba(247, 160 ,114, 0.4)",
+                          "rgba(255, 155, 66, 0.4)"
+                        ],
+                        "label": "Serie 1",
+                        "borderColor": "#C0B4A7"
+                      }
+                    ]
+                  }                  
+                }
+              ]
             },
             {
               "label": "Random data series",
               "type": "dataview",
               "query": "Random Data Series",
               "chart": {
-                "height": 300,
-                "width": 290,
-                "type": "bar",
-                "title": true,
-                "legend": true,
-                "legendPosition": "bottom",
-                "responsive": true,
+                "type": "radar",
                 "labels": [
                   "Rand 1",
                   "Rand 2",
@@ -2160,8 +2227,7 @@
                     ],
                     "label": "Serie 1",
                     "backgroundColor": "rgba(192, 117, 205, 0.3)",
-                    "borderColor": "#4a148c",
-                    "datalabels": {}
+                    "borderColor": "#4a148c"
                   },
                   {
                     "fields": [
@@ -2184,10 +2250,7 @@
               "type": "dataview",
               "query": "Random Data Series",
               "chart": {
-                "title": false,
-                "legend": true,
                 "type": "doughnut",
-                "cutoutPercentage": 36,
                 "labels": [
                   "Rand 1",
                   "Rand 2",
@@ -2212,9 +2275,7 @@
                       "rgba(255, 155, 66, 0.4)"
                     ],
                     "label": "Serie 1",
-                    "borderColor": "#C0B4A7",
-                    "spanGaps": true,
-                    "lineTension": 0.5
+                    "borderColor": "#C0B4A7"
                   }
                 ]
               }
