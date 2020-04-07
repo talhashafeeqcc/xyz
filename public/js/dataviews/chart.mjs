@@ -12,10 +12,17 @@ export default _xyz => chart => {
 
   chart.ChartJS = new _xyz.utils.Chart(canvas, {
     type: chart.type,
-    options: {
+    options: chart.options || {
       legend: {
         display: false
-      }
+      }/*,
+      scales: {
+        yAxes: [{
+          afterFit: instance => {
+            if (chart.yAxesWidth) instance.width = chart.yAxesWidth;
+          }
+        }]
+      }*/
     }
   });
 
@@ -31,8 +38,7 @@ export default _xyz => chart => {
         backgroundColor: ()=>color(dataset.backgroundColor, dataset, response),
         borderWidth: dataset.borderWidth,
         borderColor: ()=>color(dataset.borderColor, dataset, response),
-      })
-      )
+      }))
     }
 
   }
