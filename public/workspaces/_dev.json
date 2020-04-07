@@ -2564,25 +2564,25 @@
       "dbs": "XYZ"
     },
     "table_view": {
-      "template": "http://localhost:3000/views/table_view.html"
+      "template": "https://xyz-zeit.now.sh/zeit/views/table_view.html"
     },
     "chart_view": {
-      "template": "http://localhost:3000/views/chart_view.html"
+      "template": "https://xyz-zeit.now.sh/zeit/views/chart_view.html"
     },
     "template_view": {
-      "template": "http://localhost:3000/views/template_view.html"
+      "template": "https://xyz-zeit.now.sh/zeit/views/template_view.html"
     },
     "tabview": {
-      "template": "http://localhost:3000/views/tabview.html"
+      "template": "https://xyz-zeit.now.sh/zeit/views/tabview.html"
     },
     "mixed_view": {
-      "template": "http://localhost:3000/views/mixed_view.html"
+      "template": "https://xyz-zeit.now.sh/zeit/views/mixed_view.html"
     },
     "foo": {
       "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/foo"
     },
     "bar": {
-      "template": "http://localhost:3000/views/bar.html"
+      "template": "https://xyz-zeit.now.sh/zeit/views/bar.html"
     },
     "UK RP Retail Strength Layer Chart": {
       "template": "SELECT sum(est_units) as x, avg(est_brands) as y, ln(avg(comp_strgh)+1) AS r FROM dev.retailplaces WHERE true ${viewport} ${filter} GROUP BY rp_type;",
