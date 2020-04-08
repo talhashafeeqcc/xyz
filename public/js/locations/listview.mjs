@@ -55,6 +55,8 @@ export default _xyz => {
 
     _xyz.locations.listview.node.insertBefore(location.view, _xyz.locations.listview.node.firstChild);
 
+    location.view.style.maxHeight = '30px';
+
     _xyz.locations.listview.callbackAdd && _xyz.locations.listview.callbackAdd();
 
   }
