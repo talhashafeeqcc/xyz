@@ -2302,8 +2302,15 @@
               "label": "Doughnut or Radar Chart",
               "type": "dataview",
               "query": "Random Data Series",
+              "target": "location",
               "chart": {
                 "type": "doughnut",
+                "options": {
+                  "title": {
+                    "display": true,
+                    "text": "Doughnut or Radar Chart"
+                  }
+                },
                 "labels": [
                   "Rand 1",
                   "Rand 2",

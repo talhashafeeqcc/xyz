@@ -43,6 +43,8 @@ export default _xyz => function (callback) {
       
     });
 
+    location.infoj.forEach(entry => entry.update && entry.update());
+
     location.infoj
     .filter(entry => typeof entry.newValue !== 'undefined')
     .forEach(entry => {
