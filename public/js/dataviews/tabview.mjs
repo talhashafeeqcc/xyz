@@ -75,6 +75,7 @@ export default _xyz => {
 
       dataview.tab = _xyz.utils.wire()`
       <div
+        style="${dataview.tab_style || ''}"
         class="active"
         onclick=${() => {
 
@@ -83,7 +84,6 @@ export default _xyz => {
         }}>${dataview.title || dataview.key || dataview.label}`
 
       tabview.bar.appendChild(dataview.tab);
-
 
       dataview.target = _xyz.utils.wire()`<div>`;
 
@@ -105,7 +105,6 @@ export default _xyz => {
 
       } else {
 
-        dataview.toolbar = true;
         _xyz.dataviews.dataview(dataview);
 
       }

@@ -31,6 +31,8 @@ export default _xyz => entry => {
   // dataview will be added to tabview
   if (_xyz.dataviews.tabview.node) {
 
+    entry.tab_style = `border-bottom: 2px solid ${entry.location.style.strokeColor}`;
+
     _xyz.dataviews.tabview.add(entry);
 
     entry.location.dataviews.push(entry);
