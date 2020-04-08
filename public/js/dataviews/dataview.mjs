@@ -19,7 +19,7 @@ export default _xyz => {
   function create(dataview) {
 
     dataview.target = dataview.target instanceof HTMLElement && dataview.target
-    || _xyz.utils.wire()`<div class="${_dataview.class || ''}" style="${dataview.style || ''}">`;
+    || _xyz.utils.wire()`<div class="${dataview.class || ''}" style="${dataview.style || ''}">`;
 
     if (dataview.dataviews) return array(dataview);
 

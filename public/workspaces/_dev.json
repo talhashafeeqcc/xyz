@@ -91,6 +91,57 @@
                   }
                 }
               ]
+            },
+            "multiviews": {
+              "dataviews": [
+                {
+                  "query": "NE Countries table1",
+                  "viewport": true,
+                  "columns": [
+                    {
+                      "field": "name",
+                      "title": "Name"
+                    },
+                    {
+                      "title": "Population Est",
+                      "field": "pop_est"
+                    },
+                    {
+                      "field": "gdp_md_est"
+                    }
+                  ]
+                },
+                {
+                  "query": "NE GDP/Population Layer Table",
+                  "viewport": true,
+                  "selectable": true,
+                  "layout": "fitColumns",
+                  "columns": [
+                    {
+                      "field": "name"
+                    },
+                    {
+                      "field": "gdp_md_est",
+                      "formatter": "money",
+                      "align": "right",
+                      "formatterParams": {
+                        "symbol": " dollars",
+                        "symbolAfter": true,
+                        "precision": false
+                      }
+                    },
+                    {
+                      "title": "Population Est",
+                      "field": "pop_est",
+                      "formatter": "money",
+                      "align": "center",
+                      "formatterParams": {
+                        "precision": false
+                      }
+                    }
+                  ]
+                }
+              ]
             }
           },
           "qID": "id",
@@ -2129,7 +2180,7 @@
               "type": "dataview",
               "dataviews": [
                 {
-                  "style": "border: 2px solid red; padding: 50px",
+                  "style": "grid-column: 1;",
                   "query": "Random Data Series",
                   "chart": {
                     "type": "radar",
@@ -2170,6 +2221,7 @@
                   }
                 },
                 {
+                  "style": "grid-column: 2;",
                   "query": "Random Data Series",
                   "chart": {
                     "type": "doughnut",

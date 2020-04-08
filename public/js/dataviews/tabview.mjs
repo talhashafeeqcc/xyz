@@ -48,7 +48,7 @@ export default _xyz => {
         });
 
         dataview.tab.classList.add('active');
-        dataview.target.style.display = 'block';
+        dataview.target.style.display = 'grid';
         dataview.target.classList.add('active');
         tabview.node.style.display = 'block';
         if (_xyz.mapview.attribution.container) _xyz.mapview.attribution.container.style.bottom = '65px';
@@ -85,7 +85,7 @@ export default _xyz => {
 
       tabview.bar.appendChild(dataview.tab);
 
-      dataview.target = _xyz.utils.wire()`<div>`;
+      dataview.target = _xyz.utils.wire()`<div class="${dataview.class || ''}" style="${dataview.style || ''}">`;
 
       tabview.panel.appendChild(dataview.target);
 
