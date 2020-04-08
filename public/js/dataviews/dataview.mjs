@@ -23,6 +23,24 @@ export default _xyz => {
 
     if (dataview.dataviews) return array(dataview);
 
+    if (dataview.script) {
+
+      const script = _xyz.utils.wire()`<script src="${dataview.script}">`;
+
+      function addDashboard(e) {
+        e.detail(_xyz, dataview);
+        document.removeEventListener('addDashboard', addDashboard);
+        script.remove();
+      }
+
+      document.addEventListener('addDashboard', addDashboard, true);
+
+      dataview.target.appendChild(script);
+
+      return;
+
+    }
+
     const toolbar = _xyz.utils.wire()`<div class="toolbar">`;
 
     dataview.target.appendChild(toolbar);
@@ -49,7 +67,6 @@ export default _xyz => {
 
         });
       }
-
     }
 
     if (dataview.columns) {
@@ -86,7 +103,6 @@ export default _xyz => {
 
         });
       }
-
     }
 
     dataview.update();

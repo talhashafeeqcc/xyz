@@ -1,23 +1,23 @@
 export default _xyz => {
 
-  return {
-
+  const listview = {
     init: init,
-
-    add: add
-
   };
+
+  return listview;
 
 
   function init(params) {
 
-    _xyz.locations.listview.callbackAdd = _xyz.locations.listview.callbackAdd || params.callbackAdd;
+    listview.add = add;
 
-    _xyz.locations.listview.callbackInit = _xyz.locations.listview.callbackInit || params.callbackInit;
+    listview.callbackAdd = listview.callbackAdd || params.callbackAdd;
 
-    _xyz.locations.listview.node = _xyz.locations.listview.node || params.target;
+    listview.callbackInit = listview.callbackInit || params.callbackInit;
 
-    _xyz.locations.listview.node.innerHTML = '';
+    listview.node = listview.node || params.target;
+
+    listview.node.innerHTML = '';
 
     _xyz.locations.list = [
       ['#4227b0','invert(19%) sepia(57%) saturate(4245%) hue-rotate(247deg) brightness(76%) contrast(101%)'],
@@ -42,22 +42,22 @@ export default _xyz => {
       colorFilter: colorFilter[1]
     }));
 
-    _xyz.locations.listview.callbackInit && _xyz.locations.listview.callbackInit();
+    listview.callbackInit && listview.callbackInit();
 
   };
 
 
   function add(location) {
 
-    if(!_xyz.locations.listview.node) return;
+    if(!listview.node) return;
 
-    Object.values(_xyz.locations.listview.node.children).forEach(el => el.classList.remove('expanded'));
+    Object.values(listview.node.children).forEach(el => el.classList.remove('expanded'));
 
-    _xyz.locations.listview.node.insertBefore(location.view, _xyz.locations.listview.node.firstChild);
+    listview.node.insertBefore(location.view, listview.node.firstChild);
 
     location.view.style.maxHeight = '30px';
 
-    _xyz.locations.listview.callbackAdd && _xyz.locations.listview.callbackAdd();
+    listview.callbackAdd && listview.callbackAdd();
 
   }
 

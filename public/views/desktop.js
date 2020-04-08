@@ -194,9 +194,6 @@ function init(_xyz) {
     },
     callbackAdd: () => {
       _xyz.locations.listview.node.parentElement.style.display = 'block';
-      // setTimeout(() => {
-      //   desktop.listviews.scrollTop = desktop.listviews.offsetHeight;
-      // }, 500);
     }
   });
 
