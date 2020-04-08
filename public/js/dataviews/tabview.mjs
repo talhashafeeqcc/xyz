@@ -89,26 +89,6 @@ export default _xyz => {
 
       tabview.panel.appendChild(dataview.target);
 
-      // if (dataview.script) {
-
-      //   const script = _xyz.utils.wire()`<script src="${dataview.script}">`;
-
-      //   function addDashboard(e) {
-      //     e.detail(_xyz, dataview);
-      //     document.removeEventListener('addDashboard', addDashboard);
-      //     script.remove();
-      //   }
-
-      //   document.addEventListener('addDashboard', addDashboard, true);
-
-      //   tabview.panel.appendChild(script);
-
-      // } else {
-
-      //   _xyz.dataviews.dataview(dataview);
-
-      // }
-
       _xyz.dataviews.dataview(dataview);
 
       tabview.views.push(dataview);

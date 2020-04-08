@@ -28,6 +28,8 @@ export {wire, bind} from 'hyperhtml/esm';
 
 export {default as Tabulator} from 'tabulator-tables';
 
+export {TabulatorFormatter} from './TabulatorFormatter.mjs';
+
 export {default as Chroma} from 'chroma-js';
 
 export {default as Chart} from 'chart.js';

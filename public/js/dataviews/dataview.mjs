@@ -71,6 +71,10 @@ export default _xyz => {
 
     if (dataview.columns) {
 
+      dataview.columns
+        .filter(col => col.customFormatter)
+        .forEach(col => col.formatter = _xyz.utils.TabulatorFormatter[col.customFormatter])
+
       dataview.Tabulator = new _xyz.utils.Tabulator(target, Object.assign({
         invalidOptionWarnings: false,
         tooltipsHeader: true,

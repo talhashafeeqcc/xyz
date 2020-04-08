@@ -69,12 +69,16 @@
               "layout": "fitColumns",
               "columns": [
                 {
-                  "field": "name"
+                  "field": "name",
+                  "customFormatter": "colour",
+                  "formatterParams": {
+                    "colour": "#090"
+                  }
                 },
                 {
                   "field": "gdp_md_est",
                   "formatter": "money",
-                  "align": "right",
+                  "hozAlign": "right",
                   "formatterParams": {
                     "symbol": " dollars",
                     "symbolAfter": true,
@@ -85,7 +89,7 @@
                   "title": "Population Est",
                   "field": "pop_est",
                   "formatter": "money",
-                  "align": "center",
+                  "hozAlign": "center",
                   "formatterParams": {
                     "precision": false
                   }
@@ -123,7 +127,7 @@
                     {
                       "field": "gdp_md_est",
                       "formatter": "money",
-                      "align": "right",
+                      "hozAlign": "right",
                       "formatterParams": {
                         "symbol": " dollars",
                         "symbolAfter": true,
@@ -134,7 +138,7 @@
                       "title": "Population Est",
                       "field": "pop_est",
                       "formatter": "money",
-                      "align": "center",
+                      "hozAlign": "center",
                       "formatterParams": {
                         "precision": false
                       }
@@ -2412,7 +2416,7 @@
                   "field": "rows",
                   "title": "Population Summary",
                   "headerSort": false,
-                  "align": "left"
+                  "hozAlign": "left"
                 },
                 {
                   "title": "Grouped columns",
@@ -2424,7 +2428,7 @@
                       "formatterParams": {
                         "precision": 0
                       },
-                      "align": "center"
+                      "hozAlign": "center"
                     },
                     {
                       "title": "0-10 mins",
@@ -2433,7 +2437,7 @@
                       "formatterParams": {
                         "precision": 0
                       },
-                      "align": "center"
+                      "hozAlign": "center"
                     }
                   ]
                 }
@@ -2454,7 +2458,7 @@
                       "field": "rows",
                       "title": "Population Summary",
                       "headerSort": false,
-                      "align": "left"
+                      "hozAlign": "left"
                     },
                     {
                       "title": "Grouped columns",
@@ -2466,7 +2470,7 @@
                           "formatterParams": {
                             "precision": 0
                           },
-                          "align": "center"
+                          "hozAlign": "center"
                         },
                         {
                           "title": "0-10 mins",
@@ -2475,7 +2479,7 @@
                           "formatterParams": {
                             "precision": 0
                           },
-                          "align": "center"
+                          "hozAlign": "center"
                         }
                       ]
                     }
@@ -2491,7 +2495,7 @@
                       "field": "rows",
                       "title": "Population Summary",
                       "headerSort": false,
-                      "align": "left"
+                      "hozAlign": "left"
                     },
                     {
                       "title": "Grouped columns",
@@ -2503,7 +2507,7 @@
                           "formatterParams": {
                             "precision": 0
                           },
-                          "align": "center"
+                          "hozAlign": "center"
                         },
                         {
                           "title": "0-10 mins",
@@ -2512,7 +2516,7 @@
                           "formatterParams": {
                             "precision": 0
                           },
-                          "align": "center"
+                          "hozAlign": "center"
                         }
                       ]
                     }
@@ -2531,7 +2535,7 @@
                 {
                   "title": "Distance",
                   "field": "dist",
-                  "align": "center",
+                  "hozAlign": "center",
                   "formatter": "money",
                   "formatterParams": {
                     "symbol": " km",
