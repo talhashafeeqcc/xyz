@@ -44,12 +44,12 @@ export default _xyz => {
         tabview.views.forEach(view => {
           view.target.style.display = 'none';
           view.tab.classList.remove('active');
-          delete dataview.active;
+          view.target.classList.remove('active');
         });
 
         dataview.tab.classList.add('active');
         dataview.target.style.display = 'block';
-        dataview.active = true;
+        dataview.target.classList.add('active');
         tabview.node.style.display = 'block';
         if (_xyz.mapview.attribution.container) _xyz.mapview.attribution.container.style.bottom = '65px';
       }
@@ -61,9 +61,9 @@ export default _xyz => {
 
         tabview.views.splice(tabview.views.indexOf(dataview), 1);
 
-        if (dataview.active) {
+        if (dataview.target.classList.contains('active')) {
 
-          delete dataview.active;
+          dataview.target.classList.remove('active');
           tabview.views[0] && tabview.views[0].show();
         }
 

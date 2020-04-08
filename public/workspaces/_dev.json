@@ -2200,7 +2200,7 @@
                         "borderColor": "#C0B4A7"
                       }
                     ]
-                  }                  
+                  }
                 }
               ]
             },
@@ -2345,7 +2345,6 @@
             {
               "type": "dataview",
               "title": "Population Summary",
-              "target_id": "xyz_sites_pop",
               "query": "Population Summary Sites",
               "class": "_report",
               "layout": "fitColumns",
@@ -2376,6 +2375,87 @@
                         "precision": 0
                       },
                       "align": "center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "dataview",
+              "title": "Population Summary *2",
+              "class": "_report",
+              "dataviews": [
+                {
+                  "query": "Population Summary Sites",
+                  "class": "test",
+                  "style": "padding: 30px",
+                  "layout": "fitColumns",
+                  "columns": [
+                    {
+                      "field": "rows",
+                      "title": "Population Summary",
+                      "headerSort": false,
+                      "align": "left"
+                    },
+                    {
+                      "title": "Grouped columns",
+                      "columns": [
+                        {
+                          "title": "0-5 mins",
+                          "field": "min5",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "align": "center"
+                        },
+                        {
+                          "title": "0-10 mins",
+                          "field": "min10",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "align": "center"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "query": "Population Summary Sites",
+                  "class": "test",
+                  "style": "padding: 30px",
+                  "layout": "fitColumns",
+                  "columns": [
+                    {
+                      "field": "rows",
+                      "title": "Population Summary",
+                      "headerSort": false,
+                      "align": "left"
+                    },
+                    {
+                      "title": "Grouped columns",
+                      "columns": [
+                        {
+                          "title": "0-5 mins",
+                          "field": "min5",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "align": "center"
+                        },
+                        {
+                          "title": "0-10 mins",
+                          "field": "min10",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "align": "center"
+                        }
+                      ]
                     }
                   ]
                 }

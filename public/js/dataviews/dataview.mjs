@@ -7,7 +7,8 @@ export default _xyz => {
     dataview.dataviews.forEach(_dataview => {
       _dataview.layer = dataview.layer;
       _dataview.id = dataview.id;
-      _dataview.target = _xyz.utils.wire()`<div style="${_dataview.style || ''}">`;
+      _dataview.target = _xyz.utils.wire()`
+        <div class="${_dataview.class || ''}" style="${_dataview.style || ''}">`;
       dataview.target.appendChild(_dataview.target);
       create(_dataview);
     });
@@ -18,7 +19,7 @@ export default _xyz => {
   function create(dataview) {
 
     dataview.target = dataview.target instanceof HTMLElement && dataview.target
-    || _xyz.utils.wire()`<div style="${dataview.style || ''}">`;
+    || _xyz.utils.wire()`<div class="${_dataview.class || ''}" style="${dataview.style || ''}">`;
 
     if (dataview.dataviews) return array(dataview);
 
@@ -90,9 +91,10 @@ export default _xyz => {
 
     dataview.update();
 
-    _xyz.mapview.node && _xyz.mapview.node.addEventListener('changeEnd', () => {
-      if (!dataview.active) return
-      dataview.update();
+    dataview.layer && _xyz.mapview.node && _xyz.mapview.node.addEventListener('changeEnd', () => {
+      (dataview.target.classList.contains('active')
+      || dataview.target.parentElement.classList.contains('active'))
+      && dataview.update();
     });
 
     if (dataview.toolbar && dataview.viewport) toolbar.appendChild(_xyz.utils.wire()`
