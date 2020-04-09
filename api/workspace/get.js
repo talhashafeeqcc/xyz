@@ -14,13 +14,15 @@ module.exports = async (req, res) => {
 
   await auth(req, res)
 
+  if (res.finished) return
+
   if (req.query.clear_cache) {
 
     _workspace = require('../../mod/workspace/_workspace')()
 
     const response = await clearcache(`${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}`, req.params.token.signed)
 
-    //return res.send(response)
+    console.log(response)
   }
 
   const workspace = await _workspace
