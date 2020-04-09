@@ -8,6 +8,16 @@ export const TabulatorFormatter = {
   colour: (cell, formatterParams, onRendered) => {
 
     cell.getElement().style.backgroundColor = formatterParams.colour;
+  },
+
+  conditional: (cell, formatterParams, onRendered) => {
+
+  	if(!cell.getValue()) return;
+
+  	if(!formatterParams[`${cell.getValue()}`]) return;
+
+  	cell.getElement().style.backgroundColor = formatterParams[`${cell.getValue()}`];
+  
   }
 
 }
