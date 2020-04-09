@@ -81,7 +81,7 @@ async function register(req, res) {
     '${req.body.email}' AS email,
     '${password}' AS password,
     '${verificationtoken}' AS verificationtoken,
-    array['${date}@${req.ips.pop() || req.ip}'] AS access_log;`)
+    array['${date}@${req.ips && req.ips.pop() || req.ip}'] AS access_log;`)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
