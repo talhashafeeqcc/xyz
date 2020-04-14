@@ -2097,7 +2097,10 @@ span.flatpickr-weekday {
       padding: 5px 0; }
     .location-view .drawer.panel .location-view-grid {
       align-items: stretch;
-      padding-left: 10px; }
+      padding-left: 10px;
+      display: grid;
+      grid-gap: 4px;
+      grid-template-columns: 1fr 150px; }
   .location-view .label {
     padding-top: 5px; }
   .location-view .lv-0 {

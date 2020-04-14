@@ -558,7 +558,7 @@
                             "field": "percentfsm",
                             "type": "text",
                             "inline": true,
-                            "postfix": " %"
+                            "suffix": " %"
                         },
                         {
                             "label": "Inspection Rating",

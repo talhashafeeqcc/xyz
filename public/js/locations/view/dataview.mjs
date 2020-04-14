@@ -9,7 +9,9 @@ export default _xyz => entry => {
   if (entry.target === 'location') {
 
     entry.target =  _xyz.utils.wire()`
-    <div style="grid-column: 1 / span 2; width: 100%;">`;
+    <div
+      class=${entry.class}
+      style="grid-column: 1 / 3; padding-top: 10px;">`;
 
     _xyz.dataviews.dataview(entry);
 

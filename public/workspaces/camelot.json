@@ -1,0 +1,3402 @@
+{
+  "templates": {
+    "csv_import": {
+      "template": "SELECT * FROM glx_camelot($1);",
+      "dbs": "CAMELOT"
+    },
+    "run_model": {
+      "template": "SELECT * FROM glx_camelot_xyz_input($1);",
+      "dbs": "CAMELOT"
+    },
+    "shopper town population 15 to 21": {
+      "template": "SELECT pop_15, pop_16, pop_17, pop_18, pop_19, pop_20, pop_21 FROM geodata.uk_glx_geodata_seamless_shoppertown_metrics WHERE id = ${id};",
+      "dbs": "CAMELOT"
+    }
+  },
+  "locales": {
+    "UK": {
+      "gazetteer": {
+        "provider": "GOOGLE",
+        "code": "GB",
+        "placeholder": "eg. London",
+        "datasets": [
+          {
+            "layer": "Existing Terminals",
+            "table": "camelot.uk_camelot_restrict_existing_terminals",
+            "qterm": "storeid",
+            "label": "(storeid::text || ' - ' || fascia)"
+          }
+        ]
+      },
+      "bounds": {
+        "north": 48,
+        "east": -13,
+        "south": 62,
+        "west": 5
+      },
+      "minZoom": 6,
+      "maxZoom": 17,
+      "layers": {
+        "Mapbox Baselayer": {
+          "group": "Base maps",
+          "display": true,
+          "attribution": {
+            "© Mapbox": "https://www.mapbox.com/about/maps",
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          },
+          "format": "tiles",
+          "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
+        },
+        "Mapbox Labels": {
+          "group": "Base maps",
+          "display": true,
+          "attribution": {
+            "© Mapbox": "https://www.mapbox.com/about/maps",
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          },
+          "format": "tiles",
+          "URI": "/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
+        },
+        "Seamless towns and suburbs": {
+          "group": "Location Boundaries",
+          "meta": "Seamless boundaries for towns, shopper towns and suburbs in the UK.",
+          "format": "mvt",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "dbs": "CAMELOT",
+          "qID": "id",
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_seamless_combined",
+          "tables": {
+            "10": null,
+            "11": "geodata.uk_glx_geodata_seamless_combined"
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "town_name",
+              "label": "Town name",
+              "inline": true
+            },
+            {
+              "field": "sub_name",
+              "label": "Suburb name",
+              "inline": true
+            },
+            {
+              "field": "shop_town",
+              "label": "Shop town",
+              "inline": true
+            },
+            {
+              "field": "pop",
+              "label": "Population 2017",
+              "type": "numeric",
+              "inline": true
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeColor": "#4F7CAC",
+              "fillColor": "#fff",
+              "fillOpacity": 0
+            },
+            "highlight": {
+              "strokeWidth": 3
+            }
+          }
+        },
+        "Seamless shopper towns": {
+          "group": "Location Boundaries",
+          "format": "mvt",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "dbs": "CAMELOT",
+          "qID": "id",
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_seamless_shoppertown_metrics",
+          "table": "geodata.uk_glx_geodata_seamless_shoppertown_metrics",
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "label": "Shop town",
+              "field": "shop_town",
+              "inline": true,
+              "filter": "like"
+            },
+            {
+              "label": "Population 2017",
+              "field": "_pop_17",
+              "fieldfx": "pop_17",
+              "type": "numeric",
+              "inline": true,
+              "filter": "numeric"
+            },
+            {
+              "label": "Pop. growth 11/17",
+              "field": "pop_11_17",
+              "type": "numeric",
+              "fieldfx": "100 * pop_11_17",
+              "suffix": "%",
+              "inline": true,
+              "filter": "numeric"
+            },
+            {
+              "group": "Population growth",
+              "label": "2015",
+              "field": "pop_15",
+              "type": "numeric",
+              "level": 1
+            },
+            {
+              "group": "Population growth",
+              "label": "2016",
+              "field": "pop_16",
+              "type": "numeric",
+              "level": 1
+            },
+            {
+              "group": "Population growth",
+              "label": "2017",
+              "field": "pop_17",
+              "type": "numeric",
+              "level": 1
+            },
+            {
+              "group": "Population growth",
+              "label": "2018",
+              "field": "pop_18",
+              "type": "numeric",
+              "level": 1
+            },
+            {
+              "group": "Population growth",
+              "label": "2019",
+              "field": "pop_19",
+              "type": "numeric",
+              "level": 1
+            },
+            {
+              "group": "Population growth",
+              "label": "2020",
+              "field": "pop_20",
+              "type": "numeric",
+              "level": 1
+            },
+            {
+              "group": "Population growth",
+              "label": "2021",
+              "field": "pop_21",
+              "type": "numeric",
+              "level": 1
+            },
+            {
+              "group": "Population growth",
+              "type": "dataview",
+              "expanded": true,
+              "target": "location",
+              "class": "test test2",
+              "query": "shopper town population 15 to 21",
+              "chart": {
+                "labels": ["'15", "'16", "'17", "'18", "'19", "'20", "'21"],
+                "datasets": [
+                  {
+                    "fields": ["pop_15", "pop_16", "pop_17", "pop_18", "pop_19", "pop_20", "pop_21"],
+                    "backgroundColor": [
+                      "#E6A5AE",
+                      "#E08F9A",
+                      "#D97985",
+                      "#D36371",
+                      "#CD4C5D",
+                      "#C73649",
+                      "#C12035",
+                      "#BB0A21"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "label": "OAC Profile",
+              "type": "group",
+              "chart": {
+                "type": "horizontalBar",
+                "active": true,
+                "height": 300,
+                "yAxesWidth": 120,
+                "backgroundColor": [
+                  "#ffb300",
+                  "#d81b60",
+                  "#8e24aa",
+                  "#5e35b1",
+                  "#3949ab",
+                  "#1e88e5",
+                  "#039be5",
+                  "#00acc1"
+                ],
+                "borderColor": [
+                  "#ffb300",
+                  "#d81b60",
+                  "#8e24aa",
+                  "#5e35b1",
+                  "#3949ab",
+                  "#1e88e5",
+                  "#039be5",
+                  "#00acc1"
+                ]
+              }
+            },
+            {
+              "label": "Affluent England",
+              "field": "oac_sg_1",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "level": 1
+            },
+            {
+              "field": "oac_sg_2",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "label": "Business & Ed.",
+              "level": 1
+            },
+            {
+              "field": "oac_sg_3",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "label": "Countryside",
+              "level": 1
+            },
+            {
+              "field": "oac_sg_4",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "label": "Ethnically Diverse",
+              "level": 1
+            },
+            {
+              "field": "oac_sg_5",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "label": "Cosmopolitan",
+              "level": 1
+            },
+            {
+              "field": "oac_sg_6",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "label": "Services & Industrial",
+              "level": 1
+            },
+            {
+              "field": "oac_sg_7",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "label": "Town & Country",
+              "level": 1
+            },
+            {
+              "field": "oac_sg_8",
+              "group": "OAC Profile",
+              "type": "text",
+              "inline": true,
+              "label": "Urban Settlements",
+              "level": 1
+            }
+          ],
+          "filter": {
+            "infoj": [
+              {
+                "label": "Number of shopper towns",
+                "field": "id",
+                "type": "integer",
+                "inline": true,
+                "fieldfx": "count(id)"
+              },
+              {
+                "label": "Total Population",
+                "field": "pop",
+                "type": "integer",
+                "inline": true,
+                "fieldfx": "sum(pop_17)"
+              }
+            ]
+          },
+          "style": {
+            "default": {
+              "strokeColor": "#ce1256",
+              "fillColor": "#B8C0BE",
+              "fillOpacity": 0.8
+            },
+            "highlight": {
+              "strokeWidth": 2,
+              "strokeColor": "#ce1256"
+            },
+            "themes": {
+              "Population": {
+                "type": "graduated",
+                "field": "pop_17",
+                "cat_arr": [
+                  {
+                    "label": "Less than 40k",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#d0d1e6"
+                  },
+                  {
+                    "value": 40000,
+                    "label": "40-60k",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#a6bddb"
+                  },
+                  {
+                    "value": 60000,
+                    "label": "60-80k",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#74a9cf"
+                  },
+                  {
+                    "value": 80000,
+                    "label": "80-120k",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#2b8cbe"
+                  },
+                  {
+                    "value": 120000,
+                    "label": "120k or more",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#045a8d"
+                  }
+                ]
+              },
+              "Population Growth (2011 to 2017)": {
+                "type": "graduated",
+                "field": "pop_11_17",
+                "cat_arr": [
+                  {
+                    "label": "Less than 1%",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#ffffcc"
+                  },
+                  {
+                    "value": 0.01,
+                    "label": "1-2%",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#d9f0a3"
+                  },
+                  {
+                    "value": 0.02,
+                    "label": "2-3%",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#addd8e"
+                  },
+                  {
+                    "value": 0.03,
+                    "label": "3-4%",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#78c679"
+                  },
+                  {
+                    "value": 0.04,
+                    "label": "4-5%",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#31a354"
+                  },
+                  {
+                    "value": 0.05,
+                    "label": "5% or more",
+                    "strokeColor": "#FCFCFC",
+                    "fillColor": "#006837"
+                  }
+                ]
+              }
+            }
+          },
+          "dataview": {
+            "Shopper Town": {
+              "display": true,
+              "from": "geodata.uk_glx_geodata_seamless_shoppertown_metrics",
+              "columns": [
+                {
+                  "field": "shop_town",
+                  "title": "Shopper Town"
+                },
+                {
+                  "field": "pop_17",
+                  "title": "Population",
+                  "align": "right"
+                },
+                {
+                  "field": "pop_11_17",
+                  "title": "Population growth 2011 to 17",
+                  "type": "numeric",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "symbol": " %",
+                    "symbolAfter": true,
+                    "precision": 2
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "Postal Sector": {
+          "group": "Postal",
+          "dbs": "CAMELOT",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "format": "mvt",
+          "qID": "id",
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_postal_sector",
+          "tables": {
+            "9": null,
+            "10": "geodata.uk_glx_geodata_postal_sector"
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "post_area",
+              "label": "Postal Area"
+            },
+            {
+              "field": "pop_18",
+              "label": "Population 2018",
+              "type": "integer"
+            },
+            {
+              "field": "hhd_18",
+              "label": "Households 2018",
+              "type": "integer"
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeColor": "#addd8e",
+              "fillOpacity": 0.4,
+              "fillColor": "#fff"
+            },
+            "highlight": {
+              "strokeColor": "#090",
+              "fillOpacity": 0.1
+            }
+          }
+        },
+        "Postal District": {
+          "group": "Postal",
+          "dbs": "CAMELOT",
+          "format": "mvt",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "qID": "id",
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_postal_district",
+          "tables": {
+            "7": null,
+            "8": "geodata.uk_glx_geodata_postal_district",
+            "9": "geodata.uk_glx_geodata_postal_district",
+            "10": "geodata.uk_glx_geodata_postal_district",
+            "11": "geodata.uk_glx_geodata_postal_district",
+            "12": "geodata.uk_glx_geodata_postal_district",
+            "13": "geodata.uk_glx_geodata_postal_district",
+            "14": "geodata.uk_glx_geodata_postal_district",
+            "15": null
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "post_area",
+              "label": "Postal Area"
+            },
+            {
+              "field": "post_dist",
+              "label": "Postal District"
+            },
+            {
+              "field": "pop_18",
+              "label": "Population 2018",
+              "type": "integer"
+            },
+            {
+              "field": "hhd_18",
+              "label": "Households 2018",
+              "type": "integer"
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeColor": "#225ea8",
+              "fillOpacity": 0.4,
+              "fillColor": "#fff"
+            },
+            "highlight": {
+              "strokeColor": "#090",
+              "fillOpacity": 0.1
+            }
+          }
+        },
+        "Postal Area": {
+          "group": "Postal",
+          "dbs": "CAMELOT",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "qID": "id",
+          "format": "mvt",
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_postal_area",
+          "tables": {
+            "8": "geodata.uk_glx_geodata_postal_area",
+            "9": "geodata.uk_glx_geodata_postal_area",
+            "10": "geodata.uk_glx_geodata_postal_area",
+            "11": "geodata.uk_glx_geodata_postal_area",
+            "12": "geodata.uk_glx_geodata_postal_area",
+            "13": "geodata.uk_glx_geodata_postal_area",
+            "14": "geodata.uk_glx_geodata_postal_area",
+            "15": null
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "post_area",
+              "label": "Postal Area"
+            },
+            {
+              "field": "area_name",
+              "label": "Postal Area Name"
+            },
+            {
+              "field": "pop_18",
+              "label": "Population 2018",
+              "type": "integer"
+            },
+            {
+              "field": "hhd_18",
+              "label": "Households 2018",
+              "type": "integer"
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeColor": "#7a0177",
+              "fillOpacity": 0.4,
+              "fillColor": "#fff"
+            },
+            "highlight": {
+              "strokeColor": "#090",
+              "fillOpacity": 0.1
+            }
+          }
+        },
+        "Schools and Early Years": {
+          "name": "Schools & Early Years",
+          "group": "Education",
+          "meta": "School locations within the UK.",
+          "format": "cluster",
+          "dbs": "CAMELOT",
+          "qID": "id",
+          "table": "geodata.uk_glx_geodata_education_schools_early_ed",
+          "geom": "geom_p_3857",
+          "srid": "3857",
+          "cluster_kmeans": 0.005,
+          "cluster_label": "edu_name",
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "urn",
+              "label": "URN",
+              "inline": true
+            },
+            {
+              "field": "edu_name",
+              "label": "Name",
+              "inline": true,
+              "filter": "like"
+            },
+            {
+              "field": "edu_type",
+              "label": "Education Type",
+              "inline": true
+            },
+            {
+              "field": "add_one",
+              "label": "Address",
+              "inline": true
+            },
+            {
+              "field": "add_two",
+              "inline": true
+            },
+            {
+              "field": "town",
+              "label": "Town",
+              "inline": true,
+              "filter": "like"
+            },
+            {
+              "field": "postcode",
+              "label": "Postcode",
+              "inline": true,
+              "filter": "like"
+            },
+            {
+              "field": "capacity",
+              "label": "Capacity",
+              "type": "integer",
+              "inline": true
+            },
+            {
+              "field": "deprivatio",
+              "label": "Deprivation",
+              "inline": true
+            },
+            {
+              "field": "inspect_ra",
+              "label": "Inspection rating",
+              "inline": true
+            },
+            {
+              "field": "inspect_da",
+              "label": "Date of Inspection",
+              "inline": true
+            }
+          ],
+          "style": {
+            "themes": {
+              "Education Type": {
+                "type": "categorized",
+                "field": "edu_type",
+                "other": true,
+                "cat": {
+                  "Early YearsEquall": {
+                    "style": {
+                      "fillColor": "#F4EF88",
+                      "layers": {
+                        "0.8": "#177BB5"
+                      }
+                    }
+                  },
+                  "School": {
+                    "style": {
+                      "fillColor": "#F4EF88",
+                      "layers": {
+                        "0.8": "#1B8758"
+                      }
+                    }
+                  },
+                  "Further Education": {
+                    "style": {
+                      "fillColor": "#F4EF88",
+                      "layers": {
+                        "0.8": "#D32A49"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "marker": {
+              "type": "target",
+              "fillColor": "#F4EF88",
+              "layers": {
+                "0.6": "#0090C1"
+              }
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#F4EF88",
+              "layers": {
+                "0.6": "#0090C1"
+              }
+            }
+          }
+        },
+        "University building": {
+          "group": "Education",
+          "meta": "Building for 164 universities in the UK.",
+          "format": "mvt",
+          "dbs": "CAMELOT",
+          "qID": "id",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_education_uni_building",
+          "tables": {
+            "13": null,
+            "14": "geodata.uk_glx_geodata_education_uni_building"
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "ubuildtype",
+              "label": "Building type",
+              "inline": true
+            },
+            {
+              "field": "uni_name",
+              "label": "University name",
+              "inline": true
+            },
+            {
+              "field": "ubuildname",
+              "label": "Building name",
+              "inline": true
+            },
+            {
+              "field": "fac_serv",
+              "label": "Faculty served",
+              "inline": true
+            },
+            {
+              "field": "uni_add",
+              "label": "Address"
+            },
+            {
+              "field": "uni_pcode",
+              "label": "Postcode",
+              "inline": true
+            },
+            {
+              "field": "town",
+              "label": "Town",
+              "inline": true
+            },
+            {
+              "field": "country",
+              "label": "Country",
+              "inline": true
+            }
+          ],
+          "style": {
+            "default": {
+              "weight": 1,
+              "strokeColor": "#FFAE03",
+              "fill": true,
+              "fillColor": "#FFAE03",
+              "fillOpacity": 0.3
+            },
+            "highlight": {
+              "weight": 1,
+              "strokeColor": "#FFAE03",
+              "fill": true,
+              "fillOpacity": 0.6
+            }
+          }
+        },
+        "University POI": {
+          "group": "Education",
+          "meta": "Points of interest at each university including gyms, catering outlets, access points, receptions and porters lodges.",
+          "format": "cluster",
+          "dbs": "CAMELOT",
+          "qID": "id",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "table": "geodata.uk_glx_geodata_education_uni_poi",
+          "cluster_label": "upoi_name",
+          "cluster_kmeans": 0.1,
+          "cluster_dbscan": 0.01,
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "upoi_type",
+              "label": "POI type",
+              "inline": true
+            },
+            {
+              "field": "upoi_name",
+              "label": "POI Name",
+              "inline": true
+            },
+            {
+              "field": "uni_name",
+              "label": "University name",
+              "inline": true,
+              "filter": "like"
+            },
+            {
+              "field": "town",
+              "label": "Town",
+              "inline": true
+            },
+            {
+              "field": "country",
+              "label": "Country",
+              "inline": true
+            }
+          ],
+          "style": {
+            "hidden": true,
+            "marker": {
+              "type": "target",
+              "fillColor": "#D8D8F6",
+              "layers": {
+                "0.6": "#A37871"
+              }
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#D8D8F6",
+              "layers": {
+                "0.6": "#A37871"
+              }
+            }
+          }
+        },
+        "Rail stations": {
+          "group": "Transport",
+          "meta": "The stations that service underground lines, are part of the National Rail network or the Northern Ireland rail stations and support thirteen light rail systems within the United Kingdom.",
+          "format": "cluster",
+          "dbs": "CAMELOT",
+          "table": "geodata.uk_glx_geodata_transport_station",
+          "geom": "geom_4326",
+          "srid": "4326",
+          "qID": "id",
+          "cluster_label": "stat_name",
+          "cluster_kmeans": 0.01,
+          "cluster_dbscan": 0.04,
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "atco_code",
+              "label": "ATCO Code",
+              "type": "text",
+              "inline": true
+            },
+            {
+              "field": "stat_type",
+              "label": "Type",
+              "type": "text",
+              "inline": true
+            },
+            {
+              "field": "stat_name",
+              "label": "Station name",
+              "type": "text"
+            },
+            {
+              "field": "network",
+              "label": "Network",
+              "type": "text",
+              "inline": true
+            },
+            {
+              "field": "line",
+              "label": "Lines",
+              "type": "text"
+            },
+            {
+              "field": "glx_town",
+              "label": "Town",
+              "type": "text",
+              "inline": true
+            },
+            {
+              "field": "country",
+              "label": "Country",
+              "type": "text",
+              "inline": true
+            }
+          ],
+          "style": {
+            "marker": {
+              "type": "target",
+              "fillColor": "#777"
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#777"
+            },
+            "themes": {
+              "Rail Type": {
+                "label": "Station type",
+                "field": "stat_type",
+                "type": "categorized",
+                "other": true,
+                "cat": {
+                  "Light Rail Station": {
+                    "label": "Light Rail",
+                    "fillColor": "#00afad",
+                    "layers": {
+                      "0.75": "#FFF",
+                      "0.50": "#00afad"
+                    }
+                  },
+                  "Rail Station": {
+                    "label": "Rail",
+                    "fillColor": "#0019a8",
+                    "layers": {
+                      "0.75": "#FFF",
+                      "0.50": "#0019a8"
+                    }
+                  },
+                  "Underground Station": {
+                    "label": "Underground",
+                    "fillColor": "#0019A8",
+                    "layers": {
+                      "0.75": "#FFF",
+                      "0.50": "#DC241F"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Railways": {
+          "group": "Transport",
+          "meta": "The rail and light rail systems within the United Kingdom.",
+          "format": "mvt",
+          "dbs": "CAMELOT",
+          "geom": "geom_l_3857",
+          "srid": "3857",
+          "table": "geodata.uk_glx_geodata_transport_rail_line",
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_transport_rail_line",
+          "style": {
+            "hidden": true,
+            "default": {
+              "strokeColor": "#3C7A89"
+            }
+          }
+        },
+        "Road network": {
+          "group": "Transport",
+          "format": "mvt",
+          "mvt_fields": [
+            "road_type"
+          ],
+          "dbs": "CAMELOT",
+          "geom": "geom_l_3857",
+          "srid": "3857",
+          "tables": {
+            "9": null,
+            "10": "geodata.uk_glx_geodata_road_detail"
+          },
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_road_detail",
+          "style": {
+            "default": {
+              "strokeColor": "#780116"
+            },
+            "themes": {
+              "Road Type": {
+                "type": "categorized",
+                "field": "road_type",
+                "cat": {
+                  "Slip": {
+                    "label": "Slip road",
+                    "strokeColor": "#9D9FA0"
+                  },
+                  "SingleCW": {
+                    "label": "Single Carriageway",
+                    "strokeColor": "#D1B21B"
+                  },
+                  "DualCW": {
+                    "label": "Dual Carriageway",
+                    "strokeColor": "#0FBF73"
+                  },
+                  "MainMway": {
+                    "label": "Motorway",
+                    "strokeColor": "#2615DB",
+                    "strokeWidth": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Demographics": {
+          "format": "grid",
+          "group": "Demographics",
+          "dbs": "CAMELOT",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "tables": {
+            "6": "geodata.uk_glx_geodata_hex_64k",
+            "7": "geodata.uk_glx_geodata_hex_32k",
+            "8": "geodata.uk_glx_geodata_hex_16k",
+            "9": "geodata.uk_glx_geodata_hex_8k",
+            "10": "geodata.uk_glx_geodata_hex_4k",
+            "11": "geodata.uk_glx_geodata_hex_2k",
+            "12": "geodata.uk_glx_geodata_hex_1k",
+            "13": null
+          },
+          "style": {
+            "range": [
+              "#15773f",
+              "#66bd63",
+              "#a6d96a",
+              "#fdae61",
+              "#f46d43",
+              "#d73027"
+            ]
+          },
+          "grid_fields": {
+            "Population 2017": "pop__17",
+            "Population 2011": "pop__11",
+            "Age 18 to 24": "age18_24",
+            "Age 25 to 44": "age25_44",
+            "Age 45 to 59": "age45_59",
+            "Age 60 plus": "age60plus",
+            "AB": "abhrp",
+            "C1C2": "c1c2hrp",
+            "DE": "dehrp",
+            "Employed": "employed",
+            "Unemployed": "eaunemp",
+            "White Total Population": "whitetot",
+            "Non White Population": "nonwhite",
+            "Household - single": "pers1hhd",
+            "Household - 2 persons": "pers2hhd",
+            "Household - 2+ persons": "pers2plushhd",
+            "Dwelling - own home (mortgaged/outright)": "own",
+            "Social": "social",
+            "Private renters": "rent"
+          }
+        },
+        "Workers": {
+          "group": "Demographics",
+          "meta": "2018 worker counts, densities and occupation splits on hybrid zone level.",
+          "format": "mvt",
+          "dbs": "CAMELOT",
+          "mvt_fields": [
+            "workerskm2"
+          ],
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_workers_hybrid_zone",
+          "tables": {
+            "11": null,
+            "12": "geodata.uk_glx_geodata_workers_hybrid_zone"
+          },
+          "qID": "id",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "style": {
+            "default": {
+              "strokeColor": "#5A9367",
+              "fillColor": "#5A9367",
+              "fillOpacity": 0.3
+            },
+            "highlight": {
+              "fillOpacity": 0.6
+            },
+            "themes": {
+              "Workers km2": {
+                "type": "graduated",
+                "field": "workerskm2",
+                "cat_arr": [
+                  {
+                    "value": 100,
+                    "label": "100 or less per km2",
+                    "strokeColor": "#1e88e5",
+                    "fillColor": "#1e88e5"
+                  },
+                  {
+                    "value": 1000,
+                    "label": "1,000 per km2",
+                    "strokeColor": "#00897b",
+                    "fillColor": "#00897b"
+                  },
+                  {
+                    "value": 5000,
+                    "label": "5,000 per km2",
+                    "strokeColor": "#43a047",
+                    "fillColor": "#43a047"
+                  },
+                  {
+                    "value": 10000,
+                    "label": "10,000 per km2",
+                    "strokeColor": "#c0ca33",
+                    "fillColor": "#c0ca33"
+                  },
+                  {
+                    "value": 20000,
+                    "label": "20,000 per km2",
+                    "strokeColor": "#fdd835",
+                    "fillColor": "#fdd835"
+                  },
+                  {
+                    "value": 50000,
+                    "label": "50,000 per km2",
+                    "strokeColor": "#fb8c00",
+                    "fillColor": "#fb8c00"
+                  },
+                  {
+                    "value": 100000,
+                    "label": "over 100,000 per km2",
+                    "color": "#f4511e",
+                    "fillColor": "#f4511e"
+                  }
+                ]
+              }
+            }
+          },
+          "infoj": [
+            {
+              "field": "oa_code",
+              "label": "OA Code",
+              "inline": true
+            },
+            {
+              "field": "wz_code",
+              "label": "WZ Code",
+              "inline": true
+            },
+            {
+              "field": "workers_18",
+              "label": "Workers",
+              "type": "integer",
+              "inline": true
+            },
+            {
+              "field": "workerskm2",
+              "label": "Workers km2",
+              "type": "integer",
+              "inline": true
+            }
+          ]
+        },
+        "Retail Places": {
+          "group": "Retail",
+          "meta": "Polygon representing a Retail Place.",
+          "format": "mvt",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "dbs": "CAMELOT",
+          "mvt_fields": [
+            "rp_type"
+          ],
+          "qID": "id",
+          "tables": {
+            "10": null,
+            "11": "geodata.uk_glx_geodata_retail_place"
+          },
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_retail_place",
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "rp_name",
+              "label": "Name",
+              "filter": "like"
+            },
+            {
+              "field": "rp_type",
+              "label": "Type",
+              "filter": "match"
+            },
+            {
+              "field": "ref_pc",
+              "label": "Reference Postcode",
+              "level": 1,
+              "filter": "like"
+            },
+            {
+              "field": "comp_strgh",
+              "label": "Competition Strength",
+              "type": "integer",
+              "level": 1
+            },
+            {
+              "field": "est_units",
+              "label": "Estimate Units",
+              "type": "integer",
+              "level": 1
+            },
+            {
+              "field": "est_brands",
+              "label": "Estimate Brands",
+              "type": "integer",
+              "level": 1
+            },
+            {
+              "label": "Profile",
+              "type": "group",
+              "chart": {
+                "active": true,
+                "type": "horizontalBar",
+                "yAxesWidth": 80,
+                "backgroundColor": [
+                  "#FFA630",
+                  "#C6DEA6",
+                  "#7EBDC3",
+                  "#7A6263",
+                  "#CED097"
+                ],
+                "borderColor": [
+                  "#FFA630",
+                  "#C6DEA6",
+                  "#7EBDC3",
+                  "#7A6263",
+                  "#CED097"
+                ]
+              }
+            },
+            {
+              "group": "Profile",
+              "label": "Comparison",
+              "field": "comp_pct",
+              "type": "numeric"
+            },
+            {
+              "group": "Profile",
+              "label": "Convenience",
+              "field": "conv_pct",
+              "type": "numeric"
+            },
+            {
+              "group": "Profile",
+              "label": "F/B/L",
+              "field": "fbl_pct",
+              "type": "numeric",
+              "title": "Food/Beverage/Leisure"
+            },
+            {
+              "group": "Profile",
+              "label": "Services",
+              "field": "serv_pct",
+              "type": "numeric"
+            },
+            {
+              "group": "Profile",
+              "label": "Class/Brass",
+              "field": "classbrass",
+              "type": "numeric"
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeColor": "#ffff66",
+              "fillColor": "#ffff66",
+              "fillOpacity": 0.7
+            },
+            "highlight": {
+              "strokeColor": "#e91e63",
+              "fillOpacity": 0.3
+            },
+            "themes": {
+              "Retail Place Type": {
+                "type": "categorized",
+                "field": "rp_type",
+                "other": true,
+                "cat": {
+                  "City Centre": {
+                    "strokeColor": "#6e016b",
+                    "fillColor": "#6e016b"
+                  },
+                  "Town Centre": {
+                    "strokeColor": "#88419d",
+                    "fillColor": "#88419d"
+                  },
+                  "Urban Centre": {
+                    "strokeColor": "#8c6bb1",
+                    "fillColor": "#8c6bb1"
+                  },
+                  "Village Centre": {
+                    "strokeColor": "#8c96c6",
+                    "fillColor": "#8c96c6"
+                  },
+                  "Parade": {
+                    "strokeColor": "#9ebcda",
+                    "fillColor": "#9ebcda"
+                  },
+                  "Shopping Centre": {
+                    "strokeColor": "#016450",
+                    "fillColor": "#016450"
+                  },
+                  "Leisure Park": {
+                    "strokeColor": "#02818a",
+                    "fillColor": "#02818a"
+                  },
+                  "Outlet Centre": {
+                    "strokeColor": "#3690c0",
+                    "fillColor": "#3690c0"
+                  },
+                  "Retail Park": {
+                    "strokeColor": "#67a9cf",
+                    "fillColor": "#67a9cf"
+                  },
+                  "Trade Park": {
+                    "strokeColor": "#a6bddb",
+                    "fillColor": "#a6bddb"
+                  },
+                  "Airport": {
+                    "strokeColor": "#8c2d04",
+                    "fillColor": "#8c2d04"
+                  },
+                  "Service Area": {
+                    "strokeColor": "#f16913",
+                    "fillColor": "#f16913"
+                  },
+                  "Rail Station": {
+                    "strokeColor": "#fdae6b",
+                    "fillColor": "#fdae6b"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Retail Place Pitch": {
+          "group": "Retail",
+          "meta": "Comparitive strength within Retail Place area. Hex grid created using Retail Place to determine ranking of each cell within the centre.",
+          "mvt_fields": [
+            "pitch_dec"
+          ],
+          "format": "mvt",
+          "dbs": "CAMELOT",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "tables": {
+            "15": null,
+            "16": "geodata.uk_glx_geodata_retail_place_pitch"
+          },
+          "mvt_cache": "xyz._mvts__uk_glx_geodata_retail_place_pitch",
+          "style": {
+            "hidden": true,
+            "default": {
+              "fillOpacity": 0.4,
+              "strokeOpacity": 0.2
+            },
+            "themes": {
+              "Retail pitch rank in decimal scale": {
+                "type": "categorized",
+                "field": "pitch_dec",
+                "label": "Retail pitch rank in decimal scale",
+                "cat": {
+                  "1": {
+                    "fillColor": "#ca0020",
+                    "strokeColor": "#ca0020"
+                  },
+                  "2": {
+                    "fillColor": "#dd494b",
+                    "strokeColor": "#dd494b"
+                  },
+                  "3": {
+                    "fillColor": "#f09377",
+                    "strokeColor": "#f09377"
+                  },
+                  "4": {
+                    "fillColor": "#f5c1a9",
+                    "strokeColor": "#f5c1a9"
+                  },
+                  "5": {
+                    "fillColor": "#f7e5dd",
+                    "strokeColor": "#f7e5dd"
+                  },
+                  "6": {
+                    "fillColor": "#e1ecf2",
+                    "strokeColor": "#e1ecf2"
+                  },
+                  "7": {
+                    "fillColor": "#b4d6e7",
+                    "strokeColor": "#b4d6e7"
+                  },
+                  "8": {
+                    "fillColor": "#82bcd9",
+                    "strokeColor": "#82bcd9"
+                  },
+                  "9": {
+                    "fillColor": "#4396c5",
+                    "strokeColor": "#4396c5"
+                  },
+                  "10": {
+                    "fillColor": "#0571b0",
+                    "strokeColor": "#0571b0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Retail Points": {
+          "group": "Retail",
+          "format": "cluster",
+          "dbs": "CAMELOT",
+          "table": "geodata.uk_glx_open_retail_points",
+          "qID": "id",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "properties": "size_band",
+          "cluster_label": "store_name",
+          "cluster_kmeans": 0.01,
+          "cluster_dbscan": 0.02,
+          "dataview": {
+            "Retail Points": {
+              "display": "true",
+              "from": "geodata.uk_glx_open_retail_points",
+              "columns": [
+                {
+                  "field": "id",
+                  "label": "ID",
+                  "type": "numeric"
+                },
+                {
+                  "field": "store_name",
+                  "label": "Store Name"
+                },
+                {
+                  "field": "town",
+                  "label": "Town"
+                }
+              ]
+            }
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "retailer",
+              "label": "Retailer",
+              "inline": true
+            },
+            {
+              "field": "fascia",
+              "label": "Fascia",
+              "inline": true
+            },
+            {
+              "field": "store_name",
+              "label": "Name",
+              "inline": true
+            },
+            {
+              "label": "Address",
+              "type": "label"
+            },
+            {
+              "field": "add_one"
+            },
+            {
+              "field": "add_two"
+            },
+            {
+              "field": "locality"
+            },
+            {
+              "field": "postcode"
+            },
+            {
+              "field": "town"
+            },
+            {
+              "field": "size_sqft",
+              "label": "Size in sgft"
+            },
+            {
+              "field": "size_sqm",
+              "label": "Size in sqm"
+            },
+            {
+              "field": "pqi",
+              "label": "PQI"
+            },
+            {
+              "type": "streetview"
+            }
+          ],
+          "style": {
+            "hidden": true,
+            "marker": {
+              "type": "target",
+              "fillColor": "#93827F"
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#93827F"
+            },
+            "themes": {
+              "Retailers": {
+                "type": "categorized",
+                "field": "retailer",
+                "other": true,
+                "cat": {
+                  "Aldi": {
+                    "fillColor": "#ffbf45",
+                    "layers": {
+                      "0.875": "#fa6f08",
+                      "0.75": "#ef3c11",
+                      "0.625": "#001f79",
+                      "0.5": "#02bee3",
+                      "0.25": "ffffff"
+                    }
+                  },
+                  "Asda": {
+                    "fillColor": "#78BE20",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#fdb839"
+                    }
+                  },
+                  "Booths": {
+                    "fillColor": "#a12629",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#a12629"
+                    }
+                  },
+                  "Budgens": {
+                    "fillColor": "#EEEEE0",
+                    "layers": {
+                      "0.5": "#679a00",
+                      "0.375": "#cccb01"
+                    }
+                  },
+                  "Co-op": {
+                    "label": "The Co-Operative",
+                    "fillColor": "#0b1e60",
+                    "layers": {
+                      "0.625": "#ffffff",
+                      "0.5": "#a3d227"
+                    }
+                  },
+                  "Costco": {
+                    "fillColor": "#005daa",
+                    "layers": {
+                      "0.875": "#ffffff",
+                      "0.625": "#e31837"
+                    }
+                  },
+                  "Farmfoods": {
+                    "label": "Farm Foods",
+                    "fillColor": "#77a632",
+                    "layers": {
+                      "0.75": "#f7f900",
+                      "0.5": "#ff0000"
+                    }
+                  },
+                  "Heron": {
+                    "fillColor": "#ffffff",
+                    "layers": {
+                      "0.75": "#313590",
+                      "0.25": "#ffcf00"
+                    }
+                  },
+                  "Iceland": {
+                    "fillColor": "#ed1b2d",
+                    "layers": {
+                      "0.75": "#f2552b",
+                      "0.5": "#f89128",
+                      "0.25": "#ffffff"
+                    }
+                  },
+                  "Lidl": {
+                    "fillColor": "#d61408",
+                    "layers": {
+                      "0.875": "#ffe502",
+                      "0.5": "#002d7a",
+                      "0.25": "#d61408"
+                    }
+                  },
+                  "Makro": {
+                    "fillColor": "#00457a",
+                    "layers": {
+                      "0.325": "#ffe811"
+                    }
+                  },
+                  "Marks and Spencer": {
+                    "label": "Marks & Spencer",
+                    "fillColor": "#0a0d10",
+                    "layers": {
+                      "0.5": "#def036",
+                      "0.25": "#0a0d10"
+                    }
+                  },
+                  "Morrisons": {
+                    "fillColor": "#ffe133",
+                    "layers": {
+                      "0.5": "#00614e"
+                    }
+                  },
+                  "Sainsburys": {
+                    "label": "Sainsbury's",
+                    "fillColor": "#ee8a00",
+                    "layers": {
+                      "0.625": "#ffffff",
+                      "0.325": "#ee8a00"
+                    }
+                  },
+                  "Tesco": {
+                    "fillColor": "#0055a8",
+                    "layers": {
+                      "0.75": "#ffffff",
+                      "0.325": "#f02f26"
+                    }
+                  },
+                  "Waitrose": {
+                    "fillColor": "#81ae37",
+                    "layers": {
+                      "0.325": "#ffffff"
+                    }
+                  },
+                  "Whole Foods Market": {
+                    "fillColor": "#00674b",
+                    "layers": {
+                      "0.875": "#ffffff",
+                      "0.5": "#00674b"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Demand": {
+          "group": "Camelot",
+          "format": "mvt",
+          "dbs": "CAMELOT",
+          "mvt_cache": "xyz._mvts_uk_camelot_restrict_demand",
+          "tables": {
+            "10": null,
+            "11": "camelot.uk_camelot_restrict_demand"
+          },
+          "geom": "geom_3857",
+          "srid": "3857",
+          "mvt_fields": [
+            "dbg_demand",
+            "iwg_demand",
+            "online_demand"
+          ],
+          "qID": "oa_code",
+          "infoj": [
+            {
+              "field": "oa_code",
+              "label": "OA",
+              "inline": true
+            },
+            {
+              "field": "pop_19",
+              "label": "Population",
+              "type": "numeric",
+              "inline": true
+            },
+            {
+              "field": "urbanity_desc",
+              "label": "Urbanity",
+              "type": "text",
+              "inline": true
+            },
+            {
+              "field": "dbg_demand",
+              "label": "DBG Demand",
+              "type": "integer",
+              "inline": true
+            },
+            {
+              "field": "iwg_demand",
+              "label": "IWG Demand",
+              "type": "integer",
+              "inline": true
+            },
+            {
+              "field": "online_demand",
+              "label": "Online Demand",
+              "type": "integer",
+              "inline": true
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeWidth": 0.5,
+              "strokeColor": "#dbdbdb",
+              "strokeOpacity": 0.2,
+              "fillColor": "#d9d9d9",
+              "fillOpacity": 0.4
+            },
+            "highlight": {
+              "strokeColor": "#f95a04",
+              "fillColor": "#f4f270"
+            },
+            "themes": {
+              "DBG Demand": {
+                "type": "graduated",
+                "field": "dbg_demand",
+                "cat_arr": [
+                  {
+                    "label": "< £200",
+                    "fillColor": "#4575b4",
+                    "strokeColor": "#4575b4"
+                  },
+                  {
+                    "value": 200,
+                    "label": "£200 - 250",
+                    "fillColor": "#91bfdb",
+                    "strokeColor": "#91bfdb"
+                  },
+                  {
+                    "value": 250,
+                    "label": "£250 - 300",
+                    "fillColor": "#e0f3f8",
+                    "strokeColor": "#e0f3f8"
+                  },
+                  {
+                    "value": 300,
+                    "label": "£300 - 325",
+                    "fillColor": "#ffffbf",
+                    "strokeColor": "#ffffbf"
+                  },
+                  {
+                    "value": 325,
+                    "label": "£325 - 350",
+                    "fillColor": "#fee090",
+                    "strokeColor": "#fee090"
+                  },
+                  {
+                    "value": 350,
+                    "label": "£350 - 400",
+                    "fillColor": "#fc8d59",
+                    "strokeColor": "#fc8d59"
+                  },
+                  {
+                    "value": 400,
+                    "label": "£400 +",
+                    "fillColor": "#d73027",
+                    "strokeColor": "#d73027"
+                  }
+                ]
+              },
+              "IWG Demand": {
+                "type": "graduated",
+                "field": "iwg_demand",
+                "cat_arr": [
+                  {
+                    "label": "< £200",
+                    "fillColor": "#4575b4",
+                    "strokeColor": "#4575b4"
+                  },
+                  {
+                    "value": 200,
+                    "label": "£200 - 250",
+                    "fillColor": "#91bfdb",
+                    "strokeColor": "#91bfdb"
+                  },
+                  {
+                    "value": 250,
+                    "label": "£250 - 300",
+                    "fillColor": "#e0f3f8",
+                    "strokeColor": "#e0f3f8"
+                  },
+                  {
+                    "value": 300,
+                    "label": "£300 - 325",
+                    "fillColor": "#ffffbf",
+                    "strokeColor": "#ffffbf"
+                  },
+                  {
+                    "value": 325,
+                    "label": "£325 - 350",
+                    "fillColor": "#fee090",
+                    "strokeColor": "#fee090"
+                  },
+                  {
+                    "value": 350,
+                    "label": "£350 - 400",
+                    "fillColor": "#fc8d59",
+                    "strokeColor": "#fc8d59"
+                  },
+                  {
+                    "value": 400,
+                    "label": "£400 +",
+                    "fillColor": "#d73027",
+                    "strokeColor": "#d73027"
+                  }
+                ]
+              },
+              "Online Demand": {
+                "type": "graduated",
+                "field": "online_demand",
+                "cat_arr": [
+                  {
+                    "label": "< £200",
+                    "fillColor": "#4575b4",
+                    "strokeColor": "#4575b4"
+                  },
+                  {
+                    "value": 200,
+                    "label": "£200 - 250",
+                    "fillColor": "#91bfdb",
+                    "strokeColor": "#91bfdb"
+                  },
+                  {
+                    "value": 250,
+                    "label": "£250 - 300",
+                    "fillColor": "#e0f3f8",
+                    "strokeColor": "#e0f3f8"
+                  },
+                  {
+                    "value": 300,
+                    "label": "£300 - 325",
+                    "fillColor": "#ffffbf",
+                    "strokeColor": "#ffffbf"
+                  },
+                  {
+                    "value": 325,
+                    "label": "£325 - 350",
+                    "fillColor": "#fee090",
+                    "strokeColor": "#fee090"
+                  },
+                  {
+                    "value": 350,
+                    "label": "£350 - 400",
+                    "fillColor": "#fc8d59",
+                    "strokeColor": "#fc8d59"
+                  },
+                  {
+                    "value": 400,
+                    "label": "£400 +",
+                    "fillColor": "#d73027",
+                    "strokeColor": "#d73027"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Existing Terminals": {
+          "group": "Camelot",
+          "display": true,
+          "format": "cluster",
+          "dbs": "CAMELOT",
+          "table": "camelot.uk_camelot_restrict_existing_terminals",
+          "qID": "storeid",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "cluster_label": "fascia",
+          "cluster_kmeans": 0.01,
+          "dataview": {
+            "Existing Terminals": {
+              "display": false,
+              "from": "camelot.uk_camelot_restrict_existing_terminals",
+              "columns": [
+                {
+                  "field": "storeid",
+                  "title": "Store ID",
+                  "type": "numeric"
+                },
+                {
+                  "field": "fascia",
+                  "title": "Fascia"
+                },
+                {
+                  "field": "gltype_grp",
+                  "title": "Store Type"
+                },
+                {
+                  "field": "terminaltype",
+                  "title": "Terminal Type"
+                },
+                {
+                  "field": "dbg_sales",
+                  "title": "DBG Sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "iwg_sales",
+                  "title": "IWG Sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                }
+              ]
+            }
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "storeid",
+              "label": "Store ID",
+              "inline": true
+            },
+            {
+              "field": "fascia",
+              "label": "Fascia",
+              "inline": true,
+              "filter": "like"
+            },
+            {
+              "field": "postcode",
+              "label": "Postcode",
+              "inline": true
+            },
+            {
+              "field": "opendate",
+              "label": "Open Date",
+              "inline": true
+            },
+            {
+              "field": "gltype_grp",
+              "label": "Store Type",
+              "inline": true,
+              "filter": {
+                "in": [
+                  "Anomalous",
+                  "C-Store",
+                  "CTN",
+                  "High Street",
+                  "PFS",
+                  "Supermarket",
+                  "Transport Hub"
+                ]
+              }
+            },
+            {
+              "field": "terminaltype",
+              "label": "Terminal Type",
+              "inline": true,
+              "filter": {
+                "in": [
+                  "ALTURA & EMOP",
+                  "ALTURA & EPOS",
+                  "ALTURA & EPOS & SCO",
+                  "ALTURA & SCO",
+                  "ALTURA & SOT",
+                  "Altura",
+                  "CLTDBG",
+                  "CLTDBG & ALTURA",
+                  "EMOP",
+                  "SCO",
+                  "SOT"
+                ]
+              }
+            },
+            {
+              "field": "terminalage",
+              "label": "Terminal Age",
+              "inline": true
+            },
+            {
+              "field": "dbg_sales",
+              "label": "DBG Sales",
+              "inline": true,
+              "prefix": "£",
+              "filter": "numeric"
+            },
+            {
+              "field": "iwg_sales",
+              "label": "IWG Sales",
+              "inline": true,
+              "prefix": "£",
+              "filter": "numeric"
+            },
+            {
+              "field": "total_sales",
+              "fieldfx": "dbg_sales + iwg_sales",
+              "label": "Total Sales",
+              "prefix": "£",
+              "inline": true
+            },
+            {
+              "field": "region",
+              "label": "Region",
+              "inline": true,
+              "filter": {
+                "in": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  19
+                ]
+              }
+            },
+            {
+              "field": "territory",
+              "label": "Territory",
+              "inline": true,
+              "filter": {
+                "in": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  99
+                ]
+              }
+            },
+            {
+              "type": "streetview"
+            }
+          ],
+          "style": {
+            "hidden": true,
+            "marker": {
+              "type": "target",
+              "fillColor": "#001a33"
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#001a33"
+            },
+            "themes": {
+              "Store Type": {
+                "type": "categorized",
+                "field": "gltype_grp",
+                "other": true,
+                "cat": {
+                  "Anomalous": {
+                    "fillColor": "#e41a1c",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#e41a1c"
+                    }
+                  },
+                  "C-Store": {
+                    "fillColor": "#377eb8",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#377eb8"
+                    }
+                  },
+                  "CTN": {
+                    "fillColor": "#4daf4a",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#4daf4a"
+                    }
+                  },
+                  "High Street": {
+                    "fillColor": "#984ea3",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#984ea3"
+                    }
+                  },
+                  "PFS": {
+                    "fillColor": "#ff7f00",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#ff7f00"
+                    }
+                  },
+                  "Supermarket": {
+                    "fillColor": "#ffff33",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.37": "#ffff33"
+                    }
+                  },
+                  "Transport Hub": {
+                    "fillColor": "#a65628",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#a65628"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Future Terminals": {
+          "group": "Camelot",
+          "display": true,
+          "format": "cluster",
+          "dbs": "CAMELOT",
+          "table": "camelot.camelot_output_table_history",
+          "qID": "id",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "cluster_label": "fascia_date",
+          "cluster_kmeans": 0.01,
+          "scripts": [
+            "/camelot/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/dev/csv_import.js"
+          ],
+          "dataview": {
+            "Future Terminals": {
+              "display": false,
+              "from": "camelot.camelot_output_table_history",
+              "toolbars": {},
+              "limit": 300,
+              "columns": [
+                {
+                  "field": "id",
+                  "title": "ID"
+                },
+                {
+                  "field": "date",
+                  "title": "Batch Number",
+                  "type": "integer"
+                },
+                {
+                  "field": "name",
+                  "title": "Name"
+                },
+                {
+                  "field": "fascia",
+                  "title": "Fascia"
+                },
+                {
+                  "field": "storetype",
+                  "title": "Store Type"
+                },
+                {
+                  "field": "size",
+                  "title": "Size"
+                },
+                {
+                  "field": "address1",
+                  "title": "Address 1"
+                },
+                {
+                  "field": "address2",
+                  "title": "Address 2"
+                },
+                {
+                  "field": "postcode",
+                  "title": "Postcode"
+                },
+                {
+                  "field": "retail_place",
+                  "title": "Retail Place"
+                },
+                {
+                  "field": "shopper_town",
+                  "title": "Shopper Town"
+                },
+                {
+                  "field": "date",
+                  "title": "Date",
+                  "type": "date"
+                },
+                {
+                  "field": "altura_dbg_predicted_year1",
+                  "title": "Altura DBG - Yr1",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "altura_iwg_predicted_year1",
+                  "title": "Altura IWG - Yr1",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "altura_tot_predicted_year1",
+                  "title": "Altura Total - Yr1",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "altura_dbg_predicted_mature",
+                  "title": "Altura DBG - Mature",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "altura_iwg_predicted_mature",
+                  "title": "Altura IWG - Mature",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "altura_tot_predicted_mature",
+                  "title": "Altura Total - Mature",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "altura_confidence",
+                  "fieldfx": "altura_confidence * 100",
+                  "title": "Confidence of >£1k",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "clt_dbg_predicted_year1",
+                  "title": "CLT DBG - Yr1",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "clt_iwg_predicted_year1",
+                  "title": "CLT IWG - Yr1",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "clt_tot_predicted_year1",
+                  "title": "CLT Total - Yr1",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "clt_dbg_predicted_mature",
+                  "title": "CLT DBG - Mature",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "clt_iwg_predicted_mature",
+                  "title": "CLT IWG - Mature",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "clt_tot_predicted_mature",
+                  "title": "CLT Total - Mature",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "clt_confidence",
+                  "fieldfx": "clt_confidence * 100",
+                  "title": "Confidence of >£350",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "existing_stores_within_05miles",
+                  "title": "Existing Terminals - 0.5mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "avg_altura_sales_no_supermarkets_05miles",
+                  "title": "Average Altura Sales (excl smrkts) - 0.5mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "avg_clt_sales_no_supermarkets_05miles",
+                  "title": "Average CLT Sales (excl smrkts) - 0.5mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_population_based_05miles",
+                  "title": "Fair Share Population - 0.5mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_demand_based_05miles",
+                  "title": "Fair Share Demand - 0.5mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "existing_stores_within_1miles",
+                  "title": "Existing Terminals - 1mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "avg_altura_sales_no_supermarkets_1miles",
+                  "title": "Average Altura Sales (excl smrkts) - 1mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "avg_clt_sales_no_supermarkets_1miles",
+                  "title": "Average CLT Sales (excl smrkts) - 1mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_population_based_1miles",
+                  "title": "Fair Share Population - 1mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_demand_based_1miles",
+                  "title": "Fair Share Demand - 1mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "existing_stores_within_2miles",
+                  "title": "Existing Terminals - 2mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "avg_altura_sales_no_supermarkets_2miles",
+                  "title": "Average Altura Sales (excl smrkts) - 2mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "avg_clt_sales_no_supermarkets_2miles",
+                  "title": "Average CLT Sales (excl smrkts) - 2mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_population_based_2miles",
+                  "title": "Fair Share Population - 2mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_demand_based_2miles",
+                  "title": "Fair Share Demand - 2mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "pct_pop_within_half_mile",
+                  "fieldfx": "pct_pop_within_half_mile * 100",
+                  "title": "Pop within 1/2mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "pct_pop_within_one_mile",
+                  "fieldfx": "pct_pop_within_one_mile * 100",
+                  "title": "Pop within 1mi",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "shoppertown_terminals",
+                  "title": "Shoppertown Terminals",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_terminals_pop_based",
+                  "fieldfx": "fair_share_terminals_pop_based",
+                  "title": "Fair share on population",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "field": "fair_share_terminals_demand_based",
+                  "fieldfx": "fair_share_terminals_demand_based",
+                  "title": "Fair share on demand",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                }
+              ]
+            }
+          },
+          "edit": {
+            "point": true
+          },
+          "infoj": [
+            {
+              "field": "date",
+              "label": "Batch Number",
+              "inline": true,
+              "type": "text",
+              "filter": "like"
+            },
+            {
+              "field": "id",
+              "label": "ID",
+              "inline": true,
+              "type": "text"
+            },
+            {
+              "type": "report",
+              "class": "_report",
+              "report": {
+                "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/report_test.html&source=GITHUB"
+              }
+            },
+            {
+              "field": "fascia_storetype",
+              "label": "Fascia",
+              "filter": "like",
+              "edit": {
+                "options": [
+                  "ANOMALOUS - OTHER",
+                  "PUB - Anomalous",
+                  "SODEXO - Anomalous",
+                  "CRTG CONVENIENCE - C-Store Branded",
+                  "MCCOLL CONVENIENCE - C-Store Branded",
+                  "MORRISONS CONVENIENCE - C-Store Branded",
+                  "ONE STOP - C-Store Branded",
+                  "SAINSBURYS LOCAL - C-Store Branded",
+                  "TESCO EXPRESS - C-Store Branded",
+                  "INDEPENDENT CONVENIENCE - C-Store Independent",
+                  "BEST ONE - C-Store Symbol",
+                  "BUDGENS CONVENIENCE - C-Store Symbol",
+                  "Central Convenience Store - C-Store Symbol",
+                  "COSTCUTTER - C-Store Symbol",
+                  "LIFESTYLE EXPRESS - C-Store Symbol",
+                  "LONDIS - C-Store Symbol",
+                  "MACE - C-Store Symbol",
+                  "NISA - C-Store Symbol",
+                  "PREMIER - C-Store Symbol",
+                  "SPAR - C-Store Symbol",
+                  "TODAYS GROUP - C-Store Symbol",
+                  "MCCOLL - CTN branded",
+                  "RIPPLEGLEN - CTN branded",
+                  "OFF LICENSE OTHER - CTN Off-license",
+                  "One o One - CTN Off-license",
+                  "Wine Cellar - CTN Off-license",
+                  "WineFlair - CTN Off-license",
+                  "Winemark - CTN Off-license",
+                  "CTN - OTHER",
+                  "HALLMARK - CTN Other",
+                  "INDEPENDENT CONVENIENCE - CTN Other",
+                  "HS KIOSK",
+                  "WH SMITH - HS Large BNM",
+                  "B&M BARGAINS - HS Other",
+                  "BARGAIN BOOZE - HS Other",
+                  "HERON FOODS - HS Other",
+                  "HS OTHER",
+                  "WH SMITH LOCAL - HS Other",
+                  "WILKO - HS Other",
+                  "POST OFFICE - HS Post Office",
+                  "ASDA CONVENIENCE - PFS C-store",
+                  "BOOTHS CONVENIENCE - PFS C-store",
+                  "BP SIMPLY FOOD - PFS C-store",
+                  "SAINSBURYS LOCAL - PFS C-store",
+                  "TESCO EXPRESS PFS - PFS C-store",
+                  "WAITROSE PFS - PFS C-store",
+                  "APPLEGREEN - PFS CTN",
+                  "BEST ONE - PFS CTN",
+                  "BP - PFS CTN",
+                  "BUDGENS - PFS CTN",
+                  "COSTCUTTER - PFS CTN",
+                  "LIFESTYLE EXPRESS PFS - PFS CTN",
+                  "LONDIS PFS - PFS CTN",
+                  "MOTOR FUEL GROUP - PFS CTN",
+                  "NISA - PFS CTN",
+                  "OTHER - PFS CTN",
+                  "PREMIER - PFS CTN",
+                  "RONTEC - PFS CTN",
+                  "SHELL PFS - PFS CTN",
+                  "SPAR PFS - PFS CTN",
+                  "MACE - PFS CTN",
+                  "TODAYS GROUP PFS - PFS CTN",
+                  "BP - PFS S/S",
+                  "LONDIS PFS - PFS S/S",
+                  "OTHER - PFS S/S",
+                  "ASDA - SM Large",
+                  "MORRISONS - SM Large",
+                  "SAINSBURYS - SM Large",
+                  "TESCO - SM Large",
+                  "WAITROSE - SM Large",
+                  "ASDA - SM Medium",
+                  "BOOTHS - SM Medium",
+                  "CRTG - SM Medium",
+                  "MORRISONS - SM Medium",
+                  "SAINSBURYS - SM Medium",
+                  "TESCO - SM Medium",
+                  "WAITROSE - SM Medium",
+                  "ALDI - SM Small",
+                  "ASDA - SM Small",
+                  "BOOTHS - SM Small",
+                  "CRTG - SM Small",
+                  "MORRISONS - SM Small",
+                  "SAINSBURYS - SM Small",
+                  "TESCO - SM Small",
+                  "WAITROSE - SM Small",
+                  "MACE - SM Small",
+                  "MUSGRAVE - SM Small",
+                  "ASDA PFS - Supermarket PFS",
+                  "MORRISONS PFS - Supermarket PFS",
+                  "SAINSBURYS PFS - Supermarket PFS",
+                  "WAITROSE PFS - Supermarket PFS",
+                  "TRAVEL OTHER - Transport Hub",
+                  "WH SMITH TRAVEL - Transport Hub"
+                ]
+              }
+            },
+            {
+              "type": "dataview",
+              "target": "location",
+              "class": "_report",
+              "script": "/camelot/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/camelot/dev/run_model.js"
+            },
+            {
+              "label": "Model date",
+              "type": "date",
+              "field": "date",
+              "inline": true
+            },
+            {
+              "label": "Name",
+              "type": "text",
+              "field": "name",
+              "inline": true,
+              "edit": true
+            },
+            {
+              "label": "Address",
+              "type": "label"
+            },
+            {
+              "field": "address1",
+              "type": "text",
+              "edit": true
+            },
+            {
+              "field": "address2",
+              "type": "text",
+              "edit": true
+            },
+            {
+              "label": "Size:",
+              "type": "text",
+              "field": "size",
+              "inline": true,
+              "edit": true
+            },
+            {
+              "field": "postcode",
+              "label": "Postcode",
+              "inline": true
+            },
+            {
+              "field": "retail_place",
+              "label": "Retail Place",
+              "inline": true
+            },
+            {
+              "field": "shopper_town",
+              "label": "Shopper Town",
+              "inline": true
+            },
+            {
+              "field": "storetype_groups",
+              "label": "Store Type Group",
+              "class": "_report",
+              "inline": true
+            },
+            {
+              "label": "Forecast Sales - Altura",
+              "type": "group",
+              "expanded": true
+            },
+            {
+              "group": "Forecast Sales - Altura",
+              "field": "_altura_dbg_predicted_year1",
+              "fieldfx": "round(altura_dbg_predicted_year1, 0)",
+              "label": "DBG - Yr1",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - Altura",
+              "field": "_altura_iwg_predicted_year1",
+              "fieldfx": "round(altura_iwg_predicted_year1, 0)",
+              "label": "IWG - Yr1",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - Altura",
+              "field": "_altura_tot_predicted_year1",
+              "fieldfx": "round(altura_tot_predicted_year1, 0)",
+              "label": "Total - Yr1",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - Altura",
+              "field": "_altura_dbg_predicted_mature",
+              "fieldfx": "round(altura_dbg_predicted_mature, 0)",
+              "label": "DBG - Mature",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - Altura",
+              "field": "_altura_iwg_predicted_mature",
+              "fieldfx": "round(altura_iwg_predicted_mature, 0)",
+              "label": "IWG - Mature",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - Altura",
+              "field": "_altura_tot_predicted_mature",
+              "fieldfx": "round(altura_tot_predicted_mature, 0)",
+              "label": "Total - Mature",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - Altura",
+              "field": "_altura_confidence",
+              "fieldfx": "round(altura_confidence * 100, 0)",
+              "label": "Confidence of >£1k",
+              "inline": true,
+              "suffix": "%",
+              "type": "integer"
+            },
+            {
+              "label": "Forecast Sales - CLT",
+              "type": "group",
+              "expanded": true
+            },
+            {
+              "group": "Forecast Sales - CLT",
+              "field": "_clt_dbg_predicted_year1",
+              "fieldfx": "round(clt_dbg_predicted_year1, 0)",
+              "label": "DBG - Yr1",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - CLT",
+              "field": "_clt_iwg_predicted_year1",
+              "fieldfx": "round(clt_iwg_predicted_year1, 0)",
+              "label": "IWG - Yr1",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - CLT",
+              "field": "_clt_tot_predicted_year1",
+              "fieldfx": "round(clt_tot_predicted_year1, 0)",
+              "label": "Total - Yr1",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - CLT",
+              "field": "_clt_dbg_predicted_mature",
+              "fieldfx": "round(clt_dbg_predicted_mature, 0)",
+              "label": "DBG - Mature",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - CLT",
+              "field": "_clt_iwg_predicted_mature",
+              "fieldfx": "round(clt_iwg_predicted_mature, 0)",
+              "label": "IWG - Mature",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - CLT",
+              "field": "_clt_tot_predicted_mature",
+              "fieldfx": "round(clt_tot_predicted_mature, 0)",
+              "label": "Total - Mature",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Forecast Sales - CLT",
+              "field": "_clt_confidence",
+              "fieldfx": "round(clt_confidence * 100, 0)",
+              "label": "Confidence of >£350",
+              "inline": true,
+              "suffix": "%",
+              "type": "integer"
+            },
+            {
+              "label": "Shoppertown",
+              "type": "group",
+              "expanded": true,
+              "class": "_report"
+            },
+            {
+              "group": "Shoppertown",
+              "field": "_pct_pop_within_half_mile",
+              "fieldfx": "round(pct_pop_within_half_mile * 100, 0)",
+              "class": "_report",
+              "label": "Pop within 1/2mi",
+              "inline": true,
+              "suffix": "%",
+              "type": "integer"
+            },
+            {
+              "group": "Shoppertown",
+              "field": "_pct_pop_within_one_mile",
+              "fieldfx": "round(pct_pop_within_one_mile * 100, 0)",
+              "class": "_report",
+              "label": "Pop within 1mi",
+              "inline": true,
+              "suffix": "%",
+              "type": "integer"
+            },
+            {
+              "group": "Shoppertown",
+              "field": "shoppertown_terminals",
+              "class": "_report",
+              "label": "Shoppertown Terminals",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Shoppertown",
+              "field": "_fair_share_terminals_pop_based",
+              "fieldfx": "round(fair_share_terminals_pop_based,0)",
+              "class": "_report",
+              "label": "Fair share on population",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "group": "Shoppertown",
+              "field": "_fair_share_terminals_demand_based",
+              "fieldfx": "round(fair_share_terminals_demand_based,0)",
+              "class": "_report",
+              "label": "Fair share on demand",
+              "inline": true,
+              "type": "integer"
+            },
+            {
+              "name": "0.5 mile radius",
+              "field": "geom_4326_05mile",
+              "fieldfx": "ST_asGeoJson(geom_4326_05mile)",
+              "type": "geometry",
+              "display": true,
+              "class": "_report",
+              "style": {
+                "strokeColor": "#F49D37",
+                "fillColor": "#F49D37",
+                "fillOpacity": 0.2
+              }
+            },
+            {
+              "name": "1 mile radius",
+              "field": "geom_4326_1mile",
+              "fieldfx": "ST_asGeoJson(geom_4326_1mile)",
+              "type": "geometry",
+              "display": true,
+              "class": "_report",
+              "style": {
+                "strokeColor": "#F7BA73",
+                "fillColor": "#F7BA73",
+                "fillOpacity": 0.2
+              }
+            },
+            {
+              "name": "2 mile radius",
+              "field": "geom_4326_2mile",
+              "fieldfx": "ST_asGeoJson(geom_4326_2mile)",
+              "type": "geometry",
+              "display": true,
+              "class": "_report",
+              "style": {
+                "strokeColor": "#fad5ab",
+                "fillColor": "#fad5ab",
+                "fillOpacity": 0.2
+              }
+            },
+            {
+              "label": "Available dataviews",
+              "type": "label",
+              "class": "_report"
+            },
+            {
+              "type": "tableDefinition",
+              "title": "Local Area",
+              "display": true,
+              "class": "_report",
+              "target_id": "xyz_local_area",
+              "columns": [
+                {
+                  "type": "integer",
+                  "title": "1/2 Mile Radius",
+                  "field": "min5",
+                  "lookup": {
+                    "table_a": "camelot.camelot_output_table_history",
+                    "table_b": "camelot.uk_camelot_restrict_demand",
+                    "geom_a": "geom_4326_05mile",
+                    "geom_b": "geom_p_4326"
+                  },
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "type": "integer",
+                  "title": "1 Mile Radius",
+                  "field": "min10",
+                  "lookup": {
+                    "table_a": "camelot.camelot_output_table_history",
+                    "table_b": "camelot.uk_camelot_restrict_demand",
+                    "geom_a": "geom_4326_1mile",
+                    "geom_b": "geom_p_4326"
+                  },
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "type": "integer",
+                  "title": "2 Mile Radius",
+                  "field": "min15",
+                  "lookup": {
+                    "table_a": "camelot.camelot_output_table_history",
+                    "table_b": "camelot.uk_camelot_restrict_demand",
+                    "geom_a": "geom_4326_2mile",
+                    "geom_b": "geom_p_4326"
+                  },
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                }
+              ],
+              "rows": [
+                {
+                  "field": "pop_19",
+                  "fieldfx": "SUM(b.pop_19)",
+                  "title": "Population"
+                },
+                {
+                  "field": "dbg_demand",
+                  "fieldfx": "SUM(b.dbg_demand)",
+                  "title": "DGB Demand"
+                },
+                {
+                  "field": "iwg_demand",
+                  "fieldfx": "SUM(b.iwg_demand)",
+                  "title": "SC Demand"
+                },
+                {
+                  "field": "total_demand",
+                  "fieldfx": "SUM(b.iwg_demand+b.dbg_demand)",
+                  "title": "Total Retail Demand"
+                },
+                {
+                  "field": "online_demand",
+                  "fieldfx": "SUM(b.online_demand)",
+                  "title": "Digital Demand"
+                },
+                {
+                  "field": "_fair_share_pop",
+                  "fieldfx": "(SUM(b.pop_19) / 1509::numeric)",
+                  "title": "Fair Share - population"
+                },
+                {
+                  "field": "_fair_share_demand",
+                  "fieldfx": "(SUM(b.dbg_demand + b.iwg_demand) / 2348::numeric)",
+                  "title": "Fair Share - Demand"
+                }
+              ]
+            },
+            {
+              "type": "tableDefinition",
+              "title": "Existing Terminals",
+              "display": true,
+              "class": "_report",
+              "target_id": "xyz_existing_terminals",
+              "columns": [
+                {
+                  "type": "integer",
+                  "title": "1/2 Mile Radius",
+                  "field": "min5",
+                  "lookup": {
+                    "table_a": "camelot.camelot_output_table_history",
+                    "table_b": "camelot.uk_camelot_restrict_existing_terminals",
+                    "geom_a": "geom_4326_05mile",
+                    "geom_b": "geom_p_4326"
+                  },
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "type": "integer",
+                  "title": "1 Mile Radius",
+                  "field": "min10",
+                  "lookup": {
+                    "table_a": "camelot.camelot_output_table_history",
+                    "table_b": "camelot.uk_camelot_restrict_existing_terminals",
+                    "geom_a": "geom_4326_1mile",
+                    "geom_b": "geom_p_4326"
+                  },
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "type": "integer",
+                  "title": "2 Mile Radius",
+                  "field": "min15",
+                  "lookup": {
+                    "table_a": "camelot.camelot_output_table_history",
+                    "table_b": "camelot.uk_camelot_restrict_existing_terminals",
+                    "geom_a": "geom_4326_2mile",
+                    "geom_b": "geom_p_4326"
+                  },
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                }
+              ],
+              "rows": [
+                {
+                  "field": "_existing_terminals",
+                  "fieldfx": "count(b.storeid)",
+                  "title": "Number of existing terminals"
+                },
+                {
+                  "field": "_existing_terminals_exc",
+                  "fieldfx": "SUM(CASE WHEN b.gltype_grp <> 'Supermarket' THEN 1 ELSE 0 END)",
+                  "title": "Number of existing terminals - excl supermarkets"
+                },
+                {
+                  "field": "_average_alt_sales",
+                  "fieldfx": "CASE WHEN (SUM(CASE WHEN b.gltype_grp <> 'Supermarket' and upper(b.terminaltype) ~'ALTURA' THEN 1 ELSE 0 END)) = 0 then 0 else SUM(CASE WHEN b.gltype_grp <> 'Supermarket' and upper(b.terminaltype) ~'ALTURA' THEN b.dbg_sales + b.iwg_sales ELSE 0 END) / SUM(CASE WHEN b.gltype_grp <> 'Supermarket' and upper(b.terminaltype) ~'ALTURA' THEN 1 ELSE 0 END) END",
+                  "title": "Average Altura Sales - excl supermarkets"
+                },
+                {
+                  "field": "_average_clt_sales",
+                  "fieldfx": "CASE WHEN (SUM(CASE WHEN b.gltype_grp <> 'Supermarket' and b.terminaltype = 'CLTDBG' THEN 1 ELSE 0 END)) = 0 then 0 else SUM(CASE WHEN b.gltype_grp <> 'Supermarket' and b.terminaltype = 'CLTDBG' THEN b.dbg_sales + b.iwg_sales ELSE 0 END) / SUM(CASE WHEN b.gltype_grp <> 'Supermarket' and b.terminaltype = 'CLTDBG' THEN 1 ELSE 0 END) END",
+                  "title": "Average CLT Sales - excl supermarkets"
+                }
+              ]
+            },
+            {
+              "display": true,
+              "title": "Nearest 10 Terminals",
+              "type": "orderedList",
+              "target_id": "xyz_nearest_terminals",
+              "class": "_report",
+              "from": "camelot.camelot_output_table_history a, camelot.uk_camelot_restrict_existing_terminals b",
+              "where": "a.id = $1",
+              "orderby": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326)",
+              "limit": 10,
+              "columns": [
+                {
+                  "title": "Distance (km)",
+                  "field": "dist",
+                  "fieldfx": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326) / 1000",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 2
+                  }
+                },
+                {
+                  "title": "Store ID",
+                  "field": "storeid",
+                  "fieldfx": "b.storeid"
+                },
+                {
+                  "title": "Fascia",
+                  "field": "fascia",
+                  "fieldfx": "b.fascia"
+                },
+                {
+                  "title": "Terminal Type",
+                  "field": "terminaltype",
+                  "fieldfx": "b.terminaltype"
+                },
+                {
+                  "title": "Postcode",
+                  "field": "postcode",
+                  "fieldfx": "b.postcode"
+                },
+                {
+                  "title": "Store Type",
+                  "field": "gltype",
+                  "fieldfx": "b.gltype"
+                },
+                {
+                  "title": "Terminal Age",
+                  "field": "terminalage",
+                  "fieldfx": "b.terminalage",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "title": "DBG Sales",
+                  "field": "dbg_sales",
+                  "fieldfx": "b.dbg_sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0,
+                    "symbol": "£"
+                  }
+                },
+                {
+                  "title": "SC Sales",
+                  "field": "iwg_sales",
+                  "fieldfx": "b.iwg_sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0,
+                    "symbol": "£"
+                  }
+                },
+                {
+                  "title": "Total Sales",
+                  "field": "total_sales",
+                  "fieldfx": "b.dbg_sales + b.iwg_sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0,
+                    "symbol": "£"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "orderedList",
+              "title": "Nearest 3 Supermarket Terminals",
+              "display": true,
+              "target_id": "xyz_nearest_supermarket_terminals",
+              "class": "_report",
+              "from": "camelot.camelot_output_table_history a, camelot.uk_camelot_restrict_existing_terminals b",
+              "where": "a.id = $1 and b.gltype_grp = 'Supermarket'",
+              "orderby": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326)",
+              "limit": 3,
+              "columns": [
+                {
+                  "title": "Distance (km)",
+                  "field": "dist",
+                  "fieldfx": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326) / 1000",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 2
+                  }
+                },
+                {
+                  "title": "Store ID",
+                  "field": "storeid",
+                  "fieldfx": "b.storeid"
+                },
+                {
+                  "title": "Fascia",
+                  "field": "fascia",
+                  "fieldfx": "b.fascia"
+                },
+                {
+                  "title": "Terminal Type",
+                  "field": "terminaltype",
+                  "fieldfx": "b.terminaltype"
+                },
+                {
+                  "title": "Postcode",
+                  "field": "postcode",
+                  "fieldfx": "b.postcode"
+                },
+                {
+                  "title": "Store Type",
+                  "field": "gltype",
+                  "fieldfx": "b.gltype"
+                },
+                {
+                  "title": "Terminal Age",
+                  "field": "terminalage",
+                  "fieldfx": "b.terminalage",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                },
+                {
+                  "title": "DBG Sales",
+                  "field": "dbg_sales",
+                  "fieldfx": "b.dbg_sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0,
+                    "symbol": "£"
+                  }
+                },
+                {
+                  "title": "SC Sales",
+                  "field": "iwg_sales",
+                  "fieldfx": "b.iwg_sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0,
+                    "symbol": "£"
+                  }
+                },
+                {
+                  "title": "Total Sales",
+                  "field": "total_sales",
+                  "fieldfx": "b.dbg_sales + b.iwg_sales",
+                  "align": "right",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0,
+                    "symbol": "£"
+                  }
+                }
+              ]
+            },
+            {
+              "display": true,
+              "title": "Shopper Town Population",
+              "type": "orderedList",
+              "target_id": "xyz_shop_town_population",
+              "class": "_report",
+              "from": "camelot.vw_camelot_output_history_st_metrics",
+              "where": "id = $1 and metric_id <=2",
+              "orderby": "metric_id",
+              "limit": 10,
+              "columns": [
+                {
+                  "field": "metric_label",
+                  "title": "Coverage"
+                },
+                {
+                  "field": "metric",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 1,
+                    "symbol": "%",
+                    "symbolAfter": true
+                  }
+                }
+              ]
+            },
+            {
+              "display": true,
+              "title": "Shopper Town Fair Share",
+              "type": "orderedList",
+              "class": "_report",
+              "target_id": "xyz_shop_town_fairshare",
+              "from": "camelot.vw_camelot_output_history_st_metrics",
+              "where": "id = $1 and metric_id >2",
+              "orderby": "metric_id",
+              "limit": 10,
+              "columns": [
+                {
+                  "field": "metric_label",
+                  "title": "Terminals"
+                },
+                {
+                  "field": "metric",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "precision": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "style": {
+            "hidden": true,
+            "marker": {
+              "type": "triangle",
+              "fillColor": "#006699"
+            },
+            "markerMulti": {
+              "type": "triangle",
+              "fillColor": "#006699"
+            },
+            "themes": {
+              "Store Type": {
+                "type": "categorized",
+                "field": "storetype_groups",
+                "other": true,
+                "cat": {
+                  "Anomalous": {
+                    "fillColor": "#e41a1c",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#e41a1c"
+                    }
+                  },
+                  "C-Store": {
+                    "fillColor": "#377eb8",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#377eb8"
+                    }
+                  },
+                  "CTN": {
+                    "fillColor": "#4daf4a",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#4daf4a"
+                    }
+                  },
+                  "High Street": {
+                    "fillColor": "#984ea3",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#984ea3"
+                    }
+                  },
+                  "PFS": {
+                    "fillColor": "#ff7f00",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#ff7f00"
+                    }
+                  },
+                  "Supermarket": {
+                    "fillColor": "#ffff33",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.37": "#ffff33"
+                    }
+                  },
+                  "Transport Hub": {
+                    "fillColor": "#a65628",
+                    "layers": {
+                      "0.5": "#ffffff",
+                      "0.375": "#a65628"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

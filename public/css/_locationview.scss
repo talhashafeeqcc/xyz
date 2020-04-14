@@ -22,6 +22,9 @@
         .location-view-grid {
             align-items: stretch;
             padding-left: 10px;
+            display: grid;
+            grid-gap: 4px;
+            grid-template-columns: 1fr 150px;
         }
     }
 

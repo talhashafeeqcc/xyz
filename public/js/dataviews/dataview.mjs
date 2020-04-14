@@ -38,7 +38,6 @@ export default _xyz => {
       dataview.target.appendChild(script);
 
       return;
-
     }
 
     const toolbar = _xyz.utils.wire()`<div class="toolbar">`;

@@ -1,7 +1,5 @@
 import infoj from './infoj.mjs';
 
-import group from './group.mjs';
-
 import streetview from './streetview.mjs';
 
 import images from './images.mjs';
@@ -33,8 +31,6 @@ export default _xyz => {
     images: images(_xyz),
 
     documents: documents(_xyz),
-
-    group: group(_xyz),
 
     geometry: geometry(_xyz),
 

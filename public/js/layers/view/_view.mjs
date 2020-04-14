@@ -111,7 +111,11 @@ export default _xyz => {
     const report_panel = view.report.panel(layer);
     report_panel && layer.view.appendChild(report_panel);
 
-    layer.scripts && layer.scripts.forEach(script => window[script](_xyz, layer));
+    document.addEventListener(layer.key, e => e.detail(_xyz, layer), true);
+
+    layer.scripts && layer.scripts.forEach(src => {
+      layer.view.appendChild(_xyz.utils.wire()`<script src="${src}">`);
+    });
 
     if (layer.view.children.length <= 1) return;
 

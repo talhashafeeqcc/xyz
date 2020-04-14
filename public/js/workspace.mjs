@@ -58,30 +58,17 @@ export default _xyz => {
 
       _xyz.workspace.locale = Object.assign({ key: _xyz.locale }, e.target.response);
 
-      loadScripts(callback);
+      Object.keys(_xyz.workspace.locale.layers)
+      .filter(key => key.indexOf('__') === -1)
+      .forEach(key => {
+        _xyz.layers.list[key] = _xyz.layers.decorate(_xyz.workspace.locale.layers[key]);
+      });
+  
+      callback && callback(_xyz);
     };
 
     xhr.send();
 
   };
-
-  function loadScripts(callback) {
-
-    if (!_xyz.workspace.locale.scripts) return loadLayers(callback);
-
-    Promise.all(_xyz.workspace.locale.scripts.map(script => _xyz.utils.loadScript(script + '&token=' + _xyz.token)))
-      .then(() => loadLayers(callback));
-  }
-
-  function loadLayers(callback){
-
-    Object.keys(_xyz.workspace.locale.layers)
-    .filter(key => key.indexOf('__') === -1)
-    .forEach(key => {
-      _xyz.layers.list[key] = _xyz.layers.decorate(_xyz.workspace.locale.layers[key]);
-    });
-
-    callback && callback(_xyz);
-  }
 
 };

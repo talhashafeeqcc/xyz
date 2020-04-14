@@ -11,18 +11,11 @@ export default _xyz => chart => {
   }
 
   chart.ChartJS = new _xyz.utils.Chart(canvas, {
-    type: chart.type,
+    type: chart.type || 'bar',
     options: chart.options || {
       legend: {
         display: false
-      }/*,
-      scales: {
-        yAxes: [{
-          afterFit: instance => {
-            if (chart.yAxesWidth) instance.width = chart.yAxesWidth;
-          }
-        }]
-      }*/
+      }
     }
   });
 

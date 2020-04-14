@@ -1,6 +1,6 @@
 export default _xyz => location => {
 
-  if (!location.infoj && location.infoj.length < 1) return;
+  if (!location.infoj || location.infoj.length < 1) return;
 
   location.geometries = location.geometries.filter(geom => {
     _xyz.map.removeLayer(geom)
@@ -14,10 +14,11 @@ export default _xyz => location => {
     _xyz.map.removeLayer(geom)
   });
 
-  const listview = _xyz.utils.wire()`<div style="display: grid; grid-gap: 4px; grid-template-columns: 1fr 150px;" class="location-view-grid">`;
+  const listview = _xyz.utils.wire()`
+  <div class="location-view-grid">`;
 
   // Create object to hold view groups.
-  location.groups = {};
+  const groups = {};
 
   // Iterate through info fields and add to info table.
   for (const entry of location.infoj) {
@@ -44,62 +45,72 @@ export default _xyz => location => {
     if(entry.prefix) entry.displayValue = entry.prefix + entry.displayValue;
     if(entry.suffix) entry.displayValue = entry.displayValue + entry.suffix;
 
-    // Create a new info group.
-    if (entry.type === 'group') {
+    if (entry.group) {
 
-      location.groups[entry.label] = entry;
+      // Create new group
+      if (!groups[entry.group]) {
 
-      _xyz.locations.view.group(entry);
-            
-     listview.appendChild(location.groups[entry.label].div);
-      
-      continue
+        groups[entry.group] = _xyz.utils.wire()`
+        <div
+          class="drawer panel expandable"
+          style="display: grid; grid-column: 1 / 3">
+          <div
+            class="header primary-colour"
+            style="text-align: left; grid-column: 1 / 3;"
+            onclick=${e => _xyz.utils.toggleExpanderParent(e.target)}>
+            <span>${entry.group}`;
+
+        entry.listview.appendChild(groups[entry.group]);
+      }
+
+      entry.expanded && groups[entry.group].classList.add('expanded');
+
+      entry.listview = groups[entry.group];
     }
+
 
     if (entry.type === 'dataview') {
 
       const dataview = _xyz.locations.view.dataview(entry);
       
-      dataview && listview.appendChild(dataview);
+      dataview && entry.listview.appendChild(dataview);
       
       continue
     }
-
-    // Create entry.row inside previously created group.
-    if (entry.group && location.groups[entry.group] && location.groups[entry.group].div) location.groups[entry.group].div.style.display = 'grid';
-    
 
     // Create new table cell for the entry label and append to table.
     if (entry.label) {
 
       entry.label_div = _xyz.utils.wire()`
-      <div class="${'label lv-' + (entry.level || 0) + ' ' + (entry.class || '')}" style="grid-column: 1;"
-      title="${entry.title || null}">${entry.label}`;
+      <div
+        class="${'label lv-' + (entry.level || 0) + ' ' + (entry.class || '')}"
+        style="grid-column: 1;"
+        title="${entry.title || null}">${entry.label}`;
 
-      entry.group ? location.groups[entry.group].div.appendChild(entry.label_div) : entry.listview.appendChild(entry.label_div);
-
+      entry.listview.appendChild(entry.label_div);
     }
 
     // display layer name in location view
     if(entry.type === 'key') {
 
-      listview.appendChild(_xyz.utils.wire()`<div class="label lv-0" style="grid-column: 2;">
-        <span title="Source layer" class="${entry.class || ''}"
-        style="${'float: right; padding: 3px; cursor: help; border-radius: 2px; background-color: ' + (_xyz.utils.Chroma(location.style.strokeColor).alpha(0.3)) + ';'}"
-        >${location.layer.name}
-        `);
+      entry.listview.appendChild(_xyz.utils.wire()`
+      <div class="label lv-0" style="grid-column: 2;">
+        <span
+          title="Source layer"
+          class="${entry.class || ''}"
+          style="${'float: right; padding: 3px; cursor: help; border-radius: 2px; background-color: ' + (_xyz.utils.Chroma(location.style.strokeColor).alpha(0.3)) + ';'}"
+          >${location.layer.name}`);
 
       continue
     }
 
-    if (entry.script) {
-      window[entry.script](_xyz, entry);
-      continue
-    }
-
+    // if (entry.script) {
+    //   window[entry.script](_xyz, entry);
+    //   continue
+    // }
 
     if (entry.type === 'label') {
-      entry.label_div.style.gridColumn = "1 / span 2";
+      entry.label_div.style.gridColumn = "1 / 3";
       continue
     }
 
@@ -162,7 +173,7 @@ export default _xyz => location => {
       // Append val table cell to the same row as the label table cell.
       entry.val = _xyz.utils.wire()`<div class="val num" style="grid-column: 2;">`;
       
-      entry.group ? location.groups[entry.group].div.appendChild(entry.val) : entry.listview.appendChild(entry.val);
+      entry.listview.appendChild(entry.val);
 
     }
 

@@ -1793,9 +1793,8 @@
                     "format": "tiles",
                     "URI": "https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?&provider=HERE"
                 },
-                "seamless_town": {
+                "Seamless towns and suburbs": {
                     "group": "Location Boundaries",
-                    "name": "Seamless towns and suburbs",
                     "meta": "Seamless boundaries for towns, shopper towns and suburbs in the UK.",
                     "format": "mvt",
                     "geom": "geom_3857",
@@ -1853,9 +1852,8 @@
                         }
                     }
                 },
-                "shopper_town": {
+                "Seamless shopper towns": {
                     "group": "Location Boundaries",
-                    "name": "Seamless shopper towns",
                     "format": "mvt",
                     "geom": "geom_3857",
                     "srid": "3857",
@@ -1896,7 +1894,7 @@
                             "field": "pop_11_17",
                             "fieldfx": "100*pop_11_17",
                             "label": "Population growth % 2011 to 2017",
-                            "postfix": "%",
+                            "suffix": "%",
                             "type": "numeric",
                             "inline": true,
                             "filter": "numeric"
@@ -2461,147 +2459,147 @@
                             "label": "Agriculture, forestry and fishing",
                             "field": "agriculture",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "mining",
                             "label": "Mining and quarrying",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "manufacturing",
                             "label": "Manufacturing",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "electricity",
                             "label": "Electricity, gas, steam and air conditioning supply",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "water",
                             "label": "Water supply; Sewerage, waste management and remediation activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "construction",
                             "label": "Construction",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "wholesale",
                             "label": "Wholesale and retail trade; Repair of motor vehicles and motorcycles",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "transport",
                             "label": "Transportation and storage",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "accommodation",
                             "label": "Accommodation and food service activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "label": "Information and communication",
                             "field": "it",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "finance",
                             "label": "Financial and insurance activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "real_estate",
                             "label": "Real estate activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "professional",
                             "label": "Professional, scientific and technical activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "administrative",
                             "label": "Administrative and support service activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "public_admin",
                             "label": "Public administration and defence; Compulsory social security",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "education",
                             "label": "Education",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "human_health",
                             "label": "Human health and social work activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "arts",
                             "label": "Arts, entertainment and recreation",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "other",
                             "label": "Other service activities",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "households",
                             "label": "Activities of households as employers",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         },
                         {
                             "group": "Occupation Splits",
                             "field": "extraterritorial",
                             "label": "Activities of extraterritorial organisations and bodies",
                             "type": "integer",
-                            "postfix": "%"
+                            "suffix": "%"
                         }
                     ],
                     "style": {
