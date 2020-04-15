@@ -20,8 +20,6 @@ module.exports = async (req, res) => {
 
   const layer = layers[req.params.layer]
 
-  const geom_extent = `ST_Transform(ST_SetSRID(ST_Extent(${layer.geom}), ${layer.srid}), 4326)`
-
   const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
     role => layer.roles[role]).map(
       role => layer.roles[role]) || []
@@ -31,22 +29,10 @@ module.exports = async (req, res) => {
     req.params.filter && JSON.parse(req.params.filter) || {},
     roles.length && Object.assign(...roles) || {}))
 
-  const infoj = layer.filter.infoj
+  const fields = layer.filter.infoj.map(
+    entry => `(${entry.fieldfx || entry.field}) AS ${entry.field}`)
 
-  // The fields array stores all fields to be queried for the location info.
-  const fields = []
-
-  await layer.filter.infoj.forEach(entry => {
-
-    if (entry.query) return
-
-    if (entry.type === 'key') return
-
-    if (entry.labelfx) fields.push(`\n   ${entry.labelfx} AS ${entry.field}_label`)
-    
-    if (entry.field) return fields.push(`\n   (${entry.fieldfx || entry.field}) AS ${entry.field}`)
-    
-  })
+  const geom_extent = `ST_Transform(ST_SetSRID(ST_Extent(${layer.geom}), ${layer.srid}), 4326)`
 
   var q = `
   SELECT
@@ -77,8 +63,8 @@ module.exports = async (req, res) => {
           ) * 0.1
         ),
       3857),
-    ${layer.srid})) AS geomj,
-    ${fields.join()}
+    ${layer.srid})) AS geometry,
+    ${fields.join(',')}
   FROM ${req.params.table}
   WHERE true ${filter};`
 
@@ -87,9 +73,6 @@ module.exports = async (req, res) => {
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
   // Send the infoj object with values back to the client.
-  res.send({
-    geomj: rows[0].geomj,
-    infoj: infoj
-  })
+  res.send(rows[0])
 
 }

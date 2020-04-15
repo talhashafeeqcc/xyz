@@ -167,6 +167,7 @@ export default _xyz => {
   
     layer.filter.run_output = _xyz.utils.wire()`
     <button
+      style="margin-top: 5px;"
       class="btn-wide primary-colour"
       onclick=${()=>{
 
@@ -195,12 +196,17 @@ export default _xyz => {
         xhr.onload = e => {
     
           if (e.target.status !== 200) return;
+
+          const infoj = layer.filter.infoj.map(entry => {
+            entry.value = e.target.response[entry.field];
+            return entry;
+          })
       
           _xyz.locations.select({
             _new: true,
             _flyTo: true,
-            geometry: JSON.parse(e.target.response.geomj),
-            infoj: e.target.response.infoj,
+            geometry: JSON.parse(e.target.response.geometry),
+            infoj: infoj,
             layer: layer,
           });
         };

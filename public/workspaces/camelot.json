@@ -132,8 +132,7 @@
             },
             {
               "label": "Population 2017",
-              "field": "_pop_17",
-              "fieldfx": "pop_17",
+              "field": "pop_17",
               "type": "numeric",
               "inline": true,
               "filter": "numeric"
@@ -164,7 +163,8 @@
             {
               "group": "Population growth",
               "label": "2017",
-              "field": "pop_17",
+              "field": "_pop_17",
+              "fieldfx": "pop_17",
               "type": "numeric",
               "level": 1
             },
