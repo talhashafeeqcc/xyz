@@ -90,7 +90,4 @@ app.post(`${process.env.DIR||''}/api/location/update`, bodyParser.json(), (req, 
 app.get(`${process.env.DIR||''}/api/location/delete`, (req, res) => require('./api/location/delete')(req, res))
 
 
-app.get(`${process.env.DIR||''}/api/location/aggregate`, (req, res) => require('./api/location/aggregate')(req, res))
-
-
 app.listen(process.env.PORT || 3000)

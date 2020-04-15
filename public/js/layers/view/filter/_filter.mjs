@@ -182,8 +182,9 @@ export default _xyz => {
         const xhr = new XMLHttpRequest();
             
         xhr.open('GET', _xyz.host +
-          '/api/location/aggregate?' +
+          '/api/query?' +
           _xyz.utils.paramString({
+            template: 'filter_aggregate',
             locale: _xyz.workspace.locale.key,
             layer: layer.key,
             table: layer.tableMin(),

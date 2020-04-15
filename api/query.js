@@ -51,7 +51,6 @@ module.exports = async (req, res) => {
       req.params.filter && JSON.parse(req.params.filter) || {},
       roles.length && Object.assign(...roles) || {}))
 
-
     req.params.viewport = req.params.viewport && req.params.viewport.split(',')
     
     const viewport = req.params.viewport && `

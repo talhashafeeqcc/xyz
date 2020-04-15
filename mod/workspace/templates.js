@@ -23,6 +23,7 @@ const templates = {
   user_list: require('./queries/user_list'),
   user_log: require('./queries/user_log'),
   set_field_array: require('./queries/set_field_array'),
+  filter_aggregate: require('./queries/filter_aggregate'),
 }
 
 const promises = []
