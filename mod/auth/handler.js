@@ -8,7 +8,9 @@ const acl = require('./acl')()
 
 module.exports = access => async (req, res) => {
 
-  req.params = Object.assign(req.params || {}, req.query || {}, { token: {} })
+  req.params = Object.assign(req.params || {}, req.query || {})
+
+  req.params.token = req.params.token || {}
 
   Object.entries(req.params).filter(entry => typeof entry[1] === 'string').forEach(entry => {
     req.params[entry[0]] = decodeURIComponent(entry[1])

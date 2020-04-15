@@ -1,8 +1,9 @@
 module.exports = {
 admin_workspace: true,
 render: _ => `
+
 DROP table if exists ${_.layer.mvt_cache};
-    
+
 Create UNLOGGED table ${_.layer.mvt_cache}
 (
   z integer not null,
@@ -16,4 +17,4 @@ Create UNLOGGED table ${_.layer.mvt_cache}
 
 Create index IF NOT EXISTS ${_.layer.mvt_cache.replace(/\./,'_')}_tile on ${_.layer.mvt_cache} (tile);
 
-SELECT '${_.layer.mvt_cache} cache OK';`}
+SELECT '${_.layer.mvt_cache} cache OK' as msg;`}

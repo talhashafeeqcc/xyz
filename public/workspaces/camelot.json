@@ -8,8 +8,12 @@
       "template": "SELECT * FROM glx_camelot_xyz_input($1);",
       "dbs": "CAMELOT"
     },
-    "shopper town population 15 to 21": {
+    "shopper town - population 15 to 21": {
       "template": "SELECT pop_15, pop_16, pop_17, pop_18, pop_19, pop_20, pop_21 FROM geodata.uk_glx_geodata_seamless_shoppertown_metrics WHERE id = ${id};",
+      "dbs": "CAMELOT"
+    },
+    "shopper town - oac profile": {
+      "template": "SELECT oac_sg_1, oac_sg_2, oac_sg_3, oac_sg_4, oac_sg_5, oac_sg_6, oac_sg_7, oac_sg_8 FROM geodata.uk_glx_geodata_seamless_shoppertown_metrics WHERE id = ${id};",
       "dbs": "CAMELOT"
     }
   },
@@ -197,13 +201,28 @@
               "type": "dataview",
               "expanded": true,
               "target": "location",
-              "class": "test test2",
-              "query": "shopper town population 15 to 21",
+              "query": "shopper town - population 15 to 21",
               "chart": {
-                "labels": ["'15", "'16", "'17", "'18", "'19", "'20", "'21"],
+                "labels": [
+                  "'15",
+                  "'16",
+                  "'17",
+                  "'18",
+                  "'19",
+                  "'20",
+                  "'21"
+                ],
                 "datasets": [
                   {
-                    "fields": ["pop_15", "pop_16", "pop_17", "pop_18", "pop_19", "pop_20", "pop_21"],
+                    "fields": [
+                      "pop_15",
+                      "pop_16",
+                      "pop_17",
+                      "pop_18",
+                      "pop_19",
+                      "pop_20",
+                      "pop_21"
+                    ],
                     "backgroundColor": [
                       "#E6A5AE",
                       "#E08F9A",
@@ -219,98 +238,110 @@
               }
             },
             {
-              "label": "OAC Profile",
-              "type": "group",
-              "chart": {
-                "type": "horizontalBar",
-                "active": true,
-                "height": 300,
-                "yAxesWidth": 120,
-                "backgroundColor": [
-                  "#ffb300",
-                  "#d81b60",
-                  "#8e24aa",
-                  "#5e35b1",
-                  "#3949ab",
-                  "#1e88e5",
-                  "#039be5",
-                  "#00acc1"
-                ],
-                "borderColor": [
-                  "#ffb300",
-                  "#d81b60",
-                  "#8e24aa",
-                  "#5e35b1",
-                  "#3949ab",
-                  "#1e88e5",
-                  "#039be5",
-                  "#00acc1"
-                ]
-              }
-            },
-            {
+              "group": "OAC Profile",
               "label": "Affluent England",
               "field": "oac_sg_1",
-              "group": "OAC Profile",
               "type": "text",
               "inline": true,
               "level": 1
             },
             {
-              "field": "oac_sg_2",
               "group": "OAC Profile",
-              "type": "text",
-              "inline": true,
               "label": "Business & Ed.",
+              "field": "oac_sg_2",
+              "type": "text",
+              "inline": true,
               "level": 1
             },
             {
-              "field": "oac_sg_3",
               "group": "OAC Profile",
-              "type": "text",
-              "inline": true,
               "label": "Countryside",
+              "field": "oac_sg_3",
+              "type": "text",
+              "inline": true,
               "level": 1
             },
             {
-              "field": "oac_sg_4",
               "group": "OAC Profile",
-              "type": "text",
-              "inline": true,
               "label": "Ethnically Diverse",
+              "field": "oac_sg_4",
+              "type": "text",
+              "inline": true,
               "level": 1
             },
             {
-              "field": "oac_sg_5",
               "group": "OAC Profile",
-              "type": "text",
-              "inline": true,
               "label": "Cosmopolitan",
+              "field": "oac_sg_5",
+              "type": "text",
+              "inline": true,
               "level": 1
             },
             {
-              "field": "oac_sg_6",
               "group": "OAC Profile",
+              "label": "Services & Industrial",
+              "field": "oac_sg_6",
               "type": "text",
               "inline": true,
-              "label": "Services & Industrial",
               "level": 1
             },
             {
               "field": "oac_sg_7",
+              "label": "Town & Country",
               "group": "OAC Profile",
               "type": "text",
               "inline": true,
-              "label": "Town & Country",
               "level": 1
             },
             {
-              "field": "oac_sg_8",
               "group": "OAC Profile",
+              "label": "Urban Settlements",
+              "field": "oac_sg_8",
               "type": "text",
               "inline": true,
-              "label": "Urban Settlements",
               "level": 1
+            },
+            {
+              "group": "OAC Profile",
+              "type": "dataview",
+              "expanded": true,
+              "target": "location",
+              "query": "shopper town - oac profile",
+              "chart": {
+                "labels": [
+                  "Affluent England",
+                  "Business & Ed.",
+                  "Countryside",
+                  "Ethnically Diverse",
+                  "Cosmopolitan",
+                  "Services & Industrial",
+                  "Town & Country",
+                  "Urban Settlements"],
+                "datasets": [
+                  {
+                    "fields": [
+                      "oac_sg_1",
+                      "oac_sg_2",
+                      "oac_sg_3",
+                      "oac_sg_4",
+                      "oac_sg_5",
+                      "oac_sg_6",
+                      "oac_sg_7",
+                      "oac_sg_8"
+                    ],
+                    "backgroundColor": [
+                      "#ffb300",
+                      "#d81b60",
+                      "#8e24aa",
+                      "#5e35b1",
+                      "#3949ab",
+                      "#1e88e5",
+                      "#039be5",
+                      "#00acc1"
+                    ]
+                  }
+                ]
+              }
             }
           ],
           "filter": {
