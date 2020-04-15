@@ -15,7 +15,7 @@ export default _xyz => location => {
   });
 
   const listview = _xyz.utils.wire()`
-  <div class="location-view-grid">`;
+  <div class="location-view-grid" style="display: grid;">`;
 
   // Create object to hold view groups.
   const groups = {};
