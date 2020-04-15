@@ -6,13 +6,13 @@ export default _xyz => location => {
     _xyz.map.removeLayer(geom)
   });
     
-  location.dataviews.forEach(
-    dataview => dataview.remove()
-  );
-
   location.geometryCollection = location.geometryCollection.filter(geom => {
     _xyz.map.removeLayer(geom)
   });
+
+  location.dataviews.forEach(
+    dataview => dataview.remove()
+  );
 
   const listview = _xyz.utils.wire()`
   <div class="location-view-grid" style="display: grid;">`;
@@ -63,11 +63,12 @@ export default _xyz => location => {
         entry.listview.appendChild(groups[entry.group]);
       }
 
+      entry.group_class && entry.group_class.split(' ').forEach(_class => groups[entry.group].classList.add(_class));
+
       entry.expanded && groups[entry.group].classList.add('expanded');
 
       entry.listview = groups[entry.group];
     }
-
 
     if (entry.type === 'dataview') {
 
@@ -174,7 +175,6 @@ export default _xyz => location => {
       entry.val = _xyz.utils.wire()`<div class="val num" style="grid-column: 2;">`;
       
       entry.listview.appendChild(entry.val);
-
     }
 
     // Create controls for editable fields.
