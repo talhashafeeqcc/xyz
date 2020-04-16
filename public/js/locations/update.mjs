@@ -31,28 +31,36 @@ export default _xyz => function (callback) {
 
   xhr.onload = e => {
 
-    if (e.target.status !== 200) return console.log(e.target.response);
+    if (e.target.status !== 200) return console.error(e.target.response);
 
     const observedFields = location.infoj
-    .filter(entry => typeof entry.observe !== 'undefined')
-    .map(entry => {
-      
-      if (entry.observe.some(chk => {
-        return location.infoj.some(_entry => _entry.field === chk && typeof _entry.newValue !== 'undefined')
-      })) return entry.field
-      
-    });
+      .filter(entry => typeof entry.observe !== 'undefined')
+      .map(entry => {
 
-    location.infoj.forEach(entry => entry.update && entry.update());
+        if (entry.observe.some(chk => {
+          return location.infoj.some(_entry => _entry.field === chk && typeof _entry.newValue !== 'undefined')
+        })) return entry.field
+
+      });
+
+    //location.infoj.forEach(entry => entry.update && entry.update());
+
+    const dependents = [];
 
     location.infoj
-    .filter(entry => typeof entry.newValue !== 'undefined')
-    .forEach(entry => {
-      entry.value = entry.newValue
-      delete entry.newValue
-    });
+      .filter(entry => typeof entry.newValue !== 'undefined')
+      .forEach(entry => {
 
-    if (observedFields.length > 0) {
+        entry.dependents && entry.dependents.forEach(dependent => {
+          if (location.infoj.some(entry => entry.field === dependent)) return dependents.push(dependent);
+          location.infoj.some(entry => entry.query === dependent && entry.update());
+        });
+
+        entry.value = entry.newValue;
+        delete entry.newValue;
+      });
+
+    if (dependents.length > 0) {
 
       const _xhr = new XMLHttpRequest();
 
@@ -63,7 +71,7 @@ export default _xyz => function (callback) {
           layer: location.layer.key,
           table: location.table,
           id: location.id,
-          fields: observedFields.join(),
+          fields: dependents.join(),
           token: _xyz.token
         }));
     

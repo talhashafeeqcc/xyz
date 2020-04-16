@@ -10,8 +10,8 @@ export default _xyz => location => {
     _xyz.map.removeLayer(geom)
   });
 
-  location.dataviews.forEach(
-    dataview => dataview.remove()
+  location.tabviews.forEach(
+    tabview => tabview.remove()
   );
 
   const listview = _xyz.utils.wire()`

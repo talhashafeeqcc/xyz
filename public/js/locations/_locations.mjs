@@ -67,7 +67,7 @@ export default _xyz => {
 
         tables: [],
 
-        dataviews: [],
+        tabviews: [],
 
         geometryCollection: [],
 

@@ -4,6 +4,9 @@ export default _xyz => entry => {
 
   entry.id = entry.location.id;
 
+  if (entry._target === 'location') return entry.target;
+
+  entry._target = entry.target;
 
   // dataview will be added to location listview
   if (entry.target === 'location') {
@@ -37,7 +40,7 @@ export default _xyz => entry => {
 
     _xyz.dataviews.tabview.add(entry);
 
-    entry.location.dataviews.push(entry);
+    entry.location.tabviews.push(entry);
   }
 
 };

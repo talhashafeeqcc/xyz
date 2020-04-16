@@ -2067,6 +2067,13 @@
               "field": "site_name",
               "label": "Site Name",
               "edit": true,
+              "dependents": ["site_name_confirm", "site_type", "Random Data Series"],
+              "inline": true
+            },
+            {
+              "field": "site_name_confirm",
+              "fieldfx": "site_name",
+              "label": "Site Name Confirm",
               "inline": true
             },
             {

@@ -13,7 +13,7 @@ export default _xyz => function() {
     _xyz.locations.listview.init()
   }
 
-  location.dataviews.forEach(
+  location.tabviews.forEach(
     dataview => dataview.remove()
   );
 

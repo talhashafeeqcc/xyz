@@ -87,7 +87,11 @@ function clearcache(host, token) {
       fetch(`${host}/api/layer/mvt?clear_cache=true&token=${token || ''}`),
       fetch(`${host}/api/layer/cluster?clear_cache=true&token=${token || ''}`),
       fetch(`${host}/api/layer/grid?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/layer/geojson?clear_cache=true&token=${token || ''}`)
+      fetch(`${host}/api/layer/geojson?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/location/get?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/location/new?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/location/update?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/location/delete?clear_cache=true&token=${token || ''}`)
     ]).then(arr => {
       //console.log(arr)
       resolve(Object.assign(...arr))

@@ -51,6 +51,4 @@ module.exports = async (req, res) => {
 
   res.send('This is fine.')
 
-  //return res.redirect(`${process.env.DIR||''}/api/location/get`)
-
 }
