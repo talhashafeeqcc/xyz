@@ -130,11 +130,6 @@ export default _xyz => location => {
       continue
     }
 
-    if (entry.custom && _xyz.locations.custom[entry.custom]) {
-      _xyz.locations.custom[entry.custom](entry);
-      continue
-    }
-
     if (entry.type === 'documents') {
       _xyz.locations.view.documents(entry);
       continue

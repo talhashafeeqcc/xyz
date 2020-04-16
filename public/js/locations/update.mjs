@@ -33,18 +33,6 @@ export default _xyz => function (callback) {
 
     if (e.target.status !== 200) return console.error(e.target.response);
 
-    const observedFields = location.infoj
-      .filter(entry => typeof entry.observe !== 'undefined')
-      .map(entry => {
-
-        if (entry.observe.some(chk => {
-          return location.infoj.some(_entry => _entry.field === chk && typeof _entry.newValue !== 'undefined')
-        })) return entry.field
-
-      });
-
-    //location.infoj.forEach(entry => entry.update && entry.update());
-
     const dependents = [];
 
     location.infoj
