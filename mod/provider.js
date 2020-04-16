@@ -34,7 +34,6 @@ async function http(req) {
     return {err: err}
 
   }
-
 }
 
 async function github(req) {
@@ -59,7 +58,6 @@ async function github(req) {
     return {err: err}
 
   }
-
 }
 
 async function here(req) {
@@ -85,9 +83,7 @@ async function opencage(req) {
 
 async function google(req) {
 
-  const url = req.url && req.url.split('url=').pop() || req
-
-  const response = await fetch(`https://${url}&${process.env.KEY_GOOGLE}`)
+  const response = await fetch(`https://${getURL(req)}&${process.env.KEY_GOOGLE}`)
 
   return await response.json()
 }
@@ -117,10 +113,10 @@ function getURL(req) {
   if (!req.params || !req.params.url) return req
 
   return req.params.url + Object.entries(req.params)
+    .filter(entry => entry[0] !== 'provider')
     .filter(entry => entry[0] !== 'url')
     .filter(entry => entry[1] === 0 || !!entry[1])
     .filter(entry => entry[1].length > 0 || typeof entry[1] !== 'object')
     .map(entry => encodeURI(`${entry[0]}=${entry[1]}`))
     .join('&')
-
 }

@@ -114,6 +114,7 @@ export default _xyz => {
     document.addEventListener(layer.key, e => e.detail(_xyz, layer), true);
 
     layer.scripts && layer.scripts.forEach(src => {
+      src += _xyz.token && '&token=' + _xyz.token || '';
       layer.view.appendChild(_xyz.utils.wire()`<script src="${src}">`);
     });
 
