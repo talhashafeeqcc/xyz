@@ -53,7 +53,9 @@ export default _xyz => function (callback) {
 
         entry.dependents && entry.dependents.forEach(dependent => {
           if (location.infoj.some(entry => entry.field === dependent)) return dependents.push(dependent);
-          location.infoj.some(entry => entry.query === dependent && entry.update());
+          location.infoj
+            .filter(entry => entry.query === dependent)
+            .forEach(entry => entry.update && entry.update());
         });
 
         entry.value = entry.newValue;
