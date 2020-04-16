@@ -54,8 +54,13 @@ export default _xyz => function (callback) {
         entry.dependents && entry.dependents.forEach(dependent => {
           if (location.infoj.some(entry => entry.field === dependent)) return dependents.push(dependent);
           location.infoj
-            .filter(entry => entry.query === dependent)
-            .forEach(entry => entry.update && entry.update());
+            .filter(entry => entry.type === 'dataview')
+            .forEach(entry => {
+              if (entry.query === dependent && entry.update) return entry.update();
+              entry.dataviews && entry.dataviews
+                .filter(dataview => dataview.query === dependent)
+                .forEach(dataview => dataview.update && dataview.update());
+            });
         });
 
         entry.value = entry.newValue;
