@@ -70,9 +70,12 @@ export default _xyz => {
 
     if (dataview.columns) {
 
-      dataview.columns
-        .filter(col => col.customFormatter)
-        .forEach(col => col.formatter = _xyz.utils.TabulatorFormatter[col.customFormatter])
+      (function applyFormatters(cols){
+        cols.forEach(col => {
+          if(col.customFormatter) col.formatter = _xyz.utils.TabulatorFormatter[col.customFormatter];
+          col.columns && applyFormatters(col.columns);
+        });
+      })(dataview.columns);
 
       dataview.Tabulator = new _xyz.utils.Tabulator(target, Object.assign({
         invalidOptionWarnings: false,
