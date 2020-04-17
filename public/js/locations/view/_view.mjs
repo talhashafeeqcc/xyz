@@ -20,7 +20,7 @@ import dataview from './dataview.mjs';
 
 export default _xyz => {
 
-  const view = {
+  return {
 
     create: create,
 
@@ -45,9 +45,6 @@ export default _xyz => {
     dataview: dataview(_xyz)
 
   };
-
-  return view;
-
 
   function create(location){
 

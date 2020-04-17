@@ -89,7 +89,7 @@ export default _xyz => {
 
       tabview.panel.appendChild(dataview.target);
 
-      _xyz.dataviews.dataview(dataview);
+      _xyz.dataviews.create(dataview);
 
       tabview.views.push(dataview);
 

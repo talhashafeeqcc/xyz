@@ -16,7 +16,7 @@ export default _xyz => entry => {
       class=${entry.class}
       style="grid-column: 1 / 3; padding-top: 10px;">`;
 
-    _xyz.dataviews.dataview(entry);
+    _xyz.dataviews.create(entry);
 
     return entry.target;
   }
@@ -27,7 +27,7 @@ export default _xyz => entry => {
 
     entry.target = document.getElementById(entry.target);
 
-    _xyz.dataviews.dataview(entry);
+    _xyz.dataviews.create(entry);
 
     return;
   }

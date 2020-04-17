@@ -34,7 +34,7 @@ function init(_xyz) {
 
   }
 
-  // _xyz.dataviews.dataview({
+  // _xyz.dataviews.create({
   //   layer: layer,
   //   target: 'report_table',
   //   key: 'Retail Places'

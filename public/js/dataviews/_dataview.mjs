@@ -1,24 +1,16 @@
-import tabview from './tabview.mjs';
-
 import query from './query.mjs';
 
-// import chart from './chart.mjs';
-
-// import dataview from './dataview.mjs';
+import tabview from './tabview.mjs';
 
 export default _xyz => {
 
   return {
 
+    create: create,
+
     query: query(_xyz),
-
-    // chart: chart(_xyz),
-    
+   
     tabview: tabview(_xyz),
-
-    // dataview: dataview(_xyz),
-
-    dataview: create,
 
   };
 
@@ -70,8 +62,6 @@ export default _xyz => {
 
     if (dataview.chart) {
 
-      //_xyz.dataviews.chart(dataview.chart);
-
       dataview.chart.div = _xyz.utils.wire()`<div style="position: relative;">`;
 
       const canvas = _xyz.utils.wire()`<canvas>`;
@@ -81,11 +71,7 @@ export default _xyz => {
       if (!dataview.chart.datalabels) {
         _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
       }
-
-      console.log(dataview.location.id);
-
-      console.log(dataview.chart.ChartJS);
-    
+   
       dataview.chart.ChartJS = new _xyz.utils.Chart(canvas, {
         type: dataview.chart.type || 'bar',
         options: dataview.chart.options || {
