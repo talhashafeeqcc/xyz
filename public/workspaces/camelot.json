@@ -8,12 +8,16 @@
       "template": "SELECT * FROM glx_camelot_xyz_input($1);",
       "dbs": "CAMELOT"
     },
-    "shopper town - population 15 to 21": {
+    "shopper towns - population 15 to 21": {
       "template": "SELECT pop_15, pop_16, pop_17, pop_18, pop_19, pop_20, pop_21 FROM geodata.uk_glx_geodata_seamless_shoppertown_metrics WHERE id = ${id};",
       "dbs": "CAMELOT"
     },
-    "shopper town - oac profile": {
+    "shopper towns - oac profile": {
       "template": "SELECT oac_sg_1, oac_sg_2, oac_sg_3, oac_sg_4, oac_sg_5, oac_sg_6, oac_sg_7, oac_sg_8 FROM geodata.uk_glx_geodata_seamless_shoppertown_metrics WHERE id = ${id};",
+      "dbs": "CAMELOT"
+    },
+    "shopper towns - layer table": {
+      "template": "SELECT id, shop_town, pop_17, pop_11_17 FROM geodata.uk_glx_geodata_seamless_shoppertown_metrics WHERE true ${viewport} ${filter} FETCH FIRST 99 ROW ONLY;",
       "dbs": "CAMELOT"
     }
   },
@@ -61,7 +65,7 @@
           "format": "tiles",
           "URI": "/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
         },
-        "Seamless towns and suburbs": {
+        "Towns and suburbs": {
           "group": "Location Boundaries",
           "meta": "Seamless boundaries for towns, shopper towns and suburbs in the UK.",
           "format": "mvt",
@@ -111,7 +115,7 @@
             }
           }
         },
-        "Seamless shopper towns": {
+        "Shopper towns": {
           "group": "Location Boundaries",
           "format": "mvt",
           "geom": "geom_3857",
@@ -201,7 +205,7 @@
               "type": "dataview",
               "expanded": true,
               "target": "location",
-              "query": "shopper town - population 15 to 21",
+              "query": "shopper towns - population 15 to 21",
               "chart": {
                 "labels": [
                   "'15",
@@ -307,7 +311,7 @@
               "type": "dataview",
               "expanded": true,
               "target": "location",
-              "query": "shopper town - oac profile",
+              "query": "shopper towns - oac profile",
               "chart": {
                 "labels": [
                   "Affluent England",
@@ -452,25 +456,27 @@
               }
             }
           },
-          "dataview": {
+          "dataviews": {
             "Shopper Town": {
               "display": true,
-              "from": "geodata.uk_glx_geodata_seamless_shoppertown_metrics",
+              "query": "shopper towns - layer table",
+              "viewport": true,
+              "selectable": true,
               "columns": [
                 {
-                  "field": "shop_town",
-                  "title": "Shopper Town"
+                  "title": "Shopper Town",
+                  "field": "shop_town"
                 },
                 {
-                  "field": "pop_17",
                   "title": "Population",
+                  "field": "pop_17",
                   "align": "right"
                 },
                 {
-                  "field": "pop_11_17",
                   "title": "Population growth 2011 to 17",
+                  "field": "pop_11_17",
                   "type": "numeric",
-                  "align": "right",
+                  "alignHoz": "right",
                   "formatter": "money",
                   "formatterParams": {
                     "symbol": " %",

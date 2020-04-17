@@ -49,3 +49,5 @@ export const turf = {
   kinks: kinks.default,
   flatten: flatten
 };
+
+export {default as cloneDeep} from 'lodash/cloneDeep';

@@ -50,7 +50,59 @@ export default _xyz => {
 
     if (dataview.chart) {
 
-      _xyz.dataviews.chart(dataview.chart);
+      //_xyz.dataviews.chart(dataview.chart);
+
+      dataview.chart.div = _xyz.utils.wire()`<div style="position: relative;">`;
+
+      const canvas = _xyz.utils.wire()`<canvas>`;
+    
+      dataview.chart.div.appendChild(canvas);
+    
+      if (!dataview.chart.datalabels) {
+        _xyz.utils.Chart.defaults.global.plugins.datalabels.display = false;
+      }
+
+      console.log(dataview.location.id);
+
+      console.log(dataview.chart.ChartJS);
+    
+      dataview.chart.ChartJS = new _xyz.utils.Chart(canvas, {
+        type: dataview.chart.type || 'bar',
+        options: dataview.chart.options || {
+          legend: {
+            display: false
+          }
+        }
+      });
+    
+      dataview.chart.options && Object.assign(dataview.chart.ChartJS.options, dataview.chart.options);
+    
+      dataview.chart.setData = response => {
+    
+        dataview.chart.ChartJS.data = {
+          labels: dataview.chart.labels,
+          datasets: dataview.chart.datasets.map(dataset => ({
+            data: dataset.fields && dataset.fields.map(field => response[field]) || dataset.field && response[dataset.field] || response,
+            fill: dataset.fill,
+            backgroundColor: ()=>color(dataset.backgroundColor, dataset, response),
+            borderWidth: dataset.borderWidth,
+            borderColor: ()=>color(dataset.borderColor, dataset, response),
+          }))
+        }
+    
+      }
+    
+      function color(_color, dataset, response) {
+    
+        if (typeof _color === 'undefined') return _color;
+    
+        if (_color && _color !== 'random') return _color;
+    
+        if (dataset.fields) return dataset.fields.map(() => _xyz.utils.Chroma.random().hex());
+    
+        if (response.length) return response.map(() => _xyz.utils.Chroma.random().hex());
+    
+      }
 
       target.appendChild(dataview.chart.div);
 

@@ -83,9 +83,11 @@ export default _xyz => location => {
 
     const infoj = location.layer.infoj.map(_entry => {
 
-      const entry = Object.assign({}, _entry);
+      const entry = _xyz.utils.cloneDeep(_entry);
       entry.label = e.target.response.properties[entry.field + '_label'] || entry.label;
       entry.value = e.target.response.properties[entry.field];
+
+      if (entry.chart && entry.chart.ChartJS) console.log('farts');
       return entry;
     });
 
