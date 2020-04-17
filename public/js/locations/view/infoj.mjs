@@ -95,7 +95,7 @@ export default _xyz => location => {
     if(entry.type === 'key') {
 
       entry.listview.appendChild(_xyz.utils.wire()`
-      <div class="label lv-0" style="grid-column: 2;">
+      <div class="label lv-0" style="grid-column: 2; margin: 3px;">
         <span
           title="Source layer"
           class="${entry.class || ''}"
