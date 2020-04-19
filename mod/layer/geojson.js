@@ -1,24 +1,10 @@
-const auth = require('../../mod/auth/handler')({
-  public: true
-})
+const dbs = require('../dbs')()
 
-const dbs = require('../../mod/dbs')()
-
-const sql_filter = require('../../mod/sql_filter')
-
-const _layers = require('../../mod/workspace/layers')
+const sql_filter = require('../sql_filter')
 
 module.exports = async (req, res) => {
 
-  await auth(req, res)
-
-  const layers = await _layers(req, res)
-
-  if (req.query.clear_cache) return res.end()
-
-  if (res.finished) return
-
-  const layer = layers[req.params.layer]
+  const layer = req.params.layer
 
   const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
     role => layer.roles[role]).map(

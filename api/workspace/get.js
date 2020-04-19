@@ -81,17 +81,11 @@ function clearcache(host, token) {
 
     Promise.all([
       fetch(`${host}?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/view/foo?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/query?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/view?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/query?clear_cache=true&token=${token || ''}`),
       fetch(`${host}/api/gazetteer?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/layer/mvt?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/layer/cluster?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/layer/grid?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/layer/geojson?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/location/get?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/location/new?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/location/update?clear_cache=true&token=${token || ''}`),
-      fetch(`${host}/api/location/delete?clear_cache=true&token=${token || ''}`)
+      fetch(`${host}/api/layer?clear_cache=true&token=${token || ''}`),
+      fetch(`${host}/api/location?clear_cache=true&token=${token || ''}`),
     ]).then(arr => {
       //console.log(arr)
       resolve(Object.assign(...arr))

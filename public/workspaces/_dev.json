@@ -2776,7 +2776,7 @@
       "dbs": "XYZ"
     },
     "table_view": {
-      "template": "https://xyz-zeit.now.sh/zeit/views/table_view.html"
+      "template": "http://localhost:3000/views/table_view.html"
     },
     "chart_view": {
       "template": "https://xyz-zeit.now.sh/zeit/views/chart_view.html"

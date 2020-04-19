@@ -29,15 +29,15 @@ app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
 
 app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
 
-app.get(`${process.env.DIR||''}/view/:template`, (req, res) => require('./api/view')(req, res))
+app.get(`${process.env.DIR||''}/view/:template?`, (req, res) => require('./api/view')(req, res))
 
-app.post(`${process.env.DIR||''}/view/:template`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/view')(req, res))
+app.post(`${process.env.DIR||''}/view/:template?`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/view')(req, res))
 
-app.get(`${process.env.DIR||''}/api/provider/:provider`, (req, res) => require('./api/provider')(req, res))
+app.get(`${process.env.DIR||''}/api/provider/:provider?`, (req, res) => require('./api/provider')(req, res))
 
-app.post(`${process.env.DIR||''}/api/provider/:provider`, bodyParser.json(), (req, res) => require('./api/provider')(req, res))
+app.post(`${process.env.DIR||''}/api/provider/:provider?`, bodyParser.json(), (req, res) => require('./api/provider')(req, res))
 
-app.get(`${process.env.DIR||''}/api/query`, (req, res) => require('./api/query')(req, res))
+app.get(`${process.env.DIR||''}/api/query/:template?`, (req, res) => require('./api/query')(req, res))
 
 app.get(`${process.env.DIR||''}/api/gazetteer`, (req, res) => require('./api/gazetteer')(req, res))
 
@@ -47,13 +47,10 @@ app.get(`${process.env.DIR||''}/api/workspace/get/:key`, (req, res) => require('
 app.post(`${process.env.DIR||''}/api/workspace/set`, bodyParser.json({limit: '5mb'}), (req, res) => require('./api/workspace/set')(req, res))
 
 
-app.get(`${process.env.DIR||''}/api/layer/mvt/:z/:x/:y`, (req, res) => require('./api/layer/mvt')(req, res))
+app.get(`${process.env.DIR||''}/api/layer/:format?/:z?/:x?/:y?`, (req, res) => require('./api/layer')(req, res))
 
-app.get(`${process.env.DIR||''}/api/layer/grid`, (req, res) => require('./api/layer/grid')(req, res))
 
-app.get(`${process.env.DIR||''}/api/layer/cluster`, (req, res) => require('./api/layer/cluster')(req, res))
-
-app.get(`${process.env.DIR||''}/api/layer/geojson`, (req, res) => require('./api/layer/geojson')(req, res))
+app.get(`${process.env.DIR||''}/api/location/:method?`, (req, res) => require('./api/location')(req, res))
 
 
 app.get(`${process.env.DIR||''}/api/user/key`, (req, res) => require('./api/user/key')(req, res))
@@ -79,15 +76,6 @@ app.get(`${process.env.DIR||''}/api/user/pgtable`, (req, res) => require('./api/
 app.get(`${process.env.DIR||''}/api/user/update`, (req, res) => require('./api/user/update')(req, res))
 
 app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/user/delete')(req, res))
-
-
-app.post(`${process.env.DIR||''}/api/location/new`, bodyParser.json(), (req, res) => require('./api/location/new')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/get`, (req, res) => require('./api/location/get')(req, res))
-
-app.post(`${process.env.DIR||''}/api/location/update`, bodyParser.json(), (req, res) => require('./api/location/update')(req, res))
-
-app.get(`${process.env.DIR||''}/api/location/delete`, (req, res) => require('./api/location/delete')(req, res))
 
 
 app.listen(process.env.PORT || 3000)

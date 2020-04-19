@@ -1,22 +1,8 @@
-const auth = require('../../mod/auth/handler')({
-  public: true
-})
-
-const _layers = require('../../mod/workspace/layers')
-
-const dbs = require('../../mod/dbs')()
+const dbs = require('../dbs')()
 
 module.exports = async (req, res) => {
 
-  await auth(req, res)
-
-  const layers = await _layers(req, res)
-
-  if (req.query.clear_cache) return res.end()
-
-  if (res.finished) return
-
-  const layer = layers[req.params.layer]
+  const layer = req.params.layer
 
   const fields = layer.infoj
     .filter(entry => !req.params.fields || (req.params.fields && req.params.fields.split(',').includes(entry.field)))
