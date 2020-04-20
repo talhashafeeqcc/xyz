@@ -12,7 +12,7 @@ const _method = {
   new: require('../mod/location/new'),
   get: require('../mod/location/get'),
   update: require('../mod/location/update'),
-  delete: ('../mod/location/delete'),
+  delete: require('../mod/location/delete'),
 }
 
 module.exports = async (req, res) => {
