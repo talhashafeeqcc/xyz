@@ -21,6 +21,7 @@
     ]
   },
   "dependencies": {
+    "@turf/explode": "^5.1.5",
     "@turf/flatten": "^5.1.5",
     "bcryptjs": "^2.4.3",
     "chart.js": "^2.9.3",
