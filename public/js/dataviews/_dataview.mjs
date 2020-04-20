@@ -65,6 +65,9 @@ export default _xyz => {
       dataview.chart.div = _xyz.utils.wire()`<div style="position: relative;">`;
 
       const canvas = _xyz.utils.wire()`<canvas>`;
+
+      if(dataview.chart.height) canvas.setAttribute('height', dataview.chart.height);
+      if(dataview.chart.width) canvas.setAttribute('width', dataview.chart.width);
     
       dataview.chart.div.appendChild(canvas);
     
