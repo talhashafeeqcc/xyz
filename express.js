@@ -29,15 +29,19 @@ app.get(process.env.DIR||'', (req, res) => require('./api/root')(req, res))
 
 app.post(process.env.DIR||'', bodyParser.urlencoded({extended: true}), (req, res) => require('./api/root')(req, res))
 
+
 app.get(`${process.env.DIR||''}/view/:template?`, (req, res) => require('./api/view')(req, res))
 
 app.post(`${process.env.DIR||''}/view/:template?`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/view')(req, res))
+
 
 app.get(`${process.env.DIR||''}/api/provider/:provider?`, (req, res) => require('./api/provider')(req, res))
 
 app.post(`${process.env.DIR||''}/api/provider/:provider?`, bodyParser.json(), (req, res) => require('./api/provider')(req, res))
 
+
 app.get(`${process.env.DIR||''}/api/query/:template?`, (req, res) => require('./api/query')(req, res))
+
 
 app.get(`${process.env.DIR||''}/api/gazetteer`, (req, res) => require('./api/gazetteer')(req, res))
 
@@ -51,6 +55,8 @@ app.get(`${process.env.DIR||''}/api/layer/:format?/:z?/:x?/:y?`, (req, res) => r
 
 
 app.get(`${process.env.DIR||''}/api/location/:method?`, (req, res) => require('./api/location')(req, res))
+
+app.post(`${process.env.DIR||''}/api/location/:method?`, bodyParser.json(), (req, res) => require('./api/location')(req, res))
 
 
 app.get(`${process.env.DIR||''}/api/user/:method?/:key?`, (req, res) => require('./api/user')(req, res))
