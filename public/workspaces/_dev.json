@@ -19,12 +19,12 @@
           },
           "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         },
-        "Mapbox Base": {
+        "Mapbox Base": {  
           "group": "Maps",
           "attribution": {
             "© Mapbox": "https://www.mapbox.com/about/maps",
             "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-          },
+          },  
           "format": "tiles",
           "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
         },
