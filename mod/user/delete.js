@@ -1,16 +1,8 @@
-const auth = require('../../mod/auth/handler')({
-  admin_user: true
-})
+const acl = require('../auth/acl')()
 
-const acl = require('../../mod/auth/acl')()
-
-const mailer = require('../../mod/mailer')
+const mailer = require('../mailer')
 
 module.exports = async (req, res) => {
-
-  await auth(req, res)
-
-  if (res.finished) return
 
   const email = req.params.email.replace(/\s+/g, '')
 

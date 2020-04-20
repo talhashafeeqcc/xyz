@@ -1,19 +1,10 @@
-const auth = require('../../mod/auth/handler')({
-  admin_user: true,
-  login: true
-})
+const acl = require('../auth/acl')()
 
-const acl = require('../../mod/auth/acl')()
-
-const mailer = require('../../mod/mailer')
+const mailer = require('../mailer')
 
 module.exports = async (req, res) => {
 
-  await auth(req, res)
-
-  if (res.finished) return
-
-  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`, [req.params.approvaltoken])
+  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE approvaltoken = $1;`, [req.params.key])
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 

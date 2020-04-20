@@ -1,14 +1,14 @@
+
 const auth = require('../mod/auth/handler')({
   public: true
 })
 
 // const dbs = require('../mod/dbs')()
-
 // const sql_filter = require('../mod/sql_filter')
 
 const _layers = require('../mod/workspace/layers')
 
-const format = {
+const _format = {
   cluster: require('../mod/layer/cluster'),
   mvt: require('../mod/layer/mvt'),
   geojson: require('../mod/layer/geojson'),
@@ -27,10 +27,13 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  if (!req.params.layer || !req.params.format) return res.send('Help text.')
+  const format = _format[req.params.format]
+
+  if (!format) return res.send('Help text.')
 
   req.params.layer = layers[req.params.layer]
 
-  return format[req.params.format](req, res)
+  if (!req.params.layer) return res.send('Help text.')
 
+  return format(req, res)
 }

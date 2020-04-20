@@ -1,13 +1,13 @@
-const mailer = require('../../mod/mailer')
+const mailer = require('../mailer')
 
 const crypto = require('crypto')
 
-const acl = require('../../mod/auth/acl')()
+const acl = require('../auth/acl')()
 
 module.exports = async (req, res) => {
 
   // Find user account in ACL from matching token.
-  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE verificationtoken = $1;`, [req.query.verificationtoken || req.params.verificationtoken])
+  var rows = await acl(`SELECT * FROM acl_schema.acl_table WHERE verificationtoken = $1;`, [req.query.key || req.params.key])
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
         bcc: adminmail,
         subject: `A new account has been verified on ${req.headers.host}${process.env.DIR || ''}`,
         text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/view/admin_user to approve ${user.email}
-        You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/approve?approvaltoken=${approvaltoken}`
+        You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/approve/${approvaltoken}`
       })
 
     }

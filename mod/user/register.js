@@ -1,4 +1,4 @@
-const _templates = require('../../mod/workspace/templates')
+const _templates = require('../workspace/templates')
 
 module.exports = async (req, res) => {
 
@@ -18,11 +18,11 @@ const bcrypt = require('bcryptjs')
 
 const crypto = require('crypto')
 
-const transformDate = require('../../mod/date')
+const transformDate = require('../date')
 
-const acl = require('../../mod/auth/acl')()
+const acl = require('../auth/acl')()
 
-const mailer = require('../../mod/mailer')
+const mailer = require('../mailer')
 
 async function register(req, res) {
 
@@ -66,7 +66,7 @@ async function register(req, res) {
       to: user.email,
       subject: `Please verify your password reset for ${req.headers.host}${process.env.DIR || ''}`,
       text: `A new password has been set for this account.
-      Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/verify?verificationtoken=${verificationtoken}
+      Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/verify/${verificationtoken}
       The reset occured from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'}
       This wasn't you? Please let your manager know.`
     })

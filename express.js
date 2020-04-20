@@ -53,29 +53,9 @@ app.get(`${process.env.DIR||''}/api/layer/:format?/:z?/:x?/:y?`, (req, res) => r
 app.get(`${process.env.DIR||''}/api/location/:method?`, (req, res) => require('./api/location')(req, res))
 
 
-app.get(`${process.env.DIR||''}/api/user/key`, (req, res) => require('./api/user/key')(req, res))
+app.get(`${process.env.DIR||''}/api/user/:method?/:key?`, (req, res) => require('./api/user')(req, res))
 
-app.post(`${process.env.DIR||''}/api/user/key`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/key')(req, res))
-
-app.get(`${process.env.DIR||''}/api/user/token`, (req, res) => require('./api/user/token')(req, res))
-
-app.post(`${process.env.DIR||''}/api/user/token`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/token')(req, res))
-
-app.get(`${process.env.DIR||''}/api/user/register`, (req, res) => require('./api/user/register')(req, res))
-
-app.post(`${process.env.DIR||''}/api/user/register`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/register')(req, res))
-
-app.get(`${process.env.DIR||''}/api/user/verify`, (req, res) => require('./api/user/verify')(req, res))
-
-app.get(`${process.env.DIR||''}/api/user/approve`, (req, res) => require('./api/user/approve')(req, res))
-
-app.post(`${process.env.DIR||''}/api/user/approve`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user/approve')(req, res))
-
-app.get(`${process.env.DIR||''}/api/user/pgtable`, (req, res) => require('./api/user/pgtable')(req, res))
-
-app.get(`${process.env.DIR||''}/api/user/update`, (req, res) => require('./api/user/update')(req, res))
-
-app.get(`${process.env.DIR||''}/api/user/delete`, (req, res) => require('./api/user/delete')(req, res))
+app.post(`${process.env.DIR||''}/api/user/:method?/:key?`, bodyParser.urlencoded({extended: true}), (req, res) => require('./api/user')(req, res))
 
 
 app.listen(process.env.PORT || 3000)

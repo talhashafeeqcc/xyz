@@ -1,16 +1,8 @@
-const auth = require('../../mod/auth/handler')({
-  admin_user: true
-})
-
-const acl = require('../../mod/auth/acl')()
+const acl = require('../auth/acl')()
 
 const bcrypt = require('bcryptjs')
 
 module.exports = async (req, res) => {
-
-  await auth(req, res)
-
-  if (res.finished) return
 
   var rows = await acl(`
   CREATE TABLE acl_schema.acl_table (

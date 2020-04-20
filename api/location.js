@@ -8,7 +8,7 @@ const auth = require('../mod/auth/handler')({
 
 const _layers = require('../mod/workspace/layers')
 
-const method = {
+const _method = {
   new: require('../mod/location/new'),
   get: require('../mod/location/get'),
   update: require('../mod/location/update'),
@@ -27,10 +27,13 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  if (!req.params.layer || !req.params.method) return res.send('Help text.')
+  const method = _method[req.params.method]
+
+  if (!method) return res.send('Help text.')
 
   req.params.layer = layers[req.params.layer]
 
-  return method[req.params.method](req, res)
-
+  if (!req.params.layer) return res.send('Help text.')
+  
+  return method(req, res)
 }

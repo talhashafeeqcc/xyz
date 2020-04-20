@@ -1,17 +1,8 @@
-const auth = require('../../mod/auth/handler')({
-  key: true,
-  login: true
-})
-
-const acl = require('../../mod/auth/acl')()
+const acl = require('../auth/acl')()
 
 const jwt = require('jsonwebtoken')
 
 module.exports = async (req, res) => {
-
-  await auth(req, res)
-
-  if (res.finished) return
 
   // Get user from ACL.
   var rows = await acl(`
