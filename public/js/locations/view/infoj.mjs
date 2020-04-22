@@ -52,7 +52,7 @@ export default _xyz => location => {
 
         groups[entry.group] = _xyz.utils.wire()`
         <div
-          class="drawer panel expandable"
+          class="drawer panel expandable ${entry.class || ''}"
           style="display: grid; grid-column: 1 / 3">
           <div
             class="header primary-colour"
