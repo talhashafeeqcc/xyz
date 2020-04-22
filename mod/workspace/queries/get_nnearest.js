@@ -1,5 +1,6 @@
 module.exports = {
   render: _ => `
+  
   SELECT
     ${_.layer.qID} AS ID,
     ${_.label || _.layer.cluster_label || _.layer.qID} AS label,

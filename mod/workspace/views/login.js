@@ -11,11 +11,9 @@ render: _ => `
     
     <script src="https://www.google.com/recaptcha/api.js?render=${_.captcha}"></script>
 
-    <script src="${_.dir}/views/login.js" async defer></script>
+    <script src="${_.dir}/views/_login.js" defer></script>
 
     <style>
-        @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
         body {
             margin: 0;
             padding: 50px;
@@ -145,7 +143,9 @@ render: _ => `
 
 <body class="login_form" data-captcha=${_.captcha}>
 
-    <form action="${_.action}" method="post" autocomplete="off">
+    <form action="${_.dir}/api/user/cookie" method="post" autocomplete="off">
+
+        <input style="display: none;" name="redirect" value="${_.redirect}">
 
         <div class="input-group">
             <input

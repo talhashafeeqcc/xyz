@@ -1,10 +1,12 @@
-let _workspace = require('./_workspace')()
+const getWorkspace = require('./getWorkspace')
+
+let _workspace = getWorkspace()
 
 module.exports = async (req, res) => {
 
-  if (req.query.clear_cache) {
-    _workspace = require('./_workspace')()
-    return //res.end()
+  if (req.params.clear_cache) {
+    _workspace = getWorkspace()
+    return
   }
 
   //const t = process.hrtime()
@@ -18,5 +20,4 @@ module.exports = async (req, res) => {
   const locale = workspace.locales[req.params.locale]
 
   return locale.layers
-
 }

@@ -1,5 +1,5 @@
 module.exports = {
-admin_workspace: true,
+access: 'admin_workspace',
 render: _ => `
 <!DOCTYPE html>
 <html lang="en">
@@ -11,13 +11,14 @@ render: _ => `
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="${_.dir}/codemirror/codemirror.css">
+    
     <script src="${_.dir}/codemirror/codemirror.js" defer></script>
     <script src="${_.dir}/codemirror/javascript.js" defer></script>
     <script src="${_.dir}/codemirror/jsonlint.js" defer></script>
     <script src="${_.dir}/codemirror/lint.js" defer></script>
     <script src="${_.dir}/codemirror/lintjson.js" defer></script>
 
-    <script src="${_.dir}/views/workspace.js" defer></script>
+    <script src="${_.dir}/views/_admin_workspace.js" defer></script>
 
     <style>
         body {

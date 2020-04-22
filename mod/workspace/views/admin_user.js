@@ -1,5 +1,5 @@
 module.exports = {
-admin_user: true,
+access: 'admin_user',
 render: _ => `
 <!DOCTYPE html>
 <html>
@@ -11,8 +11,10 @@ render: _ => `
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="${_.dir}/tabulator/tabulator.css">
-    <script src="${_.dir}/tabulator/tabulator.js"></script>
-    <script src="${_.dir}/views/user.js" async></script>
+
+    <script src="${_.dir}/tabulator/tabulator.js" defer></script>
+
+    <script src="${_.dir}/views/_admin_user.js" defer></script>
 
     <style>
 
@@ -79,7 +81,7 @@ render: _ => `
     
 </head>
 
-<body data-token=${_.token}>
+<body>
 
     <h1>Account admin</h1>
 

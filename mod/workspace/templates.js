@@ -1,6 +1,8 @@
 const provider = require('../provider')
 
-let _workspace = require('./_workspace')()
+const getWorkspace = require('./getWorkspace')
+
+let _workspace = getWorkspace()
 
 const templates = {
 
@@ -20,8 +22,6 @@ const templates = {
   count_locations: require('./queries/count_locations'),
   labels: require('./queries/labels'),
   layer_extent: require('./queries/layer_extent'),
-  user_list: require('./queries/user_list'),
-  user_log: require('./queries/user_log'),
   set_field_array: require('./queries/set_field_array'),
   filter_aggregate: require('./queries/filter_aggregate'),
 }
@@ -30,10 +30,10 @@ const promises = []
 
 module.exports = async (req, res) => {
 
-  if (req.query.clear_cache) {
-    _workspace = require('./_workspace')()
+  if (req.params.clear_cache) {
+    _workspace = getWorkspace()
     Object.assign(promises, [])
-    return //res.end()
+    return
   }
 
   const workspace = await _workspace
@@ -47,8 +47,7 @@ module.exports = async (req, res) => {
             render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),
             dbs: entry[1].dbs || null,
             roles: entry[1].roles || null,
-            admin_workspace: entry[1].admin_workspace || null,
-            admin_user: entry[1].admin_user || null,
+            access: entry[1].access || null,
             template: entry[1].template,
             err: template.err || null,
           }
@@ -68,7 +67,9 @@ module.exports = async (req, res) => {
 
   return new Promise(resolve => {
 
-    Promise.all(promises).then(arr => resolve(Object.assign(templates, ...arr)))
+    Promise.all(promises).then(arr => {
+      resolve(Object.assign(templates, ...arr))
+    })
 
   })
 

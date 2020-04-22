@@ -1,51 +1,30 @@
-const _token = require('./token')
-
 const login = require('./login')
 
 const jwt = require('jsonwebtoken')
 
 const acl = require('./acl')()
 
-module.exports = access => async (req, res) => {
+module.exports = async (req, res, access) => {
 
-  req.params = Object.assign(req.params || {}, req.query || {})
-
-  req.params.token = req.params.token || {}
+  req.params.token = req.params.token || req.cookies && req.cookies[`XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}`]
 
   Object.entries(req.params).filter(entry => typeof entry[1] === 'string').forEach(entry => {
     req.params[entry[0]] = decodeURIComponent(entry[1])
   })
 
-  if (!req.body && typeof req.query.login !== 'undefined') return login(req, res)
+  if (access && !req.params.token) return login(req, res)
 
-  if (req.body && access.login) {
+  if (!req.params.token && !process.env.PRIVATE) return
 
-    const token = await _token(req)
+  if (!req.params.token) return login(req, res)
 
-    if (token instanceof Error) return login(req, res, token.message)
-
-    if (access.admin_user && !token.admin_user) return login(req, res, 'Not an admin')
-
-    if (access.admin_workspace && !token.admin_workspace) return login(req, res, 'Not an admin')
-
-    req.params.token = token
-
-    return
-  }
-
-  // Public access without token.
-  if (!req.query.token && access.public && !process.env.PRIVATE) return
-
-  // Redirect to login
-  if (!req.query.token && access.login) return login(req, res)
-
-  // Private access without token.
-  if (!req.query.token) return res.status(401).send('Missing token.')
 
   // Verify token (checks token expiry)
-  jwt.verify(req.query.token, process.env.SECRET, async (err, token) => {
+  jwt.verify(req.params.token, process.env.SECRET, async (err, token) => {
 
     if (err) return res.status(401).send('Invalid token.');
+
+    token.signed = req.params.token
 
     req.params.token = token
 
@@ -63,7 +42,7 @@ module.exports = access => async (req, res) => {
 
       const user = rows[0];
 
-      if (!user || !user.api || (user.api !== req.query.token)) return res.status(401).send('Invalid token.');
+      if (!user || !user.api || (user.api !== req.params.token)) return res.status(401).send('Invalid token.');
 
       // Create a private token with 10second expiry.
       const api_token = {
@@ -83,20 +62,18 @@ module.exports = access => async (req, res) => {
       return
     }
 
-    // Check admin_user privileges.
-    if (access.key && token.key) return
+    if (!access || access === 'login') return
 
     // Check admin_user privileges.
-    if (access.admin_user && token.admin_user) return
+    if (access === 'key' && token.key) return
+
+    // Check admin_user privileges.
+    if (access === 'admin_user' && token.admin_user) return
 
     // Check admibn_workspace privileges.
-    if (access.admin_workspace && token.admin_workspace) return
-
-    // Continue if neither admin nor editor previliges are required.
-    if (!access.admin_user && !access.admin_workspace) return
+    if (access === 'admin_workspace' && token.admin_workspace) return
 
     res.status(401).send('Invalid token.');
-
   });
 
 };

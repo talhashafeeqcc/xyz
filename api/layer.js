@@ -1,10 +1,4 @@
-
-const auth = require('../mod/auth/handler')({
-  public: true
-})
-
-// const dbs = require('../mod/dbs')()
-// const sql_filter = require('../mod/sql_filter')
+const auth = require('../mod/auth/handler')
 
 const _layers = require('../mod/workspace/layers')
 
@@ -17,15 +11,15 @@ const _format = {
 
 module.exports = async (req, res) => {
 
+  req.params = Object.assign(req.params || {}, req.query || {})
+
   await auth(req, res)
 
   if (res.finished) return
 
   const layers = await _layers(req, res)
 
-  if (req.query.clear_cache) return res.end()
-
-  if (res.finished) return
+  if (req.params.clear_cache) return res.end()
 
   const format = _format[req.params.format]
 

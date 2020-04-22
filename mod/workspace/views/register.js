@@ -11,7 +11,7 @@ render: _ => `
 
     <script src="https://www.google.com/recaptcha/api.js?render=${_.captcha}"></script>
 
-    <script src="${_.dir}/views/register.js" async defer></script>
+    <script src="${_.dir}/views/_register.js" defer></script>
 
     <style>
         body {

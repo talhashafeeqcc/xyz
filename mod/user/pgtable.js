@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 
 module.exports = async (req, res) => {
 
-  var rows = await acl(`
+  const rows = await acl(`
   CREATE TABLE acl_schema.acl_table (
     "_id" serial not null,
     email text not null,

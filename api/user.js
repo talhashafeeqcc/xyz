@@ -1,56 +1,60 @@
-
-const auth = require('../mod/auth/_handler')
+const auth = require('../mod/auth/handler')
 
 const _method = {
-  delete: {
-    handler: require('../mod/user/delete'),
-    access: {
-      admin_user: true
-    }
-  },
-  update: {
-    handler: require('../mod/user/update'),
-    access: {
-      admin_user: true
-    }
-  },
   register: {
     handler: require('../mod/user/register')
   },
   verify: {
     handler: require('../mod/user/verify')
   },
+  delete: {
+    handler: require('../mod/user/delete'),
+    access: 'admin_user'
+  },
+  update: {
+    handler: require('../mod/user/update'),
+    access: 'admin_user'
+  },
   approve: {
     handler: require('../mod/user/approve'),
-    access: {
-      admin_user: true,
-      login: true
-    }
+    access: 'admin_user'
+  },
+  list: {
+    handler: require('../mod/user/list'),
+    access: 'admin_user'
+  },
+  log: {
+    handler: require('../mod/user/log'),
+    access: 'admin_user'
+  },
+  pgtable: {
+    handler: require('../mod/user/pgtable'),
+    access: 'admin_user'
   },
   key: {
     handler: require('../mod/user/key'),
-    access: {
-      key: true,
-      login: true
-    }
+    access: 'key'
   },
   token: {
     handler: (req, res) => res.send(req.params.token.signed),
-    access: {
-      login: true
-    }
+    access: 'login'
+  },
+  cookie: {
+    handler: require('../mod/auth/cookie')
   }
 }
 
 module.exports = async (req, res) => {
 
-  const method = _method[req.params.method || req.query.method]
+  req.params = Object.assign(req.params || {}, req.query || {})
+
+  const method = _method[req.params.method]
 
   if (!method) return res.send('Help text.')
 
   method.access && await auth(req, res, method.access)
 
   if (res.finished) return
-  
-  return method.handler(req, res)
+
+  method.handler(req, res)
 }

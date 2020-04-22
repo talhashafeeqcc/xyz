@@ -1,5 +1,6 @@
 module.exports = {
   render: _ => `
+  
   SELECT
     Box2D(
       ST_Transform(

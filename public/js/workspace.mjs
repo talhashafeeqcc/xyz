@@ -46,7 +46,7 @@ export default _xyz => {
     // XHR to retrieve workspace from host backend.
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', _xyz.host + '/api/workspace/get/locales?' + _xyz.utils.paramString({
+    xhr.open('GET', _xyz.host + '/api/workspace/get/locale?' + _xyz.utils.paramString({
       locale: _xyz.locale,
       token: _xyz.token
     }));

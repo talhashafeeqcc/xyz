@@ -1,5 +1,6 @@
 module.exports = {
   render: _ => `
+  
   SELECT
     ${_.label} AS label,
     ST_X(ST_PointOnSurface(${_.layer.geom})) AS x,

@@ -1,12 +1,8 @@
-const auth = require('../mod/auth/handler')({
-  public: true
-})
+const auth = require('../mod/auth/handler')
 
 const dbs = require('../mod/dbs')()
 
-const acl = require('../mod/auth/acl')()
-
-const sql_filter = require('../mod/sql_filter')
+const sql_filter = require('../mod/layer/sql_filter')
 
 const _layers = require('../mod/workspace/layers')
 
@@ -14,15 +10,13 @@ const _templates = require('../mod/workspace/templates')
 
 module.exports = async (req, res) => {
 
-  await auth(req, res)
+  req.params = Object.assign(req.params || {}, req.query || {})
 
   const layers = await _layers(req, res)
 
   const templates = await _templates(req, res)
 
-  if (req.query.clear_cache) return res.end()
-
-  if (res.finished) return
+  if (req.params.clear_cache) return res.end()
 
   const template = templates[decodeURIComponent(req.params._template || req.params.template)]
 
@@ -30,13 +24,9 @@ module.exports = async (req, res) => {
 
   if (template.err) return res.status(500).send(template.err)
 
-  const token = req.params.token || {}
+  await auth(req, res, template.access)
 
-  const params = req.query || {}
-
-  if (template.admin_user && !token.admin_user) return res.status(401).send('Insuficient privileges.')
-
-  if (template.admin_workspace && !token.admin_workspace) return res.status(401).send('Insuficient privileges.')
+  if (res.finished) return
 
   if (req.params.locale && req.params.layer) {
 
@@ -64,19 +54,17 @@ module.exports = async (req, res) => {
       ),
       ${layer.geom}, 0.00001)` || ''
 
-    Object.assign(params, {layer: layer, filter: filter, viewport: viewport})
+    Object.assign(req.params, {layer: layer, filter: filter, viewport: viewport})
   }
 
   try {
-    var q = template.render(params)
+    var q = template.render(req.params)
   } catch(err) {
     res.status(500).send(err.message)
     return console.error(err)
   }
 
-  const rows = template.admin_user && token && token.admin_user ?
-    await acl(q) :
-    await dbs[template.dbs || params.dbs || params.layer.dbs](q)
+  const rows = await dbs[template.dbs || req.params.dbs || req.params.layer.dbs](q)
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
@@ -85,5 +73,4 @@ module.exports = async (req, res) => {
 
   // Send the infoj object with values back to the client.
   res.send(rows.length === 1 && rows[0] || rows)
-
 }

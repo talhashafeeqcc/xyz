@@ -1,8 +1,6 @@
-const auth = require('../mod/auth/handler')({
-  public: true
-})
+const auth = require('../mod/auth/handler')
 
-const provider = require('../mod/provider')
+const _provider = require('../mod/provider')
 
 module.exports = async (req, res) => {
 
@@ -10,16 +8,17 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  const fetch = provider[req.params.provider]
+  const provider = _provider[req.params.provider]
+
+  if (!provider) return res.send('Help text.')
 
   req.body = req.body && await bodyData(req) || null
 
-  const content = await fetch(req)
+  const content = await provider(req)
 
   req.params.content_type && res.setHeader('content-type', req.params.content_type)
 
   res.send(content)
-
 }
 
 function bodyData(req) {

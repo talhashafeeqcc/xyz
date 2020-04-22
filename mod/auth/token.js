@@ -2,8 +2,6 @@ const transformDate = require('../date')
 
 const mailer = require('../mailer')
 
-const fetch = require('node-fetch')
-
 const bcrypt = require('bcryptjs')
 
 const crypto = require('crypto')
@@ -13,16 +11,6 @@ const jwt = require('jsonwebtoken')
 const acl = require('./acl')()
 
 module.exports = async (req) => {
-
-  if (process.env.GOOGLE_CAPTCHA) {
-
-    const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GOOGLE_CAPTCHA.split('|')[1]}&response=${req.body.captcha}`)
-
-    const captcha_verification = await response.json()
-
-    if (captcha_verification.score < 0.6) return new Error('Captcha Fail')
-
-  }
 
   if (!req.body.email) return new Error('Missing email')
 
@@ -122,7 +110,6 @@ module.exports = async (req) => {
     })
 
     return new Error('Account is blocked, please check email.')
-
   }
 
   // Finally login has failed.

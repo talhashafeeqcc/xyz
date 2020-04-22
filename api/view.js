@@ -1,19 +1,20 @@
-const auth = require('../mod/auth/handler')({
-  public: true,
-  login: true
-})
+const auth = require('../mod/auth/handler')
+
+const Md = require('mobile-detect')
 
 const _templates = require('../mod/workspace/templates')
 
 module.exports = async (req, res) => {
 
-  await auth(req, res)
+  req.params = Object.assign(req.params || {}, req.query || {})
 
   const templates = await _templates(req, res)
 
-  if (req.query.clear_cache) return res.end()
+  if (req.params.clear_cache) return res.end()
 
-  if (res.finished) return
+  const md = new Md(req.headers['user-agent'])
+
+  req.params.template = req.params.template || (md.mobile() === null || md.tablet() !== null) && '_desktop' || '_mobile'
 
   const template = templates[req.params.template]
 
@@ -21,26 +22,26 @@ module.exports = async (req, res) => {
 
   if (template.err) return res.status(500).send(template.err)
 
-  const token = req.params.token || {};
+  const access = template.access || req.params.access
+   
+  if (access === 'logout') {
+    res.setHeader('Set-Cookie', `XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=null;HttpOnly;Max-Age=0;`)
+    return res.send('Logged out.')
+  }
 
-  const login = () => templates._login.render({
-    dir: process.env.DIR || '',
-    action: req.url && decodeURIComponent(req.url),
-    msg: '',
-    captcha: process.env.GOOGLE_CAPTCHA && process.env.GOOGLE_CAPTCHA.split('|')[0] || '',
-  })
+  await auth(req, res, access)
 
-  if (template.admin_user && !token.admin_user) return res.send(login())
+  if (res.finished) return
 
-  if (template.admin_workspace && !token.admin_workspace) return res.send(login())
-
-  const html = template.render(Object.assign({
+  const html = template.render(Object.assign(
+    req.params || {}, {
     title: process.env.TITLE || 'GEOLYTIX | XYZ',
     dir: process.env.DIR || '',
     token: req.params.token && req.params.token.signed || '""',
-  }, req.query))
+    log: process.env.LOG_LEVEL || '""',
+    login: (process.env.PRIVATE || process.env.PUBLIC) && 'true' || '""',
+  }))
 
   //Build the template with jsrender and send to client.
   res.send(html)
-
 }

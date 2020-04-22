@@ -96,13 +96,13 @@ async function cloudinary(req) {
     cloud_name: process.env.CLOUDINARY.split(' ')[2],
   })
 
-  if (req.query.destroy) return await _cloudinary.uploader.destroy(`${process.env.CLOUDINARY.split(' ')[3]}/${req.query.public_id}`)
+  if (req.params.destroy) return await _cloudinary.uploader.destroy(`${process.env.CLOUDINARY.split(' ')[3]}/${req.params.public_id}`)
 
-  const ressource = req.query.resource_type === 'raw' && req.body.toString() || `data:image/jpeg;base64,${req.body.toString('base64')}`
+  const ressource = req.params.resource_type === 'raw' && req.body.toString() || `data:image/jpeg;base64,${req.body.toString('base64')}`
 
   return await _cloudinary.uploader.upload(ressource,
     {
-      resource_type: req.query.resource_type,
+      resource_type: req.params.resource_type,
       public_id: `${process.env.CLOUDINARY.split(' ')[3]}/${Date.now()}`,
       overwrite: true,
     })

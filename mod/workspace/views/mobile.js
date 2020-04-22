@@ -11,10 +11,10 @@ render: _ => `
 
     <link rel="stylesheet" href="${_.dir}/css/openlayers.css" />
     <link rel="stylesheet" href="${_.dir}/css/control.css" />
-    <link rel="stylesheet" href="${_.dir}/views/mobile.css" />
+    <link rel="stylesheet" href="${_.dir}/views/_mobile.css" />
 
     <script src="${_.dir}/js/build/xyz_openlayers.js" defer></script>
-    <script src="${_.dir}/views/mobile.js" defer></script>
+    <script src="${_.dir}/views/_mobile.js" defer></script>
 </head>
 
 <body

@@ -1,27 +1,32 @@
-const auth = require('../mod/auth/handler')({
-  public: true
-})
+const auth = require('../mod/auth/handler')
 
 const provider = require('../mod/provider')
 
 const dbs = require('../mod/dbs')()
 
-const sql_filter = require('../mod/sql_filter')
+const sql_filter = require('../mod/layer/sql_filter')
 
-let _workspace = require('../mod/workspace/_workspace')()
+const getWorkspace = require('../mod/workspace/getWorkspace')
+
+let _workspace = getWorkspace()
 
 module.exports = async (req, res) => {
 
+  req.params = Object.assign(req.params || {}, req.query || {})
+
   await auth(req, res)
 
-  if (req.query.clear_cache) {
-    _workspace = require('../mod/workspace/_workspace')()
+  if (req.params.clear_cache) {
+    _workspace = getWorkspace()
     return res.end()
   }
 
   const workspace = await _workspace
 
   const locale = workspace.locales[req.params.locale]
+
+  // Return 406 is gazetteer is not found in locale.
+  if (!locale) return res.send('Help text.')
 
   // Return 406 is gazetteer is not found in locale.
   if (!locale.gazetteer) return res.status(400).send(new Error('Gazetteer not defined for locale.'))
@@ -41,7 +46,6 @@ module.exports = async (req, res) => {
       // Return results to client.
       return res.send(results);
     }
-
   }
 
   // Locale gazetteer which can query datasources in the same locale.
@@ -77,7 +81,6 @@ module.exports = async (req, res) => {
 
   // Return results to client.
   res.send(results)
-
 }
 
 async function gaz_google (term, gazetteer) {
@@ -97,7 +100,6 @@ async function gaz_google (term, gazetteer) {
   }))
 }
 
-
 async function gaz_opencage (term, gazetteer) {
 
 	const results = await provider.opencage(`api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(term)}`
@@ -111,7 +113,6 @@ async function gaz_opencage (term, gazetteer) {
 		source: 'opencage'
 	}))
 }
-
 
 async function gaz_mapbox (term, gazetteer) {
 
@@ -130,9 +131,7 @@ async function gaz_mapbox (term, gazetteer) {
     marker: f.center,
     source: 'mapbox'
   }))
-
 }
-
 
 async function gaz_locale (req, locale) {
 
