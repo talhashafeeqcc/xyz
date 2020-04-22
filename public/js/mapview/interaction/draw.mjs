@@ -220,7 +220,7 @@ export default _xyz => {
     _xyz.mapview.interaction.draw.info = null;
 
 
-    if(_xyz.utils.turf.kinks(_xyz.utils.turf.flatten(_xyz.mapview.interaction.draw.trail)).features.length > 0) {
+    if(_xyz.utils.turf.kinks(_xyz.utils.turf.flatten(_xyz.mapview.interaction.draw.trail).features[0]).features.length > 0) {
 
       e.stopPropagation();
       e.preventDefault();
