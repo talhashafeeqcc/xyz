@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  const layers = await _layers(req, res)
+  const layers = await _layers(req)
 
   if (req.params.clear_cache) return res.end()
 

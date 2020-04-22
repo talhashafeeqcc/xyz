@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
 
   if (req.body) return register(req, res)
 
-  const templates = await _templates(req, res)
+  const templates = await _templates(req)
 
   const html = templates._register.render({
     dir: process.env.DIR || '',

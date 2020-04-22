@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
 
   req.params = Object.assign(req.params || {}, req.query || {})
 
-  const templates = await _templates(req, res)
+  const templates = await _templates(req)
 
   if (req.params.clear_cache) return res.end()
 

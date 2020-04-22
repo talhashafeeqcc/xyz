@@ -28,7 +28,7 @@ const templates = {
 
 const promises = []
 
-module.exports = async (req, res) => {
+module.exports = async req => {
 
   if (req.params.clear_cache) {
     _workspace = getWorkspace()

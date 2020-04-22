@@ -64,9 +64,9 @@ async function get(req, res) {
 
   const workspace = await _workspace
 
-  const layers = await _layers(req, res)
+  const layers = await _layers(req)
 
-  const templates = await _templates(req, res)
+  const templates = await _templates(req)
 
   if (req.params.key === 'layer' && req.params.layer) return res.send(layers[req.params.layer])
 
