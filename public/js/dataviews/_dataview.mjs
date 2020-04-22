@@ -91,6 +91,8 @@ export default _xyz => {
         dataview.chart.ChartJS.data = {
           labels: dataview.chart.labels,
           datasets: dataview.chart.datasets.map(dataset => ({
+            label: dataset.label,
+            labels: dataset.labels,
             data: dataset.fields && dataset.fields.map(field => response[field]) || dataset.field && response[dataset.field] || response,
             fill: dataset.fill,
             backgroundColor: ()=>color(dataset.backgroundColor, dataset, response),
