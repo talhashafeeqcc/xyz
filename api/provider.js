@@ -4,6 +4,8 @@ const _provider = require('../mod/provider')
 
 module.exports = async (req, res) => {
 
+  req.params = Object.assign(req.params || {}, req.query || {})
+
   await auth(req, res)
 
   if (res.finished) return
