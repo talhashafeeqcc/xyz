@@ -4,9 +4,6 @@ export default _xyz => layer => {
 
   layer.style.legend = legend;
 
-  // Create / empty legend filter when theme is applied.
-  layer.filter.legend = {};
-
   Object.entries(layer.style.theme.cat).forEach(cat => {
 
     let image_container = _xyz.utils.wire()`<div style="height: 24px; width: 24px;">`;
@@ -48,38 +45,38 @@ export default _xyz => layer => {
 
     legend.appendChild(image_container);
 
-    let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">${cat[1].label || cat[0]}`;
+    legend.appendChild(_xyz.utils.wire()`
+    <div
+      style="font-size:12px; alignment-baseline:central; cursor:pointer;"
+      class="switch"
+      onclick=${e => {
 
-    text.onclick = e => {
-
-      e.stopPropagation();
-
-      if (e.target.style.textDecoration === 'line-through') {
-          e.target.style.textDecoration = 'none';
-          e.target.style.opacity = 1;
-          e.target.style.fillOpacity = 1;
-
-          // Splice value out of the NI (not in) legend filter.
-          layer.filter.legend[layer.style.theme.field].ni.splice(layer.filter.legend[layer.style.theme.field].ni.indexOf(cat[0]), 1);
-
-        } else {
-          e.target.style.textDecoration = 'line-through';
-          e.target.style.opacity = 0.8;
-          e.target.style.fillOpacity = 0.8;
-
-          if(!layer.filter.legend[layer.style.theme.field]) {
-            layer.filter.legend[layer.style.theme.field] = {
-              ni: []
-            };
+        e.stopPropagation();
+  
+        if (e.target.style.textDecoration === 'line-through') {
+            e.target.style.textDecoration = 'none';
+            e.target.style.opacity = 1;
+            e.target.style.fillOpacity = 1;
+  
+            // Splice value out of the NI (not in) legend filter.
+            layer.filter.current[layer.style.theme.field].ni.splice(layer.filter.current[layer.style.theme.field].ni.indexOf(cat[0]), 1);
+  
+          } else {
+            e.target.style.textDecoration = 'line-through';
+            e.target.style.opacity = 0.8;
+            e.target.style.fillOpacity = 0.8;
+  
+            if(!layer.filter.current[layer.style.theme.field]) {
+              layer.filter.current[layer.style.theme.field] = {
+                ni: []
+              };
+            }
+            
+            // Push value into the NI (not in) legend filter.
+            layer.filter.current[layer.style.theme.field].ni.push(cat[0]);
           }
-          
-          // Push value into the NI (not in) legend filter.
-          layer.filter.legend[layer.style.theme.field].ni.push(cat[0]);
-        }
-        layer.reload();
-    };
-
-    legend.appendChild(text);
+          layer.reload();
+      }}>${cat[1].label || cat[0]}`);
       
   });
       
@@ -123,42 +120,42 @@ export default _xyz => layer => {
 
     legend.appendChild(image_container);
 
-    // Attach text with filter on click for the other/default category.
-    let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">other`;
+    legend.appendChild(_xyz.utils.wire()`
+    <div
+      style="font-size:12px; alignment-baseline:central; cursor:pointer;"
+      class="switch"
+      onclick=${e => {
 
-    text.onclick = e => {
-
-      e.stopPropagation();
-
-      if (e.target.style.textDecoration === 'line-through') {
-        
-        e.target.style.textDecoration = 'none';
-        e.target.style.opacity = 1;
-        e.target.style.fillOpacity = 1;
-
-        // Empty IN values filter array.
-        layer.filter.legend[layer.style.theme.field].in = [];
-
-      } else {
-        e.target.style.textDecoration = 'line-through';
-        e.target.style.opacity = 0.8;
-        e.target.style.fillOpacity = 0.8;
-
-        if(!layer.filter.legend[layer.style.theme.field]) {
-          layer.filter.legend[layer.style.theme.field] = {
-            ni: []
-          };
+        e.stopPropagation();
+  
+        if (e.target.style.textDecoration === 'line-through') {
+          
+          e.target.style.textDecoration = 'none';
+          e.target.style.opacity = 1;
+          e.target.style.fillOpacity = 1;
+  
+          // Empty IN values filter array.
+          layer.filter.current[layer.style.theme.field].in = [];
+  
+        } else {
+  
+          e.target.style.textDecoration = 'line-through';
+          e.target.style.opacity = 0.8;
+          e.target.style.fillOpacity = 0.8;
+  
+          if(!layer.filter.current[layer.style.theme.field]) {
+            layer.filter.current[layer.style.theme.field] = {
+              ni: []
+            };
+          }
+  
+          // Assign all cat keys to IN filter.
+          layer.filter.current[layer.style.theme.field].in = Object.keys(layer.style.theme.cat);
         }
-
-        // Assign all cat keys to IN filter.
-        layer.filter.legend[layer.style.theme.field].in = Object.keys(layer.style.theme.cat);
-      }
-
-      layer.reload();
-
-    };
-
-    legend.appendChild(text);
+  
+        layer.reload();
+  
+      }}>other`);
       
   }
 

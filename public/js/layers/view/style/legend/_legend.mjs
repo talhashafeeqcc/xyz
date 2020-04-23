@@ -32,9 +32,6 @@ export default _xyz => {
 
     layer.filter = layer.filter || {};
 
-    // Create / empty legend filter when theme is applied.
-    layer.filter.legend = {};
-
     if (layer.format === 'mvt' && layer.style.theme.type === 'categorized') return legends.polyCategorized(layer);
   
     if (layer.format === 'mvt' && layer.style.theme.type === 'graduated') return legends.polyGraduated(layer);

@@ -27,14 +27,6 @@ export default _xyz => layer => {
       const tableZ = layer.tableCurrent();
 
       if (!tableZ) return;
-
-      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
-        if(layer.filter.legend && Object.keys(layer.filter.legend).includes(key)) {
-          layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
-        }
-      });
-
-      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
   
       layer.xhr = new XMLHttpRequest();   
       
@@ -43,7 +35,7 @@ export default _xyz => layer => {
         layer: layer.key,
         table: tableZ,
         cat: layer.style.theme && layer.style.theme.field,
-        filter: JSON.stringify(filter),
+        filter: layer.filter && JSON.stringify(layer.filter.current),
         token: _xyz.token
       }));
 

@@ -31,14 +31,6 @@ export default _xyz => layer => {
 
       if (!tableZ) return;
 
-      layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
-        if(layer.filter.legend && Object.keys(layer.filter.legend).includes(key)) {
-          layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
-        }
-      });
-
-      const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
-
       layer.xhr = new XMLHttpRequest();   
 
       layer.xhr.open(
@@ -52,7 +44,7 @@ export default _xyz => layer => {
             pixelRatio: window.devicePixelRatio,
             theme: layer.style.theme && encodeURIComponent(Object.keys(layer.style.themes).find(k => layer.style.themes[k] === layer.style.theme)),
             label: layer.style.label && layer.style.label.field,
-            filter: JSON.stringify(filter),
+            filter: layer.filter && JSON.stringify(layer.filter.current),
             viewport: [extent[0], extent[1], extent[2], extent[3]],
             z: _xyz.mapview.getZoom(),
             token: _xyz.token

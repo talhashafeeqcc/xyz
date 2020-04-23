@@ -13,21 +13,13 @@ export default _xyz => function(feature) {
 
   const xhr = new XMLHttpRequest();
 
-  layer.filter && layer.filter.current && Object.keys(layer.filter.current).map(key => {
-    if(layer.filter.legend && Object.keys(layer.filter.legend).includes(key)) {
-      layer.filter.current[key] = Object.assign({}, layer.filter.legend[key], layer.filter.current[key]);
-    }
-  });
-
-  const filter = layer.filter && Object.assign({}, layer.filter.legend, layer.filter.current);
-
   xhr.open('GET', _xyz.host + '/api/query?' +
     _xyz.utils.paramString({
       template: 'get_nnearest',
       locale: _xyz.workspace.locale.key,
       layer: layer.key,
       table: layer.tableCurrent(),
-      filter: JSON.stringify(filter),
+      filter: layer.filter && JSON.stringify(layer.filter.current),
       n: count > 99 ? 99 : count,
       coords: coords,
       token: _xyz.token

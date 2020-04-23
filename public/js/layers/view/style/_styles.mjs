@@ -95,29 +95,11 @@ export default _xyz => {
       onclick=${e => {
         e.stopPropagation();
 
-        layer.style.theme.hideAll = layer.style.theme.hideAll ? false : true; // control flag
+        const switches = panel.querySelectorAll('.switch');
 
-        if(!layer.filter.legend[layer.style.theme.field]) layer.filter.legend[layer.style.theme.field] = {};
+        switches.forEach(_switch => _switch.click());
 
-        layer.filter.legend[layer.style.theme.field].ni = []; // set initial values for filters
-        layer.filter.legend[layer.style.theme.field].in = [];
-
-        if(layer.style.theme.hideAll) { // apply all exclusions
-
-          Object.keys(layer.style.theme.cat).map(c => layer.filter.legend[layer.style.theme.field].ni.push(c));
-          layer.filter.legend[layer.style.theme.field].in = Object.keys(layer.style.theme.cat);
-            
-        }
-        // count nodes to update excluding 'Multiple locations on cluster layers
-        let childNodes = layer.format === 'cluster' ? e.target.parentElement.nextSibling.children.length - 2 : e.target.parentElement.nextSibling.children.length;
-
-        for(let i = 0; i < childNodes; i++){ // apply styling
-          e.target.parentElement.nextSibling.children[i].style.textDecoration = layer.style.theme.hideAll ? 'line-through' : 'none';
-          e.target.parentElement.nextSibling.children[i].style.opacity = layer.style.theme.hideAll ? 0.8 : 1;
-          e.target.parentElement.nextSibling.children[i].style.fillOpacity = layer.style.theme.hideAll ? 0.8 : 1;
-        }
-
-        layer.reload(); // reload layer
+        layer.reload()
 
     }}>switch all</a>.`);
 
@@ -147,7 +129,7 @@ export default _xyz => {
         layer.style.bringToFront.disabled = !layer.display;
         panel.appendChild(_xyz.layers.view.style.legend(layer));
         panel.appendChild(layer.style.bringToFront);
-        return;
+        return
       }
   
       layer.style.legend = _xyz.utils.wire()`<div class="legend">`;
@@ -168,6 +150,6 @@ export default _xyz => {
   
     }
   
-  };
+  }
 
 }
