@@ -122,10 +122,10 @@ export default _xyz => {
     }}>switch all</a>.`);
 
     layer.style.bringToFront = _xyz.utils.wire()`<button 
-      title="Bring layer to front." 
+      title="Bring layer to front."
+      style="margin-top: 5px;"
       class="btn-wide primary-colour"
-      onclick=${e => layer.bringToFront()
-      }>Bring layer to front`;
+      onclick=${()=>layer.bringToFront()}>Bring layer to front`;
 
     // Apply the current theme.
     applyTheme(layer); 
