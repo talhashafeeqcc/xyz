@@ -16,7 +16,7 @@ module.exports = () => {
       });
 
       // Log connection name if after it's pool has been created.
-      console.log(key.split('_')[1]);
+      // console.log(key.split('_')[1]);
 
       dbs[key.split('_')[1]] = async (q, arr, timeout) => {
 

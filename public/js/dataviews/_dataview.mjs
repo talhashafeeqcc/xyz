@@ -182,6 +182,12 @@ export default _xyz => {
       && dataview.update();
     });
 
+    dataview.layer && _xyz.mapview.node && _xyz.mapview.node.addEventListener(`${dataview.layer.key} reload`, () => {
+      (dataview.target.classList.contains('active')
+      || dataview.target.parentElement.classList.contains('active'))
+      && dataview.update();
+    });
+
     if (dataview.toolbar && dataview.viewport) toolbar.appendChild(_xyz.utils.wire()`
     <button
       class="off-white-hover primary-colour"

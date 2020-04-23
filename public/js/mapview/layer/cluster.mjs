@@ -14,6 +14,8 @@ export default _xyz => layer => {
 
     source.clear();
     source.refresh({force: true});
+
+    _xyz.mapview.node.dispatchEvent(new CustomEvent(`${layer.key} reload`));
   };
 
   const source = new _xyz.mapview.lib.source.Vector({

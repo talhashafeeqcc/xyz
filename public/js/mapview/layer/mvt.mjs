@@ -16,6 +16,8 @@ export default _xyz => layer => {
     //source.tileCache.clear();
     source.clear();
     source.refresh({force: true});
+
+    _xyz.mapview.node.dispatchEvent(new CustomEvent(`${layer.key} reload`));
   };
 
   // Define source for mvt layer.

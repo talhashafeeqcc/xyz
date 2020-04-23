@@ -13,12 +13,6 @@ public/workspaces/*
 !public/workspaces/dev.json
 !public/workspaces/geodata.json
 
-public/views/report_camelot.html
-public/views/report_camelot.js
-public/views/gla_desktop.html
-public/views/gla_desktop.js
-public/views/gla_mobile.html
-public/views/gla_mobile.js
 public/views/geodata.html
 public/views/geodata.js
 

@@ -55,7 +55,8 @@ export default _xyz => (layer, filter_entry) => {
       step=${step}
       onkeyup=${e=>{
         slider_min.value = e.target.value;
-        applyFilter();}}>`;
+        applyFilter();
+      }}>`;
 
     range.appendChild(input_min);
 
