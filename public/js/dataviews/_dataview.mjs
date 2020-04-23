@@ -128,7 +128,7 @@ export default _xyz => {
 
       dataview.update = () => {
 
-        if(!(dataview.target.classList.contains('active') || dataview.target.parentElement.classList.contains('active'))) return
+        //if(!(dataview.target.classList.contains('active') || dataview.target.parentElement.classList.contains('active'))) return
 
         dataview.promise = _xyz.dataviews.query(dataview);
 
@@ -174,7 +174,7 @@ export default _xyz => {
 
       dataview.update = () => {
 
-        if(!(dataview.target.classList.contains('active') || dataview.target.parentElement.classList.contains('active'))) return
+        //if(!(dataview.target.classList.contains('active') || dataview.target.parentElement.classList.contains('active'))) return
 
         dataview.promise = _xyz.dataviews.query(dataview);
 
