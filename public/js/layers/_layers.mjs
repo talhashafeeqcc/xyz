@@ -56,6 +56,8 @@ export default _xyz => {
 
         bringToFront: bringToFront(_xyz),
 
+        _dataviews: new Set(),
+
       },
       layer
     )

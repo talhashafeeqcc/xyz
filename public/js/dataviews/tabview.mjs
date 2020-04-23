@@ -24,7 +24,7 @@ export default _xyz => {
 
     tabview.node.appendChild(tabview.panel);
 
-    tabview.views = [];
+    tabview._dataviews = new Set();
 
     tabview.add = dataview => {
 
@@ -34,14 +34,14 @@ export default _xyz => {
         tabview.bar.appendChild(dataview.tab)
         tabview.panel.appendChild(dataview.target);
 
-        tabview.views.push(dataview);
+        tabview._dataviews.add(dataview);
 
         return dataview.show();
       }
 
       dataview.show = () => {
 
-        tabview.views.forEach(view => {
+        tabview._dataviews.forEach(view => {
           view.target.style.display = 'none';
           view.tab.classList.remove('active');
           view.target.classList.remove('active');
@@ -53,25 +53,6 @@ export default _xyz => {
         tabview.node.style.display = 'block';
         if (_xyz.mapview.attribution.container) _xyz.mapview.attribution.container.style.bottom = '65px';
       }
-
-      dataview.remove = () => {
-
-        dataview.tab.remove();
-        dataview.target.remove();
-
-        tabview.views.splice(tabview.views.indexOf(dataview), 1);
-
-        if (dataview.target.classList.contains('active')) {
-
-          dataview.target.classList.remove('active');
-          tabview.views[0] && tabview.views[0].show();
-        }
-
-        if (!tabview.views.length) {
-          tabview.node.style.display = 'none';
-          if (_xyz.mapview.attribution.container) _xyz.mapview.attribution.container.style.bottom = '0';
-        }
-      };
 
       dataview.tab = _xyz.utils.wire()`
       <div
@@ -91,7 +72,26 @@ export default _xyz => {
 
       _xyz.dataviews.create(dataview);
 
-      tabview.views.push(dataview);
+      tabview._dataviews.add(dataview);
+
+      dataview.remove = () => {
+
+        dataview.tab.remove();
+        dataview.target.remove();
+
+        tabview._dataviews.delete(dataview);
+
+        if (dataview.target.classList.contains('active')) {
+
+          dataview.target.classList.remove('active');
+          tabview._dataviews[0] && tabview._dataviews[0].show();
+        }
+
+        if (!tabview._dataviews.length) {
+          tabview.node.style.display = 'none';
+          if (_xyz.mapview.attribution.container) _xyz.mapview.attribution.container.style.bottom = '0';
+        }
+      };
 
       dataview.show();
 

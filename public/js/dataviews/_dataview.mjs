@@ -35,6 +35,15 @@ export default _xyz => {
 
     if (dataview.dataviews) return array(dataview);
 
+    dataview.layer && dataview.layer._dataviews.add(dataview);
+
+    dataview.remove = () => {
+
+      dataview.target.remove();
+
+      dataview.layer && dataview.layer._dataviews.delete(dataview);
+    }
+
     if (dataview.script) {
 
       const script = _xyz.utils.wire()`<script src="${dataview.script}">`;
@@ -119,6 +128,8 @@ export default _xyz => {
 
       dataview.update = () => {
 
+        if(!(dataview.target.classList.contains('active') || dataview.target.parentElement.classList.contains('active'))) return
+
         dataview.promise = _xyz.dataviews.query(dataview);
 
         dataview.promise.then(response => {
@@ -163,6 +174,8 @@ export default _xyz => {
 
       dataview.update = () => {
 
+        if(!(dataview.target.classList.contains('active') || dataview.target.parentElement.classList.contains('active'))) return
+
         dataview.promise = _xyz.dataviews.query(dataview);
 
         dataview.promise.then(response => {
@@ -175,18 +188,6 @@ export default _xyz => {
     }
 
     dataview.update();
-
-    dataview.layer && _xyz.mapview.node && _xyz.mapview.node.addEventListener('changeEnd', () => {
-      (dataview.target.classList.contains('active')
-      || dataview.target.parentElement.classList.contains('active'))
-      && dataview.update();
-    });
-
-    dataview.layer && _xyz.mapview.node && _xyz.mapview.node.addEventListener(`${dataview.layer.key} reload`, () => {
-      (dataview.target.classList.contains('active')
-      || dataview.target.parentElement.classList.contains('active'))
-      && dataview.update();
-    });
 
     if (dataview.toolbar && dataview.viewport) toolbar.appendChild(_xyz.utils.wire()`
     <button

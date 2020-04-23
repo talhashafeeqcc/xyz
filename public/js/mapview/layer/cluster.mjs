@@ -79,6 +79,17 @@ export default _xyz => layer => {
           ),
           properties: f.properties
         }));
+
+        if(!layer.rendercomplete) {
+
+          layer.rendercomplete = () => {
+            _xyz.map.un('rendercomplete', layer.rendercomplete)
+            delete layer.rendercomplete
+            layer._dataviews.forEach(dataview => dataview.update && dataview.update())
+          }
+  
+          _xyz.map.on('rendercomplete', layer.rendercomplete);
+        }
   
         source.addFeatures(features);
       
