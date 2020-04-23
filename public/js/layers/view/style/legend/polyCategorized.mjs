@@ -50,7 +50,7 @@ export default _xyz => layer => {
 
     let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">${cat[1].label || cat[0]}`;
 
-    text.addEventListener('click', e => {
+    text.onclick = e => {
 
       e.stopPropagation();
 
@@ -77,7 +77,7 @@ export default _xyz => layer => {
           layer.filter.legend[layer.style.theme.field].ni.push(cat[0]);
         }
         layer.reload();
-    });
+    };
 
     legend.appendChild(text);
       
@@ -126,7 +126,7 @@ export default _xyz => layer => {
     // Attach text with filter on click for the other/default category.
     let text = _xyz.utils.wire()`<div style="font-size:12px; alignment-baseline:central; cursor:pointer;">other`;
 
-    text.addEventListener('click', e => {
+    text.onclick = e => {
 
       e.stopPropagation();
 
@@ -156,7 +156,7 @@ export default _xyz => layer => {
 
       layer.reload();
 
-    });
+    };
 
     legend.appendChild(text);
       

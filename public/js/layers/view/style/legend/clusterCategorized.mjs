@@ -23,7 +23,7 @@ export default _xyz => layer => {
 
     legend.appendChild(text);
 
-    text.addEventListener('click', e => {
+    text.onclick = e => {
 
       e.stopPropagation();
       
@@ -52,7 +52,7 @@ export default _xyz => layer => {
 
       layer.reload();
     
-    });
+    };
 
   });
       
@@ -78,7 +78,7 @@ export default _xyz => layer => {
 
     legend.appendChild(text);
 
-    text.addEventListener('click', e => {
+    text.onclick = e => {
 
       e.stopPropagation();
 
@@ -109,7 +109,7 @@ export default _xyz => layer => {
 
       layer.reload();
 
-    });
+    };
 
   }
 

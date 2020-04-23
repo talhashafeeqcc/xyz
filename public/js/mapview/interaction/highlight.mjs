@@ -25,7 +25,7 @@ export default _xyz => {
 
     _xyz.mapview.interaction.highlight.featureSet = new Set();
 
-    _xyz.mapview.node.addEventListener('click', select);
+    _xyz.mapview.node.onclick = select;
 
     _xyz.utils.touch() && _xyz.mapview.node.addEventListener('touchstart', touchSelect);
 
