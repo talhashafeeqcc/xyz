@@ -1,6 +1,22 @@
 const _templates = require('../workspace/templates')
 
+const bcrypt = require('bcryptjs')
+
+const crypto = require('crypto')
+
+const transformDate = require('../date')
+
+const acl = require('../auth/acl')()
+
+const mailer = require('../mailer')
+
 module.exports = async (req, res) => {
+
+  if (!acl) return res.send('No Access Control List.')
+
+  const rows = await acl(`select * from acl_schema.acl_table limit 1`)
+
+  if (rows instanceof Error) return res.send('Failed to connect with Access Control List.')
 
   if (req.body) return register(req, res)
 
@@ -13,16 +29,6 @@ module.exports = async (req, res) => {
 
   res.send(html)
 }
-
-const bcrypt = require('bcryptjs')
-
-const crypto = require('crypto')
-
-const transformDate = require('../date')
-
-const acl = require('../auth/acl')()
-
-const mailer = require('../mailer')
 
 async function register(req, res) {
 
