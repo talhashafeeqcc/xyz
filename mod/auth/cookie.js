@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
 
   if (!req.body) {
     
-    res.setHeader('Set-Cookie', `XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=null;HttpOnly;Max-Age=0;`)
+    res.setHeader('Set-Cookie', `XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=null;HttpOnly;Max-Age=0;Path=${process.env.DIR || '/'}`)
  
     return res.send('Cookie removed')
   }

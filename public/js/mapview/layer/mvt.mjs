@@ -42,7 +42,6 @@ export default _xyz => layer => {
         srid: _xyz.mapview.srid,
         layer: layer.key,
         table: tableZ,
-        properties: layer.properties,
         filter: layer.filter && JSON.stringify(layer.filter.current),
         token: _xyz.token
       });

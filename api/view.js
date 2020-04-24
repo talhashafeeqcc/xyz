@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
   const access = template.access || req.params.access
    
   if (access === 'logout') {
-    res.setHeader('Set-Cookie', `XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=null;HttpOnly;Max-Age=0;`)
+    res.setHeader('Set-Cookie', `XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=null;HttpOnly;Max-Age=0;Path=${process.env.DIR || '/'}`)
     return res.send('Logged out.')
   }
 
