@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
   const md = new Md(req.headers['user-agent'])
 
-  req.params.template = req.params.template || (md.mobile() === null || md.tablet() !== null) && '_desktop' || '_mobile'
+  req.params.template = req.params._template || req.params.template || (md.mobile() === null || md.tablet() !== null) && '_desktop' || '_mobile'
 
   const template = templates[req.params.template]
 

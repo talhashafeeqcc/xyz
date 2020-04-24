@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
 
   if (req.params.clear_cache) return res.end()
 
-  const template = templates[decodeURIComponent(req.params.template)]
+  const template = templates[decodeURIComponent(req.params._template || req.params.template)]
 
   if(!template) return res.status(404).send('Template not found')
 
