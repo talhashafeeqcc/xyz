@@ -2,6 +2,8 @@ const fetch = require('node-fetch')
 
 const _token = require('./token')
 
+const login = require('./login')
+
 module.exports = async (req, res) => {
 
   if (process.env.GOOGLE_CAPTCHA) {
@@ -14,10 +16,15 @@ module.exports = async (req, res) => {
   } 
 
   if (!req.body) {
-    
-    res.setHeader('Set-Cookie', `XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=null;HttpOnly;Max-Age=0;Path=${process.env.DIR || '/'}`)
- 
-    return res.send('Cookie removed')
+
+    if (req.cookies && req.cookies[`XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}`]) {
+
+      return res.send(`XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=<a href="${process.env.DIR || '/'}api/user/token">token</a>;HttpOnly;Max-Age=28800;Path=${process.env.DIR || '/'};SameSite=Strict${!req.headers.host.includes('localhost') && ';Secure' || ''}`)
+
+    }
+
+    return login(req, res)
+
   }
 
   const token = await _token(req)

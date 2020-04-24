@@ -29,6 +29,8 @@ module.exports = async (req, res) => {
     return res.send('Logged out.')
   }
 
+  if (access && access !== 'login') return res.send('Help text.')
+
   await auth(req, res, access)
 
   if (res.finished) return
