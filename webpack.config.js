@@ -4,10 +4,10 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    xyz_openlayers: ['./public/js/index.mjs']
+    xyz_openlayers: ['./lib/index.mjs']
   },
   output: {
-    path: path.resolve(__dirname, 'public/js/build'),
+    path: path.resolve(__dirname, 'public/js'),
     filename: '[name].js',
     // library: 'xyz',
     // libraryTarget: 'amd-require'

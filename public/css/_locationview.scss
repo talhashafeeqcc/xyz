@@ -10,7 +10,7 @@
         }
     }
 
-    .drawer.panel {
+    .drawer {
         max-height: 30px;
 
         >.header {
@@ -21,13 +21,9 @@
         .location-view-grid {
             align-items: stretch;
             padding-left: 10px;
-            grid-gap: 4px;
+            grid-gap: 3px 10px;
             grid-template-columns: 1fr 150px;
         }
-    }
-
-    .label {
-        padding-top: 5px;
     }
 
     .lv-0 {

@@ -45,13 +45,15 @@ module.exports = async (req, res) => {
     
     const viewport = req.params.viewport && `
     AND ST_DWithin(
-      ST_MakeEnvelope(
-        ${req.params.viewport[0]},
-        ${req.params.viewport[1]},
-        ${req.params.viewport[2]},
-        ${req.params.viewport[3]},
-        ${parseInt(req.params.viewport[4])}
-      ),
+      ST_Transform(
+        ST_MakeEnvelope(
+          ${req.params.viewport[0]},
+          ${req.params.viewport[1]},
+          ${req.params.viewport[2]},
+          ${req.params.viewport[3]},
+          ${parseInt(req.params.viewport[4])}
+        )
+      ,${layer.srid}),
       ${layer.geom}, 0.00001)` || ''
 
     Object.assign(req.params, {layer: layer, filter: filter, viewport: viewport})
