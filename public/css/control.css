@@ -2087,15 +2087,12 @@ span.flatpickr-weekday {
   margin: 5px 0; }
   .location-view.drawer {
     background-color: #fff;
-    padding: 0 5px; }
-    .location-view.drawer > .header {
-      padding: 5px 0; }
-  .location-view .drawer {
+    padding: 0 5px;
     max-height: 30px; }
-    .location-view .drawer > .header {
-      height: 30px;
-      padding: 5px 0; }
-    .location-view .drawer .location-view-grid {
+    .location-view.drawer > .header {
+      padding: 5px 0;
+      height: 30px; }
+    .location-view.drawer .location-view-grid {
       align-items: stretch;
       padding-left: 10px;
       grid-gap: 3px 10px;

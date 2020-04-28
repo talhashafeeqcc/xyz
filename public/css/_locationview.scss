@@ -4,26 +4,19 @@
     &.drawer {
         background-color: #fff;
         padding: 0 5px;
-
-        >.header {
-            padding: 5px 0;
-        }
-    }
-
-    .drawer {
         max-height: 30px;
 
         >.header {
-            height: 30px;
             padding: 5px 0;
+            height: 30px;
         }
 
         .location-view-grid {
-            align-items: stretch;
-            padding-left: 10px;
-            grid-gap: 3px 10px;
-            grid-template-columns: 1fr 150px;
-        }
+          align-items: stretch;
+          padding-left: 10px;
+          grid-gap: 3px 10px;
+          grid-template-columns: 1fr 150px;
+      }
     }
 
     .lv-0 {
