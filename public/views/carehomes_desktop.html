@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head data-dir="${dir}">
+
+    <title>Geolytix XYZ - Open Data - Care Homes</title>
+
+    <link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="${dir}/css/openlayers.css" />
+    <link rel="stylesheet" href="${dir}/css/control.css" />
+
+    <script src="${dir}/js/xyz_openlayers.js" defer></script>
+
+    <!--<script type="application/javascript"
+        src="${dir}/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/carehomes/carehomes_desktop.js"
+        defer></script>-->
+
+    <script type="application/javascript"
+        src="${dir}/views/carehomes_desktop.js" defer>
+    </script>
+    
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .pink-box {
+            background-color: #fff;
+            color: #2a709d;
+            padding: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .text-box {
+            background-color: #fff;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .btn {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+            padding: 16px 32px;
+            border: solid 1px black;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+        }
+
+        .btn.active {
+            background-color: #2a709d;
+        }
+
+        .darkish {
+            background-color: #222;
+            color: #fff;
+        }
+
+        .light {
+            color: #222;
+            border: 3px solid #222;
+        }
+
+        #postcode-search {
+            width: 100%;
+            height: 30px;
+            font-family: inherit;
+            font-size: 16px;
+            border: none;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+
+        .info-box {
+            background-color: #1f964d;
+            padding: 10px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .info-box a {
+            color: #fff;
+        }
+
+        .location {
+            display: grid;
+            grid-gap: 10px;
+            padding: 10px;
+        }
+
+        .location a {
+            color: #2a709d;
+        }
+
+        .location .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2a709d;
+        }
+
+        .location .title-btn {
+            font-size: 30px;
+            color: #2a709d;
+            font-weight: bold;
+        }
+
+        .location .title-btn:hover {
+            cursor: pointer;
+        }
+
+        .location .expander {
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 24px;
+            width: 24px;
+            background-image: url(https://cdn.jsdelivr.net/gh/GEOLYTIX/mapicons@latest/expander/icon_up.svg);
+            
+        }
+
+        .collapsed ._grid {
+            display: none !important;
+        }
+
+        .collapsed .expander {
+            background-image: url(https://cdn.jsdelivr.net/gh/GEOLYTIX/mapicons@latest/expander/icon_down.svg);
+        }
+
+        .location .exit {
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 24px;
+            width: 24px;
+            background-image: url(https://cdn.jsdelivr.net/gh/GEOLYTIX/mapicons@latest/expander/icon_exit.svg);
+        }
+
+        .location_drop{
+            width:20px;
+            height:20px;
+        }
+        
+        .location_icon {
+            width: 15px;
+            height: 15px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .location .grid {
+            display: grid;
+            grid-gap: 5px;
+        }
+
+        .align-flex {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        /* MAP */
+        #Map {
+            position: relative;
+            height: 400px;
+        }
+
+        #Map>._attribution {
+            z-index: 999;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-align: left;
+            white-space: nowrap;
+            background-color: #fff;
+            opacity: 0.9;
+            padding: 5px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        ._attribution>a {
+            color: rgb(0, 120, 168);
+        }
+
+        .filter {
+            padding-top: 16px;
+            padding-bottom: 16px;
+            border-top: 1px solid #ddd;
+        }
+
+        .filterHead {
+            position: relative;
+            color: #2a709d;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .filterHead:hover {
+            cursor: pointer;
+        }
+
+        .filterHead>.expander {
+            position: absolute;
+            right: 0;
+            background-image: url(https://cdn.jsdelivr.net/gh/GEOLYTIX/mapicons@latest/expander/icon_down.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 24px;
+            width: 24px;
+            top: -5px;
+        }
+
+        .expanded .expander {
+            background-image: url(https://cdn.jsdelivr.net/gh/GEOLYTIX/mapicons@latest/expander/icon_up.svg);
+        }
+
+        .expanded .filterList {
+            height: auto !important;
+            padding-top: 16px;
+        }
+
+        .filterList>div {
+            color: #333;
+            font-weight: 400;
+        }
+
+        .filterList .input-checkbox {
+            margin: 7px 0;
+        }
+
+
+
+        /* LIST */
+        .tabulator {
+            border: none;
+        }
+
+        .tabulator-row.tabulator-group {
+            background: #fff;
+        }
+
+        .tabulator .tabulator-header {
+            display: none;
+        }
+
+        .tabulator .tabulator-tableHolder .tabulator-table {
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .tabulator-row {
+            min-height: 0px;
+            color: #2a709d;
+            font-size: 16px;
+        }
+
+        .tabulator-row.tabulator-selectable:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .tabulator-row .tabulator-responsive-collapse {
+            border: none;
+        }
+
+        .tabulator-row .tabulator-cell {
+            border-left: none;
+        }
+
+        .tabulator-row .tabulator-cell div div {
+            display: block !important;
+        }
+
+        .tabulator-row.tabulator-group {
+            border-bottom: none;
+            border-left: none;
+            border-top: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div style="
+        min-width: 768px;
+        color: #FFF;
+        background-color: #1f964d;
+        background-image: url(https://cdn.jsdelivr.net/gh/GEOLYTIX/MapIcons@latest/geolytix_white.svg);
+        padding-right: 10px;
+        background-repeat: no-repeat;
+        background-position: right;
+        background-size: 150px;
+        height: 65px;
+        font-size: 22px;
+        font-weight: bold;
+        white-space: nowrap;
+        line-height: 3;
+        text-align: center;">
+    </div>
+
+    <div style="
+        min-width: 768px;
+        max-width: 1024px;
+        margin: auto;
+        color: #2a709d;
+        padding: 10px;
+        font-size: 32px;
+        font-weight: bold;
+        background-color: #F5F5F5;">
+        Find a care home
+    </div>
+
+    <div style="
+        min-width: 768px;
+        max-width: 1024px;
+        margin: auto;
+        background-color: #F5F5F5;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        grid-gap: 10px;">
+
+        <div style="grid-column: 1;">
+
+            <div class="pink-box">
+                Find
+            </div>
+
+            <div class="text-box">
+                Search for a location or click on a point on the map to see details of the nearest care home.
+            </div>
+
+            <div style="
+                background-color: #fff;
+                padding: 10px;
+                display: grid;
+                grid-gap: 10px;">
+
+                <div style="
+                    border: 1px solid #222;
+                    border-radius: 3px;
+                    padding: 13px;
+                    grid-row: 1;
+                    grid-column: 1/3">
+                    <input id="postcode-search" placeholder="Enter your postcode or address" />
+                </div>
+
+                <div id="btnLocate" class="btn darkish" style="grid-row: 2; grid-column: 1/2;">
+                    Current Location
+                </div>
+
+                <div id="postcode-find" class="btn darkish" style="grid-row: 2; grid-column: 2/3">
+                    Find this Postcode
+                </div>
+                <BR>
+                    <BR> <BR> <BR>
+            </div>
+
+                
+
+            <div class="info-box">
+                Care Home locations are released openly by Geolytix.  
+                A spreadsheet version of the data and an associated user guide can be downloaded for free from
+                 <a class=\"docu_link\" href=\"https://drive.google.com/open?id=14oevcUjWQrn0-cxo4h_XWe-C6e8yviCs\" target=\"_blank\">here</a>
+                    <BR>
+                    <BR>
+                Missing a care home?  <a href='mailto:info@geolytix.com?Subject=Open Data - Care Homes' target='_top'>Let us know</a>                
+            </div>
+
+
+        </div>
+            
+        <div style="grid-column: 2;">
+
+            <div id="Map">
+                <div class="_attribution">
+                    <a target="_blank" href="https://github.com/geolytix/xyz">GEOLYTIX XYZ</a> |
+                    <a target="_blank" href="https://openlayers.org">Openlayers</a> |
+                    <a target="_blank"
+                        href="https://www.ordnancesurvey.co.uk/business-government/products/open-zoomstack">Ordnance
+                        Survey Zoomstack</a>
+                </div>
+            </div>
+
+            <div align="right" valign="bottom">Powered by Geolytix MAPP - spatial intelligence customised to you</div>
+           
+
+        </div>
+
+         <div style="grid-column: 1;" id="locationList"></div>
+        <div style="grid-column: 2;" id="locationView"></div>
+
+    </div>
+
+       
+    </div>
+
+
+</body>
+
+</html>
