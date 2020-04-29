@@ -275,7 +275,6 @@ function init(_xyz) {
       <div class="${'xyz-icon ' + (_xyz.user ? 'icon-logout' : 'icon-lock-open')}">`);
   }
 
-  if (_xyz.log) console.log(_xyz);
 }
 
 }
