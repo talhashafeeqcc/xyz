@@ -1,7 +1,6 @@
 window.onload = () => {
 
 const desktop = {
-  map: document.getElementById('Map'),
   tabview: document.getElementById('tabview'),
   listviews: document.getElementById('listviews'),
   vertDivider: document.getElementById('vertDivider'),
@@ -9,13 +8,8 @@ const desktop = {
   touch: () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
 }
 
-desktop.tabview.addEventListener('click', e => e.stopPropagation());
 
-// Reset map size after window resize.
-window.addEventListener('resize', () => {
-  desktop.map.dispatchEvent(new CustomEvent('updatesize'));
-  // desktop.tabview.dispatchEvent(new CustomEvent('updatesize'));
-});
+desktop.tabview.addEventListener('click', e => e.stopPropagation());
 
 // Resize while holding mousedown on vertDivider.
 desktop.vertDivider.addEventListener('mousedown', e => {
@@ -44,7 +38,6 @@ function resize_x(e) {
 
 // Remove eventListener after resize event.
 function stopResize_x() {
-  desktop.map.dispatchEvent(new CustomEvent('updatesize'));
   document.body.style.cursor = 'auto';
   window.removeEventListener('mousemove', resize_x);
   window.removeEventListener('touchmove', resize_x);
