@@ -50,9 +50,12 @@ module.exports = async req => {
 
   if (!promises.length) {
     Object.assign(promises, Object.entries(workspace.templates || {}).map(
-      entry => new Promise(resolve => {
+      entry => new Promise((resolve, reject) => {
 
         function _resolve(template) {
+
+          if (template instanceof Error) return reject(template)
+
           resolve({
             [entry[0]]: {
               render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),
@@ -65,11 +68,13 @@ module.exports = async req => {
           })
         }
 
-        if (entry[1].template.toLowerCase().includes('api.github')) return provider.github(entry[1].template)
-          .then(template => _resolve(template))
+        if (entry[1].template.toLowerCase().includes('api.github')) {
+          return provider.github(entry[1].template).then(template => _resolve(template))
+        }
 
-        if (entry[1].template.startsWith('http')) return provider.http(entry[1].template)
-          .then(template => _resolve(template))
+        if (entry[1].template.startsWith('http')) {
+          return provider.http(entry[1].template).then(template => _resolve(template))
+        }
 
         return _resolve(entry[1].template)
 
@@ -79,9 +84,14 @@ module.exports = async req => {
 
   return new Promise(resolve => {
 
-    Promise.all(promises).then(arr => {
+    Promise
+    .all(promises)
+    .then(arr => {
       resolve(Object.assign(templates, ...arr))
     })
+    .catch(error => { 
+      console.error(error)
+    });
 
   })
 

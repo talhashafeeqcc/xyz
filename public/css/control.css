@@ -2094,9 +2094,7 @@ span.flatpickr-weekday {
       height: 30px; }
     .location-view.drawer .location-view-grid {
       align-items: stretch;
-      padding-left: 10px;
-      grid-gap: 3px 10px;
-      grid-template-columns: 1fr 150px; }
+      grid-gap: 3px 10px; }
   .location-view .lv-0 {
     font-size: 95%;
     font-weight: bold; }

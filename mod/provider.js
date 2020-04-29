@@ -25,7 +25,7 @@ async function http(req) {
 
     const response = await fetch(req)
 
-    if (response.status >= 300) return {err: response.status}
+    if (response.status >= 300) return new Error(`Failed to fetch ressource: ${response.status}`)
 
     return await response.text()
 
