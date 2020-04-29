@@ -42,38 +42,40 @@ module.exports = async req => {
 
   if (req.params.clear_cache) {
     _workspace = getWorkspace()
-    Object.assign(promises, [])
+    promises.length = 0
     return
   }
 
   const workspace = await _workspace
 
-  !promises.length && Object.assign(promises, Object.entries(workspace.templates || {}).map(
-    entry => new Promise(resolve => {
+  if (!promises.length) {
+    Object.assign(promises, Object.entries(workspace.templates || {}).map(
+      entry => new Promise(resolve => {
 
-      function _resolve(template) {
-        resolve({
-          [entry[0]]: {
-            render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),
-            dbs: entry[1].dbs || null,
-            roles: entry[1].roles || null,
-            access: entry[1].access || null,
-            template: entry[1].template,
-            err: template.err || null,
-          }
-        })
-      }
+        function _resolve(template) {
+          resolve({
+            [entry[0]]: {
+              render: params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || ''),
+              dbs: entry[1].dbs || null,
+              roles: entry[1].roles || null,
+              access: entry[1].access || null,
+              template: entry[1].template,
+              err: template.err || null,
+            }
+          })
+        }
 
-      if (entry[1].template.toLowerCase().includes('api.github')) return provider.github(entry[1].template)
-        .then(template => _resolve(template))
+        if (entry[1].template.toLowerCase().includes('api.github')) return provider.github(entry[1].template)
+          .then(template => _resolve(template))
 
-      if (entry[1].template.startsWith('http')) return provider.http(entry[1].template)
-        .then(template => _resolve(template))
+        if (entry[1].template.startsWith('http')) return provider.http(entry[1].template)
+          .then(template => _resolve(template))
 
-      return _resolve(entry[1].template)
+        return _resolve(entry[1].template)
 
-    })
-  ))
+      })
+    ))
+  }
 
   return new Promise(resolve => {
 
