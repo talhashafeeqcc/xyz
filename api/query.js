@@ -4,25 +4,23 @@ const dbs = require('../mod/dbs')()
 
 const sql_filter = require('../mod/layer/sql_filter')
 
-const _layers = require('../mod/workspace/layers')
-
-const _templates = require('../mod/workspace/templates')
+const getWorkspace = require('../mod/workspace/getWorkspace')
 
 module.exports = async (req, res) => {
 
   req.params = Object.assign(req.params || {}, req.query || {})
 
-  const layers = await _layers(req)
+  const workspace = await getWorkspace(req.params.clear_cache)
 
-  const templates = await _templates(req)
+  if (workspace instanceof Error) return res.status(500).send(workspace.message)
 
-  if (req.params.clear_cache) return res.end()
+  if (req.params.clear_cache) return res.send('/query endpoint cache cleared')
 
-  const template = templates[decodeURIComponent(req.params._template || req.params.template)]
+  const template = workspace.templates[decodeURIComponent(req.params._template || req.params.template)]
 
   if(!template) return res.status(404).send('Template not found')
 
-  if (template.err) return res.status(500).send(template.err)
+  if (template.err) return res.status(500).send(template.err.message)
 
   await auth(req, res, template.access)
 
@@ -30,7 +28,7 @@ module.exports = async (req, res) => {
 
   if (req.params.locale && req.params.layer) {
 
-    const layer = layers[req.params.layer]
+    const layer = req.params.locale && workspace.locales[req.params.locale].layers[req.params.layer]
 
     const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
       role => layer.roles[role]).map(

@@ -8,20 +8,17 @@ const sql_filter = require('../mod/layer/sql_filter')
 
 const getWorkspace = require('../mod/workspace/getWorkspace')
 
-let _workspace = getWorkspace()
-
 module.exports = async (req, res) => {
 
   req.params = Object.assign(req.params || {}, req.query || {})
 
   await auth(req, res)
 
-  if (req.params.clear_cache) {
-    _workspace = getWorkspace()
-    return res.end()
-  }
+  const workspace = await getWorkspace(req.params.clear_cache)
 
-  const workspace = await _workspace
+  if (workspace instanceof Error) return res.status(500).send(workspace.message)
+
+  if (req.params.clear_cache) return res.send('/query endpoint cache cleared')
 
   const locale = workspace.locales[req.params.locale]
 

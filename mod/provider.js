@@ -25,13 +25,13 @@ async function http(req) {
 
     const response = await fetch(req)
 
-    if (response.status >= 300) return new Error(`Failed to fetch ressource: ${response.status}`)
+    if (response.status >= 300) return new Error(`${response.status} ${req}`)
 
     return await response.text()
 
   } catch(err) {
 
-    return {err: err}
+    return err
 
   }
 }
@@ -46,6 +46,8 @@ async function github(req) {
   
     const response = await fetch(`https://${url}`, process.env.KEY_GITHUB &&
       {headers: new fetch.Headers({Authorization:`token ${process.env.KEY_GITHUB}`})})
+
+    if (response.status >= 300) return new Error(`${response.status} ${url}`)
   
     const b64 = await response.json()
   
@@ -55,7 +57,7 @@ async function github(req) {
 
   } catch(err) {
 
-    return {err: err}
+    return err
 
   }
 }

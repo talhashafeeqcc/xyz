@@ -1,6 +1,6 @@
 const auth = require('../mod/auth/handler')
 
-const _layers = require('../mod/workspace/layers')
+const getWorkspace = require('../mod/workspace/getWorkspace')
 
 const _format = {
   cluster: require('../mod/layer/cluster'),
@@ -17,15 +17,17 @@ module.exports = async (req, res) => {
 
   if (res.finished) return
 
-  const layers = await _layers(req)
+  const workspace = await getWorkspace(req.params.clear_cache)
 
-  if (req.params.clear_cache) return res.end()
+  if (workspace instanceof Error) return res.status(500).send(workspace.message)
+
+  if (req.params.clear_cache) return res.send('/layer endpoint cache cleared')
 
   const format = _format[req.params.format]
 
   if (!format) return res.send('Help text.')
 
-  req.params.layer = layers[req.params.layer]
+  req.params.layer = req.params.locale && workspace.locales[req.params.locale].layers[req.params.layer]
 
   if (!req.params.layer) return res.send('Help text.')
 

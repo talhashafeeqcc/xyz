@@ -1,6 +1,12 @@
-const _templates = require('../workspace/templates')
+const acl = require('../auth/acl')()
 
-const acl = require('./acl')()
+const { readFileSync } = require('fs')
+
+const { join } = require('path')
+
+const template = readFileSync(join(__dirname, '../../public/views/_login.html')).toString('utf8')
+
+const render = params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || '')
 
 module.exports = async (req, res, msg) => {
 
@@ -10,9 +16,7 @@ module.exports = async (req, res, msg) => {
 
   if (rows instanceof Error) return res.send('Failed to connect with Access Control List.')
 
-  const templates = await _templates(req)
-
-  const html = templates._login.render({
+  const html = render({
     dir: process.env.DIR || '',
     redirect: req.url && decodeURIComponent(req.url),
     msg: msg || ' ',

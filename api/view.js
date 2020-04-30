@@ -2,25 +2,27 @@ const auth = require('../mod/auth/handler')
 
 const Md = require('mobile-detect')
 
-const _templates = require('../mod/workspace/templates')
+const getWorkspace = require('../mod/workspace/getWorkspace')
 
 module.exports = async (req, res) => {
 
   req.params = Object.assign(req.params || {}, req.query || {})
 
-  const templates = await _templates(req)
+  const workspace = await getWorkspace(req.params.clear_cache)
 
-  if (req.params.clear_cache) return res.end()
+  if (workspace instanceof Error) return res.status(500).send(workspace.message)
+
+  if (req.params.clear_cache) return res.send('/query endpoint cache cleared')
 
   const md = new Md(req.headers['user-agent'])
 
   req.params.template = req.params._template || req.params.template || (md.mobile() === null || md.tablet() !== null) && '_desktop' || '_mobile'
 
-  const template = templates[req.params.template]
+  const template = workspace.templates[decodeURIComponent(req.params.template)]
 
   if (!template) return res.status(404).send('View template not found.')
 
-  if (template.err) return res.status(500).send(template.err)
+  if (template.err) return res.status(500).send(template.err.message)
 
   const access = template.access || req.params.access
    

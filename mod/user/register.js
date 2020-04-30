@@ -1,4 +1,10 @@
-const _templates = require('../workspace/templates')
+const { readFileSync } = require('fs')
+
+const { join } = require('path')
+
+const template = readFileSync(join(__dirname, '../../public/views/_register.html')).toString('utf8')
+
+const render = params => template.replace(/\$\{(.*?)\}/g, matched => params[matched.replace(/\$|\{|\}/g, '')] || '')
 
 const bcrypt = require('bcryptjs')
 
@@ -20,9 +26,7 @@ module.exports = async (req, res) => {
 
   if (req.body) return register(req, res)
 
-  const templates = await _templates(req)
-
-  const html = templates._register.render({
+  const html = render({
     dir: process.env.DIR || '',
     captcha: process.env.GOOGLE_CAPTCHA && process.env.GOOGLE_CAPTCHA.split('|')[0] || '',
   })
