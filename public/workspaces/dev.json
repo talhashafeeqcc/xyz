@@ -1,23 +1,16 @@
 {
   "title": "GEOLYTIX | XYZ DEV",
   "templates": {
-    "population_summary": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/_population_summary",
+    "NE Countries table1": {
+      "template": "SELECT name, pop_est, gdp_md_est FROM dev.natural_earth_countries WHERE true ${viewport} ${filter} ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
       "dbs": "XYZ"
     },
-    "table_view": {
-      "template": "http://localhost:3000/views/table_view.html"
+    "NE GDP/Population Layer Table": {
+      "template": "SELECT id, name, gdp_md_est, pop_est FROM dev.natural_earth_countries WHERE true ${viewport} ${filter} ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+      "dbs": "XYZ"
     },
     "Random Data Series": {
       "template": "SELECT id AS id, random1 AS random1, random2 AS random2, random3 AS random3, random4 AS random4, random5 AS random5, random5 AS rev_random1, random4 AS rev_random2, random3 AS rev_random3, random2 AS rev_random4, random1 AS rev_random5 FROM dev.uk_glx_sites WHERE id = ${id};",
-      "dbs": "XYZ"
-    },
-    "Stacked Data": {
-      "template": "SELECT actual_sales_activity1, actual_sales_activity2, actual_sales_activity3, actual_sales_activity4, model_sales_activity1, model_sales_activity2, model_sales_activity3, model_sales_activity4 FROM dev.uk_glx_sites WHERE id = ${id};",
-      "dbs": "XYZ"
-    },
-    "OAC Profile": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/oac_profile.txt",
       "dbs": "XYZ"
     },
     "Population Summary Sites": {
@@ -28,30 +21,12 @@
       "template": "WITH workers AS (SELECT (SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=250 then b.workers else 0 end))::integer AS workers_250,(SUM(case when ST_distance(ST_Transform(a.geom_4326,27700),ST_transform(b.geom_p_4326,27700))<=500 then b.workers else 0 end))::integer AS workers_500 FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE a.id = ${id} AND ST_INTERSECTS(a.isoline_15min, b.geom_p_4326)) SELECT UNNEST(ARRAY['Workers 250m','Workers 500m']) AS rows,UNNEST(ARRAY[workers.workers_250,workers.workers_500]) AS workers FROM workers;",
       "dbs": "XYZ"
     },
-    "OAC Profile Sites": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/oac_profile.txt",
-      "dbs": "XYZ"
-    },
-    "Age Profile Sites": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/age_profile.txt",
-      "dbs": "XYZ"
-    },
-    "Social Grade Sites": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/queries/social_grade.txt",
-      "dbs": "XYZ"
-    },
     "Nearest competitors Sites": {
       "template": "SELECT (ROUND(((ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857))/1000)::numeric, 2))::text AS dist,(b.fascia)::text AS fascia,(b.postcode)::text AS postcode FROM dev.uk_glx_sites a, geodata.uk_glx_open_retail_points b WHERE a.id = ${id} ORDER BY ST_Transform(a.geom_4326, 3857) <#> ST_Transform(b.geom_p_4326, 3857) NULLS LAST LIMIT 5;",
       "dbs": "XYZ"
     },
-    "Sites Location Report": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/mb/mb_report.html"
-    },
     "Dev sites report": {
       "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/report_sites/sites.html"
-    },
-    "Sites Population Dashboard": {
-      "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/sites_population.html"
     },
     "Sites Local Report": {
       "template": "http://localhost:3000/views/report_location.html"
@@ -59,15 +34,527 @@
     "aga_isoline_5min": {
       "template": "SELECT ROUND(sum(b.pop__11)) as _pop__11_5min, ROUND(sum(b.pop__12)) as _pop__12_5min, ROUND(sum(b.pop__13)) as _pop__13_5min, ROUND(sum(b.pop__14)) as _pop__14_5min, ROUND(sum(b.pop__15)) as _pop__15_5min, ROUND(sum(b.pop__16)) as _pop__16_5min, ROUND(sum(b.pop__17)) as _pop__17_5min, ROUND(sum(b.pop__18)) as _pop__18_5min FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE a.id = ${id} AND st_intersects(a.isoline_5min, b.geom_p_4326);",
       "dbs": "XYZ"
+    },
+    "UK Retail Places Layer Table": {
+      "template": "SELECT tid AS qID, id, dev_date ,rp_type, comp_strgh, est_units, est_brands FROM dev.retailplaces WHERE true ${viewport} ORDER BY tid ASC FETCH FIRST 99 ROW ONLY;",
+      "dbs": "XYZ"
+    },
+    "UK Retail Places Profile": {
+      "template": "SELECT ROUND(comparison::numeric, 2) AS comparison, ROUND(conv::numeric, 2) AS conv, ROUND(fbl::numeric, 2) AS fbl, ROUND(services::numeric, 2) AS services, ROUND(classbrass::numeric, 2) AS classbrass FROM dev.retailplaces WHERE tid = ${id};",
+      "dbs": "XYZ"
+    },
+    "UK Retail Points Layer Table": {
+      "template": "SELECT id, retailpoint_id, retailer, fascia FROM dev.retailpoints ORDER BY id ASC FETCH FIRST 99 ROW ONLY;",
+      "dbs": "XYZ"
     }
   },
   "locales": {
+    "Natural Earth": {
+      "minZoom": 3,
+      "maxZoom": 14,
+      "gazetteer": {
+        "provider": "OPENCAGE",
+        "placeholder": "e.g. Venice",
+        "bounds": "-13,48,5,62",
+        "code": "GB"
+      },
+      "layers": {
+        "OSM": {
+          "group": "Maps",
+          "meta": "<p>Test paragraph for meta in group</p>",
+          "format": "tiles",
+          "attribution": {
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          },
+          "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        },
+        "Mapbox": {
+          "group": "Maps",
+          "attribution": {
+            "© Mapbox": "https://www.mapbox.com/about/maps",
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          },
+          "format": "tiles",
+          "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
+        },
+        "Countries": {
+          "display": true,
+          "attribution": {
+            "Made with Natural Earth.": "https://www.naturalearthdata.com/"
+          },
+          "format": "mvt",
+          "dbs": "XYZ",
+          "mvt_cache": "dev.natural_earth_countries__mvts",
+          "tables": {
+            "2": null,
+            "3": "dev.natural_earth_countries"
+          },
+          "geom": "geom_3857",
+          "srid": "3857",
+          "dataviews": {
+            "table1": {
+              "title": "Population / GDP",
+              "query": "NE Countries table1",
+              "viewport": true,
+              "columns": [{
+                  "field": "name",
+                  "title": "Name"
+                },
+                {
+                  "title": "Population Est",
+                  "field": "pop_est"
+                },
+                {
+                  "field": "gdp_md_est"
+                }
+              ]
+            },
+            "GDP / Population": {
+              "display": true,
+              "query": "NE GDP/Population Layer Table",
+              "viewport": true,
+              "selectable": true,
+              "layout": "fitColumns",
+              "columns": [{
+                  "field": "name",
+                  "customFormatter": "colour",
+                  "formatterParams": {
+                    "colour": "#090"
+                  }
+                },
+                {
+                  "field": "gdp_md_est",
+                  "formatter": "money",
+                  "hozAlign": "right",
+                  "formatterParams": {
+                    "symbol": " dollars",
+                    "symbolAfter": true,
+                    "precision": 0
+                  }
+                },
+                {
+                  "title": "Population Est",
+                  "field": "pop_est",
+                  "formatter": "money",
+                  "hozAlign": "center",
+                  "formatterParams": {
+                    "precision": false
+                  }
+                }
+              ]
+            },
+            "multiviews": {
+              "dataviews": [{
+                  "query": "NE Countries table1",
+                  "viewport": true,
+                  "columns": [{
+                      "field": "name",
+                      "title": "Name"
+                    },
+                    {
+                      "title": "Population Est",
+                      "field": "pop_est"
+                    },
+                    {
+                      "field": "gdp_md_est"
+                    }
+                  ]
+                },
+                {
+                  "query": "NE GDP/Population Layer Table",
+                  "viewport": true,
+                  "selectable": true,
+                  "layout": "fitColumns",
+                  "columns": [{
+                      "field": "name"
+                    },
+                    {
+                      "field": "gdp_md_est",
+                      "formatter": "money",
+                      "hozAlign": "right",
+                      "formatterParams": {
+                        "symbol": " dollars",
+                        "symbolAfter": true,
+                        "precision": 0
+                      }
+                    },
+                    {
+                      "title": "Population Est",
+                      "field": "pop_est",
+                      "formatter": "money",
+                      "hozAlign": "center",
+                      "formatterParams": {
+                        "precision": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "qID": "id",
+          "infoj": [{
+              "type": "key"
+            },
+            {
+              "label": "Name",
+              "field": "name"
+            },
+            {
+              "label": "Population Est",
+              "field": "pop_est",
+              "type": "integer"
+            },
+            {
+              "label": "Population Est edit",
+              "field": "pop_est_edit",
+              "type": "integer",
+              "filter": "numeric",
+              "edit": true
+            },
+            {
+              "label": "GDP",
+              "field": "gdp_md_est",
+              "type": "integer",
+              "suffix": " dollars"
+            },
+            {
+              "label": "GDP edit",
+              "field": "gdp_md_est_edit",
+              "type": "integer",
+              "edit": true
+            },
+            {
+              "label": "Area SRID:3857",
+              "field": "area_",
+              "fieldfx": "ST_Area(geom_3857)",
+              "type": "integer"
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeColor": "#004BA8",
+              "fillColor": "#ffffff",
+              "fillOpacity": 0.8
+            },
+            "highlight": {
+              "fillOpacity": 1,
+              "strokeWidth": 2
+            },
+            "themes": {
+              "Population": {
+                "type": "graduated",
+                "field": "pop_est_edit",
+                "cat_arr": [{
+                    "value": 0,
+                    "label": "0 to 10000",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 1000000,
+                    "label": "1+ million",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 10000000,
+                    "label": "10+ million",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 25000000,
+                    "label": "25+ million",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 50000000,
+                    "label": "50+ million",
+                    "style": {
+                      "fillColor": "#fdae61"
+                    }
+                  },
+                  {
+                    "value": 100000000,
+                    "label": "100+ million",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 1000000000,
+                    "label": "1+ billion",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              },
+              "GDP": {
+                "type": "graduated",
+                "field": "gdp_md_est",
+                "cat_arr": [{
+                    "value": 0,
+                    "label": "0",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 5000,
+                    "label": "5000",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 25000,
+                    "label": "25000",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 75000,
+                    "label": "75000",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 250000,
+                    "label": "250000",
+                    "style": {
+                      "fillColor": "#fdae61"
+                    }
+                  },
+                  {
+                    "value": 500000,
+                    "label": "500000",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 1000000,
+                    "label": "1000000",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              },
+              "GDP / Population": {
+                "type": "graduated",
+                "field": "gdp_pp",
+                "fieldfx": "gdp_md_est_edit::numeric / (pop_est_edit::numeric + 1) * 1000",
+                "cat_arr": [{
+                    "value": 1,
+                    "label": "1",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 2.5,
+                    "label": "2.5",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 5,
+                    "label": "5",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 10,
+                    "label": "10",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 25,
+                    "label": "25",
+                    "style": {
+                      "fillColor": "#fdae61"
+                    }
+                  },
+                  {
+                    "value": 50,
+                    "label": "50",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 100,
+                    "label": "100",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              },
+              "Population Density": {
+                "type": "graduated",
+                "fieldfx": "(pop_est_edit / st_area(geom_3857)) * 1000",
+                "field": "pop_dens",
+                "cat_arr": [{
+                    "value": 0,
+                    "label": "0",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 0.01,
+                    "label": "0.01",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 0.025,
+                    "label": "0.025",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 0.05,
+                    "label": "0.05",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 0.1,
+                    "label": "0.1",
+                    "fillColor": "#fdae61"
+                  },
+                  {
+                    "value": 0.5,
+                    "label": "0.5",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 1,
+                    "label": "1",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Tiles": {
+          "format": "mvt",
+          "dbs": "XYZ",
+          "table": "dev.natural_earth_countries__mvts",
+          "geom": "tile",
+          "style": {
+            "default": {
+              "strokeColor": "#333333",
+              "fillColor": "#8C7AA9",
+              "fillOpacity": 0
+            }
+          }
+        },
+        "Offices": {
+          "format": "geojson",
+          "dbs": "XYZ",
+          "table": "glx_offices",
+          "srid": "4326",
+          "geom": "geom",
+          "style": {
+            "hidden": true,
+            "default": {
+              "marker": {
+                "type": "markerColor",
+                "colorMarker": "#999999",
+                "colorDot": "#333333",
+                "anchor": [
+                  0.5,
+                  1
+                ],
+                "scale": 0.05
+              }
+            },
+            "highlight": {
+              "marker": {
+                "type": "markerColor",
+                "colorMarker": "#64dd17",
+                "colorDot": "#33691e",
+                "anchor": [
+                  0.5,
+                  1
+                ],
+                "scale": 0.05
+              }
+            },
+            "selected": {
+              "marker": {
+                "type": "markerColor",
+                "colorMarker": "#64dd17",
+                "colorDot": "#33691e",
+                "anchor": [
+                  0.5,
+                  1
+                ],
+                "scale": 0.05
+              }
+            }
+          },
+          "hover": {
+            "field": "address"
+          },
+          "qID": "id",
+          "infoj": [{
+              "type": "key"
+            },
+            {
+              "label": "Address",
+              "field": "address",
+              "type": "html"
+            }
+          ]
+        },
+        "Mapbox Labels": {
+          "group": "Maps",
+          "format": "tiles",
+          "attribution": {
+            "© Mapbox": "https://www.mapbox.com/about/maps",
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          },
+          "URI": "/styles/v1/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
+        }
+      }
+    },
     "UK": {
       "name": "United Kingdom",
       "gazetteer": {
         "provider": "GOOGLE",
         "code": "GB",
-        "placeholder": "eg. London"
+        "placeholder": "eg. London",
+        "datasets": [{
+          "layer": "Retail Points",
+          "table": "dev.retailpoints",
+          "label": "store"
+        }]
       },
       "bounds": {
         "north": 62,
@@ -79,6 +566,14 @@
       "maxZoom": 17,
       "showScaleBar": true,
       "layers": {
+        "OSM": {
+          "group": "Maps",
+          "format": "tiles",
+          "attribution": {
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          },
+          "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        },
         "Mapbox Custom": {
           "group": "Maps",
           "format": "tiles",
@@ -88,6 +583,16 @@
             "© Mapbox": "https://www.mapbox.com/about/maps",
             "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
           }
+        },
+        "Mapbox": {
+          "group": "Maps",
+          "display": true,
+          "attribution": {
+            "© Mapbox": "https://www.mapbox.com/about/maps",
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          },
+          "format": "tiles",
+          "URI": "/styles/v1/dbauszus/ciozrimi3002bdsm8bjtn2v1y/tiles/256/{z}/{x}/{y}?&provider=MAPBOX&host=https://api.mapbox.com"
         },
         "Mapbox Labels": {
           "group": "Maps",
@@ -99,10 +604,34 @@
             "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
           }
         },
+        "Grid": {
+          "attribution": {
+            "© ONS": "https://www.ons.gov.uk"
+          },
+          "srid": "4326",
+          "format": "grid",
+          "dbs": "XYZ",
+          "geom": "geomcntr",
+          "tables": {
+            "7": null,
+            "8": "gb_hx_16k",
+            "9": "gb_hx_8k",
+            "10": "gb_hx_4k",
+            "11": "gb_hx_2k",
+            "12": "gb_hx_1k",
+            "13": "gb_hx_1k",
+            "14": null
+          },
+          "grid_fields": {
+            "Population 2001": "pop__01",
+            "Population 2011": "pop__11",
+            "Female population": "gen_female__11",
+            "Male population": "gen_male__11"
+          }
+        },
         "Small Cluster": {
           "group": "Point layers",
           "meta": "Large Supermarkets - contains 1,500 records - kmeans and dbscan",
-          "display": false,
           "format": "cluster",
           "dbs": "DEV",
           "table": "dev.uk_glx_open_retail_points_large_supermarkets",
@@ -116,43 +645,9 @@
           "hover": {
             "field": "store_name"
           },
-          "dataview": {
-            "Large Supermarkets": {
-              "display": true,
-              "from": "dev.uk_glx_open_retail_points_large_supermarkets",
-              "columns": [{
-                  "field": "id",
-                  "title": "ID"
-                },
-                {
-                  "field": "store_name",
-                  "title": "Store Name"
-                },
-                {
-                  "field": "town",
-                  "title": "Town"
-                },
-                {
-                  "field": "postcode",
-                  "title": "Postcode"
-                },
-                {
-                  "field": "open_date",
-                  "title": "Open Date"
-                }
-              ]
-            }
-          },
-          "infoj": [{
-              "type": "key"
-            },
+          "infoj": [
             {
-              "type": "report",
-              "class": "_report",
-              "report": {
-                "template": "https://api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/new_server/map_view.html",
-                "name": "Map View"
-              }
+              "type": "key"
             },
             {
               "field": "retailer",
@@ -201,61 +696,12 @@
               "label": "Close Date"
             },
             {
-              "label": "Available dataviews",
-              "type": "label"
-            },
-            {
-              "type": "orderedList",
-              "title": "Nearest Large Supermarkets",
-              "display": true,
-              "layout": "fitColumns",
-              "from": "dev.uk_glx_open_retail_points_large_supermarkets a, dev.uk_glx_open_retail_points_large_supermarkets b",
-              "where": "a.id = $1 and a.id <> b.id",
-              "orderby": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326)",
-              "limit": 10,
-              "columns": [{
-                  "title": "ID",
-                  "field": "id",
-                  "fieldfx": "b.id"
-                },
-                {
-                  "title": "Name",
-                  "field": "store_name",
-                  "fieldfx": "b.store_name",
-                  "width": 250
-                },
-                {
-                  "title": "Postcode",
-                  "field": "postcode",
-                  "fieldfx": "b.postcode"
-                },
-                {
-                  "title": "Open Date",
-                  "field": "open_date",
-                  "fieldfx": "b.open_date"
-                },
-                {
-                  "title": "Distance",
-                  "field": "dist",
-                  "fieldfx": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326) / 1000",
-                  "align": "center",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 1,
-                    "symbol": " km",
-                    "symbolAfter": true
-                  }
-                }
-              ]
-            },
-            {
               "type": "streetview"
             }
           ],
           "style": {
             "label": {
               "field": "store_name",
-              "display": false,
               "declutter": true,
               "strokeColor": "#ffffff",
               "strokeWidth": 3
@@ -270,9 +716,6 @@
             },
             "markerMin": 50,
             "markerMax": 50,
-            "highlight": {
-              "scale": 0.08
-            },
             "themes": {
               "Retailers": {
                 "type": "categorized",
@@ -323,7 +766,6 @@
         "Large Cluster": {
           "group": "Point layers",
           "meta": "Food Stores (top 6 retailers) - contains 9,000 records - kmeans only",
-          "display": false,
           "format": "cluster",
           "dbs": "DEV",
           "table": "dev.uk_glx_open_retail_points_food_stores",
@@ -336,7 +778,11 @@
           "hover": {
             "field": "store_name"
           },
-          "infoj": [{
+          "infoj": [
+            {
+              "type": "streetview"
+            },
+            {
               "type": "key"
             },
             {
@@ -386,54 +832,6 @@
               "label": "Close Date"
             },
             {
-              "label": "Available dataviews",
-              "type": "label"
-            },
-            {
-              "type": "orderedList",
-              "title": "Nearest Competitors - all stores",
-              "display": true,
-              "layout": "fitColumns",
-              "from": "dev.uk_glx_open_retail_points_food_stores a, geodata.uk_glx_open_retail_points b",
-              "where": "a.id = $1 and a.id <> b.id",
-              "orderby": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326)",
-              "limit": 10,
-              "columns": [{
-                  "title": "ID",
-                  "field": "id",
-                  "fieldfx": "b.id"
-                },
-                {
-                  "title": "Name",
-                  "field": "store_name",
-                  "fieldfx": "b.store_name",
-                  "width": 250
-                },
-                {
-                  "title": "Postcode",
-                  "field": "postcode",
-                  "fieldfx": "b.postcode"
-                },
-                {
-                  "title": "Open Date",
-                  "field": "open_date",
-                  "fieldfx": "b.open_date"
-                },
-                {
-                  "title": "Distance",
-                  "field": "dist",
-                  "fieldfx": "ST_DistanceSphere(a.geom_p_4326, b.geom_p_4326) / 1000",
-                  "align": "center",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 1,
-                    "symbol": " km",
-                    "symbolAfter": true
-                  }
-                }
-              ]
-            },
-            {
               "label": "Catchments",
               "type": "label",
               "title": "Customer catchment"
@@ -458,8 +856,6 @@
               "field": "isoline_5min",
               "fieldfx": "ST_asGeoJson(isoline_5min)",
               "type": "geometry",
-              "class": "hidden_in_report",
-              "display": false,
               "level": 2,
               "edit": {
                 "isoline_here": {
@@ -470,40 +866,16 @@
                 "strokeColor": "#BB0A21",
                 "fillColor": "#BB0A21",
                 "fillOpacity": 0.3
-              }
-            },
-            {
-              "label": "Food Stores within 5min",
-              "type": "group",
-              "chart": {
-                "type": "horizontalBar",
-                "maxRotationX": 90,
-                "minRotationX": 90,
-                "beginAtZero": true,
-                "backgroundColor": [
-                  "#66cc66",
-                  "#0099ff",
-                  "#e6e600",
-                  "#e68a00",
-                  "#0000ff",
-                  "#00802b"
-                ],
-                "borderColor": [
-                  "#66cc66",
-                  "#0099ff",
-                  "#e6e600",
-                  "#e68a00",
-                  "#0000ff",
-                  "#00802b"
-                ]
-              }
+              },
+              "dependents": ["_asda5min", "_coop5min", "_morrisons5min", "_sainsburys5min", "_tesco5min", "_waitrose5min"]
             },
             {
               "group": "Food Stores within 5min",
               "label": "Asda",
               "field": "_asda5min",
               "fieldfx": "SELECT coalesce(sum(case when b.retailer = 'Asda' then 1 else 0 end), 0) FROM dev.uk_glx_open_retail_points_food_stores a, dev.uk_glx_open_retail_points_food_stores b WHERE a.id = $1 AND st_intersects(a.isoline_5min, b.geom_p_4326) and a.id <> b.id",
-              "type": "integer"
+              "type": "integer",
+              "expanded": true
             },
             {
               "group": "Food Stores within 5min",
@@ -545,8 +917,6 @@
               "field": "isoline_10min",
               "fieldfx": "ST_asGeoJson(isoline_10min)",
               "type": "geometry",
-              "class": "hidden_in_report",
-              "display": false,
               "level": 2,
               "edit": {
                 "isoline_here": {
@@ -558,40 +928,16 @@
                 "fillColor": "#F49D37",
                 "fillOpacity": 0.3,
                 "strokeWidth": 2
-              }
-            },
-            {
-              "label": "Food Stores within 10min",
-              "type": "group",
-              "chart": {
-                "type": "horizontalBar",
-                "maxRotationX": 90,
-                "minRotationX": 90,
-                "beginAtZero": true,
-                "backgroundColor": [
-                  "#66cc66",
-                  "#0099ff",
-                  "#e6e600",
-                  "#e68a00",
-                  "#0000ff",
-                  "#00802b"
-                ],
-                "borderColor": [
-                  "#66cc66",
-                  "#0099ff",
-                  "#e6e600",
-                  "#e68a00",
-                  "#0000ff",
-                  "#00802b"
-                ]
-              }
+              },
+              "dependents": ["_asda10min", "_coop10min", "_morrisons10min", "_sainsburys10min", "_tesco10min", "_waitrose10min"]
             },
             {
               "group": "Food Stores within 10min",
               "label": "Asda",
               "field": "_asda10min",
               "fieldfx": "SELECT coalesce(sum(case when b.retailer = 'Asda' then 1 else 0 end), 0) FROM dev.uk_glx_open_retail_points_food_stores a, dev.uk_glx_open_retail_points_food_stores b WHERE a.id = $1 AND st_intersects(a.isoline_10min, b.geom_p_4326) and a.id <> b.id",
-              "type": "integer"
+              "type": "integer",
+              "expanded": true
             },
             {
               "group": "Food Stores within 10min",
@@ -633,8 +979,6 @@
               "field": "isoline_15min",
               "fieldfx": "ST_asGeoJson(isoline_15min)",
               "type": "geometry",
-              "class": "hidden_in_report",
-              "display": false,
               "level": 2,
               "edit": {
                 "isoline_here": {
@@ -646,40 +990,16 @@
                 "fillColor": "#FFF05A",
                 "strokeWidth": 2,
                 "fillOpacity": 0.3
-              }
-            },
-            {
-              "label": "Food Stores within 15min",
-              "type": "group",
-              "chart": {
-                "type": "horizontalBar",
-                "maxRotationX": 90,
-                "minRotationX": 90,
-                "beginAtZero": true,
-                "backgroundColor": [
-                  "#66cc66",
-                  "#0099ff",
-                  "#e6e600",
-                  "#e68a00",
-                  "#0000ff",
-                  "#00802b"
-                ],
-                "borderColor": [
-                  "#66cc66",
-                  "#0099ff",
-                  "#e6e600",
-                  "#e68a00",
-                  "#0000ff",
-                  "#00802b"
-                ]
-              }
+              },
+              "dependents": ["_asda15min", "_coop15min", "_morrisons15min", "_sainsburys15min", "_tesco15min", "_waitrose15min"]
             },
             {
               "group": "Food Stores within 15min",
               "label": "Asda",
               "field": "_asda15min",
               "fieldfx": "SELECT coalesce(sum(case when b.retailer = 'Asda' then 1 else 0 end), 0) FROM dev.uk_glx_open_retail_points_food_stores a, dev.uk_glx_open_retail_points_food_stores b WHERE a.id = $1 AND st_intersects(a.isoline_15min, b.geom_p_4326) and a.id <> b.id",
-              "type": "integer"
+              "type": "integer",
+              "expanded": true
             },
             {
               "group": "Food Stores within 15min",
@@ -715,15 +1035,11 @@
               "field": "_waitrose15min",
               "fieldfx": "SELECT coalesce(sum(case when b.retailer = 'Waitrose' then 1 else 0 end), 0) FROM dev.uk_glx_open_retail_points_food_stores a, dev.uk_glx_open_retail_points_food_stores b WHERE a.id = $1 AND st_intersects(a.isoline_15min, b.geom_p_4326) and a.id <> b.id",
               "type": "integer"
-            },
-            {
-              "type": "streetview"
             }
           ],
           "style": {
             "label": {
               "field": "store_name",
-              "display": false,
               "declutter": true,
               "strokeColor": "#ffffff",
               "strokeWidth": 3
@@ -803,7 +1119,6 @@
         "Editable Cluster - large": {
           "group": "Point layers",
           "meta": "Retail Points Collector - contains 14,000 records - kmeans",
-          "display": false,
           "format": "cluster",
           "dbs": "DEV",
           "table": "dev.uk_glx_open_retail_points_collector",
@@ -819,7 +1134,8 @@
             "delete": true,
             "geometry": true
           },
-          "infoj": [{
+          "infoj": [
+            {
               "type": "key"
             },
             {
@@ -913,7 +1229,7 @@
             {
               "label": "Comments",
               "field": "comments",
-              "type": "text",
+              "type": "textarea",
               "edit": true
             }
           ],
@@ -1128,7 +1444,6 @@
         },
         "Editable Cluster - small": {
           "group": "Point layers",
-          "display": false,
           "meta": "Sites - containing a small amount of records and reporting",
           "edit": {
             "properties": true,
@@ -1172,7 +1487,6 @@
             {
               "name": "Custom HERE Catchment (1)",
               "field": "isoline_custom1",
-              "display": false,
               "fieldfx": "ST_asGeoJson(isoline_custom1)",
               "type": "geometry",
               "edit": {
@@ -1196,7 +1510,6 @@
             {
               "name": "Custom HERE Catchment (2)",
               "field": "isoline_custom2",
-              "display": false,
               "fieldfx": "ST_asGeoJson(isoline_custom2)",
               "type": "geometry",
               "edit": {
@@ -1226,7 +1539,6 @@
             {
               "name": "Custom HERE Catchment (3)",
               "field": "isoline_custom3",
-              "display": false,
               "fieldfx": "ST_asGeoJson(isoline_custom3)",
               "type": "geometry",
               "edit": {
@@ -1239,505 +1551,6 @@
                 "fillColor": "#bdbd0a",
                 "strokeWidth": 2,
                 "fillOpacity": 0.2
-              }
-            },
-            {
-              "label": "Available dataviews",
-              "type": "label"
-            },
-            {
-              "type": "tableDefinition",
-              "title": "Population Summary",
-              "display": true,
-              "class": "_report",
-              "target_id": "xyz_fashion_pop",
-              "layout": "fitColumns",
-              "columns": [{
-                  "type": "integer",
-                  "title": "Custom Drivetime 1",
-                  "group": "Population (2011 census)",
-                  "field": "custom1",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom1",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "integer",
-                  "title": "Custom Drivetime 2",
-                  "group": "Population (2011 census)",
-                  "field": "custom2",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom2",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "numeric",
-                  "title": "Custom Drivetime 3",
-                  "group": "Population (2011 census)",
-                  "field": "custom3",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom3",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                }
-              ],
-              "rows": [{
-                  "field": "pop_18",
-                  "fieldfx": "SUM(b.pop_18)",
-                  "title": "Current Population (2018)"
-                },
-                {
-                  "field": "pop_11",
-                  "fieldfx": "SUM(b.pop_11)",
-                  "title": "Population 2011"
-                },
-                {
-                  "field": "pop_growth",
-                  "fieldfx": "SUM(b.pop_18 - b.pop_11) * 100 / SUM(b.pop_11)",
-                  "title": "Population Growth"
-                },
-
-                {
-                  "field": "male",
-                  "fieldfx": "100*SUM(male) / sum(male + female)",
-                  "title": "% Male"
-                },
-                {
-                  "field": "non_white",
-                  "fieldfx": "100*(SUM(pop_11 - white))/SUM(pop_11)",
-                  "title": "% Non-White"
-                },
-                {
-                  "field": "own_home",
-                  "fieldfx": "100*SUM(dwelling_ownhome)/SUM(dwelling_ownhome+dwelling_socialrented+dwelling_privaterented+dwelling_rentfree)",
-                  "title": "% Own Home"
-                },
-                {
-                  "field": "private_rented",
-                  "fieldfx": "100*SUM(dwelling_privaterented)/SUM(dwelling_ownhome+dwelling_socialrented+dwelling_privaterented+dwelling_rentfree)",
-                  "title": "% Private Rented"
-                },
-                {
-                  "field": "social_rented",
-                  "fieldfx": "100*SUM(dwelling_socialrented)/SUM(dwelling_ownhome+dwelling_socialrented+dwelling_privaterented+dwelling_rentfree)",
-                  "title": "% Social Rented"
-                },
-                {
-                  "field": "rentfree",
-                  "fieldfx": "100*SUM(dwelling_rentfree)/SUM(dwelling_ownhome+dwelling_socialrented+dwelling_privaterented+dwelling_rentfree)",
-                  "title": "% Rent Free"
-                },
-                {
-                  "field": "single_hhds",
-                  "fieldfx": "100*SUM(pers1hhd)/SUM(pers1hhd+pers2hhd+pers2plushhd)",
-                  "title": "% Single Hhds"
-                },
-                {
-                  "field": "hhds_two_ppl",
-                  "fieldfx": "100*SUM(pers2hhd)/SUM(pers1hhd+pers2hhd+pers2plushhd)",
-                  "title": "% 2 Person Hhds"
-                },
-                {
-                  "field": "hhds_3plus",
-                  "fieldfx": "100*SUM(pers2plushhd)/SUM(pers1hhd+pers2hhd+pers2plushhd)",
-                  "title": "% 3+ Hhds"
-                }
-              ]
-            },
-            {
-              "type": "tableDefinition",
-              "title": "Age Profile",
-              "display": true,
-              "target_id": "xyz_sites_age",
-              "columns": [{
-                  "type": "integer",
-                  "title": "Custom Drivetime 1",
-                  "group": "Population (2011 census)",
-                  "field": "custom1",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom1",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "integer",
-                  "title": "Custom Drivetime 2",
-                  "group": "Population (2011 census)",
-                  "field": "custom2",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom2",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "numeric",
-                  "title": "Custom Drivetime 3",
-                  "group": "Population (2011 census)",
-                  "field": "custom3",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom3",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "numeric",
-                  "field": "uk",
-                  "aspatial": "age0to18, age18to24, age25to44, age45to59, age60plus, age_profile_total FROM geodata.uk_glx_geodata_demographics_uk_regions where region = 'UK_avg'"
-                }
-              ],
-              "rows": [{
-                  "field": "age0to18",
-                  "title": "< 18",
-                  "fieldfx": "ROUND(SUM(b.age0to18::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "age18to24",
-                  "title": "18 to 24",
-                  "fieldfx": "ROUND(SUM(b.age18to24::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "age25to44",
-                  "title": "25 to 44",
-                  "fieldfx": "ROUND(SUM(b.age25to44::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "age45to59",
-                  "title": "45 to 59",
-                  "fieldfx": "ROUND(SUM(b.age45to59::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "age60plus",
-                  "title": "60+",
-                  "fieldfx": "ROUND(SUM(b.age60plus::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "age_profile_total",
-                  "title": "Total",
-                  "fieldfx": "ROUND(SUM(b.pop_11::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                }
-              ],
-              "agg": {
-                "share15": {
-                  "title": "% with drivetime 3",
-                  "rows": [
-                    "100*custom3.age0to18/custom3.age_profile_total",
-                    "100*custom3.age18to24/custom3.age_profile_total",
-                    "100*custom3.age25to44/custom3.age_profile_total",
-                    "100*custom3.age45to59/custom3.age_profile_total",
-                    "100*custom3.age60plus/custom3.age_profile_total"
-                  ],
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 1
-                  }
-                },
-                "age_uk_total": {
-                  "title": "UK %",
-                  "rows": [
-                    "uk.age0to18*100/uk.age_profile_total",
-                    "uk.age18to24*100/uk.age_profile_total",
-                    "uk.age25to44*100/uk.age_profile_total",
-                    "uk.age45to59*100/uk.age_profile_total",
-                    "uk.age60plus*100/uk.age_profile_total"
-                  ],
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 1
-                  }
-                },
-                "age_under_indexer": {
-                  "title": "Under",
-                  "group": "Index",
-                  "type": "integer",
-                  "align": "right",
-                  "formatter": "progress",
-                  "formatterParams": {
-                    "color": [
-                      "#C0392B"
-                    ],
-                    "min": 0,
-                    "max": 200
-                  },
-                  "width": 150,
-                  "sorter": "number",
-                  "rows": [
-                    "case when uk.age_profile_total*(100*custom3.age0to18/custom3.age_profile_total)/uk.age0to18 < 100 then 100 - uk.age_profile_total*(100*custom3.age0to18/custom3.age_profile_total)/uk.age0to18 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age18to24/custom3.age_profile_total)/uk.age18to24 < 100 then 100 - uk.age_profile_total*(100*custom3.age18to24/custom3.age_profile_total)/uk.age18to24 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age25to44/custom3.age_profile_total)/uk.age25to44 < 100 then 100 - uk.age_profile_total*(100*custom3.age25to44/custom3.age_profile_total)/uk.age25to44 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age45to59/custom3.age_profile_total)/uk.age45to59 < 100 then 100 - uk.age_profile_total*(100*custom3.age45to59/custom3.age_profile_total)/uk.age45to59 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age60plus/custom3.age_profile_total)/uk.age60plus < 100 then 100 - uk.age_profile_total*(100*custom3.age60plus/custom3.age_profile_total)/uk.age60plus else 0 end"
-                  ]
-                },
-                "age_over_indexer": {
-                  "title": "Over",
-                  "group": "Index",
-                  "type": "integer",
-                  "align": "left",
-                  "formatter": "progress",
-                  "formatterParams": {
-                    "color": [
-                      "#16A085"
-                    ],
-                    "min": 0,
-                    "max": 200
-                  },
-                  "width": 150,
-                  "sorter": "number",
-                  "rows": [
-                    "case when uk.age_profile_total*(100*custom3.age0to18/custom3.age_profile_total)/uk.age0to18 >= 100 then (uk.age_profile_total*(100*custom3.age0to18/custom3.age_profile_total)/uk.age0to18) - 100 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age18to24/custom3.age_profile_total)/uk.age18to24 >= 100 then (uk.age_profile_total*(100*custom3.age18to24/custom3.age_profile_total)/uk.age18to24) - 100 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age25to44/custom3.age_profile_total)/uk.age25to44 >= 100 then (uk.age_profile_total*(100*custom3.age25to44/custom3.age_profile_total)/uk.age25to44) - 100 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age45to59/custom3.age_profile_total)/uk.age45to59 >= 100 then (uk.age_profile_total*(100*custom3.age45to59/custom3.age_profile_total)/uk.age45to59) - 100 else 0 end",
-                    "case when uk.age_profile_total*(100*custom3.age60plus/custom3.age_profile_total)/uk.age60plus >= 100 then (uk.age_profile_total*(100*custom3.age60plus/custom3.age_profile_total)/uk.age60plus) - 100 else 0 end"
-                  ]
-                },
-                "age_index_value": {
-                  "title": "Score",
-                  "group": "Index",
-                  "type": "integer",
-                  "align": "center",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  },
-                  "width": 100,
-                  "sorter": "number",
-                  "rows": [
-                    "uk.age_profile_total*(100*custom3.age0to18/custom3.age_profile_total)/uk.age0to18",
-                    "uk.age_profile_total*(100*custom3.age18to24/custom3.age_profile_total)/uk.age18to24",
-                    "uk.age_profile_total*(100*custom3.age25to44/custom3.age_profile_total)/uk.age25to44",
-                    "uk.age_profile_total*(100*custom3.age45to59/custom3.age_profile_total)/uk.age45to59",
-                    "uk.age_profile_total*(100*custom3.age60plus/custom3.age_profile_total)/uk.age60plus"
-                  ]
-                }
-              }
-            },
-            {
-              "type": "tableDefinition",
-              "title": "Social Grade",
-              "display": true,
-              "target_id": "xyz_sites_social",
-              "columns": [{
-                  "type": "integer",
-                  "title": "Custom Drivetime 1",
-                  "group": "Households",
-                  "field": "custom1",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom1",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "integer",
-                  "title": "Custom Drivetime 2",
-                  "group": "Households",
-                  "field": "custom2",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom2",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "numeric",
-                  "title": "Custom Drivetime 3",
-                  "group": "Households",
-                  "field": "custom3",
-                  "lookup": {
-                    "table_a": "dev.uk_dev_sites",
-                    "table_b": "geodata.uk_glx_geodata_oa_metrics",
-                    "geom_a": "isoline_custom3",
-                    "geom_b": "geom_4326_5m"
-                  },
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "type": "numeric",
-                  "field": "uk",
-                  "aspatial": "sg_ab, sg_c1, sg_c2, sg_de, sg_total FROM geodata.uk_glx_geodata_demographics_uk_regions where region = 'UK_avg'"
-                }
-              ],
-              "rows": [{
-                  "field": "sg_ab",
-                  "title": "AB",
-                  "fieldfx": "ROUND(SUM(b.abhrp::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "sg_c1",
-                  "title": "C1",
-                  "fieldfx": "ROUND(SUM(b.c1hrp::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "sg_c2",
-                  "title": "C2",
-                  "fieldfx": "ROUND(SUM(b.c2hrp::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "sg_de",
-                  "title": "DE",
-                  "fieldfx": "ROUND(SUM(b.dehrp::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                },
-                {
-                  "field": "sg_total",
-                  "title": "Total",
-                  "fieldfx": "ROUND(SUM((b.abhrp+b.c1hrp+b.c2hrp+b.dehrp)::NUMERIC * ST_Area(ST_Intersection(a.isoline_custom1, b.geom_4326_5m)::geography)/ST_Area(b.geom_4326_5m::geography)))::INT"
-                }
-              ],
-              "agg": {
-                "share15": {
-                  "title": "% with drivetime 3",
-                  "rows": [
-                    "100*custom3.sg_ab/custom3.sg_total",
-                    "100*custom3.sg_c1/custom3.sg_total",
-                    "100*custom3.sg_c2/custom3.sg_total",
-                    "100*custom3.sg_de/custom3.sg_total"
-                  ],
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 1
-                  }
-                },
-                "sg_uk_total": {
-                  "title": "UK %",
-                  "rows": [
-                    "uk.sg_ab*100/uk.sg_total",
-                    "uk.sg_c1*100/uk.sg_total",
-                    "uk.sg_c2*100/uk.sg_total",
-                    "uk.sg_de*100/uk.sg_total"
-                  ],
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 1
-                  }
-                },
-                "sg_under_indexer": {
-                  "title": "Under",
-                  "group": "Index",
-                  "type": "integer",
-                  "align": "right",
-                  "formatter": "progress",
-                  "formatterParams": {
-                    "color": [
-                      "#C0392B"
-                    ],
-                    "min": 0,
-                    "max": 200
-                  },
-                  "width": 150,
-                  "sorter": "number",
-                  "rows": [
-                    "case when uk.sg_total*(100*custom3.sg_ab/custom3.sg_total)/uk.sg_ab < 100 then 100 - uk.sg_total*(100*custom3.sg_ab/custom3.sg_total)/uk.sg_ab else 0 end",
-                    "case when uk.sg_total*(100*custom3.sg_c1/custom3.sg_total)/uk.sg_c1 < 100 then 100 - uk.sg_total*(100*custom3.sg_c1/custom3.sg_total)/uk.sg_c1 else 0 end",
-                    "case when uk.sg_total*(100*custom3.sg_c2/custom3.sg_total)/uk.sg_c2 < 100 then 100 - uk.sg_total*(100*custom3.sg_c2/custom3.sg_total)/uk.sg_c2 else 0 end",
-                    "case when uk.sg_total*(100*custom3.sg_de/custom3.sg_total)/uk.sg_de < 100 then 100 - uk.sg_total*(100*custom3.sg_de/custom3.sg_total)/uk.sg_de else 0 end"
-                  ]
-                },
-                "sg_over_indexer": {
-                  "title": "Over",
-                  "group": "Index",
-                  "type": "integer",
-                  "align": "left",
-                  "formatter": "progress",
-                  "formatterParams": {
-                    "color": [
-                      "#16A085"
-                    ],
-                    "min": 0,
-                    "max": 200
-                  },
-                  "width": 150,
-                  "sorter": "number",
-                  "rows": [
-                    "case when uk.sg_total*(100*custom3.sg_ab/custom3.sg_total)/uk.sg_ab >= 100 then (uk.sg_total*(100*custom3.sg_ab/custom3.sg_total)/uk.sg_ab) - 100 else 0 end",
-                    "case when uk.sg_total*(100*custom3.sg_c1/custom3.sg_total)/uk.sg_c1 >= 100 then (uk.sg_total*(100*custom3.sg_c1/custom3.sg_total)/uk.sg_c1) - 100 else 0 end",
-                    "case when uk.sg_total*(100*custom3.sg_c2/custom3.sg_total)/uk.sg_c2 >= 100 then (uk.sg_total*(100*custom3.sg_c2/custom3.sg_total)/uk.sg_c2) - 100 else 0 end",
-                    "case when uk.sg_total*(100*custom3.sg_de/custom3.sg_total)/uk.sg_de >= 100 then (uk.sg_total*(100*custom3.sg_de/custom3.sg_total)/uk.sg_de) - 100 else 0 end"
-                  ]
-                },
-                "sg_index_value": {
-                  "title": "Score",
-                  "group": "Index",
-                  "type": "integer",
-                  "align": "center",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  },
-                  "width": 100,
-                  "sorter": "number",
-                  "rows": [
-                    "uk.sg_total*(100*custom3.sg_ab/custom3.sg_total)/uk.sg_ab",
-                    "uk.sg_total*(100*custom3.sg_c1/custom3.sg_total)/uk.sg_c1",
-                    "uk.sg_total*(100*custom3.sg_c2/custom3.sg_total)/uk.sg_c2",
-                    "uk.sg_total*(100*custom3.sg_de/custom3.sg_total)/uk.sg_de"
-
-                  ]
-                }
               }
             }
           ],
@@ -1821,7 +1634,7 @@
             }
           }
         },
-        "Retail Places": {
+        "Retail Places OLD": {
           "format": "mvt",
           "group": "Vector layers",
           "dbs": "DEV",
@@ -1833,53 +1646,11 @@
           "geom": "geom_3857",
           "srid": "3857",
           "mvt_cache": "dev.x_mvtx_uk_glx_open_retail_place",
-          "dataview": {
-            "Retail Places": {
-              "viewport": true,
-              "display": true,
-              "from": "geodata.uk_glx_open_retail_place",
-              "layout": "fitColumns",
-              "columns": [{
-                  "title": "ID",
-                  "field": "id"
-                },
-                {
-                  "field": "rpname",
-                  "title": "Name"
-                },
-                {
-                  "field": "rptype",
-                  "title": "Type"
-                },
-                {
-                  "field": "strength",
-                  "title": "Competition strength",
-                  "group": "Characteristics",
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                },
-                {
-                  "field": "estunit",
-                  "title": "Estimate units",
-                  "group": "Characteristics",
-                  "align": "right",
-                  "formatter": "money",
-                  "formatterParams": {
-                    "precision": 0
-                  }
-                }
-              ]
-            }
-          },
           "style": {
             "label": {
               "field": "rpname"
             },
             "default": {
-              "strokeWidth": 1,
               "strokeColor": "#ffff66",
               "opacity": 1,
               "fillColor": "#ffff66",
@@ -2006,7 +1777,6 @@
             {
               "label": "RP Type",
               "field": "rptype",
-              "type": "text",
               "filter": {
                 "in": [
                   "Major City Centre",
@@ -2031,32 +1801,11 @@
               "inline": true
             },
             {
-              "label": "Profile",
-              "type": "group",
-              "expanded": true,
-              "chart": {
-                "type": "horizontalBar",
-                "backgroundColor": [
-                  "#FFA630",
-                  "#C6DEA6",
-                  "#7EBDC3",
-                  "#7A6263",
-                  "#CED097"
-                ],
-                "borderColor": [
-                  "#FFA630",
-                  "#C6DEA6",
-                  "#7EBDC3",
-                  "#7A6263",
-                  "#CED097"
-                ]
-              }
-            },
-            {
               "group": "Profile",
               "label": "Comp",
               "field": "comp_pct",
-              "type": "numeric"
+              "type": "numeric",
+              "expanded": true
             },
             {
               "group": "Profile",
@@ -2080,6 +1829,438 @@
               "group": "Profile",
               "label": "Services",
               "field": "service_pct",
+              "type": "numeric"
+            }
+          ]
+        },
+        "Retail Places": {
+          "format": "mvt",
+          "dbs": "XYZ",
+          "tables": {
+            "8": null,
+            "9": "dev.retailplaces"
+          },
+          "geom": "geom_3857",
+          "srid": "3857",
+          "report": {
+            "templates": {
+              "Report 1": {
+                "template": "/views/report_layer.html",
+                "name": "Report A"
+              },
+              "Report 2": {
+                "template": "/views/report_layer.html"
+              }
+            }
+          },
+          "script": {
+            "Script Test": {
+              "script": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/retail_places.js"
+            }
+          },
+          "dataviews": {
+            "Retail Places": {
+              "layout": "fitColumns",
+              "query": "UK Retail Places Layer Table",
+              "viewport": true,
+              "columns": [
+                {
+                  "title": "ID",
+                  "field": "id"
+                },
+                {
+                  "field": "dev_date"
+                },
+                {
+                  "field": "rp_type"
+                },
+                {
+                  "title": "Characteristics",
+                  "columns": [
+                    {
+                      "field": "comp_strgh",
+                      "title": "Competition strength"
+                    },
+                    {
+                      "field": "est_units",
+                      "title": "Estimate units"
+                    },
+                    {
+                      "field": "est_brands",
+                      "title": "Estimate brands"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "__mvt_cache": "dev.retailplaces__mvts",
+          "style": {
+            "themes": {
+              "Retail Place type": {
+                "type": "categorized",
+                "field": "rp_type",
+                "other": true,
+                "cat": {
+                  "Major City Centre": {
+                    "label": "Major City Centre",
+                    "style": {
+                      "strokeColor": "#EF271B",
+                      "fillColor": "#EF271B"
+                    }
+                  },
+                  "City Centre": {
+                    "label": "City Centre",
+                    "style": {
+                      "strokeColor": "#BA2D0B",
+                      "fillColor": "#BA2D0B"
+                    }
+                  },
+                  "Large Town Centre": {
+                    "label": "Large Town Centre",
+                    "style": {
+                      "strokeColor": "#FE4E00",
+                      "fillColor": "#FE4E00"
+                    }
+                  },
+                  "Major Urban Centre": {
+                    "label": "Major Urban Centre",
+                    "style": {
+                      "strokeColor": "#E2711D",
+                      "fillColor": "#E2711D"
+                    }
+                  },
+                  "Town Centre": {
+                    "label": "Town Centre",
+                    "style": {
+                      "strokeColor": "#F3A712",
+                      "fillColor": "#F3A712"
+                    }
+                  },
+                  "Urban Centre": {
+                    "label": "Urban Centre",
+                    "style": {
+                      "strokeColor": "#FADF63",
+                      "fillColor": "#FADF63"
+                    }
+                  },
+                  "Small Town Centre": {
+                    "label": "Small Town Centre",
+                    "style": {
+                      "strokeColor": "#FFE74C",
+                      "fillColor": "#FFE74C"
+                    }
+                  },
+                  "Village Centre": {
+                    "label": "Village Centre",
+                    "style": {
+                      "strokeColor": "#DBFE87",
+                      "fillColor": "#DBFE87"
+                    }
+                  },
+                  "Regional SC": {
+                    "label": "Regional SC",
+                    "style": {
+                      "strokeColor": "#8ED081",
+                      "fillColor": "#8ED081"
+                    }
+                  },
+                  "Outlet Centre": {
+                    "label": "Outlet Centre",
+                    "style": {
+                      "strokeColor": "#7DDF64",
+                      "fillColor": "#7DDF64"
+                    }
+                  },
+                  "Shopping Park": {
+                    "label": "Shopping Park",
+                    "style": {
+                      "strokeColor": "#074F57",
+                      "fillColor": "#074F57"
+                    }
+                  },
+                  "Retail Park": {
+                    "label": "Retail Park",
+                    "style": {
+                      "strokeColor": "#32746D",
+                      "fillColor": "#32746D"
+                    }
+                  },
+                  "Leisure Park": {
+                    "label": "Leisure Park",
+                    "style": {
+                      "strokeColor": "#41D3BD",
+                      "fillColor": "#41D3BD"
+                    }
+                  },
+                  "Local Hub": {
+                    "label": "Local Hub",
+                    "style": {
+                      "strokeColor": "#08B2E3",
+                      "fillColor": "#08B2E3"
+                    }
+                  },
+                  "Large Parade": {
+                    "label": "Large Parade",
+                    "style": {
+                      "strokeColor": "#1F487E",
+                      "fillColor": "#1F487E"
+                    }
+                  },
+                  "Parade": {
+                    "label": "Parade",
+                    "style": {
+                      "strokeColor": "#541388",
+                      "fillColor": "#541388"
+                    }
+                  },
+                  "Weak Parade": {
+                    "label": "Weak Parade",
+                    "style": {
+                      "strokeColor": "#D90368",
+                      "fillColor": "#D90368"
+                    }
+                  }
+                }
+              },
+              "Population '11": {
+                "type": "graduated",
+                "field": "pop__11",
+                "cat_arr": [
+                  {
+                    "value": 0,
+                    "label": "0 to 10000",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 10000,
+                    "label": "10000 to 25000",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 25000,
+                    "label": "25000 to 50000",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 50000,
+                    "label": "50000 to 100000",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 100000,
+                    "label": "100000 to 250000",
+                    "style": {
+                      "fillColor": "#fdae61"
+                    }
+                  },
+                  {
+                    "value": 250000,
+                    "label": "250000 to 500000",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 500000,
+                    "label": "500000 or more",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "qID": "tid",
+          "filter": {
+            "infoj": [
+              {
+                "label": "ID count",
+                "field": "id_count",
+                "type": "integer",
+                "inline": true,
+                "fieldfx": "count(id)"
+              }
+            ]
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "label": "ID",
+              "field": "id",
+              "inline": true
+            },
+            {
+              "label": "Date edit",
+              "field": "dev_date",
+              "type": "date",
+              "filter": "date"
+            },
+            {
+              "label": "Date",
+              "field": "dev_date_",
+              "fieldfx": "dev_date",
+              "type": "date"
+            },
+            {
+              "label": "RP Type",
+              "field": "rp_type",
+              "filter": {
+                "in": [
+                  "Major City Centre",
+                  "Large Town Centre",
+                  "Village Centre",
+                  "Weak Parade"
+                ]
+              }
+            },
+            {
+              "label": "Name",
+              "field": "uniq_name"
+            },
+            {
+              "label": "Competition Str.",
+              "field": "comp_strgh",
+              "type": "integer",
+              "prefix": "£ "
+            },
+            {
+              "label": "OA pop_11",
+              "field": "pop__11",
+              "fieldfx": "SELECT AVG(a.pop__11) FROM dev.retailplaces a, dev.oa b WHERE ST_INTERSECTS(a.geom, b.geom) AND a.id = $1",
+              "type": "integer"
+            },
+            {
+              "label": "Population",
+              "type": "group"
+            },
+            {
+              "group": "Population",
+              "label": "2011",
+              "field": "pop__11",
+              "type": "integer"
+            },
+            {
+              "group": "Population",
+              "label": "2012",
+              "field": "pop__12",
+              "type": "integer"
+            },
+            {
+              "group": "Population",
+              "label": "2013",
+              "field": "pop__13",
+              "type": "integer"
+            },
+            {
+              "group": "Population",
+              "label": "2014",
+              "field": "pop__14",
+              "type": "integer"
+            },
+            {
+              "group": "Population",
+              "label": "2015",
+              "field": "pop__15",
+              "type": "integer"
+            },
+            {
+              "group": "Population",
+              "label": "2016",
+              "field": "pop__16",
+              "type": "integer"
+            },
+            {
+              "label": "Population 16 - 11",
+              "field": "pop_diff",
+              "fieldfx": "(pop__16 - pop__11)",
+              "type": "integer"
+            },
+            {
+              "type": "dataview",
+              "target": "location",
+              "label": "Profile",
+              "query": "UK Retail Places Profile",
+              "chart": {
+                "type": "horizontalBar",
+                "yAxesWidth": 80,
+                "labels": [
+                  "Comparison",
+                  "Convenience",
+                  "F/B/L",
+                  "Services",
+                  "Class/Brass"
+                ],
+                "datasets": [
+                  {
+                    "fields": [
+                      "comparison",
+                      "conv",
+                      "fbl",
+                      "services",
+                      "classbrass"
+                    ],
+                    "backgroundColor": [
+                      "#FFA630",
+                      "#C6DEA6",
+                      "#7EBDC3",
+                      "#7A6263",
+                      "#CED097"
+                    ],
+                    "borderColor": [
+                      "#FFA630",
+                      "#C6DEA6",
+                      "#7EBDC3",
+                      "#7A6263",
+                      "#CED097"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "group": "Profile",
+              "label": "Comparison",
+              "title": "Comp",
+              "field": "comparison",
+              "type": "numeric",
+              "expanded": true
+            },
+            {
+              "group": "Profile",
+              "label": "Conv",
+              "title": "Convenience",
+              "field": "conv",
+              "type": "numeric"
+            },
+            {
+              "group": "Profile",
+              "label": "F/B/L",
+              "field": "fbl",
+              "type": "numeric",
+              "title": "Food/Bev/Leisure"
+            },
+            {
+              "group": "Profile",
+              "label": "Services",
+              "field": "services",
+              "type": "numeric"
+            },
+            {
+              "group": "Profile",
+              "label": "Class/Brass",
+              "field": "classbrass",
               "type": "numeric"
             }
           ]
@@ -2189,8 +2370,7 @@
           },
           "cluster_kmeans": 0.1,
           "cluster_label": "site_name",
-          "infoj": [
-            {
+          "infoj": [{
               "type": "streetview"
             },
             {
@@ -2277,72 +2457,70 @@
                 "strokeWidth": 2
               }
             },
-                        {
-                            "label": "Population within 5min",
-                            "type": "dataview",
-                            "target": "location",
-                            "class": "hidden_in_report",
-                            "query": "aga_isoline_5min",
-                            "chart": {
-                                "height": 200,
-                                "type": "bar",
-                                "labels": ["2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"],
-                                "datasets": [
-                                    {
-                                        "fields": [
-                                            "_pop__11_5min",
-                                            "_pop__12_5min",
-                                            "_pop__13_5min",
-                                            "_pop__14_5min",
-                                            "_pop__15_5min",
-                                            "_pop__16_5min",
-                                            "_pop__17_5min",
-                                            "_pop__18_5min"
-                                        ],
-                                        "backgroundColor": [
-                                            "#E6A5AE",
-                                            "#E08F9A",
-                                            "#D97985",
-                                            "#D36371",
-                                            "#CD4C5D",
-                                            "#C73649",
-                                            "#C12035",
-                                            "#BB0A21"
-                                        ],
-                                        "borderColor": [
-                                            "#E6A5AE",
-                                            "#E08F9A",
-                                            "#D97985",
-                                            "#D36371",
-                                            "#CD4C5D",
-                                            "#C73649",
-                                            "#C12035",
-                                            "#BB0A21"
-                                        ]
-                                    }
-                                ],
-                                "options": {
-                                    "maintainAspectRatio": false,
-                                    "legend": {
-                                        "display": false
-                                    },
-                                    "scales": {
-                                        "yAxes": [{
-                                            "ticks": {
-                                                "display": false,
-                                                "beginAtZero": true
-                                            }
-                                        }],
-                                        "xAxes": [{
-                                            "ticks": {
-                                                "maxRotation": 90,
-                                                "minRotation": 90
-                                            }
-                                        }]
-                                    }
-                                }
-                            }
-                        },
+            {
+              "label": "Population within 5min",
+              "type": "dataview",
+              "target": "location",
+              "class": "hidden_in_report",
+              "query": "aga_isoline_5min",
+              "chart": {
+                "height": 200,
+                "type": "bar",
+                "labels": ["2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"],
+                "datasets": [{
+                  "fields": [
+                    "_pop__11_5min",
+                    "_pop__12_5min",
+                    "_pop__13_5min",
+                    "_pop__14_5min",
+                    "_pop__15_5min",
+                    "_pop__16_5min",
+                    "_pop__17_5min",
+                    "_pop__18_5min"
+                  ],
+                  "backgroundColor": [
+                    "#E6A5AE",
+                    "#E08F9A",
+                    "#D97985",
+                    "#D36371",
+                    "#CD4C5D",
+                    "#C73649",
+                    "#C12035",
+                    "#BB0A21"
+                  ],
+                  "borderColor": [
+                    "#E6A5AE",
+                    "#E08F9A",
+                    "#D97985",
+                    "#D36371",
+                    "#CD4C5D",
+                    "#C73649",
+                    "#C12035",
+                    "#BB0A21"
+                  ]
+                }],
+                "options": {
+                  "maintainAspectRatio": false,
+                  "legend": {
+                    "display": false
+                  },
+                  "scales": {
+                    "yAxes": [{
+                      "ticks": {
+                        "display": false,
+                        "beginAtZero": true
+                      }
+                    }],
+                    "xAxes": [{
+                      "ticks": {
+                        "maxRotation": 90,
+                        "minRotation": 90
+                      }
+                    }]
+                  }
+                }
+              }
+            },
             {
               "name": "HERE Catchment 10min",
               "field": "isoline_10min",
@@ -2406,9 +2584,9 @@
                   {
                     "fields": ["rev_random1", "rev_random2", "rev_random3", "rev_random4", "rev_random5"],
                     "label": "Serie 2",
+                    "type": "line",
                     "backgroundColor": "rgba(255, 167, 38, 0.3)",
-                    "borderColor": "#e65100",
-                    "type": "line"
+                    "borderColor": "#e65100"
                   }
                 ],
                 "options": {
@@ -2431,8 +2609,7 @@
               "chart": {
                 "type": "doughnut",
                 "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
-                "datasets": [
-                  {
+                "datasets": [{
                   "fields": ["random1", "random2", "random3", "random4", "random5"],
                   "backgroundColor": [
                     "rgba(229, 99 , 153, 0.4)",
@@ -2445,8 +2622,7 @@
                   "borderColor": "#C0B4A7",
                   "spanGaps": true,
                   "lineTension": 0.5
-                }
-              ],
+                }],
                 "options": {
                   "cutoutPercentage": 36,
                   "title": {
@@ -2562,8 +2738,7 @@
               "class": "_report",
               "layout": "fitColumns",
               "query": "Worker Summary Sites",
-              "columns": [
-                {
+              "columns": [{
                   "field": "rows",
                   "title": "Worker Summary",
                   "headerSort": false,
@@ -2587,8 +2762,7 @@
               "target": "xyz_sites_nearestcomp",
               "layout": "fitColumns",
               "query": "Nearest competitors Sites",
-              "columns": [
-                {
+              "columns": [{
                   "title": "Distance",
                   "field": "dist",
                   "align": "center",
@@ -2638,6 +2812,1684 @@
               }
             }
           }
+        },
+        "Cluster Catchments": {
+          "group": "Cluster",
+          "format": "cluster",
+          "dbs": "XYZ",
+          "table": "dev.cluster_catchments",
+          "geom": "geom",
+          "srid": "4326",
+          "cluster_kmeans": 0.01,
+          "edit": {
+            "point": true,
+            "geometry": true,
+            "delete": true
+          },
+          "qID": "id",
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "label": "Catchment Geometry",
+              "type": "label"
+            },
+            {
+              "name": "Show / Hide",
+              "field": "catchment",
+              "fieldfx": "ST_asGeoJson(catchment)",
+              "type": "geometry",
+              "display": true,
+              "style": {
+                "fillColor": "#c62828",
+                "fillOpacity": 0.2
+              }
+            },
+            {
+              "label": "Catchment Here",
+              "type": "label"
+            },
+            {
+              "name": "Create / Delete 10 min",
+              "field": "isoline_here",
+              "display": false,
+              "fieldfx": "ST_asGeoJson(isoline_here)",
+              "type": "geometry",
+              "edit": {
+                "isoline_here": {
+                  "minutes": 10
+                }
+              }
+            },
+            {
+              "label": "Catchment Mapbox",
+              "type": "label"
+            },
+            {
+              "name": "Create/Delete 10 min",
+              "field": "isoline_mapbox",
+              "fieldfx": "ST_asGeoJson(isoline_mapbox)",
+              "type": "geometry",
+              "edit": {
+                "isoline_mapbox": {
+                  "minutes": 10
+                }
+              },
+              "style": {
+                "strokeColor": "#ffb300",
+                "strokeWidth": 2,
+                "fillColor": "#ffb300",
+                "fillOpacity": 0.2
+              }
+            },
+            {
+              "label": "Custom Here Catchment",
+              "type": "label"
+            },
+            {
+              "name": "Create / Delete",
+              "field": "isoline_here_custom",
+              "fieldfx": "ST_asGeoJson(isoline_here_custom)",
+              "type": "geometry",
+              "edit": {
+                "isoline_here": {
+                  "meta": "isoline_here_custom_meta"
+                }
+              },
+              "style": {
+                "strokeColor": "#083D77",
+                "strokeWidth": 2,
+                "fillColor": "#083D77",
+                "fillOpacity": 0.2
+              }
+            },
+            {
+              "title": "Recent isoline",
+              "field": "isoline_here_custom_meta",
+              "type": "meta"
+            },
+            {
+              "label": "Custom Mapbox Catchment",
+              "type": "label"
+            },
+            {
+              "name": "Create / Delete",
+              "field": "isoline_mapbox_custom",
+              "fieldfx": "ST_asGeoJSON(isoline_mapbox_custom)",
+              "type": "geometry",
+              "edit": {
+                "isoline_mapbox": {
+                  "meta": "isoline_mapbox_custom_meta"
+                }
+              },
+              "style": {
+                "strokeColor": "#43a047",
+                "strokeWidth": 2,
+                "fillColor": "#43a047",
+                "fillOpacity": 0.2
+              }
+            },
+            {
+              "title": "Recent isoline",
+              "field": "isoline_mapbox_custom_meta",
+              "type": "meta"
+            },
+            {
+              "label": "something",
+              "field": "chk",
+              "type": "boolean"
+            },
+            {
+              "label": "Images",
+              "field": "images",
+              "type": "images",
+              "edit": true
+            },
+            {
+              "label": "Documents",
+              "field": "documents",
+              "type": "documents",
+              "edit": true
+            }
+          ],
+          "style": {
+            "marker": {
+              "type": "square",
+              "fillColor": "#03a9f4",
+              "layers": {
+                "0.7": "#FFF",
+                "0.5": "#512da8"
+              }
+            },
+            "markerMulti": {
+              "type": "square",
+              "fillColor": "#03a9f4",
+              "layers": {
+                "0.7": "#FFF",
+                "0.5": "#512da8"
+              }
+            }
+          }
+        },
+        "Draw": {
+          "format": "mvt",
+          "dbs": "XYZ",
+          "table": "dev.draw",
+          "srid": "3857",
+          "geom": "geom",
+          "qID": "id",
+          "edit": {
+            "polygon": true,
+            "freehand": true,
+            "circle": true,
+            "rectangle": true,
+            "line": true,
+            "point": true,
+            "isoline_mapbox": true,
+            "isoline_here": true,
+            "delete": true,
+            "geometry": true
+          },
+          "mvt_cache": "dev.draw__mvts",
+          "style": {
+            "default": {
+              "strokeColor": "#ff69b4",
+              "strokeWidth": 2,
+              "fillColor": "#eee",
+              "fillOpacity": 1
+            },
+            "themes": {
+              "Test categorized": {
+                "field": "test_binary",
+                "type": "categorized",
+                "other": true,
+                "cat": {
+                  "0": {
+                    "style": {
+                      "fillColor": "#283593"
+                    }
+                  },
+                  "1": {
+                    "style": {
+                      "fillColor": "#ff1744"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "field": "id",
+              "label": "ID",
+              "inline": true
+            },
+            {
+              "field": "strokecolor",
+              "label": "Stroke color",
+              "inline": true
+            },
+            {
+              "field": "test_binary",
+              "fieldfx": "MOD(id, 2)",
+              "label": "Nombre",
+              "inline": true,
+              "type": "integer"
+            }
+          ]
+        },
+        "Scratch": {
+          "meta": "This is a test layer for editing and drawing geometries.",
+          "format": "mvt",
+          "dbs": "XYZ",
+          "table": "dev.scratch",
+          "srid": "3857",
+          "geom": "geom_3857",
+          "mvt_cache": "dev.scratch__mvts",
+          "qID": "id",
+          "edit": {
+            "polygon": true,
+            "freehand": true,
+            "circle": true,
+            "rectangle": true,
+            "line": true,
+            "point": true,
+            "isoline_mapbox": true,
+            "isoline_here": true,
+            "delete": true
+          },
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "label": "ID",
+              "field": "id"
+            },
+            {
+              "label": "RP Count",
+              "field": "rp_count",
+              "fieldfx": "SELECT sum(1) FROM dev.retailpoints, dev.scratch WHERE st_intersects(dev.retailpoints.geom, st_transform(dev.scratch.geom_3857, 4326)) AND dev.scratch.id = $1"
+            },
+            {
+              "label": "something",
+              "field": "chk",
+              "type": "boolean",
+              "edit": true
+            },
+            {
+              "label": "int_test",
+              "field": "int_test",
+              "type": "integer",
+              "edit": true
+            },
+            {
+              "label": "int_test",
+              "field": "int_test_",
+              "fieldfx": "int_test",
+              "type": "integer"
+            },
+            {
+              "label": "Images",
+              "field": "images",
+              "type": "images",
+              "edit": true
+            },
+            {
+              "label": "Date",
+              "field": "dev_date",
+              "type": "date",
+              "edit": {
+                "enableTime": true
+              }
+            },
+            {
+              "label": "Date and time",
+              "field": "dev_date_time",
+              "type": "datetime",
+              "edit": true,
+              "inline": true
+            },
+            {
+              "label": "not editable:",
+              "field": "_date",
+              "fieldfx": "dev_date",
+              "type": "datetime",
+              "inline": true
+            },
+            {
+              "label": "Options",
+              "field": "dev_options",
+              "inline": true,
+              "edit": {
+                "options": [
+                  {
+                    "Open": "1"
+                  },
+                  {
+                    "Closed": "2"
+                  },
+                  "Other"
+                ]
+              }
+            },
+            {
+              "field": "notes",
+              "label": "Notes",
+              "type": "textarea",
+              "edit": true
+            }
+          ],
+          "style": {
+            "default": {
+              "strokeColor": "#083D77",
+              "fillColor": "#083D77",
+              "fillOpacity": 0.3,
+              "marker": {
+                "type": "circle",
+                "strokeColor": "#083D77"
+              },
+              "_marker": {
+                "url": "https://cdn.jsdelivr.net/gh/GEOLYTIX/gla@master/icon-pin.svg",
+                "anchor": [
+                  0.5,
+                  1
+                ]
+              }
+            },
+            "highlight": {
+              "strokeColor": "#F78764",
+              "fillColor": "#F78764",
+              "fillOpacity": 0.3,
+              "marker": {
+                "type": "dot",
+                "fillColor": "#F78764",
+                "scale": 0.05
+              }
+            }
+          }
+        },
+        "Output areas": {
+          "attribution": {
+            "© ONS": "https://www.ons.gov.uk"
+          },
+          "format": "mvt",
+          "dbs": "XYZ",
+          "tables": {
+            "12": null,
+            "13": "dev.oa",
+            "14": "dev.oa"
+          },
+          "srid": "3857",
+          "geom": "geom_3857",
+          "mvt_cache": "dev.oa__mvts",
+          "style": {
+            "default": {
+              "fillOpacity": 1,
+              "fillColor": "#EEE",
+              "strokeColor": "#DDD"
+            },
+            "highlight": {
+              "fillOpacity": 1
+            },
+            "themes": {
+              "Population 2011": {
+                "type": "graduated",
+                "field": "pop_11",
+                "cat_arr": [
+                  {
+                    "value": 0,
+                    "label": "0 to 100",
+                    "style": {
+                      "fillColor": "#b9beff"
+                    }
+                  },
+                  {
+                    "value": 100,
+                    "label": "100 to 200",
+                    "style": {
+                      "fillColor": "#8ea1fc"
+                    }
+                  },
+                  {
+                    "value": 200,
+                    "label": "200 to 300",
+                    "style": {
+                      "fillColor": "#638cfa"
+                    }
+                  },
+                  {
+                    "value": 300,
+                    "label": "300 to 400",
+                    "style": {
+                      "fillColor": "#1fb4ed"
+                    }
+                  },
+                  {
+                    "value": 400,
+                    "label": "400 to 500",
+                    "style": {
+                      "fillColor": "#00d764"
+                    }
+                  },
+                  {
+                    "value": 500,
+                    "label": "500 to 600",
+                    "style": {
+                      "fillColor": "#85b300"
+                    }
+                  },
+                  {
+                    "value": 600,
+                    "label": "600 or more",
+                    "style": {
+                      "fillColor": "#870000"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "qID": "id",
+          "infoj": [
+            {
+              "type": "key"
+            },
+            {
+              "label": "OA Code",
+              "field": "oacode",
+              "inline": true,
+              "filter": "like"
+            },
+            {
+              "label": "Population '11",
+              "field": "pop_11",
+              "type": "integer",
+              "filter": "numeric",
+              "edit": true
+            }
+          ]
+        },
+        "Retail Points": {
+          "group": "Cluster",
+          "format": "cluster",
+          "cluster_label": "store",
+          "dbs": "XYZ",
+          "qID": "id",
+          "table": "dev.retailpoints",
+          "geom": "geom",
+          "srid": "4326",
+          "cluster_hexresolution": 0.1,
+          "hover": {
+            "field": "store"
+          },
+          "dataviews": {
+            "Retail Points": {
+              "display": true,
+              "query": "UK Retail Points Layer Table",
+              "columns": [
+                {
+                  "title": "ID",
+                  "field": "retailpoint_id"
+                },
+                {
+                  "title": "Retailer",
+                  "field": "retailer"
+                },
+                {
+                  "title": "Fascia",
+                  "field": "fascia"
+                }
+              ]
+            }
+          },
+          "filter": {
+            "infoj": [
+              {
+                "label": "ID count",
+                "field": "id_count",
+                "type": "integer",
+                "inline": true,
+                "fieldfx": "count(retailpoint_id)"
+              }
+            ]
+          },
+          "style": {
+            "label": {
+              "field": "store",
+              "display": true,
+              "declutter": true,
+              "strokeColor": "#fff",
+              "strokeWidth": 3
+            },
+            "marker": {
+              "type": "target",
+              "fillColor": "#eeeeee"
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#534B62"
+            },
+            "highlight": {
+              "type": "target",
+              "fillColor": "#ccff99"
+            },
+            "themes": {
+              "Retailer": {
+                "type": "categorized",
+                "field": "retailer",
+                "other": true,
+                "cat": {
+                  "Tesco": {
+                    "label": "Tesco",
+                    "style": {
+                      "fillColor": "#0055a8",
+                      "layers": {
+                        "0.75": "#ffffff",
+                        "0.35": "#f02f26"
+                      }
+                    }
+                  },
+                  "Sainsburys": {
+                    "label": "Sainsbury's",
+                    "style": {
+                      "fillColor": "#ee8a00",
+                      "layers": {
+                        "0.5": "#ffffff",
+                        "0.35": "#ee8a00"
+                      }
+                    }
+                  },
+                  "Marks and Spencer": {
+                    "label": "Marks & Spencer",
+                    "style": {
+                      "fillColor": "#0a0d10",
+                      "layers": {
+                        "0.5": "#def036",
+                        "0.25": "#0a0d10"
+                      }
+                    }
+                  }
+                }
+              },
+              "Households": {
+                "type": "graduated",
+                "field": "hhdooc_11",
+                "cat_arr": [
+                  {
+                    "value": 0,
+                    "label": "0 to 100",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 100,
+                    "label": "100 to 200",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 200,
+                    "label": "200 to 400",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 400,
+                    "label": "400 to 600",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 600,
+                    "label": "600 to 800",
+                    "style": {
+                      "fillColor": "#fdae61"
+                    }
+                  },
+                  {
+                    "value": 800,
+                    "label": "800 to 1000",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 1000,
+                    "label": "1000 or more",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              },
+              "Households Sized": {
+                "type": "graduated",
+                "field": "hhdooc_11",
+                "size": "hhdooc_11",
+                "cat_arr": [
+                  {
+                    "value": 0,
+                    "label": "0 to 100",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 100,
+                    "label": "100 to 200",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 200,
+                    "label": "200 to 400",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 400,
+                    "label": "400 to 600",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 600,
+                    "label": "600 to 800",
+                    "style": {
+                      "fillColor": "#fdae61"
+                    }
+                  },
+                  {
+                    "value": 800,
+                    "label": "800 to 1000",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 1000,
+                    "label": "1000 or more",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              },
+              "Tesco/Sainsbury's": {
+                "type": "competition",
+                "field": "retailer",
+                "other": true,
+                "cat": {
+                  "Tesco": {
+                    "label": "Tesco",
+                    "style": {
+                      "fillColor": "#0055a8"
+                    }
+                  },
+                  "Sainsburys": {
+                    "label": "Sainsbury's",
+                    "style": {
+                      "fillColor": "#ee8a00"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "infoj": [
+            {
+              "type": "streetview"
+            },
+            {
+              "type": "key"
+            },
+            {
+              "label": "ID",
+              "field": "retailpoint_id",
+              "inline": true
+            },
+            {
+              "label": "Store",
+              "field": "store",
+              "filter": "like"
+            },
+            {
+              "label": "Retailer",
+              "field": "retailer",
+              "filter": "like"
+            },
+            {
+              "label": "Fascia",
+              "field": "fascia",
+              "filter": "like"
+            },
+            {
+              "label": "Address"
+            },
+            {
+              "field": "address_1",
+              "type": "text",
+              "level": 1
+            },
+            {
+              "field": "address_2",
+              "level": 1
+            },
+            {
+              "field": "locality",
+              "level": 1
+            },
+            {
+              "field": "town",
+              "level": 1
+            },
+            {
+              "label": "Postcode",
+              "field": "postcode",
+              "type": "text",
+              "level": 1,
+              "filter": "like",
+              "filterZoom": true
+            },
+            {
+              "label": "Households",
+              "field": "hhdooc_11",
+              "type": "integer",
+              "filter": "numeric"
+            },
+            {
+              "field": "test_flag",
+              "label": "Test boolean field",
+              "type": "boolean",
+              "filter": "boolean",
+              "edit": true
+            },
+            {
+              "label": "Catchment 10min",
+              "type": "label"
+            },
+            {
+              "field": "catchment_10min",
+              "fieldfx": "ST_asGeoJson(catchment_10min)",
+              "type": "geometry",
+              "display": true,
+              "edit": {
+                "isoline_here": {
+                  "minutes": 10
+                }
+              },
+              "style": {
+                "strokeColor": "#ffca28",
+                "fillColor": "#ffca28",
+                "strokeWidth": 2,
+                "fillOpacity": 0.2
+              }
+            }
+          ]
+        },
+        "Health": {
+          "group": "Cluster",
+          "meta": "A subset of collection of points of interest across the UK including healthcare locations, law and order sites along with sport & leisure facilities, car parks, cinemas and service areas.",
+          "format": "cluster",
+          "dbs": "XYZ",
+          "table": "geodata.vw_uk_glx_geodata_poi_health",
+          "qID": "id",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "cluster_label": "poi_name",
+          "cluster_kmeans": 0.1,
+          "cluster_dbscan": 0.01,
+          "infoj": [
+            {
+              "type": "streetview"
+            },
+            {
+              "type": "key"
+            },
+            {
+              "field": "poi_type",
+              "label": "Category",
+              "inline": true
+            },
+            {
+              "field": "poi_name",
+              "label": "Name",
+              "inline": true
+            },
+            {
+              "field": "brand",
+              "label": "Brand",
+              "inline": true
+            },
+            {
+              "label": "Address",
+              "type": "label"
+            },
+            {
+              "field": "add_one"
+            },
+            {
+              "field": "add_two"
+            },
+            {
+              "field": "locality"
+            },
+            {
+              "field": "town"
+            },
+            {
+              "field": "postcode"
+            }
+          ],
+          "style": {
+            "label": {
+              "field": "count",
+              "display": true,
+              "fillColor": "#fff",
+              "font": "bold 20px sans-serif"
+            },
+            "marker": {
+              "type": "target",
+              "fillColor": "#539987"
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#539987"
+            },
+            "markerMin": 80,
+            "markerMax": 80,
+            "themes": {
+              "POI Type": {
+                "field": "poi_type",
+                "type": "categorized",
+                "other": true,
+                "cat": {
+                  "Hospital": {
+                    "label": "Hospital",
+                    "svg": "https://cdn.jsdelivr.net/gh/GEOLYTIX/MapIcons@master/poi_pin_filled/poi_health_hospital.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  },
+                  "Pharmacy": {
+                    "label": "Pharmacy",
+                    "svg": "https://cdn.jsdelivr.net/gh/GEOLYTIX/MapIcons@master/poi_pin_filled/poi_health_pharmacy.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Election Wards": {
+          "group": "Cluster",
+          "format": "cluster",
+          "dbs": "XYZ",
+          "table": "politics.election_ward",
+          "geom": "geom_point_4326",
+          "srid": "4326",
+          "cluster_hexresolution": 0.1,
+          "style": {
+            "markerMin": 10,
+            "markerMax": 20,
+            "anchor": null,
+            "marker": {
+              "type": "target",
+              "fillColor": "#cddc39",
+              "scale": 0.05
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#ff9800",
+              "scale": 0.05
+            }
+          }
+        },
+        "PPD": {
+          "group": "Cluster",
+          "format": "cluster",
+          "dbs": "XYZ",
+          "table": "dev.london_hpp",
+          "geom": "geom_3857",
+          "srid": "3857",
+          "cluster_hexresolution": 0.1,
+          "qID": "id",
+          "infoj": [
+            {
+              "field": "trans_date_bigint",
+              "type": "date",
+              "filter": "date"
+            }
+          ],
+          "style": {
+            "markerMin": 10,
+            "markerMax": 30,
+            "themes": {
+              "PPD": {
+                "type": "graduated",
+                "field": "price_paid",
+                "aggregate": "avg",
+                "cat_arr": [
+                  {
+                    "value": 0,
+                    "label": "0",
+                    "style": {
+                      "fillColor": "#15773f"
+                    }
+                  },
+                  {
+                    "value": 250000,
+                    "label": "250000",
+                    "style": {
+                      "fillColor": "#66bd63"
+                    }
+                  },
+                  {
+                    "value": 500000,
+                    "label": "500000",
+                    "style": {
+                      "fillColor": "#a6d96a"
+                    }
+                  },
+                  {
+                    "value": 750000,
+                    "label": "750000",
+                    "style": {
+                      "fillColor": "#d9ef8b"
+                    }
+                  },
+                  {
+                    "value": 1000000,
+                    "label": "1000000",
+                    "style": {
+                      "fillColor": "#fdae61"
+                    }
+                  },
+                  {
+                    "value": 1500000,
+                    "label": "1500000",
+                    "style": {
+                      "fillColor": "#f46d43"
+                    }
+                  },
+                  {
+                    "value": 2000000,
+                    "label": "2000000",
+                    "style": {
+                      "fillColor": "#d73027"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Shops with catchments": {
+          "format": "cluster",
+          "edit": {
+            "geometry": true
+          },
+          "dbs": "XYZ",
+          "geom": "geom_4326",
+          "sird": "4326",
+          "table": "dev.storelist_1507__19",
+          "qID": "id",
+          "cluster_label": "id",
+          "cluster_dbscan": 0.001,
+          "cluster_kmeans": 0.01,
+          "infoj": [
+            {
+              "type": "key",
+              "class": "_report"
+            },
+            {
+              "label": "Address",
+              "type": "label"
+            },
+            {
+              "field": "town",
+              "label": "Town",
+              "inline": true
+            },
+            {
+              "field": "county",
+              "label": "County",
+              "inline": true
+            },
+            {
+              "label": "Customer catchments",
+              "type": "label",
+              "class": "_report"
+            },
+            {
+              "name": "Primary",
+              "field": "catchment_primary",
+              "fieldfx": "ST_asGeoJson(catchment_primary)",
+              "type": "geometry",
+              "style": {
+                "strokeColor": "#E01A4F",
+                "strokeWidth": 2,
+                "fillOpacity": 0.2,
+                "fillColor": "#E01A4F"
+              }
+            },
+            {
+              "name": "Secondary",
+              "field": "catchment_secondary",
+              "fieldfx": "ST_asGeoJson(catchment_secondary)",
+              "type": "geometry",
+              "style": {
+                "strokeColor": "#F17105",
+                "strokeWidth": 2,
+                "fillOpacity": 0.2,
+                "fillColor": "#F17105"
+              }
+            },
+            {
+              "name": "Tertiary",
+              "field": "catchment_tertiary",
+              "fieldfx": "ST_asGeoJson(catchment_tertiary)",
+              "type": "geometry",
+              "style": {
+                "strokeColor": "#E6C229",
+                "strokeWidth": 2,
+                "fillOpacity": 0.2,
+                "fillColor": "#E6C229"
+              }
+            },
+            {
+              "name": "All catchments",
+              "type": "geometry",
+              "display": true,
+              "style": {
+                "theme": {
+                  "legend": true,
+                  "type": "categorized",
+                  "field": "catchment",
+                  "cat": {
+                    "primary": {
+                      "label": "Primary",
+                      "style": {
+                        "strokeColor": "#5E08E4",
+                        "fillOpacity": 0.7,
+                        "fillColor": "#5E08E4"
+                      }
+                    },
+                    "secondary": {
+                      "label": "Secondary",
+                      "style": {
+                        "strokeColor": "#D15CF1",
+                        "fillOpacity": 0.7,
+                        "fillColor": "#D15CF1"
+                      }
+                    },
+                    "tertiary": {
+                      "label": "Tertiary",
+                      "style": {
+                        "strokeColor": "#FFB9F2",
+                        "fillOpacity": 0.7,
+                        "fillColor": "#FFB9F2"
+                      }
+                    }
+                  }
+                }
+              },
+              "field": "all_catchments",
+              "fieldfx": "SELECT jsonb_build_object('type', 'FeatureCollection','features', b.features) AS collection FROM (SELECT jsonb_build_array(jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'primary', 'id', id),'geometry', ST_AsGeoJson(catchment_primary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'secondary', 'id', id),'geometry', ST_AsGeoJson(catchment_secondary)::jsonb),jsonb_build_object('type', 'Feature','properties', jsonb_build_object('catchment', 'tertiary', 'id', id),'geometry', ST_AsGeoJson(catchment_tertiary)::jsonb)) AS features FROM (SELECT * FROM dev.storelist_1507__19 where id = $1) a) b"
+            },
+            {
+              "field": "county2",
+              "fieldfx": "county",
+              "label": "County 2",
+              "inline": true
+            }
+          ],
+          "style": {
+            "marker": {
+              "type": "target",
+              "fillColor": "#011D4A",
+              "layers": {
+                "0.75": "#EEE",
+                "0.5": "#33849D"
+              }
+            },
+            "markerMulti": {
+              "type": "target",
+              "fillColor": "#011D4A",
+              "layers": {
+                "0.75": "#EEE",
+                "0.5": "#33849D"
+              }
+            }
+          }
+        },
+        "Dennis": {
+          "group": "Cluster",
+          "edit": {
+            "point": true,
+            "delete": true
+          },
+          "format": "cluster",
+          "srid": "4326",
+          "geom": "geom_4326",
+          "dbs": "XYZ",
+          "qID": "id",
+          "table": "dev.uk_glx_sites",
+          "cluster_kmeans": 0.1,
+          "cluster_label": "site_name",
+          "infoj": [
+            {
+              "type": "streetview"
+            },
+            {
+              "type": "key",
+              "class": "_report"
+            },
+            {
+              "type": "report",
+              "report": {
+                "template": "Sites Local Report"
+              },
+              "class": "_report"
+            },
+            {
+              "type": "report",
+              "report": {
+                "name": "Report hosted with GitHub",
+                "template": "Dev sites report"
+              },
+              "class": "_report"
+            },
+            {
+              "field": "id",
+              "label": "Site ID",
+              "inline": true
+            },
+            {
+              "field": "site_name",
+              "label": "Site Name",
+              "edit": true,
+              "dependents": ["site_name_confirm", "site_type", "Random Data Series"],
+              "inline": true
+            },
+            {
+              "field": "site_name_confirm",
+              "fieldfx": "site_name",
+              "label": "Site Name Confirm",
+              "inline": true
+            },
+            {
+              "field": "site_type",
+              "label": "Site Type",
+              "inline": true,
+              "edit": {
+                "options": [
+                  "Type A",
+                  "Type B",
+                  " "
+                ]
+              }
+            },
+            {
+              "type": "geometry",
+              "name": "Fixed Geometry",
+              "field": "fixed_geom",
+              "fieldfx": "ST_asGeoJson(fixed_geom)",
+              "class": "_report",
+              "display": true,
+              "level": 1,
+              "style": {
+                "fillOpacity": 0.3,
+                "strokeWidth": 2
+              }
+            },
+            {
+              "type": "geometry",
+              "name": "Buffer 10km",
+              "field": "buffer_10km",
+              "class": "_report",
+              "fieldfx": "ST_asGeoJson(ST_Transform(ST_Buffer(ST_Transform(geom_4326, 3857), 10000), 4326))",
+              "display": true,
+              "level": 1,
+              "style": {
+                "fillOpacity": 1,
+                "strokeWidth": 2,
+                "fillColor": "#E2DE84"
+              }
+            },
+            {
+              "name": "HERE Catchment 5min",
+              "field": "isoline_5min",
+              "fieldfx": "ST_asGeoJson(isoline_5min)",
+              "type": "geometry",
+              "class": "_report",
+              "level": 1,
+              "display": false,
+              "edit": {
+                "isoline_here": {
+                  "minutes": 5
+                }
+              },
+              "style": {
+                "strokeColor": "#F49D37",
+                "fillColor": "#F49D37",
+                "fillOpacity": 0.3,
+                "strokeWidth": 2
+              }
+            },
+            {
+              "name": "HERE Catchment 10min",
+              "field": "isoline_10min",
+              "fieldfx": "ST_asGeoJson(isoline_10min)",
+              "type": "geometry",
+              "class": "_report",
+              "level": 1,
+              "display": false,
+              "edit": {
+                "isoline_here": {
+                  "minutes": 10
+                }
+              },
+              "style": {
+                "strokeColor": "#F49D37",
+                "fillColor": "#F49D37",
+                "fillOpacity": 0.3,
+                "strokeWidth": 2
+              }
+            },
+            {
+              "name": "HERE Catchment 15min",
+              "field": "isoline_15min",
+              "fieldfx": "ST_asGeoJson(isoline_15min)",
+              "type": "geometry",
+              "class": "_report",
+              "display": false,
+              "level": 1,
+              "edit": {
+                "isoline_here": {
+                  "minutes": 15
+                }
+              },
+              "style": {
+                "strokeColor": "#F49D37",
+                "fillColor": "#F49D37",
+                "fillOpacity": 0.3,
+                "strokeWidth": 2
+              }
+            },
+            {
+              "label": "Dashboards",
+              "type": "label",
+              "class": "_report"
+            },
+            {
+              "type": "__dataview",
+              "title": "Population Dashboard",
+              "class": "_report",
+              "script": "/api/provider/github?url=api.github.com/repos/GEOLYTIX/xyz_resources/contents/dev/dashboards/sites_population.js"
+            },
+            {
+              "label": "dataviews array",
+              "type": "dataview",
+              "title": "Dataviews array",
+              "dataviews": [
+                {
+                  "style": "grid-column: 1;",
+                  "query": "Random Data Series",
+                  "chart": {
+                    "type": "radar",
+                    "labels": [
+                      "Rand 1",
+                      "Rand 2",
+                      "Rand 3",
+                      "Rand 4",
+                      "Rand 5"
+                    ],
+                    "datasets": [
+                      {
+                        "fields": [
+                          "random1",
+                          "random2",
+                          "random3",
+                          "random4",
+                          "random5"
+                        ],
+                        "label": "Serie 1",
+                        "backgroundColor": "rgba(192, 117, 205, 0.3)",
+                        "borderColor": "#4a148c"
+                      },
+                      {
+                        "fields": [
+                          "rev_random1",
+                          "rev_random2",
+                          "rev_random3",
+                          "rev_random4",
+                          "rev_random5"
+                        ],
+                        "label": "Serie 2",
+                        "backgroundColor": "rgba(255, 167, 38, 0.3)",
+                        "borderColor": "#e65100"
+                      }
+                    ],
+                    "options": {
+                      "legend": {
+                        "display": true
+                      }
+                    }
+                  }
+                },
+                {
+                  "style": "grid-column: 2;",
+                  "query": "Random Data Series",
+                  "chart": {
+                    "type": "pie",
+                    "labels": [
+                      "Rand 1",
+                      "Rand 2",
+                      "Rand 3",
+                      "Rand 4",
+                      "Rand 5"
+                    ],
+                    "datasets": [
+                      {
+                        "fields": [
+                          "random1",
+                          "random2",
+                          "random3",
+                          "random4",
+                          "random5"
+                        ],
+                        "backgroundColor": [
+                          "rgba(229, 99 , 153, 0.4)",
+                          "rgba(0, 167, 225, 0.4)",
+                          "rgba(237, 222, 164, 0.4)",
+                          "rgba(247, 160 ,114, 0.4)",
+                          "rgba(255, 155, 66, 0.4)"
+                        ],
+                        "borderColor": "#C0B4A7"
+                      }
+                    ],
+                    "options": {
+                      "legend": {
+                        "display": true
+                      }
+                    }
+
+                  }
+                }
+              ]
+            },
+            {
+              "title": "Mixed chart with 2 series",
+              "type": "dataview",
+              "query": "Random Data Series",
+              "chart": {
+                "labels": [
+                  "Rand 1",
+                  "Rand 2",
+                  "Rand 3",
+                  "Rand 4",
+                  "Rand 5"
+                ],
+                "datasets": [
+                  {
+                    "fields": [
+                      "random1",
+                      "random2",
+                      "random3",
+                      "random4",
+                      "random5"
+                    ],
+                    "label": "Serie 1",
+                    "backgroundColor": "rgba(192, 117, 205, 0.3)",
+                    "borderColor": "#4a148c",
+                    "type": "bar"
+                  },
+                  {
+                    "fields": [
+                      "rev_random1",
+                      "rev_random2",
+                      "rev_random3",
+                      "rev_random4",
+                      "rev_random5"
+                    ],
+                    "label": "Serie 2",
+                    "backgroundColor": "rgba(255, 167, 38, 0.3)",
+                    "borderColor": "#e65100"
+                  }
+                ],
+                "options": {
+                  "legend": {
+                    "display": true,
+                    "position": "bottom"
+                  }
+                }
+              }
+            },
+            {
+              "label": "Doughnut Chart",
+              "type": "dataview",
+              "query": "Random Data Series",
+              "target": "location",
+              "chart": {
+                "height": 400,
+                "type": "doughnut",
+                "options": {
+                  "title": {
+                    "display": true,
+                    "text": "Optional title text here"
+                  }
+                },
+                "labels": [
+                  "Rand 1",
+                  "Rand 2",
+                  "Rand 3",
+                  "Rand 4",
+                  "Rand 5"
+                ],
+                "datasets": [
+                  {
+                    "fields": [
+                      "random1",
+                      "random2",
+                      "random3",
+                      "random4",
+                      "random5"
+                    ],
+                    "backgroundColor": [
+                      "rgba(229, 99 , 153, 0.4)",
+                      "rgba(0, 167, 225, 0.4)",
+                      "rgba(237, 222, 164, 0.4)",
+                      "rgba(247, 160 ,114, 0.4)",
+                      "rgba(255, 155, 66, 0.4)"
+                    ],
+                    "label": "Serie 1",
+                    "borderColor": "#C0B4A7"
+                  }
+                ]
+              }
+            },
+            {
+              "group": "Random data series",
+              "label": "Rand 1",
+              "field": "random1",
+              "type": "integer",
+              "expanded": true
+            },
+            {
+              "group": "Random data series",
+              "label": "Rand 2",
+              "field": "random2",
+              "type": "integer"
+            },
+            {
+              "group": "Random data series",
+              "label": "Rand 3",
+              "field": "random3",
+              "type": "integer"
+            },
+            {
+              "group": "Random data series",
+              "label": "Rand 4",
+              "field": "random4",
+              "type": "integer"
+            },
+            {
+              "group": "Random data series",
+              "label": "Rand 5",
+              "field": "random5",
+              "type": "integer"
+            },
+            {
+              "field": "comments",
+              "label": "Comments",
+              "type": "textarea",
+              "edit": true,
+              "class": "_report"
+            },
+            {
+              "field": "images",
+              "label": "Images",
+              "type": "images",
+              "edit": true,
+              "class": "_report"
+            },
+            {
+              "label": "Documents",
+              "field": "documents",
+              "type": "documents",
+              "edit": true,
+              "class": "_report"
+            },
+            {
+              "label": "Available dv",
+              "type": "label",
+              "class": "_report"
+            },
+            {
+              "type": "dataview",
+              "title": "Population Summary",
+              "query": "Population Summary Sites",
+              "class": "_report",
+              "layout": "fitColumns",
+              "columns": [
+                {
+                  "field": "rows",
+                  "title": "Population Summary",
+                  "headerSort": false,
+                  "hozAlign": "left"
+                },
+                {
+                  "title": "Grouped columns",
+                  "columns": [
+                    {
+                      "title": "0-5 mins",
+                      "field": "min5",
+                      "formatter": "money",
+                      "formatterParams": {
+                        "precision": 0
+                      },
+                      "hozAlign": "center"
+                    },
+                    {
+                      "title": "0-10 mins",
+                      "field": "min10",
+                      "formatter": "money",
+                      "formatterParams": {
+                        "precision": 0
+                      },
+                      "hozAlign": "center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "dataview",
+              "title": "Population Summary *2",
+              "class": "_report",
+              "dataviews": [
+                {
+                  "query": "Population Summary Sites",
+                  "class": "test",
+                  "style": "padding: 30px",
+                  "layout": "fitColumns",
+                  "columns": [
+                    {
+                      "field": "rows",
+                      "title": "Population Summary",
+                      "headerSort": false,
+                      "hozAlign": "left"
+                    },
+                    {
+                      "title": "Grouped columns",
+                      "columns": [
+                        {
+                          "title": "0-5 mins",
+                          "field": "min5",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "hozAlign": "center"
+                        },
+                        {
+                          "title": "0-10 mins",
+                          "field": "min10",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "hozAlign": "center"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "query": "Population Summary Sites",
+                  "class": "test",
+                  "style": "padding: 30px",
+                  "layout": "fitColumns",
+                  "columns": [
+                    {
+                      "field": "rows",
+                      "title": "Population Summary",
+                      "headerSort": false,
+                      "hozAlign": "left"
+                    },
+                    {
+                      "title": "Grouped columns",
+                      "columns": [
+                        {
+                          "title": "0-5 mins",
+                          "field": "min5",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "hozAlign": "center"
+                        },
+                        {
+                          "title": "0-10 mins",
+                          "field": "min10",
+                          "formatter": "money",
+                          "formatterParams": {
+                            "precision": 0
+                          },
+                          "hozAlign": "center"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "dataview",
+              "title": "Nearest competitors",
+              "class": "_report",
+              "target_id": "xyz_sites_nearestcomp",
+              "layout": "fitColumns",
+              "query": "Nearest competitors Sites",
+              "columns": [
+                {
+                  "title": "Distance",
+                  "field": "dist",
+                  "hozAlign": "center",
+                  "formatter": "money",
+                  "formatterParams": {
+                    "symbol": " km",
+                    "symbolAfter": true
+                  }
+                },
+                {
+                  "title": "Competitor name",
+                  "field": "fascia"
+                },
+                {
+                  "title": "Postcode",
+                  "field": "postcode"
+                }
+              ]
+            }
+          ]
         }
       }
     }
