@@ -55,6 +55,10 @@
     },
     "Sites Local Report": {
       "template": "http://localhost:3000/views/report_location.html"
+    },
+    "aga_isoline_5min": {
+      "template": "SELECT ROUND(sum(b.pop__11)) as _pop__11_5min, ROUND(sum(b.pop__12)) as _pop__12_5min, ROUND(sum(b.pop__13)) as _pop__13_5min, ROUND(sum(b.pop__14)) as _pop__14_5min, ROUND(sum(b.pop__15)) as _pop__15_5min, ROUND(sum(b.pop__16)) as _pop__16_5min, ROUND(sum(b.pop__17)) as _pop__17_5min, ROUND(sum(b.pop__18)) as _pop__18_5min FROM dev.uk_glx_sites a, geodata.uk_glx_geodata_hex_1k b WHERE a.id = ${id} AND st_intersects(a.isoline_5min, b.geom_p_4326);",
+      "dbs": "XYZ"
     }
   },
   "locales": {
@@ -2166,10 +2170,10 @@
         "Agata": {
           "group": "Cluster",
           "meta": "XYZ database, don't touch.",
-          "display": false,
           "edit": {
             "point": true,
-            "delete": true
+            "delete": true,
+            "geometry": true
           },
           "format": "cluster",
           "srid": "4326",
@@ -2179,7 +2183,8 @@
           "table": "dev.uk_glx_sites",
           "cluster_kmeans": 0.1,
           "cluster_label": "site_name",
-          "infoj": [{
+          "infoj": [
+            {
               "type": "streetview"
             },
             {
@@ -2254,7 +2259,6 @@
               "type": "geometry",
               "class": "_report",
               "level": 1,
-              "display": false,
               "edit": {
                 "isoline_here": {
                   "minutes": 5
@@ -2267,6 +2271,72 @@
                 "strokeWidth": 2
               }
             },
+                        {
+                            "label": "Population within 5min",
+                            "type": "dataview",
+                            "target": "location",
+                            "class": "hidden_in_report",
+                            "query": "aga_isoline_5min",
+                            "chart": {
+                                "height": 200,
+                                "type": "bar",
+                                "labels": ["2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"],
+                                "datasets": [
+                                    {
+                                        "fields": [
+                                            "_pop__11_5min",
+                                            "_pop__12_5min",
+                                            "_pop__13_5min",
+                                            "_pop__14_5min",
+                                            "_pop__15_5min",
+                                            "_pop__16_5min",
+                                            "_pop__17_5min",
+                                            "_pop__18_5min"
+                                        ],
+                                        "backgroundColor": [
+                                            "#E6A5AE",
+                                            "#E08F9A",
+                                            "#D97985",
+                                            "#D36371",
+                                            "#CD4C5D",
+                                            "#C73649",
+                                            "#C12035",
+                                            "#BB0A21"
+                                        ],
+                                        "borderColor": [
+                                            "#E6A5AE",
+                                            "#E08F9A",
+                                            "#D97985",
+                                            "#D36371",
+                                            "#CD4C5D",
+                                            "#C73649",
+                                            "#C12035",
+                                            "#BB0A21"
+                                        ]
+                                    }
+                                ],
+                                "options": {
+                                    "maintainAspectRatio": false,
+                                    "legend": {
+                                        "display": false
+                                    },
+                                    "scales": {
+                                        "yAxes": [{
+                                            "ticks": {
+                                                "display": false,
+                                                "beginAtZero": true
+                                            }
+                                        }],
+                                        "xAxes": [{
+                                            "ticks": {
+                                                "maxRotation": 90,
+                                                "minRotation": 90
+                                            }
+                                        }]
+                                    }
+                                }
+                            }
+                        },
             {
               "name": "HERE Catchment 10min",
               "field": "isoline_10min",
@@ -2308,318 +2378,15 @@
               }
             },
             {
-              "label": "Dashboards",
-              "type": "label",
-              "class": "_report"
-            },
-            {
-              "type": "dashboard",
-              "title": "Population Dashboard",
-              "display": false,
-              "class": "_report",
-              "template": "Sites Population Dashboard",
-              "dataviews": [{
-                  "title": "Population Summary",
-                  "target_id": "xyz_sites_pop",
-                  "query": "Population Summary Sites",
-                  "class": "_report",
-                  "layout": "fitColumns",
-                  "toolbars": {},
-                  "columns": [{
-                      "field": "rows",
-                      "title": "Population Summary",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Grouped columns",
-                      "columns": [{
-                          "title": "0-5 mins",
-                          "field": "min5",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        },
-                        {
-                          "title": "0-10 mins",
-                          "field": "min10",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "title": "Age Profile",
-                  "class": "_report",
-                  "query": "Age Profile Sites",
-                  "target_id": "xyz_sites_age",
-                  "layout": "fitColumns",
-                  "toolbars": {},
-                  "columns": [{
-                      "field": "rows",
-                      "title": "Age Profile",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "0-5 mins",
-                      "field": "min5",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "title": "0-10 mins",
-                      "field": "min10",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "title": "0-15 mins",
-                      "field": "min15",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    }
-                  ]
-                },
-                {
-                  "title": "Social Grade",
-                  "query": "Social Grade Sites",
-                  "target_id": "xyz_sites_socialgrade",
-                  "class": "_report",
-                  "toolbars": {},
-                  "layout": "fitColumns",
-                  "columns": [{
-                      "field": "rows",
-                      "title": "Social Grade",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Drivetimes",
-                      "columns": [{
-                          "title": "0-5 mins",
-                          "field": "min5",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        },
-                        {
-                          "title": "0-10 mins",
-                          "field": "min10",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        },
-                        {
-                          "title": "0-15 mins",
-                          "field": "min15",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "right"
-                        }
-                      ]
-                    },
-                    {
-                      "field": "share15",
-                      "title": "% with 15 min",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "field": "sg_uk_total",
-                      "title": "UK %",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      },
-                      "align": "right"
-                    },
-                    {
-                      "field": "sg_index",
-                      "title": "Social Grade Index",
-                      "formatter": "progress",
-                      "formatterParams": {
-                        "color": ["#2196f3", "orange", "red"],
-                        "legend": true,
-                        "legendAlign": "center",
-                        "max": 200
-                      },
-                      "width": 200
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "dashboard",
-              "title": "Dashboard with Charts",
-              "display": false,
-              "class": "_report",
-              "dataviews": [{
-                  "title": "Worker Summary",
-                  "layout": "fitColumns",
-                  "query": "Worker Summary Sites",
-                  "columns": [{
-                      "field": "rows",
-                      "title": "Worker Summary",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Total Workers",
-                      "field": "workers",
-                      "align": "center",
-                      "formatter": "money",
-                      "formatterParams": {
-                        "precision": 0
-                      }
-                    }
-                  ]
-                },
-                {
-                  "label": "Stacked Chart",
-                  "query": "Stacked Data",
-                  "chart": {
-                    "type": "stackedHorizontalBar",
-                    "title": true,
-                    "legend": true,
-                    "legendPosition": "right",
-                    "labels": ["Actual Sales", "Model Sales"],
-                    "datasets": [{
-                        "label": "Activity 1",
-                        "fields": ["actual_sales_activity1", "model_sales_activity1"],
-                        "backgroundColor": "#FFA630",
-                        "borderColor": "#FFA630"
-                      },
-                      {
-                        "label": "Activity 2",
-                        "fields": ["actual_sales_activity2", "model_sales_activity2"],
-                        "backgroundColor": "#0B9800",
-                        "borderColor": "#0B9800"
-                      },
-                      {
-                        "label": "Activity 3",
-                        "fields": ["actual_sales_activity3", "model_sales_activity3"],
-                        "backgroundColor": "#C6DEA6",
-                        "borderColor": "#C6DEA6"
-                      },
-                      {
-                        "label": "Activity 4",
-                        "fields": ["actual_sales_activity4", "model_sales_activity4"],
-                        "backgroundColor": "#EC8394",
-                        "borderColor": "#EC8394"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "label": "Doughnut or Radar Chart",
-                  "query": "Random Data Series",
-                  "chart": {
-                    "title": false,
-                    "legend": true,
-                    "type": "radar",
-                    "cutoutPercentage": 36,
-                    "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
-                    "datasets": [{
-                        "fields": ["random1", "random2", "random3", "random4", "random5"],
-                        "backgroundColor": [
-                          "rgba(229, 99 , 153, 0.4)",
-                          "rgba(0, 167, 225, 0.4)",
-                          "rgba(237, 222, 164, 0.4)",
-                          "rgba(247, 160 ,114, 0.4)",
-                          "rgba(255, 155, 66, 0.4)"
-                        ],
-                        "label": "Serie 1",
-                        "borderColor": "#C0B4A7",
-                        "spanGaps": true,
-                        "lineTension": 0.5
-                      },
-                      {
-                        "fields": ["rev_random1", "rev_random2", "rev_random3", "rev_random4", "rev_random5"],
-                        "label": "Serie 2",
-                        "backgroundColor": "rgba(95, 75, 182, 0.3)",
-                        "borderColor": "#e65100",
-                        "lineTension": 0.5
-                      }
-                    ]
-                  }
-                },
-                {
-                  "title": "Population Summary Dataview",
-                  "query": "Population Summary Sites",
-                  "layout": "fitColumns",
-                  "toolbars": {},
-                  "columns": [{
-                      "field": "rows",
-                      "title": "Population Summary",
-                      "headerSort": false,
-                      "align": "left"
-                    },
-                    {
-                      "title": "Grouped columns",
-                      "columns": [{
-                          "title": "0-5 mins",
-                          "field": "min5",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        },
-                        {
-                          "title": "0-10 mins",
-                          "field": "min10",
-                          "formatter": "money",
-                          "formatterParams": {
-                            "precision": 0
-                          },
-                          "align": "center"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "label": "Random data series",
+              "title": "Random data series",
               "type": "dataview",
-              "target_id": "xyz_sites_random",
+              "target": "xyz_sites_random",
               "query": "Random Data Series",
               "class": "_report",
               "chart": {
                 "height": 300,
                 "width": 290,
-                "type": "mixed",
-                "title": true,
-                "legend": true,
-                "legendPosition": "bottom",
+                "type": "bar",
                 "responsive": true,
                 "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
                 "datasets": [{
@@ -2627,30 +2394,40 @@
                     "label": "Serie 1",
                     "backgroundColor": "rgba(192, 117, 205, 0.3)",
                     "borderColor": "#4a148c",
-                    "datalabels": {}
+                    "datalabels": {},
+                    "type": "bar"
                   },
                   {
                     "fields": ["rev_random1", "rev_random2", "rev_random3", "rev_random4", "rev_random5"],
                     "label": "Serie 2",
                     "type": "line",
                     "backgroundColor": "rgba(255, 167, 38, 0.3)",
-                    "borderColor": "#e65100"
+                    "borderColor": "#e65100",
+                    "type": "line"
                   }
-                ]
+                ],
+                "options": {
+                  "title": {
+                    "display": true,
+                    "text": "Random data series"
+                  },
+                  "legend": {
+                    "display": true,
+                    "position": "bottom"
+                  }
+                }
               }
             },
             {
-              "label": "Doughnut or Radar Chart",
+              "title": "Doughnut Chart",
               "type": "dataview",
               "query": "Random Data Series",
-              "target_id": "xyz_sites_random2",
+              "target": "xyz_sites_random2",
               "chart": {
-                "title": false,
-                "legend": true,
                 "type": "doughnut",
-                "cutoutPercentage": 36,
                 "labels": ["Rand 1", "Rand 2", "Rand 3", "Rand 4", "Rand 5"],
-                "datasets": [{
+                "datasets": [
+                  {
                   "fields": ["random1", "random2", "random3", "random4", "random5"],
                   "backgroundColor": [
                     "rgba(229, 99 , 153, 0.4)",
@@ -2663,21 +2440,28 @@
                   "borderColor": "#C0B4A7",
                   "spanGaps": true,
                   "lineTension": 0.5
-                }]
+                }
+              ],
+                "options": {
+                  "cutoutPercentage": 36,
+                  "title": {
+                    "display": true,
+                    "text": "Doughnut Chart"
+                  },
+                  "legend": {
+                    "display": true,
+                    "position": "left"
+                  }
+                }
               },
-              "class": "_report"
-            },
-            {
-              "label": "Random data series",
-              "type": "group",
-              "expanded": true,
               "class": "_report"
             },
             {
               "group": "Random data series",
               "label": "Rand 1",
               "field": "random1",
-              "type": "integer"
+              "type": "integer",
+              "expanded": true
             },
             {
               "group": "Random data series",
@@ -2769,11 +2553,12 @@
             {
               "type": "dataview",
               "title": "Worker Summary",
-              "target_id": "xyz_sites_workers",
+              "target": "xyz_sites_workers",
               "class": "_report",
               "layout": "fitColumns",
               "query": "Worker Summary Sites",
-              "columns": [{
+              "columns": [
+                {
                   "field": "rows",
                   "title": "Worker Summary",
                   "headerSort": false,
@@ -2794,10 +2579,11 @@
               "type": "dataview",
               "title": "Nearest competitors",
               "class": "_report",
-              "target_id": "xyz_sites_nearestcomp",
+              "target": "xyz_sites_nearestcomp",
               "layout": "fitColumns",
               "query": "Nearest competitors Sites",
-              "columns": [{
+              "columns": [
+                {
                   "title": "Distance",
                   "field": "dist",
                   "align": "center",
@@ -2822,6 +2608,10 @@
             "marker": {
               "type": "target",
               "fillColor": "#ffb300"
+            },
+            "markerMulti": {
+              "type": "dot",
+              "fillColor": "rgba(0, 75, 168, 0.3)"
             },
             "themes": {
               "Test categorized": {
