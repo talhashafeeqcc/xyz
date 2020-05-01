@@ -99,7 +99,7 @@ async function register(req, res) {
     to: req.body.email,
     subject: `Please verify your account on ${req.headers.host}${process.env.DIR || ''}`,
     text: `A new account for this email address has been registered with ${req.headers.host}${process.env.DIR || ''}
-    Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/verify?verificationtoken=${verificationtoken}
+    Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/verify/${verificationtoken}
     A site administrator must approve the account before you are able to login.
     You will be notified via email once an adimistrator has approved your account.
     The account was registered from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'}\n

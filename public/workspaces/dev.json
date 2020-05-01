@@ -2406,7 +2406,6 @@
                   {
                     "fields": ["rev_random1", "rev_random2", "rev_random3", "rev_random4", "rev_random5"],
                     "label": "Serie 2",
-                    "type": "line",
                     "backgroundColor": "rgba(255, 167, 38, 0.3)",
                     "borderColor": "#e65100",
                     "type": "line"
