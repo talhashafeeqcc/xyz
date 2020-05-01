@@ -544,7 +544,7 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
     <button
       title="Toggle visibility"
       class="${"btn-header xyz-icon icon-toggle "+(n.display&&"on")}"
-      onclick=${t=>{t.stopPropagation(),n.display?n.remove():n.show()}}>`,i.appendChild(i.toggleDisplay),n.view.addEventListener("toggleDisplay",()=>{i.toggleDisplay.classList.toggle("on"),n.style&&n.style.bringToFront&&(n.style.bringToFront.disabled=!!n.display)}),n.view.appendChild(i),n.meta){const e=t.utils.wire()`<p class="meta">`;e.innerHTML=n.meta,n.view.appendChild(e)}const o=e.style.panel(n);o&&n.view.appendChild(o);const r=e.filter.panel(n);r&&n.view.appendChild(r);const a=e.data.panel(n);a&&n.view.appendChild(a);const s=e.draw.panel(n);s&&n.view.appendChild(s);const l=e.report.panel(n);if(l&&n.view.appendChild(l),document.addEventListener(n.key,e=>e.detail(t,n),!0),n.scripts&&n.scripts.forEach(e=>{e+=t.token&&"&token="+t.token||"",n.view.appendChild(t.utils.wire()`<script src="${e}">`)}),n.view.children.length<=1)return;n.view.classList.add("expandable"),i.onclick=e=>{e.stopPropagation(),t.utils.toggleExpanderParent(e.target,!0)},i.appendChild(t.utils.wire()`
+      onclick=${t=>{t.stopPropagation(),n.display?n.remove():n.show()}}>`,i.appendChild(i.toggleDisplay),n.view.addEventListener("toggleDisplay",()=>{i.toggleDisplay.classList.toggle("on"),n.style&&n.style.bringToFront&&(n.style.bringToFront.disabled=!!n.display)}),n.view.appendChild(i),n.meta){const e=t.utils.wire()`<p class="meta">`;e.innerHTML=n.meta,n.view.appendChild(e)}const o=e.style.panel(n);o&&n.view.appendChild(o);const r=e.filter.panel(n);r&&n.view.appendChild(r);const a=e.data.panel(n);a&&n.view.appendChild(a);const s=e.draw.panel(n);s&&n.view.appendChild(s);const l=e.report.panel(n);if(l&&n.view.appendChild(l),n.scripts&&Object.entries(n.scripts).forEach(e=>{const i=t.utils.wire()`<script src="${e[1]}">`,o=r=>{r.detail(t,n),document.removeEventListener(e[0],o,!0),i.remove()};document.addEventListener(e[0],o,!0),n.view.appendChild(i)}),n.view.children.length<=1)return;n.view.classList.add("expandable"),i.onclick=e=>{e.stopPropagation(),t.utils.toggleExpanderParent(e.target,!0)},i.appendChild(t.utils.wire()`
     <button
       title="Toggle layer dashboard"
       class="btn-header xyz-icon icon-expander"
@@ -571,25 +571,26 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
             style="text-align: left; grid-column: 1 / 3;"
             onclick=${e=>{t.utils.toggleExpanderParent(e.target)}}>
             <span>${o.group}</span>
-            <span class="xyz-icon btn-header icon-expander primary-colour-filter">`,o.listview.appendChild(i[o.group])),o.group_class&&o.group_class.split(" ").forEach(t=>i[o.group].classList.add(t)),o.expanded&&i[o.group].classList.add("expanded"),o.listview=i[o.group]),"dataview"!==o.type)o.label&&(o.label_div=t.utils.wire()`
+            <span class="xyz-icon btn-header icon-expander primary-colour-filter">`,o.listview.appendChild(i[o.group])),o.group_class&&o.group_class.split(" ").forEach(t=>i[o.group].classList.add(t)),o.expanded&&i[o.group].classList.add("expanded"),o.listview=i[o.group]),o.script){const e=t.utils.wire()`<script src="${o.src}">`;o.target=t.utils.wire()`
+      <div style="grid-column: 1 / 3;" class="${o.class||""}">`;const n=e=>{e.detail(t,o),document.removeEventListener(o.script,n,!0),tag.remove()};document.addEventListener(o.script,n,!0),o.target.appendChild(e),o.listview.appendChild(o.target)}else if("dataview"!==o.type)o.label&&(o.label_div=t.utils.wire()`
       <div
         class="${`label lv-${o.level||"0"} ${o.class||""}`}"
         style="grid-column: 1;"
-        title="${o.title||null}">${o.label}`,o.listview.appendChild(o.label_div)),"key"!==o.type?"label"!==o.type?"streetview"!==o.type?"report"!==o.type?"images"!==o.type?"documents"!==o.type?"geometry"!==o.type?"meta"!==o.type?"boolean"!==o.type?(o.edit||o.displayValue)&&(o.inline||"integer"===o.type^"numeric"===o.type^"date"===o.type?(o.val=t.utils.wire()`<div class="val num" style="grid-column: 2;">`,o.listview.appendChild(o.val)):(o.label_div&&(o.label_div.style.gridColumn="1 / span 2"),o.val=t.utils.wire()`<div class="val" style="grid-column: 1 / span 2;">`,o.listview.appendChild(o.val)),!o.edit||o.fieldfx?"html"!==o.type?o.val.textContent=o.displayValue:(o.val.style="grid-column: 1 / span 2;",o.val.innerHTML=o.value):t.locations.view.edit.input(o)):t.locations.view.boolean(o):t.locations.view.meta(o):t.locations.view.geometry(o):t.locations.view.documents(o):t.locations.view.images(o):t.locations.view.report(o):t.locations.view.streetview(o):o.label_div.style.gridColumn="1 / 3":o.listview.appendChild(t.utils.wire()`
+        title="${o.title||null}">${o.label}`,o.listview.appendChild(o.label_div)),"key"!==o.type?"label"!==o.type?"streetview"!==o.type?"report"!==o.type?"images"!==o.type?"documents"!==o.type?"geometry"!==o.type?"meta"!==o.type?"boolean"!==o.type?(o.edit||o.displayValue)&&(o.inline||"integer"===o.type^"numeric"===o.type^"date"===o.type?(o.val=t.utils.wire()`<div class="val num" style="grid-column: 2;">`,o.listview.appendChild(o.val)):(o.label_div&&(o.label_div.style.gridColumn="1 / 3"),o.val=t.utils.wire()`<div class="val" style="grid-column: 1 / 3;">`,o.listview.appendChild(o.val)),!o.edit||o.fieldfx?"html"!==o.type?o.val.textContent=o.displayValue:(o.val.style="grid-column: 1 / 3;",o.val.innerHTML=o.value):t.locations.view.edit.input(o)):t.locations.view.boolean(o):t.locations.view.meta(o):t.locations.view.geometry(o):t.locations.view.documents(o):t.locations.view.images(o):t.locations.view.report(o):t.locations.view.streetview(o):o.label_div.style.gridColumn="1 / 3":o.listview.appendChild(t.utils.wire()`
       <div
         class="label lv-0 ${o.class||""}"
         style="grid-column: 2; margin: 3px;">
         <span
           title="Source layer"
           style="${"float: right; padding: 3px; cursor: help; border-radius: 2px; background-color: "+t.utils.Chroma(e.style.strokeColor).alpha(.3)+";"}"
-          >${e.layer.name}`);else{const e=t.locations.view.dataview(o);e&&o.listview.appendChild(e)}}return n},Qp=t=>e=>{e.__label_div&&(e.__label_div.style.gridColumn="1 / span 2");const n=t.mapview.lib.proj.transform(e.location.marker,"EPSG:"+t.mapview.srid,"EPSG:4326"),i=`${t.host}/api/proxy?uri=/maps/api/streetview?location=${n[1]},${n[0]}%26source=outdoor%26size=300x230&provider=GOOGLE&host=maps.googleapis.com&token=${t.token||""}`;e.listview.appendChild(t.utils.wire()`
+          >${e.layer.name}`);else{const e=t.locations.view.dataview(o);e&&o.listview.appendChild(e)}}return n},Qp=t=>e=>{e.__label_div&&(e.__label_div.style.gridColumn="1 / 3");const n=t.mapview.lib.proj.transform(e.location.marker,"EPSG:"+t.mapview.srid,"EPSG:4326"),i=`${t.host}/api/proxy?uri=/maps/api/streetview?location=${n[1]},${n[0]}%26source=outdoor%26size=300x230&provider=GOOGLE&host=maps.googleapis.com&token=${t.token||""}`;e.listview.appendChild(t.utils.wire()`
     <div
       class="${e.class||""}"
       style="grid-column: 1 / 3;">
       <a
         target="_blank"
         href="${"https://www.google.com/maps?cbll="+n[1]+","+n[0]+"&layer=c"}">
-        <img src="${i}">`)},tf=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / span 2");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
+        <img src="${i}">`)},tf=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / 3");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
       <div class="item ${e.class||""}" style="grid-column: 1 / 3;">
         <img src=${i} style="width:100%;">
         ${e.edit&&t.utils.wire()`
@@ -613,8 +614,8 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
                   data-name=${r}
                   data-src=${o}
                   onclick=${t=>n(t)}>
-                </button>`}`},s.send()},u.send(t.utils.dataURLtoBlob(l))},o.src=i.target.result},o.readAsDataURL(r),i.target.value=""}}>`)},ef=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / span 2");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
-		<div class="item" style="grid-column: 1 / span 2;">
+                </button>`}`},s.send()},u.send(t.utils.dataURLtoBlob(l))},o.src=i.target.result},o.readAsDataURL(r),i.target.value=""}}>`)},ef=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / 3");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
+		<div class="item" style="grid-column: 1 / 3;">
 		${e.edit&&t.utils.wire()`
 		<button
 			class="xyz-icon icon-trash link-remove"
@@ -623,7 +624,7 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
 			onclick=${t=>n(t)}>
 		</button>`}		
 		<a href=${i}>${decodeURIComponent(decodeURIComponent(i.split("/").pop()))}`);function n(n){if(!confirm("Remove document link?"))return;const i=n.target,o=new XMLHttpRequest;o.open("GET",t.host+"/api/provider/cloudinary?"+t.utils.paramString({destroy:!0,public_id:i.dataset.name,token:t.token})),o.onload=n=>{if(n.target.status>202)return;const o=new XMLHttpRequest;o.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"remove",field:e.field,secure_url:img.dataset.src,id:e.location.id,token:t.token})),o.setRequestHeader("Content-Type","application/json"),o.responseType="json",o.onload=t=>{t.target.status>202||i.parentNode.remove()},o.send()},o.send()}e.edit&&e.listview.appendChild(t.utils.wire()`
-    <div class="list" style="grid-column: 1 / span 2;">
+    <div class="list" style="grid-column: 1 / 3;">
 	<div class="add xyz-icon icon-cloud-upload off-black-filter">
 	<input
 	type="file"
@@ -654,7 +655,7 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
         target="_blank"
         href="${n}">
           ${e.report.name||"Location Report"}`)},rf=t=>e=>{e.listview.appendChild(t.utils.wire()`
-    <div style="padding-top: 5px; grid-column: 1 / span 2">
+    <div style="padding-top: 5px; grid-column: 1 / 3">
       <label class="input-checkbox">
         <input type="checkbox"
           disabled=${!e.edit}
@@ -740,7 +741,7 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
         oninput=${t=>{e.edit.isoline_mapbox._minutes=parseInt(t.target.value),t.target.parentNode.previousElementSibling.textContent=e.edit.isoline_mapbox._minutes}}>`),n}}))(t),i=(t=>e=>{e.value.features&&(e.value.features.map(n=>{let i;if(e.style||(i=e.location.style),e.style.theme||(i=e.style),e.style.theme&&"categorized"===e.style.theme.type&&(i=e.style.theme&&e.style.theme.cat[n.properties[e.style.theme.field]].style),e.style.theme&&"graduated"===e.style.theme.type)for(let t=0;t<e.style.theme.cat_arr.length&&!(n.properties[e.style.theme.field]<e.style.theme.cat_arr[t].value);t++)i=e.style.theme.cat_arr[t].style;let o=t.mapview.geoJSON({geometry:n.geometry,dataProjection:"4326",zIndex:e.location.layer.L.getZIndex()-1,style:new t.mapview.lib.style.Style({stroke:i.strokeColor&&new t.mapview.lib.style.Stroke({color:t.utils.Chroma(i.color||i.strokeColor).alpha(1),width:e.style.strokeWidth||1}),fill:new t.mapview.lib.style.Fill({color:t.utils.Chroma(i.fillColor||i.strokeColor).alpha(void 0===i.fillOpacity?1:parseFloat(i.fillOpacity)||0).rgba()})})});e.location.geometryCollection.push(o)}),e.location.geometries.push(e.location.geometryCollection),e.display=!0,e.style&&e.style.theme&&e.style.theme.legend&&(e.legend=t.utils.wire()`<div class="legend lv-1">`,e.legend.appendChild(t.layers.view.style.legend({format:"mvt",style:e.style})),e.container.appendChild(e.legend)))})(t);return o=>{if(o.value||o.edit){if(o.style=Object.assign({},o.location.style,o.style),o.container=t.utils.wire()`
     <div 
       class=${"lv-"+(o.level||0)+" "+(o.class||"")}
-      style="grid-column: 1 / 3; padding-top: 4px; position: relative;">`,o.listview.appendChild(o.container),o.container.appendChild(t.utils.wire()`
+      style="grid-column: 1 / 3; position: relative;">`,o.listview.appendChild(o.container),o.container.appendChild(t.utils.wire()`
     <div>
     <label class="input-checkbox">
     <input type="checkbox"
@@ -749,7 +750,7 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
     </input>
     <div></div><span>${o.name||"Geometry"}`),!o.style.theme&&o.container.appendChild(t.utils.wire()`
     <div class="sample-circle"
-      style="${"background-color:"+t.utils.Chroma(o.style.fillColor||o.style.strokeColor).alpha(void 0===o.style.fillOpacity?1:parseFloat(o.style.fillOpacity)||0)+";border-color:"+t.utils.Chroma(o.style.color||o.style.strokeColor).alpha(1)+";border-style: solid;border-width:"+(o.style.strokeWidth||1)+"px;position: absolute;right:0;top:5px;"}">`),o.edit&&o.edit.isoline_mapbox&&o.container.appendChild(n.settings(o)),o.edit&&o.edit.isoline_here&&o.container.appendChild(e.settings(o)),o.value&&(o.display||o.edit))return r();!o.value&&o.display&&a()}function r(){"FeatureCollection"===o.value.type?i(o):(o.geometry=o.value&&t.mapview.geoJSON({geometry:"object"==typeof o.value&&o.value||JSON.parse(o.value),dataProjection:"4326",zIndex:o.location.layer.L.getZIndex()-1,style:new t.mapview.lib.style.Style({stroke:o.style.strokeColor&&new t.mapview.lib.style.Stroke({color:t.utils.Chroma(o.style.color||o.style.strokeColor).alpha(1),width:o.style.strokeWidth||1}),fill:new t.mapview.lib.style.Fill({color:t.utils.Chroma(o.style.fillColor||o.style.strokeColor).alpha(void 0===o.style.fillOpacity?1:parseFloat(o.style.fillOpacity)||0).rgba()})})}),o.geometry&&o.location.geometries.push(o.geometry),o.display=!0)}function a(){return o.edit.isoline_mapbox?n.create(o):o.edit.isoline_here?e.create(o):void 0}}},sf=t=>e=>{e.val.appendChild(t.utils.wire()`
+      style="${`\n        background-color: ${t.utils.Chroma(o.style.fillColor||o.style.strokeColor).alpha(void 0===o.style.fillOpacity?1:parseFloat(o.style.fillOpacity)||0)};\n        border-color: ${t.utils.Chroma(o.style.color||o.style.strokeColor).alpha(1)};\n        border-style: solid;\n        border-width: ${o.style.strokeWidth||1}px;\n        position: absolute;\n        right:0;\n        top:0;\n        height: 100%;\n        width: calc(2vh);`}">`),o.edit&&o.edit.isoline_mapbox&&o.container.appendChild(n.settings(o)),o.edit&&o.edit.isoline_here&&o.container.appendChild(e.settings(o)),o.value&&(o.display||o.edit))return r();!o.value&&o.display&&a()}function r(){"FeatureCollection"===o.value.type?i(o):(o.geometry=o.value&&t.mapview.geoJSON({geometry:"object"==typeof o.value&&o.value||JSON.parse(o.value),dataProjection:"4326",zIndex:o.location.layer.L.getZIndex()-1,style:new t.mapview.lib.style.Style({stroke:o.style.strokeColor&&new t.mapview.lib.style.Stroke({color:t.utils.Chroma(o.style.color||o.style.strokeColor).alpha(1),width:o.style.strokeWidth||1}),fill:new t.mapview.lib.style.Fill({color:t.utils.Chroma(o.style.fillColor||o.style.strokeColor).alpha(void 0===o.style.fillOpacity?1:parseFloat(o.style.fillOpacity)||0).rgba()})})}),o.geometry&&o.location.geometries.push(o.geometry),o.display=!0)}function a(){return o.edit.isoline_mapbox?n.create(o):o.edit.isoline_here?e.create(o):void 0}}},sf=t=>e=>{e.val.appendChild(t.utils.wire()`
   <div>
   <span>${e.edit.range.label}</span>
   <span class="bold">${e.value}</span>
@@ -770,11 +771,13 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
       </div>
       <ul>
       ${e.edit.options.map(n=>{let i=n,o=n;return"object"==typeof n&&(i=Object.keys(n)[0],o=Object.values(n)[0]),t.utils.wire()`<li onclick=${t=>{const n=t.target.closest(".btn-drop");n.classList.toggle("active"),n.querySelector(":first-child").textContent=i,n.querySelector(":first-child").value=o,e.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:n.querySelector(":first-child"),entry:e}}))}}>${i}`})}`)},uf=t=>e=>{const n=t.utils.wire()`<input type="text" placeholder="Pick from calendar." style="text-align: end;">${"datetime"===e.type&&t.utils.formatDateTime(e.value)||t.utils.formatDate(e.value)||""}`.childNodes[0];n.value="datetime"===e.type&&t.utils.formatDateTime(e.value)||t.utils.formatDate(e.value)||"",e.val.appendChild(n),t.utils.flatpickr({value:e.value?new Date(1e3*e.value).toISOString():"",element:n,enableTime:"datetime"===e.type,callback:i=>{n.value=i;const o=t.utils.meltDateStr(i);e.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:n,entry:e,newValue:o}}))}})},df=t=>e=>{let n=t.utils.wire()`
-	<textarea value=${e.value||""} style="auto; min-height: 50px;"
-	onfocus=${t=>{t.target.style.height=t.target.scrollHeight+"px"}}
-	onfocusout=${t=>{t.target.style.height="auto"}}
-	onkeyup=${t=>{e.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:t.target,entry:e}}))}}
-	onkeydown=${t=>setTimeout(()=>{t.target.style.height="auto",t.target.style.height=t.target.scrollHeight+"px"},100)}>`;return e.val.style.gridColumn="1 / span 2",e.val.appendChild(n),n},cf=t=>{const e={input:function(n){if(!n.edit)return;if("date"===n.type||"datetime"===n.type)return e.date(n);if(n.edit.range)return e.range(n);if(n.edit.options)return e.options(n);if("textarea"===n.type||"html"===n.type)return e.textarea(n);n.val.appendChild(t.utils.wire()`
+  <textarea
+    value=${e.value||""}
+    style="auto; min-height: 50px;"
+	  onfocus=${t=>{t.target.style.height=t.target.scrollHeight+"px"}}
+	  onfocusout=${t=>{t.target.style.height="auto"}}
+	  onkeyup=${t=>{e.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:t.target,entry:e}}))}}
+	  onkeydown=${t=>setTimeout(()=>{t.target.style.height="auto",t.target.style.height=t.target.scrollHeight+"px"},100)}>`;return e.val.style.gridColumn="1 / 3",e.val.appendChild(n),n},cf=t=>{const e={input:function(n){if(!n.edit)return;if("date"===n.type||"datetime"===n.type)return e.date(n);if(n.edit.range)return e.range(n);if(n.edit.options)return e.options(n);if("textarea"===n.type||"html"===n.type)return e.textarea(n);n.val.appendChild(t.utils.wire()`
     <input type="${"numeric"===n.type||"integer"===n.type?"number":"text"}" value="${n.value||n.displayValue||""}"
       onkeyup=${t=>{n.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:t.target,entry:n}}))}}>`)},range:sf(t),date:uf(t),options:lf(t),textarea:df(t)};return e},hf=t=>e=>(e.dependents&&e.dependents.some(t=>e.location.infoj.some(e=>!e.value&&e.field===t))&&delete e.display,e.layer=e.location.layer,e.id=e.location.id,"location"===e._target?e.target:(e._target=e.target,"location"===e.target?(e.target=t.utils.wire()`
     <div
