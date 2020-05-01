@@ -774,9 +774,9 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
       onkeyup=${t=>{n.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:t.target,entry:n}}))}}>`)},range:sf(t),date:uf(t),options:lf(t),textarea:df(t)};return e},hf=t=>e=>(e.layer=e.location.layer,e.id=e.location.id,"location"===e._target?e.target:(e._target=e.target,"location"===e.target?(e.target=t.utils.wire()`
     <div
       class=${e.class}
-      style="grid-column: 1 / 3; padding-top: 10px;">`,t.dataviews.create(e),e.target):document.getElementById(e.target)?(e.target=document.getElementById(e.target),void t.dataviews.create(e)):t.dataviews.tabview.node?(e.tab_style=`border-bottom: 2px solid ${e.location.style.strokeColor}`,t.dataviews.tabview.add(e),e.location.tabviews.push(e),t.utils.wire()`
+      style="grid-column: 1 / 3; padding-top: 10px;">`,t.dataviews.create(e),e.target):document.getElementById(e.target)?(e.target=document.getElementById(e.target),void t.dataviews.create(e)):t.dataviews.tabview.node?(e.tab_style=`border-bottom: 2px solid ${e.location.style.strokeColor}`,e.display&&t.dataviews.tabview.add(e),e.location.tabviews.push(e),t.utils.wire()`
     <label
-      class="input-checkbox"
+      class="input-checkbox ${e.class}"
       style="grid-column: 1 / 3">
       <input
         type="checkbox"
