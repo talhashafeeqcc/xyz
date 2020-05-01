@@ -2180,7 +2180,13 @@
           "geom": "geom_4326",
           "dbs": "XYZ",
           "qID": "id",
-          "table": "dev.uk_glx_sites",
+          "tables": {
+            "9": null,
+            "10": "dev.uk_glx_sites",
+            "11": "dev.uk_glx_sites",
+            "12": "dev.uk_glx_sites",
+            "13": null
+          },
           "cluster_kmeans": 0.1,
           "cluster_label": "site_name",
           "infoj": [

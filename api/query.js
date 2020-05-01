@@ -73,7 +73,7 @@ module.exports = async (req, res) => {
 
   const checkEmptyRow = row => typeof row === 'object' && Object.values(row).some(val => val !== null)
 
-  if (!rows.length && rows.some(row => checkEmptyRow(row)) || checkEmptyRow(rows)) {
+  if (rows.length && !rows.some(row => checkEmptyRow(row)) || !checkEmptyRow(rows)) {
     return res.status(202).send('No rows returned from table.')
   }
 
