@@ -71,6 +71,12 @@ module.exports = async (req, res) => {
   // return 204 if no record was returned from database.
   if (!rows || !rows.length) return res.status(202).send('No rows returned from table.')
 
+  const checkEmptyRow = row => typeof row === 'object' && Object.values(row).some(val => val !== null)
+
+  if (!rows.length && rows.some(row => checkEmptyRow(row)) || checkEmptyRow(rows)) {
+    return res.status(202).send('No rows returned from table.')
+  }
+
   // Send the infoj object with values back to the client.
   res.send(rows.length === 1 && rows[0] || rows)
 }
