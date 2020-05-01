@@ -572,28 +572,32 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
             onclick=${e=>{t.utils.toggleExpanderParent(e.target)}}>
             <span>${o.group}`,o.listview.appendChild(i[o.group])),o.group_class&&o.group_class.split(" ").forEach(t=>i[o.group].classList.add(t)),o.expanded&&i[o.group].classList.add("expanded"),o.listview=i[o.group]),"dataview"!==o.type)o.label&&(o.label_div=t.utils.wire()`
       <div
-        class="${"label lv-"+(o.level||0)+" "+(o.class||"")}"
+        class="${`label lv-${o.level||"0"} ${o.class||""}`}"
         style="grid-column: 1;"
         title="${o.title||null}">${o.label}`,o.listview.appendChild(o.label_div)),"key"!==o.type?"label"!==o.type?"streetview"!==o.type?"report"!==o.type?"images"!==o.type?"documents"!==o.type?"geometry"!==o.type?"meta"!==o.type?"boolean"!==o.type?(o.edit||o.displayValue)&&(o.inline||"integer"===o.type^"numeric"===o.type^"date"===o.type?(o.val=t.utils.wire()`<div class="val num" style="grid-column: 2;">`,o.listview.appendChild(o.val)):(o.label_div&&(o.label_div.style.gridColumn="1 / span 2"),o.val=t.utils.wire()`<div class="val" style="grid-column: 1 / span 2;">`,o.listview.appendChild(o.val)),!o.edit||o.fieldfx?"html"!==o.type?o.val.textContent=o.displayValue:(o.val.style="grid-column: 1 / span 2;",o.val.innerHTML=o.value):t.locations.view.edit.input(o)):t.locations.view.boolean(o):t.locations.view.meta(o):t.locations.view.geometry(o):t.locations.view.documents(o):t.locations.view.images(o):t.locations.view.report(o):t.locations.view.streetview(o):o.label_div.style.gridColumn="1 / 3":o.listview.appendChild(t.utils.wire()`
-      <div class="label lv-0" style="grid-column: 2; margin: 3px;">
+      <div
+        class="label lv-0 ${o.class||""}"
+        style="grid-column: 2; margin: 3px;">
         <span
           title="Source layer"
-          class="${o.class||""}"
           style="${"float: right; padding: 3px; cursor: help; border-radius: 2px; background-color: "+t.utils.Chroma(e.style.strokeColor).alpha(.3)+";"}"
           >${e.layer.name}`);else{const e=t.locations.view.dataview(o);e&&o.listview.appendChild(e)}}return n},Qp=t=>e=>{e.__label_div&&(e.__label_div.style.gridColumn="1 / span 2");const n=t.mapview.lib.proj.transform(e.location.marker,"EPSG:"+t.mapview.srid,"EPSG:4326"),i=`${t.host}/api/proxy?uri=/maps/api/streetview?location=${n[1]},${n[0]}%26source=outdoor%26size=300x230&provider=GOOGLE&host=maps.googleapis.com&token=${t.token||""}`;e.listview.appendChild(t.utils.wire()`
-    <div class="${e.class||""}" style="grid-column: 1 / span 2;">
-    <a target="_blank" href="${"https://www.google.com/maps?cbll="+n[1]+","+n[0]+"&layer=c"}">
-    <img src="${i}">
-  `)},tf=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / span 2");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
+    <div
+      class="${e.class||""}"
+      style="grid-column: 1 / 3;">
+      <a
+        target="_blank"
+        href="${"https://www.google.com/maps?cbll="+n[1]+","+n[0]+"&layer=c"}">
+        <img src="${i}">`)},tf=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / span 2");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
       <div class="item ${e.class||""}" style="grid-column: 1 / 3;">
-      <img src=${i} style="width:100%;">
-      ${e.edit&&t.utils.wire()`
-      <button
-        class="xyz-icon icon-trash img-remove"
-        data-name=${i.replace(/.*\//,"").replace(/\.([\w-]{3})/,"")}
-        data-src=${i}
-        onclick=${t=>n(t)}>
-      </button>`}`);function n(n){if(!confirm("Remove image?"))return;const i=n.target,o=new XMLHttpRequest;o.open("GET",t.host+"/api/provider/cloudinary?"+t.utils.paramString({destroy:!0,public_id:i.dataset.name,token:t.token})),o.onload=n=>{if(n.target.status>202)return;const o=new XMLHttpRequest;o.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"remove",field:e.field,secure_url:i.dataset.src,id:e.location.id,token:t.token})),o.setRequestHeader("Content-Type","application/json"),o.responseType="json",o.onload=t=>{t.target.status>202||i.parentNode.remove()},o.send()},o.send()}e.edit&&e.listview.appendChild(t.utils.wire()`
+        <img src=${i} style="width:100%;">
+        ${e.edit&&t.utils.wire()`
+        <button
+          class="xyz-icon icon-trash img-remove"
+          data-name=${i.replace(/.*\//,"").replace(/\.([\w-]{3})/,"")}
+          data-src=${i}
+          onclick=${t=>n(t)}>
+        </button>`}`);function n(n){if(!confirm("Remove image?"))return;const i=n.target,o=new XMLHttpRequest;o.open("GET",t.host+"/api/provider/cloudinary?"+t.utils.paramString({destroy:!0,public_id:i.dataset.name,token:t.token})),o.onload=n=>{if(n.target.status>202)return;const o=new XMLHttpRequest;o.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"remove",field:e.field,secure_url:i.dataset.src,id:e.location.id,token:t.token})),o.setRequestHeader("Content-Type","application/json"),o.responseType="json",o.onload=t=>{t.target.status>202||i.parentNode.remove()},o.send()},o.send()}e.edit&&e.listview.appendChild(t.utils.wire()`
     <div class="list" style="grid-column: 1 / 3;">
     <div class="add xyz-icon icon-add-photo off-black-filter">
     <input
@@ -734,8 +738,8 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
         step=1
         oninput=${t=>{e.edit.isoline_mapbox._minutes=parseInt(t.target.value),t.target.parentNode.previousElementSibling.textContent=e.edit.isoline_mapbox._minutes}}>`),n}}))(t),i=(t=>e=>{e.value.features&&(e.value.features.map(n=>{let i;if(e.style||(i=e.location.style),e.style.theme||(i=e.style),e.style.theme&&"categorized"===e.style.theme.type&&(i=e.style.theme&&e.style.theme.cat[n.properties[e.style.theme.field]].style),e.style.theme&&"graduated"===e.style.theme.type)for(let t=0;t<e.style.theme.cat_arr.length&&!(n.properties[e.style.theme.field]<e.style.theme.cat_arr[t].value);t++)i=e.style.theme.cat_arr[t].style;let o=t.mapview.geoJSON({geometry:n.geometry,dataProjection:"4326",zIndex:e.location.layer.L.getZIndex()-1,style:new t.mapview.lib.style.Style({stroke:i.strokeColor&&new t.mapview.lib.style.Stroke({color:t.utils.Chroma(i.color||i.strokeColor).alpha(1),width:e.style.strokeWidth||1}),fill:new t.mapview.lib.style.Fill({color:t.utils.Chroma(i.fillColor||i.strokeColor).alpha(void 0===i.fillOpacity?1:parseFloat(i.fillOpacity)||0).rgba()})})});e.location.geometryCollection.push(o)}),e.location.geometries.push(e.location.geometryCollection),e.display=!0,e.style&&e.style.theme&&e.style.theme.legend&&(e.legend=t.utils.wire()`<div class="legend lv-1">`,e.legend.appendChild(t.layers.view.style.legend({format:"mvt",style:e.style})),e.container.appendChild(e.legend)))})(t);return o=>{if(o.value||o.edit){if(o.style=Object.assign({},o.location.style,o.style),o.container=t.utils.wire()`
     <div 
-    class=${"lv-"+(o.level||0)+" "+(o.class||"")}
-    style="grid-column: 1 / span 2; padding-top: 4px; position: relative;">`,o.listview.appendChild(o.container),o.container.appendChild(t.utils.wire()`
+      class=${"lv-"+(o.level||0)+" "+(o.class||"")}
+      style="grid-column: 1 / 3; padding-top: 4px; position: relative;">`,o.listview.appendChild(o.container),o.container.appendChild(t.utils.wire()`
     <div>
     <label class="input-checkbox">
     <input type="checkbox"
@@ -771,10 +775,10 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
 	onkeyup=${t=>{e.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:t.target,entry:e}}))}}
 	onkeydown=${t=>setTimeout(()=>{t.target.style.height="auto",t.target.style.height=t.target.scrollHeight+"px"},100)}>`;return e.val.style.gridColumn="1 / span 2",e.val.appendChild(n),n},cf=t=>{const e={input:function(n){if(!n.edit)return;if("date"===n.type||"datetime"===n.type)return e.date(n);if(n.edit.range)return e.range(n);if(n.edit.options)return e.options(n);if("textarea"===n.type||"html"===n.type)return e.textarea(n);n.val.appendChild(t.utils.wire()`
     <input type="${"numeric"===n.type||"integer"===n.type?"number":"text"}" value="${n.value||n.displayValue||""}"
-      onkeyup=${t=>{n.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:t.target,entry:n}}))}}>`)},range:sf(t),date:uf(t),options:lf(t),textarea:df(t)};return e},hf=t=>e=>(e.layer=e.location.layer,e.id=e.location.id,"location"===e._target?e.target:(e._target=e.target,"location"===e.target?(e.target=t.utils.wire()`
+      onkeyup=${t=>{n.location.view.dispatchEvent(new CustomEvent("valChange",{detail:{input:t.target,entry:n}}))}}>`)},range:sf(t),date:uf(t),options:lf(t),textarea:df(t)};return e},hf=t=>e=>(e.dependents&&e.dependents.some(t=>e.location.infoj.some(e=>!e.value&&e.field===t))&&delete e.display,e.layer=e.location.layer,e.id=e.location.id,"location"===e._target?e.target:(e._target=e.target,"location"===e.target?(e.target=t.utils.wire()`
     <div
       class=${e.class}
-      style="grid-column: 1 / 3; padding-top: 10px;">`,t.dataviews.create(e),e.target):document.getElementById(e.target)?(e.target=document.getElementById(e.target),void t.dataviews.create(e)):t.dataviews.tabview.node?(e.tab_style=`border-bottom: 2px solid ${e.location.style.strokeColor}`,e.display&&t.dataviews.tabview.add(e),e.location.tabviews.push(e),t.utils.wire()`
+      style="grid-column: 1 / 3; padding-top: 10px; display: none;">`,e.target.style.display=e.display&&"block",t.dataviews.create(e),e.target):document.getElementById(e.target)?(e.target=document.getElementById(e.target),void t.dataviews.create(e)):t.dataviews.tabview.node?(e.tab_style=`border-bottom: 2px solid ${e.location.style.strokeColor}`,e.display&&t.dataviews.tabview.add(e),e.location.tabviews.push(e),t.utils.wire()`
     <label
       class="input-checkbox ${e.class}"
       style="grid-column: 1 / 3">
