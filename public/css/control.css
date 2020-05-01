@@ -2096,6 +2096,9 @@ span.flatpickr-weekday {
       align-items: stretch;
       grid-gap: 3px 10px;
       grid-template-columns: 1fr; }
+  .location-view .group > .header {
+    font-weight: 600;
+    border-top: 1px solid #eee; }
   .location-view .lv-0 {
     font-size: 95%;
     font-weight: bold; }
