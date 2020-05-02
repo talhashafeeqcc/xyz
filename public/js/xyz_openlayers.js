@@ -591,7 +591,9 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
         target="_blank"
         href="${"https://www.google.com/maps?cbll="+n[1]+","+n[0]+"&layer=c"}">
         <img src="${i}">`)},tf=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / 3");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
-      <div class="item ${e.class||""}" style="grid-column: 1 / 3;">
+      <div
+        class="${e.class||""}"
+        style="grid-column: 1 / 3; position: relative;">
         <img src=${i} style="width:100%;">
         ${e.edit&&t.utils.wire()`
         <button
@@ -605,16 +607,16 @@ function(t){return t.join(Z).replace(st,ct).replace(at,ut)})(e),i=t.transform;i&
     <input
       type="file"
       accept="image/*;capture=camera"
-      onchange=${i=>{const o=new FileReader,r=i.target.files[0];if(!r)return;const a=t.utils.wire()`<div class="item"><div class="xyz-icon loader">`;e.listview.insertBefore(a,e.listview.childNodes[e.listview.childNodes.length-1]),o.onload=i=>{const o=new Image;o.onload=()=>{let i=t.utils.wire()`<canvas>`,r=o.width,s=o.height;r>s&&r>1024?(s*=1024/r,r=1024):s>1024&&(r*=1024/s,s=1024),i.width=r,i.height=s,i.getContext("2d").drawImage(o,0,0,r,s);const l=i.toDataURL("image/jpeg",.5),u=new XMLHttpRequest;u.open("POST",t.host+"/api/provider/cloudinary?"+t.utils.paramString({resource_type:"image",token:t.token})),u.setRequestHeader("Content-Type","application/octet-stream"),u.responseType="json",u.onload=i=>{if(i.target.status>202)return console.error("image upload failed");const o=i.target.response.secure_url,r=i.target.response.public_id.replace(/.*\//,"").replace(/\.([\w-]{3})/,""),s=new XMLHttpRequest;s.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"append",field:e.field,secure_url:o,id:e.location.id,token:t.token})),s.setRequestHeader("Content-Type","application/json"),s.responseType="json",s.onload=i=>{i.target.status>202||t.utils.bind(a)`
-                <div class="item">
-                <img src=${o}>
-                ${e.edit&&t.utils.wire()`
-                <button
-                  class="xyz-icon icon-trash img-remove"
-                  data-name=${r}
-                  data-src=${o}
-                  onclick=${t=>n(t)}>
-                </button>`}`},s.send()},u.send(t.utils.dataURLtoBlob(l))},o.src=i.target.result},o.readAsDataURL(r),i.target.value=""}}>`)},ef=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / 3");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
+      onchange=${i=>{const o=new FileReader,r=i.target.files[0];if(!r)return;const a=t.utils.wire()`
+          <div><div class="xyz-icon loader">`;e.listview.insertBefore(a,e.listview.childNodes[e.listview.childNodes.length-1]),o.onload=i=>{const o=new Image;o.onload=()=>{let i=t.utils.wire()`<canvas>`,r=o.width,s=o.height;r>s&&r>1024?(s*=1024/r,r=1024):s>1024&&(r*=1024/s,s=1024),i.width=r,i.height=s,i.getContext("2d").drawImage(o,0,0,r,s);const l=i.toDataURL("image/jpeg",.5),u=new XMLHttpRequest;u.open("POST",t.host+"/api/provider/cloudinary?"+t.utils.paramString({resource_type:"image",token:t.token})),u.setRequestHeader("Content-Type","application/octet-stream"),u.responseType="json",u.onload=i=>{if(i.target.status>202)return console.error("image upload failed");const o=i.target.response.secure_url,r=i.target.response.public_id.replace(/.*\//,"").replace(/\.([\w-]{3})/,""),s=new XMLHttpRequest;s.open("GET",t.host+"/api/query?"+t.utils.paramString({template:"set_field_array",locale:t.workspace.locale.key,layer:e.location.layer.key,table:e.location.table,action:"append",field:e.field,secure_url:o,id:e.location.id,token:t.token})),s.setRequestHeader("Content-Type","application/json"),s.responseType="json",s.onload=i=>{i.target.status>202||t.utils.bind(a)`
+                  <img src=${o}>
+                    ${e.edit&&t.utils.wire()`
+                      <button
+                        class="xyz-icon icon-trash img-remove"
+                        data-name=${r}
+                        data-src=${o}
+                        onclick=${t=>n(t)}>
+                      </button>`}`},s.send()},u.send(t.utils.dataURLtoBlob(l))},o.src=i.target.result},o.readAsDataURL(r),i.target.value=""}}>`)},ef=t=>e=>{if(!e.value.length&&!e.edit)return e.label_div.remove();e.label_div&&(e.label_div.style.gridColumn="1 / 3");for(let i of e.value)e.listview.appendChild(t.utils.wire()`
 		<div class="item" style="grid-column: 1 / 3;">
 		${e.edit&&t.utils.wire()`
 		<button

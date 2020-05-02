@@ -2096,6 +2096,14 @@ span.flatpickr-weekday {
       align-items: stretch;
       grid-gap: 3px 10px;
       grid-template-columns: 1fr; }
+      .location-view.drawer .location-view-grid .img-remove {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background-color: #fff;
+        border-radius: 50%; }
   .location-view .group {
     margin-top: 5px; }
     .location-view .group > .header {
