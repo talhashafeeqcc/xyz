@@ -1,4 +1,4 @@
-**v2.3.0**
+**v3.0.0**
 
 # xyz
 
@@ -6,62 +6,59 @@
 
 The XYZ stack consists of several application layers.
 
-The Node **domain and service layers** take the pattern of a RESTful API which provides secure gateways for spatial data sources and 3rd party service providers. These application layers may be deployed as serverless functions to the cloud.
+The pattern for the Node **domain and service layers** are that of a RESTful API which provides secure gateways for spatial data sources and 3rd party service providers. The domain layer handles API routing, rewrites, and ressource caching while the service layer manages authentication and processes transaction script. URL parameter (and payloads) from the application control layer are assigned to query templates and passed to the data source layer. The response from the database connection pool is then parsed into JSON and returned to the presentation layer. The Node application layers may be served by an Express web server or deployed as serverless functions to the cloud.
 
-Spatial data must be stored in a cloud accessible PostGIS (v2.4+) database, allowing XYZ' service layer to pass transaction script to the **data source layer**.
+Spatial data must be stored in a cloud accessible PostGIS database to allow for the creation and caching of vector tiles in the **data source layer**.
 
-**Application control and presentation layers** are provided as a javscript library which may be loaded in any browser which supports ES6. XYZ' client library utilizes the Openlayers mapping engine and other visualisation libraries such as Tabulator and Chart.js to power engaging application views.
+**Application control and presentation layers** are provided as an ES6 javscript library. XYZ' client library utilizes the Openlayers mapping engine among other visualisation libraries such as Tabulator and ChartJS to power engaging application views.
 
-Please visit the XYZ project page at [geolytix.github.io/xyz](https://geolytix.github.io/xyz/) for in depth articles, code samples, documentation and developer notes.
+Please visit the [XYZ project page](https://geolytix.github.io/xyz/) for in depth articles, code samples, documentation, and developer notes.
 
-### Application Views
+### JAMstack Application Views
 
-Application views use the XYZ client and a combination of markup, stylesheets, and scripts to wire interface elements to data interfaces in the XYZ middleware.
+Application views are dashboards made up of multiple data views such as maps, tables, lists, or graphs. Build with markup and the XYZ control library, application views connect to XYZ hosts. The hosted API is capable of rendering templates and passing queries to the data source layer. Custom script may be added as tags to the DOM. This allows XYZ' application control to dispatch itself as well as functional objects such as layers and locations as event details to the custom script.
 
-Views are dashboards which may integrate a range of control elements such as maps, info panels, lists, graphs and tables.
-
-Custom views can be integrated either with the middleware itself or hosted with other ressources in a seperate CDN. We recommend [jsdelivr](https://www.jsdelivr.com/) for access to ressources in Github repositories.
+Views may be static sites requested from a CDN or server side rendered by the XYZ/views API.
 
 ### Templating
 
-XYZ' templating is a process of assigning configuration objects and parameter substitution.
+XYZ' templating is a process of assigning configuration objects and parameter substitution. Templates may be text (e.g. HTML/SQL) to be rendered by the XYZ host and send as views to the presentation layer or passed as transaction script to the data source layer.
 
 ### Environment Settings & Workspaces
 
-Environment settings contain sensitive information such as connection strings for data sources, security information and API keys.
+Environment settings contain sensitive information such as connection strings for data sources, secrets for the generation of token, and API keys for 3rd party service provider.
 
-Workspaces define the layers and locations to be loaded by the API and application views.
+The workspace defines which layers, locations, and templates are available to the XYZ API. Transaction script must never be sent directly from the application control layer but needs to be rendered from script and query templates provided by the workspace. Roles may be assigned to the configuration objects in the XYZ workspace.
 
 ## Features
 
 ### Deployment
 
-The XYZ API may be deployed as a Node Express server which we use locally for debugging. It is however recommended to deploy XYZ endpoints as serverless functions to Vercell's (former Zeit) Now platform. XYZ has been designed to fall within the handler and memory limit that qualify for the free Hobby plan.
+The XYZ API may be deployed as an Express web server (used for local debugging). For production we recommended to deploy the XYZ host as serverless functions to Vercell's (former Zeit) Now platform. XYZ' API is designed to fall within the function handler and memory limit which qualify for the [free Hobby plan](https://vercel.com/pricing).
 
 ### Github API
 
-Configurations and ressources may either be deployed with the application code from a local repository or stored in Github repositories. Private repositories are now freely available to everyone. XYZ workspaces must not contain sensitive information and may also be stored in a public repository. Supplying a Github access token with the environment settings allows the domain layer access to private Github repositories.
+Configurations and ressources may either be deployed with the application code from a local repository or stored in Github repositories. [Private repositories are now freely available to everyone](https://github.blog/2020-04-14-github-is-now-free-for-teams/). XYZ workspaces must not contain sensitive information and may therefore be stored in a public repository. A Github API token in the environment settings allows the XYZ host access to private repositories.
 
 ### Security
 
-Access to the API can be secured with JWT keys. Token may be provided as URL parameter or stored safely within in a cookie. User accounts can be stored in a PostgreSQL Access Control List (ACL). Administrative and functional roles can be assigned to registered user accounts. Roles define the level of access to the data source layer. The security strategy also supports the issue of API keys which may be revoked and do not provide access to any sensitive administrative tasks.
+Access to the API can be secured with signed JWT. Token may be provided as URL parameter or with a cookie. User accounts can be stored in a PostgreSQL Access Control List (ACL). Administrative and functional roles can be assigned to registered user accounts. Roles define the level of access to connected data sources. The security strategy also supports the issue of API keys which may be revoked and do not provide access to any sensitive administrative tasks.
 
 ### Editing
 
-User may edit geometries, attributes, and model data in connected PostGIS data sources.
+The XYZ/location API provides the ability to create, delete and update locations on configured PostGIS layers. The application control library provides utilities to digitize geometries in a Openlayers map view. Ressources such as documents and images may be uploaded to Cloudinary with links being sent as properties for a location update query.
 
 ### Data aggregation layer
 
-SQL statements composed in the middleware allow the presentation of aggregated data views from large tables on the client side.
+SQL script templates are provided as default for the presentation of clustered data views.
 
 ### Dynamic MVT
 
-The XYZ middleware is capable to generate and cache vector tiles in connected PostGIS datasources.
+The XYZ service layer is capable to generate and cache vector tiles in connected PostGIS data sources.
 
 ### Proxy for 3rd party services
 
-The XYZ middle may consume 3rd party services from Google Maps, Mapbox, MapTiler, Bing or Here.
-
+The domain and service layer may secure proxy access for services provided by Google Maps, Mapbox, MapTiler, Bing, Cludinary, or Here.
 
 ## Dependencies
 
