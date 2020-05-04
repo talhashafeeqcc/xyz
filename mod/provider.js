@@ -1,5 +1,9 @@
 const fetch = require('node-fetch')
 
+const { readFileSync } = require('fs')
+
+const { join } = require('path')
+
 const _cloudinary = require('cloudinary').v2
 
 module.exports = {
@@ -17,6 +21,8 @@ module.exports = {
   cloudinary: async req => await cloudinary(req),
 
   http: async req => await http(req),
+
+  file: async req => await file(req),
 }
 
 async function http(req) {
@@ -33,6 +39,15 @@ async function http(req) {
 
     return err
 
+  }
+}
+
+function file(ref) {
+  try {
+    return readFileSync(join(__dirname, ref))
+  } catch (err) {
+    console.error(err)
+    return err
   }
 }
 
