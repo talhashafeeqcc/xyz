@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
 
     const layer = req.params.locale && workspace.locales[req.params.locale].layers[req.params.layer]
 
-    const roles = layer.roles && req.params.token.roles && req.params.token.roles.filter(
+    const roles = layer.roles && req.params.token && req.params.token.roles && req.params.token.roles.filter(
       role => layer.roles[role]).map(
         role => layer.roles[role]) || []
 
