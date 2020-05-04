@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
 
   const token = await _token(req)
 
-  if (token instanceof Error) return res.status(500).send('Failed to generate token')
+  if (token instanceof Error) return login(req, res, token.message)
 
   const cookie = `XYZ ${process.env.COOKIE || process.env.TITLE || 'token'}=${token.signed};HttpOnly;Max-Age=28800;Path=${process.env.DIR || '/'};SameSite=Strict${!req.headers.host.includes('localhost') && ';Secure' || ''}`
 
