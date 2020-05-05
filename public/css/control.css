@@ -1984,8 +1984,7 @@ span.flatpickr-weekday {
   z-index: 999;
   text-align: right;
   font-weight: bold;
-  font-size: 100%;
-  pointer-events: none; }
+  font-size: 100%; }
   .attribution > * {
     float: right;
     clear: both;
