@@ -147,8 +147,10 @@ input[type=number] {
     >div {
         display: inline-block;
         vertical-align: middle;
-        width: 20px;
-        height: 20px;
+        height: 1em;
+        min-height: 20px;
+        width: 1em;
+        min-width: 20px;
         margin-right: 5px;
         background-repeat: no-repeat;
         background-position: center;

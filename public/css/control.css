@@ -206,8 +206,10 @@ input[type=range]::-moz-range-thumb {
   box-shadow: 2px 2px 2px #999; }
 
 .sample-circle {
-  width: 24px;
-  height: 24px;
+  width: 1em;
+  height: 1em;
+  min-width: 20px;
+  min-height: 20px;
   border-radius: 50%;
   box-shadow: 2px 2px 2px #999;
   vertical-align: middle;
@@ -333,8 +335,10 @@ input[type=number] {
   .input-checkbox > div {
     display: inline-block;
     vertical-align: middle;
-    width: 20px;
-    height: 20px;
+    height: 1em;
+    min-height: 20px;
+    width: 1em;
+    min-width: 20px;
     margin-right: 5px;
     background-repeat: no-repeat;
     background-position: center;
@@ -1960,6 +1964,7 @@ span.flatpickr-weekday {
   .popup > div {
     background-color: white;
     width: 400px;
+    max-width: 75vw;
     max-height: 300px;
     overflow-x: hidden; }
   .popup ul {

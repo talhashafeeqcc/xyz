@@ -11,9 +11,6 @@ const desktop = {
 
 desktop.tabview.addEventListener('click', e => e.stopPropagation());
 
-desktop.tabview.addEventListener(
-  'mousemove', e => e.stopPropagation(), true);
-
 document.getElementById('mapButton').addEventListener(
   'mousemove', e => e.stopPropagation(), true);
 
@@ -67,6 +64,8 @@ desktop.touch() && desktop.hozDivider.addEventListener('touchstart', e => {
 
 // Resize the dataview container
 function resize_y(e) {
+  //e.stopPropagation();
+  e.preventDefault();
   let pageY = (e.touches && e.touches[0].pageY) || e.pageY;
 
   if (pageY < 0) return;
