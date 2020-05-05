@@ -171,7 +171,7 @@ function init(_xyz) {
         _xyz.mapview.interaction.zoom.cancel();
 
       }}>
-      <div class="xyz-icon icon-area">`);
+      <div class="xyz-icon icon-area off-black-filter">`);
  
 
   _xyz.mapview.node.addEventListener('changeEnd', () => {
