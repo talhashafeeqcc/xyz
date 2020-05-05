@@ -11,6 +11,12 @@ const desktop = {
 
 desktop.tabview.addEventListener('click', e => e.stopPropagation());
 
+desktop.tabview.addEventListener(
+  'mousemove', e => e.stopPropagation(), true);
+
+document.getElementById('mapButton').addEventListener(
+  'mousemove', e => e.stopPropagation(), true);
+
 // Resize while holding mousedown on vertDivider.
 desktop.vertDivider.addEventListener('mousedown', e => {
   e.preventDefault();
@@ -146,14 +152,27 @@ function init(_xyz) {
 
   document.querySelector('.btn-column').appendChild(btnZoomOut); 
 
-  const btnZoomToArea = _xyz.utils.wire()`
-   <button
-   class="enabled"
-   title="Zoom to area"
-   onclick=${ e => _xyz.mapview.interaction.zoomToArea(e) }
-   ><div class="xyz-icon icon-area">`;
+  document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
+    <button
+      title="Zoom to area"
+      onclick=${e => {
 
-  document.querySelector('.btn-column').appendChild(btnZoomToArea);
+        e.stopPropagation();
+        e.target.classList.toggle('enabled');
+
+        if (e.target.classList.contains('enabled')) {
+
+          return _xyz.mapview.interaction.zoom.begin({
+            callback: () => {
+              e.target.classList.remove('enabled')
+            }
+          })
+        }
+        
+        _xyz.mapview.interaction.zoom.cancel();
+
+      }}>
+      <div class="xyz-icon icon-area">`);
  
 
   _xyz.mapview.node.addEventListener('changeEnd', () => {
@@ -162,15 +181,14 @@ function init(_xyz) {
     btnZoomOut.disabled = z <= _xyz.workspace.locale.minZoom;
   });
 
-  if(_xyz.workspace.locale.locate) {
-
-    document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
-    <button title="Current location"
-      onclick=${e=>{
+  document.querySelector('.btn-column').appendChild(_xyz.utils.wire()`
+    <button
+      title="Current location"
+      onclick=${e => {
         _xyz.mapview.locate.toggle();
         e.target.classList.toggle('enabled');
-      }}><div class="xyz-icon icon-gps-not-fixed off-black-filter">`);
-  }
+      }}>
+      <div class="xyz-icon icon-gps-not-fixed off-black-filter">`);
 
   _xyz.dataviews.tabview.init({
     target: document.getElementById('tabview'),
