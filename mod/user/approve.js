@@ -21,10 +21,14 @@ module.exports = async (req, res) => {
 
   if (rows instanceof Error) return res.status(500).send('Failed to query PostGIS table.')
 
+  const protocol = `${req.headers.host.includes('localhost') && 'http' || 'https'}://`
+
+  const host = `${req.headers.host.includes('localhost') && req.headers.host || process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`
+
   await mailer({
     to: user.email,
-    subject: `This account has been approved on ${req.headers.host}${process.env.DIR || ''}`,
-    text: `You are now able to log on to ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}`
+    subject: `This account has been approved on ${host}`,
+    text: `You are now able to log on to ${protocol}${host}`
   })
 
   res.send('The account has been approved by you. An email has been sent to the account holder.')

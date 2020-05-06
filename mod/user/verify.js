@@ -45,12 +45,16 @@ module.exports = async (req, res) => {
       // Create an array of all admin account emails.
       let adminmail = rows.map(admin => admin.email)
 
+      const protocol = `${req.headers.host.includes('localhost') && 'http' || 'https'}://`
+
+      const host = `${req.headers.host.includes('localhost') && req.headers.host || process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`    
+
       // Sent an email to all admin account emails with a request to approve the new user account.
       await mailer({
         bcc: adminmail,
-        subject: `A new account has been verified on ${req.headers.host}${process.env.DIR || ''}`,
-        text: `Please log into the admin panel ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/view/admin_user to approve ${user.email}
-        You can also approve the account by following this link: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/approve/${approvaltoken}`
+        subject: `A new account has been verified on ${host}`,
+        text: `Please log into the admin panel ${protocol}${host}/view/admin_user to approve ${user.email}
+        You can also approve the account by following this link: ${protocol}${host}/api/user/approve/${approvaltoken}`
       })
 
     }

@@ -18,6 +18,10 @@ module.exports = async (req) => {
 
   const date = transformDate()
 
+  const protocol = `${req.headers.host.includes('localhost') && 'http' || 'https'}://`
+
+  const host = `${req.headers.host.includes('localhost') && req.headers.host || process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`
+
   var rows = await acl(`
   UPDATE acl_schema.acl_table
   SET access_log = array_append(access_log, '${date}@${req.headers['X-Forwarded-For'] || 'localhost'}')
@@ -40,7 +44,7 @@ module.exports = async (req) => {
     // Sent fail mail when to account email if login failed.
     await mailer({
       to: user.email,
-      subject: `A failed login attempt was made on ${req.headers.host}${process.env.DIR || ''}`,
+      subject: `A failed login attempt was made on ${host}`,
       text: `${user.verified ? 'The account has been verified.' : 'The account has NOT been verified.'}
       ${user.approved ? 'The account has been approved.' : 'Please wait for account approval confirmation email.'}
       The failed attempt occured from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'}
@@ -100,10 +104,10 @@ module.exports = async (req) => {
 
     await mailer({
       to: user.email,
-      subject: `Too many failed login attempts occured on ${req.headers.host}${process.env.DIR || ''}`,
+      subject: `Too many failed login attempts occured on ${host}`,
       text: `${parseInt(process.env.FAILED_ATTEMPTS) || 3} failed login attempts have been recorded on this account.
       This account has now been locked until verified.
-      Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/verify/${verificationtoken}
+      Please verify that you are the account holder: ${protocol}${host}/api/user/verify/${verificationtoken}
       Verifying the account will reset the failed login attempts.
       The failed attempt occured from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'}
       This wasn't you? Please let your manager know.`
@@ -115,7 +119,7 @@ module.exports = async (req) => {
   // Finally login has failed.
   await mailer({
     to: user.email,
-    subject: `A failed login attempt was made on ${req.headers.host}${process.env.DIR || ''}`,
+    subject: `A failed login attempt was made on ${host}`,
     text: `An incorrect password was entered!
     The failed attempt occured from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'}
     This wasn't you? Please let your manager know.`

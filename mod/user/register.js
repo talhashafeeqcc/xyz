@@ -58,6 +58,10 @@ async function register(req, res) {
 
   const date = transformDate()
 
+  const protocol = `${req.headers.host.includes('localhost') && 'http' || 'https'}://`
+
+  const host = `${req.headers.host.includes('localhost') && req.headers.host || process.env.ALIAS || req.headers.host}${process.env.DIR || ''}`
+
   if (user) {
 
     if (user.blocked) return res.status(500).send('User account is blocked.')
@@ -74,9 +78,9 @@ async function register(req, res) {
 
     await mailer({
       to: user.email,
-      subject: `Please verify your password reset for ${req.headers.host}${process.env.DIR || ''}`,
+      subject: `Please verify your password reset for ${host}`,
       text: `A new password has been set for this account.
-      Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/verify/${verificationtoken}
+      Please verify that you are the account holder: ${protocol}${host}/api/user/verify/${verificationtoken}
       The reset occured from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'}
       This wasn't you? Please let your manager know.`
     })
@@ -97,9 +101,9 @@ async function register(req, res) {
 
   await mailer({
     to: req.body.email,
-    subject: `Please verify your account on ${req.headers.host}${process.env.DIR || ''}`,
-    text: `A new account for this email address has been registered with ${req.headers.host}${process.env.DIR || ''}
-    Please verify that you are the account holder: ${req.headers.host.includes('localhost') && 'http' || 'https'}://${req.headers.host}${process.env.DIR || ''}/api/user/verify/${verificationtoken}
+    subject: `Please verify your account on ${host}`,
+    text: `A new account for this email address has been registered with ${host}
+    Please verify that you are the account holder: ${protocol}${host}/api/user/verify/${verificationtoken}
     A site administrator must approve the account before you are able to login.
     You will be notified via email once an adimistrator has approved your account.
     The account was registered from this remote address ${req.headers['X-Forwarded-For'] || 'localhost'}\n
