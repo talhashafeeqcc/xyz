@@ -1,0 +1,16 @@
+{
+"embedded": {
+ "src": "file:public/views/embedded.html"
+},"table_parameter_query": {
+ "template": "SELECT * from ${table}",
+},
+"nnearest_locations": {
+  "src": "file:/public/js/queries/nnearest_locations.sql",
+  "dbs": "DEV"
+},
+"module_query": {
+  "src": "file:/public/js/queries/infotip.js",
+  "module": true,
+  "dbs": "DEV"
+},
+}
