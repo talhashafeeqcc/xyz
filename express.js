@@ -10,7 +10,8 @@ const app = express()
 
 app.use(`${process.env.DIR||''}/public`, express.static('public'))
 
-app.use(process.env.DIR||'', express.static('public'))
+// Do not mount at base path to avoid shadowing API routes
+// app.use(process.env.DIR||'', express.static('public'))
 
 app.use(cookieParser())
 

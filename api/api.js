@@ -114,7 +114,7 @@ module.exports = async (req, res) => {
   if (req.params.logout) {
 
     // Remove cookie.
-    res.setHeader('Set-Cookie', `${process.env.TITLE}=null;HttpOnly;Max-Age=0;Path=${process.env.DIR || '/'}`)
+    res.setHeader('Set-Cookie', `${process.env.TITLE}=null;HttpOnly;Max-Age=0;Path=${process.env.DIR || '/'};SameSite=Strict${!req.headers.host.includes('localhost') && ';Secure' || ''}`)
 
     // Remove logout parameter.
     res.setHeader('location', req.url && decodeURIComponent(req.url).replace(/logout\=true/, ''))
