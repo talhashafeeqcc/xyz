@@ -1,34 +1,67 @@
-const { Pool } = require('pg');
+/** ## /user/acl
 
-module.exports = () => {
+The acl module provides access to the ACL table for all User API methods.
 
-  const connection = process.env.PRIVATE && process.env.PRIVATE.split('|') || process.env.PUBLIC && process.env.PUBLIC.split('|')
+The module will split either the PRIVATE or PUBLIC xyzEnv variables as an array of connection strings.
 
-  if(!connection || !connection[1]) return
+The module will export null if neither a PRIVATE or PUBLIC xyzEnv are provided.
 
-  const acl_table = connection[1].split('.').pop()
+@requires pg
+@requires module:/utils/processEnv
 
-  const acl_schema = connection[1].split('.')[0] === acl_table ? 'public' : connection[1].split('.')[0]
+@module /user/acl
+*/
 
-  // Create PostgreSQL connection pool for ACL table.
-  const pool = new Pool({
-    connectionString: connection[0],
-    statement_timeout: 1000
-  })
+import pg from 'pg';
 
-  // Method to query ACL. arr must be empty array by default.
-  return async (q, arr) => {
+const { Pool } = pg;
 
-    try {
+const connection = xyzEnv.PRIVATE?.split('|') || xyzEnv.PUBLIC?.split('|');
 
-      const { rows } = await pool.query(q.replace(/acl_table/g, acl_table).replace(/acl_schema/g, acl_schema), arr)
-      return rows
-    
-    } catch (err) {
-      console.error(err)
-      return err
-    }
+// These variables can only be reassigned if the connection is an array.
+let acl_table, acl_schema, pool;
 
+// The acl module will export an empty require object instead of a function if no ACL connection has been defined.
+export default !connection?.[1]
+  ? null
+  : (() => {
+      acl_table = connection[1]?.split('.').pop();
+
+      acl_schema =
+        connection[1]?.split('.')[0] === acl_table
+          ? 'public'
+          : connection[1]?.split('.')[0];
+
+      pool = new Pool({
+        connectionString: connection[0],
+      });
+
+      return acl;
+    })();
+
+/**
+@function acl
+ 
+@description
+The acl method will connect to pg pool and query the ACL with a provided query template. The `/acl_table/` and `/acl_schema/` in the query template will be replaced with values provided as `PRIVATE` or `PUBLIC` environment variable.
+ 
+@param {string} q Query template.
+@param {array} arr Parameters to be substrituted in query template.
+*/
+async function acl(q, arr) {
+  try {
+    const client = await pool.connect();
+
+    const { rows } = await client.query(
+      q.replace(/acl_table/g, acl_table).replace(/acl_schema/g, acl_schema),
+      arr,
+    );
+
+    client.release();
+
+    return rows;
+  } catch (err) {
+    console.error(err);
+    return err;
   }
-
 }

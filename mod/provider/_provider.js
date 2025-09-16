@@ -1,29 +1,54 @@
-const file = require('./file')
+/**
+@module /provider
 
-const cloudfront = require('./cloudfront')
+@description
+Functions for handling 3rd party service provider requests
+*/
 
-const cloudinary = require('./cloudinary')
+import cloudfront from './cloudfront.js';
+import file from './file.js';
 
-const s3 = require('./s3')
+import s3 from './s3.js';
 
-module.exports = async (req, res) => {
+/**
+@function provider
+@async
 
-  const _provider = {
-    cloudfront: cloudfront,
-    cloudinary: cloudinary,
-    file: file,
-    s3: s3
+@description
+The provider method looks up a provider module method matching the provider request parameter and passes the req/res objects as argument to the matched method.
+
+The response from the method is returned with the HTTP response.
+
+@param {Object} req HTTP request.
+@param {Object} res HTTP response.
+@param {Object} req.params Request parameter.
+@param {string} params.signer Provider module to handle the request.
+
+@returns {Promise} The promise resolves into the response from the provider modules method.
+*/
+export default async function provider(req, res) {
+  const provider = {
+    cloudfront,
+    file,
+    s3,
+  };
+
+  if (!Object.hasOwn(provider, req.params.provider)) {
+    return res
+      .status(404)
+      .send(`Failed to validate 'provider=${req.params.provider}' param.`);
   }
 
-  const provider = _provider[req.params.provider]
-
-  if (!provider) {
-    return res.send(`Failed to evaluate 'provider' param.`)
+  if (provider[req.params.provider] === null) {
+    return res
+      .status(405)
+      .send(`Provider: ${req.params.provider} is not configured.`);
   }
 
-  const response = await provider(req)
+  const response = await provider[req.params.provider](req, res);
 
-  req.params.content_type && res.setHeader('content-type', req.params.content_type)
+  req.params.content_type &&
+    res.setHeader('content-type', req.params.content_type);
 
-  res.send(response)
+  res.send(response);
 }

@@ -1,0 +1,32 @@
+:root {
+  /* begin default colour palette */
+
+  --color-primary: #003d57;
+
+  /* Backgrounds */
+  --color-base: #f2f2f2;
+  --color-base-secondary: #f7f7f7;
+  --color-base-tertiary: #fafafa;
+
+  /* Border */
+  --color-border: #dddddd;
+
+  /* Text */
+  --color-font: #3f3f3f;
+  --color-font-mid: #858585;
+  --color-font-contrast: #ffffff;
+
+  /* State */
+  --color-active: #d57120;
+  --color-hover: #939faa;
+  --color-changed: #ffffa7;
+
+  --color-info: #0b6f50;
+  --color-danger: #a21309;
+  /* end default colour palette */
+}
+
+* {
+  transition: 0.2s ease-in-out;
+  transition-property: background-color;
+}

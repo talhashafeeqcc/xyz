@@ -1,16 +1,35 @@
-**v4.2.0**
+**v4.17.2**
 
-**Open source presentation, controller, domain and service layers for cloud native spatial data and application interfaces.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Codi Unit Tests](https://github.com/GEOLYTIX/xyz/actions/workflows/unit_tests.yml/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GEOLYTIX_xyz&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=GEOLYTIX_xyz)
+[![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
+
+**Open source presentation, controller, domain, and service layers for cloud native spatial data and application interfaces.**
+
+[![OSGeo Community Project](https://www.osgeo.org/wp-content/themes/roots/assets/img/badge-community-project.png)](https://www.osgeo.org/projects/xyz-mapp/)
 
 ## XYZ
 
-The pattern for the Node.js **domain and service layer** are that of a RESTful API which provides secure gateways for spatial data sources and 3rd party service providers. The domain layer handles API routing, rewrites, and ressource caching. The service layer manages authentication and transaction script. URL parameter (and payloads) from the application control layer are assigned to query templates and passed to the data source layer. The response being parsed and returned to the presentation layer. The Node.js application layers may be served by an Express web server or deployed as cloud native serverless functions.
+The pattern for the Node.js **domain and service layer** are that of a RESTful API which provides secure gateways for spatial data sources and 3rd party service providers.
+
+The domain layer handles API routing, rewrites, and resource caching.
+
+The service layer manages authentication and transaction script. URL parameter (and payloads) from the application control layer (mapp) are assigned to query templates and passed to the data source (service) layer. The response being parsed and returned to the (mapp) presentation layer.
+
+The Node.js application layers may be served by an [Express](https://github.com/expressjs/express) application or deployed as cloud native serverless functions to node.js runtime.
+
+The data source (service) layer is build on the non blocking [node-postgres](https://github.com/brianc/node-postgres) library to allow access to PostGIS extended relational Postgres databases.
+
+Postgres being able to handle object records allows for the Access Control Lists (ACL) to be stored as Postgres tables.
 
 ## MAPP
 
-**Application control and presentation layers** are provided as ES6 javscript libraries. **MAPP** utilizes the Openlayers map engine for mapviews and provides an interface to the XYZ API. The library abstracts away the complexities of handling spatial data objects such as layers and locations.
+**Application control and presentation layers** are provided as ES6 javscript libraries. **MAPP** utilizes the openlayers map engine for mapviews and provides an interface to the XYZ API. The library abstracts away the complexities of handling spatial data objects such as layers and locations.
 
 **MAPP.UI** contains utilities to build engaging user interfaces around mapviews. The application views can be dashboards made up of multiple data views such as maps, tables, lists, or graphs.
+
+The MAPP library can be extended at runtime by dynamically importing [mapp plugins](https://github.com/GEOLYTIX/mapp/tree/main/plugins) which may use third party modules.
 
 ## Documentation
 
@@ -34,21 +53,17 @@ Dynamic module imports reduce the need to bundle 3rd party libraries such as [Ta
 
 ## XYZ Dependencies
 
-Node.js v18+
-
-[bcryptjs](https://www.npmjs.com/package/bcryptjs) - Optimized bcrypt in JavaScript with zero dependencies.
-
-[cloudinary](https://www.npmjs.com/package/cloudinary) - Provides simple, yet comprehensive image and video upload, transformation, optimization, and delivery capabilities.
+**Node.js v22+** is required for importing ESM modules.
 
 [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - A Node implementation of JSON Web Token.
-
-[nanoid](https://www.npmjs.com/package/nanoid) - A tiny, secure, URL-friendly, unique string ID generator for JavaScript.
 
 [Node-Postgres](https://github.com/brianc/node-postgres) - PostgreSQL client for Node.
 
 [nodemailer](https://github.com/nodemailer/nodemailer) - Send e-mails with Node – easy as cake!
 
 [aws-sdk](https://github.com/aws/aws-sdk-js-v3) - Several modules are required in order to access resources on cloudfront or S3.
+
+[simple-statistics](https://github.com/simple-statistics/simple-statistics) - A JavaScript implementation of descriptive, regression, and inference statistics.
 
 ### Development dependencies
 
@@ -64,9 +79,7 @@ Following development dependencies are required to build the library and run a l
 
 [µhtml](https://github.com/WebReflection/uhtml) - A micro HTML/SVG render which is bundled as utils into the MAPP library.
 
-[SASS](https://www.npmjs.com/package/sass) - A pure JavaScript implementation of Sass.
-
-[eslint](https://www.npmjs.com/package/eslint) - A tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+[biomejs](https://biomejs.dev/) - A tool for identifying, formatting and reporting on patterns found in ECMAScript/JavaScript code.
 
 ## Mapp Dependencies
 

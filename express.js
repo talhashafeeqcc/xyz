@@ -1,74 +1,129 @@
-const dotenv = require('dotenv')
+/**
+@module express
+@description
 
-dotenv.config()
+# express.js 🚅
 
-const express = require('express')
+[Express](https://expressjs.com) is a minimal and flexible Node.js web application framework that provides a robust
+set of features for web and mobile applications.
 
-const cookieParser = require('cookie-parser')
+Our implementation provides the following endpoints and features:
 
-const app = express()
+- SAML authentication endpoints for Single Sign-On
+- Rate-limited API endpoints for provider interactions
+- Static file serving for documentation
+- Security enhancements including header protection
 
-app.use(`${process.env.DIR||''}/public`, express.static('public'))
+The server implements the following core features:
 
-app.use(process.env.DIR||'', express.static('public'))
+- Rate limiting: 1000 requests per 1 min per IP
+- Cookie parsing for session management
+- JSON body parsing with 5MB limit for POST requests
+- Static file serving with HTML extension support
 
-app.use(cookieParser())
+## Security 🔐
 
-const _api = require('./api/api')
+- X-Powered-By header disabled
+- Rate limiting enabled
+- SAML authentication required for protected routes
 
-const api = (req, res) => _api(req, res)
+## env
 
+```env
+PORT - Server port (default: 3000)
+DIR - Base directory for routes
+RATE_LIMIT - Maximum requests per window (default: 1000)
+RATE_LIMIT_WINDOW - Time window in ms (default: 1 min)
+```
+@requires dotenv - Environment configuration loading
+@requires express - Web application framework
+@requires cookie-parser - HTTP cookie parsing middleware
+@requires express-rate-limit - Rate limiting middleware
+*/
 
-app.get(`${process.env.DIR||''}/api/proxy`, api)
+import 'dotenv/config';
+import './mod/utils/processEnv.js';
 
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import rateLimit from 'express-rate-limit';
 
-app.get(`${process.env.DIR||''}/api/provider/:provider?`, api)
+import api from './api/api.js';
 
-app.post(`${process.env.DIR||''}/api/provider/:provider?`, express.json({limit: '5mb'}), api)
+if (process.versions.node.split('.')[0] < 22) {
+  console.warn(`Process Node version below 22.`);
+}
 
+const app = express();
 
-app.get(`${process.env.DIR||''}/api/query/:template?`, api)
+app.disable('x-powered-by');
 
-app.post(`${process.env.DIR||''}/api/query/:template?`, express.json({limit: '5mb'}), api)
+const limiter = rateLimit({
+  legacyHeaders: false,
+  limit: xyzEnv.RATE_LIMIT,
+  standardHeaders: 'draft-8',
+  windowMs: xyzEnv.RATE_LIMIT_WINDOW,
+});
 
+app.use(limiter);
 
-app.get(`${process.env.DIR||''}/api/module/:module?`, api)
+app.use(
+  '/xyz',
+  express.static('docs', {
+    extensions: ['html'],
+  }),
+);
 
-app.post(`${process.env.DIR||''}/api/module/:module?`, express.json({limit: '5mb'}), api)
+app.use(`${xyzEnv.DIR}/public`, express.static('public'));
 
+app.use(xyzEnv.DIR, express.static('public'));
 
-app.get(`${process.env.DIR||''}/api/gazetteer`, api)
+app.use(`${xyzEnv.DIR}/tests`, express.static('tests'));
 
+app.use(xyzEnv.DIR, express.static('tests'));
 
-app.get(`${process.env.DIR||''}/api/workspace/:key?`, api)
+app.use(cookieParser());
 
+app.get(`${xyzEnv.DIR}/api/provider{/:provider}`, api);
 
-app.get(`${process.env.DIR||''}/api/layer/:format?/:z?/:x?/:y?`, api)
+app.post(
+  `${xyzEnv.DIR}/api/provider{/:provider}`,
+  express.json({ limit: '5mb' }),
+  api,
+);
 
+app.get(`${xyzEnv.DIR || ''}/api/sign{/:signer}`, api);
 
-app.get(`${process.env.DIR||''}/api/location/:method?`, api)
+app.get(`${xyzEnv.DIR}/api/query{/:template}`, api);
 
-app.post(`${process.env.DIR||''}/api/location/:method?`, express.json({limit: '5mb'}), api)
+app.post(
+  `${xyzEnv.DIR}/api/query{/:template}`,
+  express.json({ limit: '5mb' }),
+  api,
+);
 
+app.get(`${xyzEnv.DIR}/api/workspace{/:key}`, api);
 
-app.get(`${process.env.DIR||''}/api/user/:method?/:key?`, api)
+app.get(`${xyzEnv.DIR}/api/user{/:method}{/:key}`, api);
 
-app.post(`${process.env.DIR||''}/api/user/:method?/:key?`, express.urlencoded({extended: true}), api)
+app.post(
+  `${xyzEnv.DIR}/api/user{/:method}`,
+  [express.urlencoded({ extended: true }), express.json({ limit: '5mb' })],
+  api,
+);
 
-//sudo ./caddy_linux_amd64 reverse-proxy --from localhost:443 --to localhost:3000
+app.get(`${xyzEnv.DIR}/saml/metadata`, api);
 
-app.get(`${process.env.DIR||''}/saml/metadata`, api)
+app.get(`${xyzEnv.DIR}/saml/logout`, api);
 
-app.get(`${process.env.DIR||''}/saml/logout`, api)
+app.get(`${xyzEnv.DIR}/saml/login`, api);
 
-app.get(`${process.env.DIR||''}/saml/login`, api)
+app.post(`${xyzEnv.DIR}/saml/acs`, express.urlencoded({ extended: true }), api);
 
-app.post(`${process.env.DIR||''}/saml/acs`, express.urlencoded({extended: true}), api)
+app.get(`${xyzEnv.DIR}/view{/:template}`, api);
 
-app.get(`${process.env.DIR||''}/view/:template?`, api)
+app.get(`${xyzEnv.DIR}{/:locale}`, api);
 
-app.get(`${process.env.DIR||''}/:locale?`, api)
+app.get(`/`, api);
 
-process.env.DIR && app.get(`/`, api)
-
-app.listen(process.env.PORT || 3000)
+app.listen(xyzEnv.PORT);

@@ -1,247 +1,176 @@
-const bcrypt = require('bcryptjs')
+/**
+## /user/login
 
-const crypto = require('crypto')
+Exports the login method for the /api/user/login route.
 
-const jwt = require('jsonwebtoken')
+@requires module:/user/fromACL
+@requires module:/view
+@requires jsonwebtoken
+@requires module:/utils/processEnv
 
-const acl = require('./acl')()
+@module /user/login
+*/
 
-const mailer = require('../utils/mailer')
+import jsonwebtoken from 'jsonwebtoken';
 
-const templates = require('../templates/_templates')
+import view from '../view.js';
+import fromACL from './fromACL.js';
 
-const { nanoid } = require('nanoid')
+const { sign } = jsonwebtoken;
 
-module.exports = async (req, res, message) => {
+/**
+@function login
 
-  if (!acl) return res.status(500).send('ACL unavailable.')
+@description
+The method will shortcircuit if the fromACL module exports null with a missing ACL configuration.
 
-  if (req.body) {
+Requests which require authentication will return the login method if the authentication fails.
 
-    const user = await post(req)
+The loginBody method will be called if the request has a POST body.
 
-    const redirect = req.cookies && req.cookies[`${process.env.TITLE}_redirect`]
+The loginView method will be returned with a message from a failed user validation or if no login post request body is provided.
 
-    if (user instanceof Error && redirect) return view(req, res, user.message)
-
-    if (user instanceof Error) return res.status(401).send(user.message)
-
-    // Create token with 8 hour expiry.
-    const token = jwt.sign(
-      {
-        email: user.email,
-        admin: user.admin,
-        language: user.language,
-        roles: user.roles,
-        session: user.session
-      },
-      process.env.SECRET,
-      {
-        expiresIn: parseInt(process.env.COOKIE_TTL)
-      })
-
-    const cookie = `${process.env.TITLE}=${token};HttpOnly;Max-Age=${process.env.COOKIE_TTL};Path=${process.env.DIR || '/'};SameSite=Strict${!req.headers.host.includes('localhost') && ';Secure' || ''}`
-
-    res.setHeader('Set-Cookie', cookie)
-
-    res.setHeader('location', `${redirect && redirect.replace(/([?&])msg=[^&]+(&|$)/,'') || process.env.DIR}`)
-
-    return res.status(302).send()
-
-  }
-
-  message = await templates(req.params.msg || message, req.params.language)
-
-  if (!message && req.params.user) {
-
-    res.setHeader('location', `${process.env.DIR}`)
-    res.status(302).send()
+@param {req} req HTTP request.
+@param {res} res HTTP response.
+@property {Object} req.params HTTP request parameter.
+@property {string} [req.params.msg] A message string in regards to a failed loging.
+@property {Object} [req.params.user] Mapp User object.
+@property {Object} [req.body] HTTP POST request body.
+*/
+export default function login(req, res) {
+  if (fromACL === null) {
+    res.status(405).send('The ACL has not been configured to support login.');
     return;
   }
 
-  view(req, res, message)
+  // The request has body with data from the login view submit.
+  if (req.body) {
+    loginBody(req, res);
+    return;
+  }
+
+  if (!req.params.msg && req.params.user) {
+    res.setHeader('location', `${xyzEnv.DIR || '/'}`);
+    res.status(302).send();
+    return;
+  }
+
+  return loginView(req, res);
 }
 
-async function view(req, res, message) {
+/**
+@function loginBody
+@async
+
+@description
+A user object will be requested from the ACL.
+
+The method checks for a redirect location on a `_redirect` cookie.
+
+The login view will be returned if the fromACL() errs.
+
+A user cookie will signed and set as response header.
+
+The response will be redirected to the location from the redirect cookie. The redirect cookie will be removed.
+
+@param {req} req HTTP request.
+@param {res} res HTTP response.
+@property {Object} req.params HTTP request parameter.
+@property {Object} req.body HTTP POST request body.
+*/
+async function loginBody(req, res) {
+  const user = await fromACL(req);
+
+  const redirect = req.cookies?.[`${xyzEnv.TITLE}_redirect`];
+
+  // Decode the redirect URL since it's now encoded when stored
+  const decodedRedirect = redirect ? decodeURIComponent(redirect) : null;
+
+  if (user instanceof Error) {
+    // Return to loginView with a redirect from the loginView form.
+    if (decodedRedirect) {
+      req.params.msg = user.message;
+      return loginView(req, res);
+    }
+
+    return res
+      .status(401)
+      .setHeader('Content-Type', 'text/plain')
+      .send(user.message);
+  }
+
+  const token = sign(
+    {
+      admin: user.admin,
+      email: user.email,
+      language: user.language,
+      roles: user.roles,
+      session: user.session,
+    },
+    xyzEnv.SECRET,
+    {
+      expiresIn: xyzEnv.COOKIE_TTL,
+      algorithm: xyzEnv.SECRET_ALGORITHM,
+    },
+  );
+
+  const user_cookie = `${xyzEnv.TITLE}=${token};HttpOnly;Max-Age=${xyzEnv.COOKIE_TTL};Path=${xyzEnv.DIR || '/'};SameSite=Strict${(!req.headers.host.includes('localhost') && ';Secure') || ''}`;
+
+  const redirect_null_cookie = `${xyzEnv.TITLE}_redirect=null;HttpOnly;Max-Age=0;Path=${xyzEnv.DIR || '/'}`;
+
+  res.setHeader('Set-Cookie', [user_cookie, redirect_null_cookie]);
+  res.setHeader('location', `${decodedRedirect || xyzEnv.DIR}`);
+  res.status(302).send();
+}
+
+/**
+@function loginView
+
+@description
+Any existing user cookie for the XYZ instance will be removed [set to null].
+
+A redirect cookie will be set to the response header for a redirect to the location after sucessful login.
+
+The default `login_view` will be set as template request parameter before the XYZ View API method will be returned.
+
+@param {req} req HTTP request.
+@param {res} res HTTP response.
+@property {Object} req.params HTTP request parameter.
+*/
+function loginView(req, res) {
+  // Clear user token cookie.
+  res.setHeader(
+    'Set-Cookie',
+    `${xyzEnv.TITLE}=null;HttpOnly;Max-Age=0;Path=${xyzEnv.DIR || '/'}`,
+  );
 
   // The redirect for a successful login.
-  const redirect = req.url && decodeURIComponent(req.url).replace(/login\=true/, '')
+  let redirectUrl =
+    req.url && decodeURIComponent(req.url).replace(/login=true/, '');
 
-  let template = await templates('login_view', req.params.language, {
-    dir: process.env.DIR,
-    msg: message || ' '
-  })
+  // Validate and sanitize the redirect URL to prevent cookie injection
+  if (redirectUrl) {
+    // Remove any characters that could be used for cookie injection
+    redirectUrl = redirectUrl.replace(/[;\r\n]/g, '');
 
-  // Clear user token cookie.
-  res.setHeader('Set-Cookie', `${process.env.TITLE}=null;HttpOnly;Max-Age=0;Path=${process.env.DIR || '/'}`)
-
-  // Set cookie with redirect value.
-  res.setHeader('Set-Cookie', `${process.env.TITLE}_redirect=${redirect};HttpOnly;Max-Age=60000;Path=${process.env.DIR || '/'}`)
-
-  res.send(template)
-}
-
-async function post(req, res) {
-
-  if(!req.body.email) return new Error(await templates('missing_email', req.params.language))
-  
-  if(!req.body.password) return new Error(await templates('missing_password', req.params.language))
-
-  const date = new Date()
-
-  // Get the protocol and host for account verification email.
-  const protocol = `${req.headers.host.includes('localhost') && 'http' || 'https'}://`
-  const host = `${req.headers.host.includes('localhost') && req.headers.host || process.env.ALIAS || req.headers.host}${process.env.DIR}`
-
-  // Update access_log and return user record matched by email.
-  var rows = await acl(`
-    UPDATE acl_schema.acl_table
-    SET access_log = array_append(access_log, '${date.toISOString().replace(/\..*/,'')}@${req.headers['x-forwarded-for'] || 'localhost'}')
-    WHERE lower(email) = lower($1)
-    RETURNING email, roles, language, blocked, approved, approved_by, verified, admin, password;`,
-    [req.body.email])
-
-  if (rows instanceof Error) return new Error(await templates('failed_query', req.params.language))
-
-  // Get user record from first row.
-  const user = rows[0]
-
-  if (!user) return new Error(await templates('auth_failed', req.params.language))
-
-  // Blocked user cannot login.
-  if (user.blocked) return new Error(await templates('user_blocked', user.language || req.params.language))
-  
-  // Non admin accounts may expire.
-  if (!user.admin && process.env.APPROVAL_EXPIRY) {
-
-    // Get approvalDate for checking expiry.
-    const approvalDate = user.approved_by && new Date(user.approved_by.replace(/.*\|/,''))
-  
-    // Check whether the approvalDate is valid.
-    if (approvalDate instanceof Date && !isNaN(approvalDate.getDate())) {
-
-      // Calculate the difference in days between approval and now.
-      const dateNow = new Date();
-      const diffTime = Math.abs(dateNow - approvalDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-
-      // Check whether the difference exceeds the APPROVAL_EXPIRY
-      if (parseInt(process.env.APPROVAL_EXPIRY) < diffDays) {
-
-        // Remove user approval.
-        if (user.approved) {
-
-          // Remove approval of expired user account.
-          var rows = await acl(`
-            UPDATE acl_schema.acl_table
-            SET approved = false
-            WHERE lower(email) = lower($1);`,
-            [req.body.email])
-    
-          if (rows instanceof Error) return new Error(await templates('failed_query', req.params.language))
-        }
-    
-        return new Error(await templates('user_expired', user.language))
-      }
+    // Ensure it's a relative URL (it starts with '/')
+    if (!redirectUrl.startsWith('/')) {
+      redirectUrl = xyzEnv.DIR || '/';
     }
+  } else {
+    redirectUrl = xyzEnv.DIR || '/';
   }
 
-  // Accounts must be verified and approved for login
-  if (!user.verified || !user.approved) {
+  // Encode the URL for safe storage in the cookie
+  const encodedRedirectUrl = encodeURIComponent(redirectUrl);
 
-    var mail_template = await templates('failed_login', user.language, {
-      host: host,
-      protocol: protocol,
-      remote_address: `${req.headers['x-forwarded-for'] || 'localhost'}`
-    })
-  
-    await mailer(Object.assign(mail_template, {
-      to: user.email
-    }))
+  // Set cookie with properly encoded redirect value.
+  res.setHeader(
+    'Set-Cookie',
+    `${xyzEnv.TITLE}_redirect=${encodedRedirectUrl};HttpOnly;Max-Age=60000;Path=${xyzEnv.DIR || '/'}`,
+  );
 
-    return new Error(await templates('user_not_verified', user.language))
-  }
+  req.params.template = 'login_view';
 
-  // Check password from post body against encrypted password from ACL.
-  if (bcrypt.compareSync(req.body.password, user.password)) {
-
-    // password must be removed after check
-    delete user.password
-
-    if (process.env.NANO_SESSION) {
-
-      const nano_session = nanoid()
-
-      user.session = nano_session
-
-      var rows = await acl(`
-      UPDATE acl_schema.acl_table
-      SET session = '${nano_session}'
-      WHERE lower(email) = lower($1)`,
-      [req.body.email])
-  
-      if (rows instanceof Error) return new Error(await templates('failed_query', req.params.language))
-
-    }
-
-    return user
-  }
-
-  // password must be removed after check
-  delete user.password
-
-  // FAILED LOGIN
-  // Password from login form does NOT match encrypted password in ACL!
-
-  // Increase failed login attempts counter by 1.
-  var rows = await acl(`
-    UPDATE acl_schema.acl_table
-    SET failedattempts = failedattempts + 1
-    WHERE lower(email) = lower($1)
-    RETURNING failedattempts;`, [req.body.email])
-
-  if (rows instanceof Error) return new Error(await templates('failed_query', req.params.language))
-
-  // Check whether failed login attempts exceeds limit.
-  if (rows[0].failedattempts >= parseInt(process.env.FAILED_ATTEMPTS || 3)) {
-
-    // Create a verificationtoken.
-    const verificationtoken = crypto.randomBytes(20).toString('hex')
-
-    // Store verificationtoken and remove verification status.
-    var rows = await acl(`
-      UPDATE acl_schema.acl_table
-      SET
-        verified = false,
-        verificationtoken = '${verificationtoken}'
-      WHERE lower(email) = lower($1);`, [req.body.email])
-
-    if (rows instanceof Error) return new Error(await templates('failed_query', req.params.language))
-
-    var mail_template = await templates('locked_account', user.language, {
-      host: host,
-      failed_attempts: parseInt(process.env.FAILED_ATTEMPTS) || 3,
-      protocol: protocol,
-      verificationtoken: verificationtoken,
-      remote_address: `${req.headers['x-forwarded-for'] || 'localhost'}`
-    })
-  
-    await mailer(Object.assign(mail_template, {
-      to: user.email
-    }))
-
-    return new Error(await templates('user_locked', user.language))
-  }
-
-  // Login has failed but account is not locked (yet).
-  var mail_template = await templates('login_incorrect', user.language, {
-    host: host,
-    remote_address: `${req.headers['x-forwarded-for'] || 'localhost'}`
-  })
-
-  await mailer(Object.assign(mail_template, {
-    to: user.email
-  }))
-
-  return new Error(await templates('auth_failed', req.params.language))
+  view(req, res);
 }
